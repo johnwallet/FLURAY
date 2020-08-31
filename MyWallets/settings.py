@@ -43,7 +43,8 @@ INSTALLED_APPS = [
     'home',
     'users.apps.UsersConfig',
     'allauth',
-    'allauth.account'
+    'allauth.account',
+    'django_gulp',
 ]
 
 MIDDLEWARE = [
@@ -136,6 +137,13 @@ LOGIN_REDIRECT_URL = '/'
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'home/static'),
+]
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 AUTH_USER_MODEL = 'users.CustomUser'
 

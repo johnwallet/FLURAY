@@ -4,4 +4,8 @@ from users.models import CustomUser
 
 
 def home(request):
-    return render(request, 'index.html')
+    return render(request, 'home/index.html')
+
+
+def formelement(request):
+    return render(request, 'home/form-elements.html')
