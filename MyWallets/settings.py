@@ -44,7 +44,6 @@ INSTALLED_APPS = [
     'users.apps.UsersConfig',
     'allauth',
     'allauth.account',
-    'django_gulp',
 ]
 
 MIDDLEWARE = [
