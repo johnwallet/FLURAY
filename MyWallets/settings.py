@@ -58,10 +58,14 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'MyWallets.urls'
 
+
+TEMPLATE_DIR = os.path.join(BASE_DIR, "templates")
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates')]
+        'DIRS': [
+            TEMPLATE_DIR,
+        ]
         ,
         'APP_DIRS': True,
         'OPTIONS': {
@@ -130,7 +134,7 @@ USE_L10N = True
 
 USE_TZ = True
 
-LOGIN_REDIRECT_URL = '/'
+#LOGIN_REDIRECT_URL = '/'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
