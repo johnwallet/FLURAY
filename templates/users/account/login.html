@@ -1,5 +1,5 @@
-{% extends "account/base.html" %}
-
+{% extends "users/account/base.html" %}
+{% load static %}
 {% load i18n %}
 {% load account %}
 {# socialaccount %}#}
@@ -8,67 +8,78 @@
 
 
 {% block content %}
-    <div style="margin-top: 80px" class="container">
+<body class="bg-primary bg-pattern">
+<div class="home-btn d-none d-sm-block">
+    <a href="{% url 'home' %}"><i class="mdi mdi-home-variant h2 text-white"></i></a>
+</div>
+
+<div class="account-pages my-5 pt-sm-5">
+    <div class="container">
         <div class="row">
-            <div class="col-sm">
-            </div>
-            <div class="col-6">
-                <div class="container-fluid">
-                    {% if messages %}
-                        <div>
-                            {% for message in messages %}
-                                {% if message.tags == 'error' %}
-                                    <div class="alert alert-danger" role="alert">
-                                        {{ message }}
-                                    </div>
-                                {% else %}
-                                    <div class="alert alert-{{ message.tags }}" role="alert">
-                                        {{ message }}
-                                    </div>
-                                {% endif %}
-                            {% endfor %}
-                        </div>
-                    {% endif %}
-                    <h1>{% trans "Sign In" %}</h1>
-
-                    {#{% get_providers as socialaccount_providers %}#}
-
-                    {% if socialaccount_providers %}
-                        <p>{% blocktrans with site.name as site_name %}Please sign in with one
-                            of your existing third party accounts. Or, <a href="{{ signup_url }}">sign up</a>
-                            for a {{ site_name }} account and sign in below:{% endblocktrans %}</p>
-
-                        <div class="socialaccount_ballot">
-
-                            <ul class="socialaccount_providers">
-                                {% include "socialaccount/snippets/provider_list.html" with process="login" %}
-                            </ul>
-
-                            <div class="login-or">{% trans 'or' %}</div>
-
-                        </div>
-
-                        {% include "socialaccount/snippets/login_extra.html" %}
-
-                    {% else %}
-                        <p>{% blocktrans %}Нет учетной записи?
-                            <a href="{{ signup_url }}">Зарегистрируйтесь</a>.{% endblocktrans %}</p>
-                    {% endif %}
-
-                    <form class="form-group" method="POST" action="{% url 'account_login' %}">
-                        {% csrf_token %}
-                        {{ form.as_p }}
-                        {% if redirect_field_value %}
-                            <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
-                        {% endif %}
-                        <div>
-                            <button type="submit" class="btn btn-primary btn-block">{% trans "Sign In" %}</button>
-                        </div>
-                    </form>
+            <div class="col-lg-12">
+                <div class="text-center mb-5">
+                    <h5 class="font-size-16 text-white-50 mb-4">Добро пожаловать!</h5>
                 </div>
             </div>
-            <div class="col-sm">
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-xl-5 col-sm-8">
+                <div class="card">
+                    <div class="card-body p-4">
+                        <div class="p-4">
+                            <h5 class="mb-5 text-center">АВТОРИЗАЦИЯ</h5>
+
+                            <form class="form-horizontal" method="POST" action="{% url 'account_login' %}" >
+                                {% csrf_token %}
+                                {{ form.non_field.errors }}
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group form-group-custom mb-4">
+                                            <div>
+                                                {{ form.login.errors }}
+                                            </div>
+                                            <label for="{{ form.login.id_for_label }}"></label>
+                                            {{ form.login }}
+                                        </div>
+
+                                        <div class="form-group form-group-custom mb-4">
+                                            <div>
+                                                {{ form.password.errors }}
+                                            </div>
+                                            <label for="{{ form.password.id_for_label }}"></label>
+                                            {{ form.password }}
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="custom-control custom-checkbox">
+                                                    {{ form.remember }}
+                                                    <label for="{{ form.remember.id_for_label }}">Запомнить меня</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="text-md-right mt-3 mt-md-0">
+                                                    <a href="{% url 'password_reset' %}" class="text-muted"><i class="mdi mdi-lock"></i> Забыли пароль?</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {% if redirect_field_value %}
+                                        <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+                                        {% endif %}
+                                        <div class="mt-4">
+                                            <button class="btn btn-outline-primary btn-block waves-effect waves-light " type="submit">Войти</button>
+                                        </div>
+                                        <div class="mt-4 text-center">
+                                            <a href="{{ signup_url }}" class="text-muted"><i class="mdi mdi-account-circle mr-1"></i> Регистрация</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
+</div>
 {% endblock %}

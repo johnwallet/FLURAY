@@ -14,6 +14,8 @@ from pathlib import Path
 import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
+import username as username
+
 BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
 
 
@@ -140,9 +142,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATIC_ROOT = os.path.join(BASE_DIR, 'personalaccount/static')
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'home/static'),
+    os.path.join(BASE_DIR, 'static'),
 ]
 
 MEDIA_URL = '/media/'
@@ -151,3 +153,15 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 AUTH_USER_MODEL = 'users.CustomUser'
 
 SITE_ID = 1
+
+EMAIL_HOST = "smtp.gmail.com"
+EMAIL_PORT = '587'
+EMAIL_HOST_USER = "aleksandrvarlamov1753@gmail.com"
+EMAIL_HOST_PASSWORD = "Tesla007"
+EMAIL_USE_TLS = True
+
+ACCOUNT_CONFIRM_EMAIL_ON_GET = 'True'
+ACCOUNT_AUTHENTICATION_METHOD = 'username'
+ACCOUNT_EMAIL_REQUIRED = 'True'
+ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
+ACCOUNT_SESSION_REMEMBER = 'None'

@@ -7,7 +7,7 @@ from .managers import CustomUserManager
 
 # кастомная модель юзера.
 class CustomUser(AbstractBaseUser, PermissionsMixin):
-    email = models.EmailField('почта')
+    email = models.EmailField('почта', blank=False)
     username = models.CharField('логин пользователя', max_length=50, unique=True)
     date_joined = models.DateTimeField('дата регистрации', default=timezone.now)
     first_name = models.CharField('имя', max_length=100, blank=True)

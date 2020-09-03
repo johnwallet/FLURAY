@@ -1,21 +1,48 @@
-{% extends "account/base.html" %}
+{% extends "users/account/base.html" %}
 
 {% load i18n %}
 
 {% block head_title %}{% trans "Sign Out" %}{% endblock %}
 
 {% block content %}
-<h1>{% trans "Sign Out" %}</h1>
+    <body class="bg-primary bg-pattern">
+    <div class="home-btn d-none d-sm-block">
+        <a href="{% url 'personalaccount' %}"><i class="mdi mdi-home-variant h2 text-white"></i></a>
+    </div>
 
-<p>{% trans 'Are you sure you want to sign out?' %}</p>
-
-<form method="post" action="{% url 'account_logout' %}">
-  {% csrf_token %}
-  {% if redirect_field_value %}
-  <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
-  {% endif %}
-  <button type="submit">{% trans 'Sign Out' %}</button>
-</form>
-
-
+    <div class="account-pages my-5 pt-sm-5">
+        <div class="row justify-content-center">
+            <div class="col-xl-5 col-sm-8">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="p-4">
+                            <div class="card-body">
+                                <div class="text-center">
+                                    <div class="icons-xl uim-icon-warning my-4">
+                                        <i class="uim uim-exclamation-triangle"></i>
+                                    </div>
+                                    <h4 class="alert-heading font-size-20">Внимание!</h4>
+                                    <p class="text-muted">Вы действительно желаете выйти?</p>
+                                </div>
+                            </div>
+                            <form class="form-horizontal" method="POST" action="{% url 'account_logout' %}" >
+                                {% csrf_token %}
+                                {% if redirect_field_value %}
+                                    <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+                                {% endif %}
+                                <div class="mt-4">
+                                    <button class="btn btn-outline-danger btn-block waves-effect waves-light " type="submit">Подтвердить</button>
+                                </div>
+                                <div class="mt-4 text-center">
+                                    <a href="{% url 'personalaccount' %}" class="text-muted"><i class="mdi mdi-account-circle mr-1"></i>Вернуться</a>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+    </div>
 {% endblock %}
