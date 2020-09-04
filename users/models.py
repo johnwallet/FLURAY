@@ -18,6 +18,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     is_staff = models.BooleanField('Модератор', default=False)
     is_active = models.BooleanField('Активный', default=True)
     is_superuser = models.BooleanField('Админ', default=False)
+    userid = models.ForeignKey('CustomUserId', on_delete=models.PROTECT, default=1, verbose_name='Категория пользователя')
 
     USERNAME_FIELD = 'username'
     REQUIRED_FIELDS = ['email']
@@ -28,5 +29,16 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
         return self.username
 
     class Meta:
-        verbose_name = 'Пользователь'
+        verbose_name = 'Пользователя'
         verbose_name_plural = 'Пользователи'
+
+
+class CustomUserId(models.Model):
+    custuserid = models.CharField(max_length=150, db_index=True, verbose_name='Категория пользователя')
+
+    def __str__(self):
+        return self.custuserid
+
+    class Meta:
+        verbose_name = 'Категорию'
+        verbose_name_plural = 'Категории'

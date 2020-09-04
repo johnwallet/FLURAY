@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from .forms import CustomUserCreationForm, CustomUserChangeForm
-from .models import CustomUser
+from .models import CustomUser, CustomUserId
 
 
 # кастомизация админки, для приложения users.
@@ -23,13 +23,13 @@ class CustomUserAdmin(UserAdmin):
     # структура карточки пользователя
     fieldsets = (
         ('Основные настройки', {'fields': ('id', 'balance', 'username', 'email', 'password', 'first_name', 'last_name', 'middle_name',('date_joined', 'last_login'), 'bio')}),
-        ('Разрешения', {'fields': ('is_staff', 'is_active', 'is_superuser')}),
+        ('Разрешения', {'fields': ('userid', 'is_staff', 'is_active', 'is_superuser')}),
     )
     # структура карточки создания нового пользователя
     add_fieldsets = (
         ('Новый пользователь', {
             'classes': ('wide',),
-            'fields': ('username', 'email', 'bio', 'password1', 'password2', 'is_staff', 'is_active')}
+            'fields': ('userid', 'username', 'email', 'bio', 'password1', 'password2', 'is_staff', 'is_active')}
          ),
     )
     # поиск по..
@@ -37,8 +37,14 @@ class CustomUserAdmin(UserAdmin):
     # сортировка по..
     ordering = ('-id',)
 
+class CustomUserIdAdmin(admin.ModelAdmin):
+    list_display = ('id', 'custuserid')
+
 
 admin.site.register(CustomUser, CustomUserAdmin)
+admin.site.register(CustomUserId, CustomUserIdAdmin)
+
+
 # Названиия и заголовки админки
 admin.site.site_title = 'ADMIN PANEL'
 admin.site.site_header = 'ADMIN MyWallet'
