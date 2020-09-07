@@ -15,9 +15,9 @@ class CustomUserAdmin(UserAdmin):
     # верхняя панель кнопок
     save_on_top = True
     # поля для просмотра(нередактируемые).
-    readonly_fields = ('id','date_joined', 'last_login', 'is_superuser')
+    readonly_fields = ('id', 'date_joined', 'last_login', 'is_superuser')
     # отображение полей на странице
-    list_display = ('id', 'username', 'email', 'userid')
+    list_display = ('id', 'username', 'email')
     # фильтр
     list_filter = ('userid', 'date_joined', 'is_staff', 'is_active')
     # структура карточки пользователя
