@@ -8,9 +8,11 @@
 <body>
 <div class="border border-primary">
     {% if user.is_authenticated %}
-        <span>{{ user.username }}</span><br>
+        <span>{{ user.username }} | {{ user.userid }}</span><br>
+        <a href="{% url 'personalaccount' %}">Dashboard</a><br>
         <a href="{% url 'account_logout' %}">ВЫХОД</a>
     {% else %}
+        <a href="{% url 'personalaccount' %}">Dashboard</a><br>
         <a href="{% url 'account_login' %}">ВХОД</a><br>
         <a href="{% url 'account_signup' %}">РЕГИСТРАЦИЯ</a><br>
     {% endif %}

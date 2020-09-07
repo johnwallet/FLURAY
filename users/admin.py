@@ -17,9 +17,9 @@ class CustomUserAdmin(UserAdmin):
     # поля для просмотра(нередактируемые).
     readonly_fields = ('id','date_joined', 'last_login', 'is_superuser')
     # отображение полей на странице
-    list_display = ('id', 'username', 'email')
+    list_display = ('id', 'username', 'email', 'userid')
     # фильтр
-    list_filter = ('date_joined', 'is_staff', 'is_active')
+    list_filter = ('userid', 'date_joined', 'is_staff', 'is_active')
     # структура карточки пользователя
     fieldsets = (
         ('Основные настройки', {'fields': ('id', 'balance', 'username', 'email', 'password', 'first_name', 'last_name', 'middle_name',('date_joined', 'last_login'), 'bio')}),
@@ -36,6 +36,7 @@ class CustomUserAdmin(UserAdmin):
     search_fields = ('username',)
     # сортировка по..
     ordering = ('-id',)
+
 
 class CustomUserIdAdmin(admin.ModelAdmin):
     list_display = ('id', 'custuserid')

@@ -21,7 +21,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     userid = models.ForeignKey('CustomUserId', on_delete=models.PROTECT, default=1, verbose_name='Категория пользователя')
 
     USERNAME_FIELD = 'username'
-    REQUIRED_FIELDS = ['email']
+    REQUIRED_FIELDS = ['email', 'userid']
 
     objects = CustomUserManager()
 
