@@ -1,8 +1,7 @@
 {% extends "users/account/base.html" %}
 {% load static %}
-{% load i18n %}
 
-{% block head_title %}{% trans "Signup" %}{% endblock %}
+{% block head_title %}Регистрация{% endblock %}
 
 {% block content %}
 <body class="bg-primary bg-pattern">
@@ -69,7 +68,7 @@
                                             <button class="btn btn-outline-primary btn-block waves-effect waves-light " type="submit">Зарегистрироваться</button>
                                         </div>
                                         <div class="mt-4 text-center">
-                                            <a href="{{ login_url }}" class="text-muted"><i class="mdi mdi-account-circle mr-1"></i> Авторизация</a>
+                                            <a href="{% url 'account_login' %}" class="text-muted"><i class="mdi mdi-account-circle mr-1"></i> Авторизация</a>
                                         </div>
                                     </div>
                                 </div>

@@ -1,12 +1,33 @@
 {% extends "users/account/base.html" %}
 
-{% load i18n %}
 
-{% block head_title %}{% trans "Verify Your E-mail Address" %}{% endblock %}
+{% block head_title %}Верификация email{% endblock %}
 
 {% block content %}
-    <h1>{% trans "Verify Your E-mail Address" %}</h1>
-
-    <p>{% blocktrans %}We have sent an e-mail to you for verification. Follow the link provided to finalize the signup process. Please contact us if you do not receive it within a few minutes.{% endblocktrans %}</p>
-
+    <body class="bg-primary bg-pattern">
+    <div class="home-btn d-none d-sm-block">
+        <a href="{% url 'home' %}"><i class="mdi mdi-home-variant h2 text-white"></i></a>
+    </div>
+    <div class="account-pages my-5 pt-sm-5">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-xl-7">
+                    <div class="card text-black bg-white">
+                        <div class="card-body">
+                            <blockquote class="card-bodyquote mb-0">
+                                <h3>Письмо с подтверждением отправлено.</h3>
+                                <p>Подтвердите регистрацию, перейдя по ссылке из письма.</p>
+                                <footer class="blockquote-footer text-black">
+                                    Если письмо не пришло, проверьте папку спам или используйте другую почту.
+                                </footer>
+                                <div class="mt-4">
+                                    <a href="{% url "account_login" %}" class="btn btn-outline-primary btn-block waves-effect waves-light">Авторизоваться</a>
+                                </div>
+                            </blockquote>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}
