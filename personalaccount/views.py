@@ -1,7 +1,6 @@
 from django.shortcuts import render, redirect
 from django.views.generic import TemplateView
-
-from users.models import CustomUserId, CustomUser
+from users.models import CustomUserId
 
 
 # проверяем, если пользователь залогинен и владелец кошелька или обменника, выдаем нужный шаблон
@@ -30,3 +29,51 @@ def transferwallet(request):
 
 def transactionwallet(request):
     return render(request, 'personalaccount/cabinet/transaction/transactionwallet.html')
+
+
+def rekvisitwallet(request):
+    return render(request, 'personalaccount/cabinet/rekvisit/rekvisitwallet.html')
+
+
+def profilewallet(request):
+    return render(request, 'personalaccount/cabinet/profile/profilewallet.html')
+
+
+def settingwallet(request):
+    return render(request, 'personalaccount/cabinet/setting/settingwallet.html')
+
+
+def withdrawalexchange(request):
+    return render(request, 'personalaccount/cabinet/withdrawal/withdrawalexchange.html')
+
+
+def depositexchange(request):
+    return render(request, 'personalaccount/cabinet/deposit/depositexchange.html')
+
+
+def depositreservchange(request):
+    return render(request, 'personalaccount/cabinet/deposit/depositreservchange.html')
+
+
+def withdrawalreservchange(request):
+    return render(request, 'personalaccount/cabinet/withdrawal/withdrawalreservchange.html')
+
+
+def transactionchange(request):
+    return render(request, 'personalaccount/cabinet/transaction/transactionchange.html')
+
+
+def coursechange(request):
+    return render(request, 'personalaccount/cabinet/course/coursechange.html')
+
+
+def rekvisitchange(request):
+    return render(request, 'personalaccount/cabinet/rekvisit/rekvisitchange.html')
+
+
+def profilechange(request):
+    return render(request, 'personalaccount/cabinet/profile/profilechange.html')
+
+
+def settingchange(request):
+    return render(request, 'personalaccount/cabinet/setting/settingchange.html')

@@ -87,8 +87,8 @@
                         </button>
                         <div class="dropdown-menu dropdown-menu-right">
                             <!-- item-->
-                            <a class="dropdown-item" href="#"><i class="mdi mdi-face-profile font-size-16 align-middle mr-1"></i> Профиль</a>
-                            <a class="dropdown-item" href="#"><i class="mdi mdi-account-settings font-size-16 align-middle mr-1"></i> Настройки</a>
+                            <a class="dropdown-item" href="{% url 'profilewallet' %}"><i class="mdi mdi-face-profile font-size-16 align-middle mr-1"></i> Профиль</a>
+                            <a class="dropdown-item" href="{% url 'settingwallet' %}"><i class="mdi mdi-account-settings font-size-16 align-middle mr-1"></i> Настройки</a>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="{% url 'account_logout' %}"><i class="mdi mdi-logout font-size-16 align-middle mr-1"></i> Выйти</a>
                         </div>
@@ -144,6 +144,13 @@
                             <a href="{% url 'transactionwallet' %}" class="waves-effect">
                                 <div class="d-inline-block icons-sm mr-1"><i class="uim uim-window-grid"></i></div>
                                 <span>Транзакции</span>
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="{% url 'rekvisitwallet' %}" class="waves-effect">
+                                <div class="d-inline-block icons-sm mr-1"><i class="uim uim-horizontal-align-left"></i></div>
+                                <span>Реквизиты</span>
                             </a>
                         </li>
 

@@ -20,7 +20,7 @@
                                     </span>
                         </a>
 
-                        <a href="index.html" class="logo logo-light">
+                        <a href="{% url 'home' %}" class="logo logo-light">
                                     <span class="logo-sm">
                                         <img src="{% static 'personalaccount/assets/images/logo-sm-light.png' %}" alt="" height="22">
                                     </span>
@@ -33,14 +33,6 @@
                     <button type="button" class="btn btn-sm px-3 font-size-24 header-item waves-effect" id="vertical-menu-btn">
                         <i class="mdi mdi-backburger"></i>
                     </button>
-
-                    <!-- App Search-->
-                    <form class="app-search d-none d-lg-block">
-                        <div class="position-relative">
-                            <input type="text" class="form-control" placeholder="Поиск....">
-                            <span class="mdi mdi-magnify"></span>
-                        </div>
-                    </form>
                 </div>
 
                 <div class="d-flex">
@@ -50,20 +42,6 @@
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="mdi mdi-magnify"></i>
                         </button>
-                        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right p-0"
-                             aria-labelledby="page-header-search-dropdown">
-
-                            <form class="p-3">
-                                <div class="form-group m-0">
-                                    <div class="input-group">
-                                        <input type="text" class="form-control" placeholder="Search ..." aria-label="Recipient's username">
-                                        <div class="input-group-append">
-                                            <button class="btn btn-primary" type="submit"><i class="mdi mdi-magnify"></i></button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
                     </div>
 
                     <div class="dropdown d-inline-block">
@@ -109,12 +87,10 @@
                         </button>
                         <div class="dropdown-menu dropdown-menu-right">
                             <!-- item-->
-                            <a class="dropdown-item" href="#"><i class="mdi mdi-face-profile font-size-16 align-middle mr-1"></i> Profile</a>
-                            <a class="dropdown-item" href="#"><i class="mdi mdi-credit-card-outline font-size-16 align-middle mr-1"></i> Billing</a>
-                            <a class="dropdown-item" href="#"><i class="mdi mdi-account-settings font-size-16 align-middle mr-1"></i> Settings</a>
-                            <a class="dropdown-item" href="#"><i class="mdi mdi-lock font-size-16 align-middle mr-1"></i> Lock screen</a>
+                            <a class="dropdown-item" href="{% url 'profilechange' %}"><i class="mdi mdi-face-profile font-size-16 align-middle mr-1"></i> Профиль</a>
+                            <a class="dropdown-item" href="{% url 'settingchange' %}"><i class="mdi mdi-account-settings font-size-16 align-middle mr-1"></i> Настройки</a>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#staticBackdrop"><i class="mdi mdi-logout font-size-16 align-middle mr-1"></i> Logout</a>
+                            <a class="dropdown-item" href="{% url 'account_logout' %}"><i class="mdi mdi-logout font-size-16 align-middle mr-1"></i> Выйти</a>
                         </div>
                     </div>
 
@@ -136,210 +112,63 @@
                         <li class="menu-title">Меню</li>
 
                         <li>
-                            <a href="index.html" class="waves-effect">
-                                <div class="d-inline-block icons-sm mr-1"><i class="uim uim-airplay"></i></div><span class="badge badge-pill badge-success float-right">193</span>
+                            <a href="{% url 'personalaccount' %}" class="waves-effect">
+                                <div class="d-inline-block icons-sm mr-1"><i class="uim uim-airplay"></i></div>
                                 <span>Главная</span>
                             </a>
                         </li>
 
                         <li>
-                            <a href="{% static 'calendar.html' %}" class=" waves-effect">
-                                <div class="d-inline-block icons-sm mr-1"><i class="uim uim-schedule"></i></div>
-                                <span>Calendar</span>
+                            <a href="{% url 'withdrawalexchange' %}" class="waves-effect">
+                                <div class="d-inline-block icons-sm mr-1"><i class="uim uim-upload-alt"></i></div>
+                                <span>Заявки на вывод</span>
                             </a>
                         </li>
 
                         <li>
-                            <a href="javascript: void(0);" class="has-arrow waves-effect">
-                                <div class="d-inline-block icons-sm mr-1"><i class="uim uim-comment-message"></i></div>
-                                <span>Email</span>
+                            <a href="{% url 'depositexchange' %}" class="waves-effect">
+                                <div class="d-inline-block icons-sm mr-1 "><i class="uim uim-download-alt"></i></div>
+                                <span>Заявки на пополнение</span>
                             </a>
-                            <ul class="sub-menu" aria-expanded="false">
-                                <li><a href="{% static 'email-inbox.html' %}">Inbox</a></li>
-                                <li><a href="{% static 'email-read.html' %}">Email Read</a></li>
-                                <li><a href="{% static 'email-compose.html' %}">Email Compose</a></li>
-                            </ul>
                         </li>
 
                         <li>
-                            <a href="javascript: void(0);" class="has-arrow waves-effect">
-                                <div class="d-inline-block icons-sm mr-1"><i class="uim uim-sign-in-alt"></i></div>
-
-                                <span>Authentication</span>
+                            <a href="{% url 'depositreservchange' %}" class="waves-effect">
+                                <div class="d-inline-block icons-sm mr-1"><i class="uim uim-plus-square"></i></div>
+                                <span>Пополнение резерва</span>
                             </a>
-                            <ul class="sub-menu" aria-expanded="false">
-                                <li><a href="{% static 'auth-login.html' %}">Login</a></li>
-                                <li><a href="{% static 'auth-register.html' %}">Register</a></li>
-                                <li><a href="{% static 'auth-recoverpw.html' %}">Recover Password</a></li>
-                                <li><a href="{% static 'auth-lock-screen.html' %}">Lock Screen</a></li>
-                            </ul>
+                        </li>
+
+
+                        <li>
+                            <a href="{% url 'withdrawalreservchange' %}" class="waves-effect">
+                                <div class="d-inline-block icons-sm mr-1"><i class="uim uim-minus-square-full"></i></div>
+                                <span>Вывод резерва</span>
+                            </a>
                         </li>
 
                         <li>
-                            <a href="javascript: void(0);" class="has-arrow waves-effect">
-                                <div class="d-inline-block icons-sm mr-1"><i class="uim uim-grids"></i></div>
-                                <span>Pages</span>
+                            <a href="{% url 'transactionchange' %}" class="waves-effect">
+                                <div class="d-inline-block icons-sm mr-1"><i class="uim uim-repeat"></i></div>
+                                <span>Транзакции</span>
                             </a>
-                            <ul class="sub-menu" aria-expanded="false">
-                                <li><a href="{% static 'pages-starter.html' %}">Starter Page</a></li>
-                                <li><a href="{% static 'pages-maintenance.html' %}">Maintenance</a></li>
-                                <li><a href="{% static 'pages-comingsoon.html' %}">Coming Soon</a></li>
-                                <li><a href="{% static 'pages-timeline.html' %}">Timeline</a></li>
-                                <li><a href="{% static 'pages-gallery.html' %}">Gallery</a></li>
-                                <li><a href="{% static 'pages-faqs.html' %}">FAQs</a></li>
-                                <li><a href="{% static 'pages-pricing.html' %}">Pricing</a></li>
-                                <li><a href="{% static 'pages-404.html' %}">Error 404</a></li>
-                                <li><a href="{% static 'pages-500.html' %}">Error 500</a></li>
-                            </ul>
-                        </li>
-
-                        <li class="menu-title">Components</li>
-
-                        <li>
-                            <a href="javascript: void(0);" class="has-arrow waves-effect">
-                                <div class="d-inline-block icons-sm mr-1"><i class="uim uim-box"></i></div>
-                                <span>Bootstrap UI</span>
-                            </a>
-                            <ul class="sub-menu" aria-expanded="false">
-                                <li><a href={% static "ui-alerts.html" %}>Alerts</a></li>
-                                <li><a href={% static "ui-badge.html" %}>Badge</a></li>
-                                <li><a href={% static "ui-buttons.html" %}>Buttons</a></li>
-                                <li><a href={% static "ui-cards.html" %}>Cards</a></li>
-                                <li><a href={% static "ui-dropdowns.html" %}>Dropdowns</a></li>
-                                <li><a href={% static "ui-navs.html" %}>Navs</a></li>
-                                <li><a href={% static "ui-tabs-accordions.html" %}>Tabs &amp; Accordions</a></li>
-                                <li><a href={% static "ui-modals.html" %}>Modals</a></li>
-                                <li><a href={% static "ui-images.html" %}>Images</a></li>
-                                <li><a href={% static "ui-progressbars.html" %}>Progress Bars</a></li>
-                                <li><a href={% static "ui-pagination.html" %}>Pagination</a></li>
-                                <li><a href={% static "ui-popover-tooltips.html" %}>Popover & Tooltips</a></li>
-                                <li><a href={% static "ui-spinner.html" %}>Spinner</a></li>
-                                <li><a href={% static "ui-carousel.html" %}>Carousel</a></li>
-                                <li><a href={% static "ui-video.html" %}>Video</a></li>
-                                <li><a href={% static "ui-typography.html" %}>Typography</a></li>
-                                <li><a href={% static "ui-grid.html" %}>Grid</a></li>
-                            </ul>
                         </li>
 
                         <li>
-                            <a href="javascript: void(0);" class="has-arrow waves-effect">
-                                <div class="d-inline-block icons-sm mr-1"><i class="uim uim-layer-group"></i></div>
-                                <span>Advanced UI</span>
+                            <a href="{% url 'coursechange' %}" class="waves-effect">
+                                <div class="d-inline-block icons-sm mr-1"><i class="uim uim-refresh"></i></div>
+                                <span>Курсы валют</span>
                             </a>
-                            <ul class="sub-menu" aria-expanded="false">
-                                <li><a href={% static "advanced-alertify.html" %}>Alertify</a></li>
-                                <li><a href={% static "advanced-rating.html" %}>Rating</a></li>
-                                <li><a href={% static "advanced-nestable.html" %}>Nestable</a></li>
-                                <li><a href={% static "advanced-rangeslider.html" %}>Range Slider</a></li>
-                                <li><a href={% static "advanced-sweet-alert.html" %}>Sweet-Alert</a></li>
-                                <li><a href={% static "advanced-lightbox.html" %}>Lightbox</a></li>
-                            </ul>
                         </li>
 
                         <li>
-                            <a href="javascript: void(0);" class="has-arrow waves-effect">
-                                <div class="d-inline-block icons-sm mr-1"><i class="uim uim-object-ungroup"></i></div>
-                                <span>Icons</span>
+                            <a href="{% url 'rekvisitchange' %}" class="waves-effect">
+                                <div class="d-inline-block icons-sm mr-1"><i class="uim uim-horizontal-align-left"></i></div>
+                                <span>Реквизиты</span>
                             </a>
-                            <ul class="sub-menu" aria-expanded="false">
-                                <li><a href={% static "icons-materialdesign.html" %}>Material Design</a></li>
-                                <li><a href={% static "icons-dripicons.html" %}>Dripicons</a></li>
-                                <li><a href={% static "icons-fontawesome.html" %}>Font Awesome 5</a></li>
-                                <li><a href={% static "icons-themify.html" %}>Themify</a></li>
-                                <li><a href={% static "icons-unicons.html" %}>Unicons - Dual Tone</a></li>
-                            </ul>
-                        </li>
-
-                        <li>
-                            <a href="javascript: void(0);" class="has-arrow waves-effect">
-                                <div class="d-inline-block icons-sm mr-1"><i class="uim uim-table"></i></div>
-                                <span>Tables</span>
-                            </a>
-                            <ul class="sub-menu" aria-expanded="false">
-                                <li><a href={% static "tables-basic.html" %}>Basic Tables</a></li>
-                                <li><a href={% static "tables-datatable.html" %}>Data Tables</a></li>
-                                <li><a href={% static "tables-responsive.html" %}>Responsive Table</a></li>
-                                <li><a href={% static "tables-editable.html" %}>Editable Table</a></li>
-                            </ul>
-                        </li>
-
-                        <li>
-                            <a href="javascript: void(0);" class="waves-effect">
-                                <div class="d-inline-block icons-sm mr-1"><i class="uim uim-document-layout-left"></i></div>
-                                <span class="badge badge-pill badge-danger float-right">07</span>
-                                <span>Forms</span>
-                            </a>
-                            <ul class="sub-menu" aria-expanded="false">
-                                <li><a href={% static "form-elements.html" %}>Form Elements</a></li>
-                                <li><a href={% static "form-validation.html" %}>Form Validation</a></li>
-                                <li><a href={% static "form-advanced.html" %}>Form Advanced</a></li>
-                                <li><a href={% static "form-editors.html" %}>Form Editors</a></li>
-                                <li><a href={% static "form-uploads.html" %}>Form File Upload</a></li>
-                                <li><a href={% static "form-mask.html" %}>Form Mask</a></li>
-                                <li><a href={% static "form-summernote.html" %}>Summernote</a></li>
-                            </ul>
-                        </li>
-
-                        <li>
-                            <a href="javascript: void(0);" class="has-arrow waves-effect">
-                                <div class="d-inline-block icons-sm mr-1"><i class="uim uim-chart-pie"></i></div>
-                                <span>Charts</span>
-                            </a>
-                            <ul class="sub-menu" aria-expanded="false">
-                                <li><a href={% static "charts-morris.html" %}>Morris</a></li>
-                                <li><a href={% static "charts-apex.html" %}>Apex</a></li>
-                                <li><a href={% static "charts-chartist.html" %}>Chartist</a></li>
-                                <li><a href={% static "charts-chartjs.html" %}>Chartjs</a></li>
-                                <li><a href={% static "charts-flot.html" %}>Flot</a></li>
-                                <li><a href={% static "charts-sparkline.html" %}>Sparkline</a></li>
-                                <li><a href={% static "charts-knob.html" %}>Jquery Knob</a></li>
-                            </ul>
-                        </li>
-
-                        <li>
-                            <a href="javascript: void(0);" class="has-arrow waves-effect">
-                                <div class="d-inline-block icons-sm mr-1"><i class="uim uim-comment-plus"></i></div>
-                                <span>Maps</span>
-                            </a>
-                            <ul class="sub-menu" aria-expanded="false">
-                                <li><a href={% static "maps-google.html" %}>Google map</a></li>
-                                <li><a href={% static "maps-vector.html" %}>Vector map</a></li>
-                            </ul>
-                        </li>
-
-                        <li>
-                            <a href="javascript: void(0);" class="has-arrow waves-effect">
-                                <div class="d-inline-block icons-sm mr-1"><i class="uim uim-window-grid"></i></div>
-                                <span>Layouts</span>
-                            </a>
-                            <ul class="sub-menu" aria-expanded="false">
-                                <li><a href={% static "layouts-horizontal.html" %}>Horizontal</a></li>
-                                <li><a href={% static "layouts-dark-sidebar.html" %}>Dark Sidebar</a></li>
-                                <li><a href={% static "layouts-sidebar-sm.html" %}>Small Sidebar</a></li>
-                                <li><a href={% static "layouts-icon-sidebar.html" %}>Icon Sidebar</a></li>
-                                <li><a href={% static "layouts-colored-sidebar.html" %}>Colored Sidebar</a></li>
-                                <li><a href={% static "layouts-boxed.html" %}>Boxed Layout</a></li>
-                            </ul>
-                        </li>
-
-                        <li>
-                            <a href="javascript: void(0);" class="has-arrow waves-effect">
-                                <div class="d-inline-block icons-sm mr-1"><i class="uim uim-layers-alt"></i></div>
-                                <span>Multi Level</span>
-                            </a>
-                            <ul class="sub-menu" aria-expanded="true">
-                                <li><a href="javascript: void(0);">Level 1.1</a></li>
-                                <li><a href="javascript: void(0);" class="has-arrow">Level 1.2</a>
-                                    <ul class="sub-menu" aria-expanded="true">
-                                        <li><a href="javascript: void(0);">Level 2.1</a></li>
-                                        <li><a href="javascript: void(0);">Level 2.2</a></li>
-                                    </ul>
-                                </li>
-                            </ul>
                         </li>
 
                     </ul>
-
                 </div>
                 <!-- Sidebar -->
             </div>
