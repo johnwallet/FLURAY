@@ -22,14 +22,15 @@ class CustomUserAdmin(UserAdmin):
     list_filter = ('userid', 'date_joined', 'is_staff', 'is_active')
     # структура карточки пользователя
     fieldsets = (
-        ('Основные настройки', {'fields': ('id', 'balance', 'username', 'email', 'password', 'first_name', 'last_name', 'middle_name',('date_joined', 'last_login'), 'bio')}),
+        ('Основные настройки', {'fields': ('avatar', 'id', 'username', 'email', 'password', 'kompan_name', 'first_name', 'last_name', 'middle_name', ('date_joined', 'last_login'))}),
+        ('Балансы', {'fields': ('balance', 'balancerub', 'balanceusd', 'balancebtc')}),
         ('Разрешения', {'fields': ('userid', 'is_staff', 'is_active', 'is_superuser')}),
     )
     # структура карточки создания нового пользователя
     add_fieldsets = (
         ('Новый пользователь', {
             'classes': ('wide',),
-            'fields': ('userid', 'username', 'email', 'bio', 'password1', 'password2', 'is_staff', 'is_active')}
+            'fields': ('userid', 'username', 'email', 'password1', 'password2', 'is_staff', 'is_active')}
          ),
     )
     # поиск по..

@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    'pay.apps.PayConfig',
     'home',
     'users.apps.UsersConfig',
     'allauth',
