@@ -1,5 +1,7 @@
 from django.shortcuts import render, redirect
 from django.views.generic import TemplateView
+
+from pay.models import Transaction
 from users.models import CustomUserId
 
 
@@ -28,7 +30,8 @@ def transferwallet(request):
 
 
 def transactionwallet(request):
-    return render(request, 'personalaccount/cabinet/transaction/transactionwallet.html')
+    tranview = Transaction.objects.all()
+    return render(request, 'personalaccount/cabinet/transaction/transactionwallet.html', {'tranview': tranview})
 
 
 def rekvisitwallet(request):

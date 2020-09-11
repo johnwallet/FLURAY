@@ -3,7 +3,7 @@
 {% load static %}
 
 {% block title %}
-Пополнение кошелька
+    Пополнение кошелька
 {% endblock %}
 
 {% block content %}
@@ -34,6 +34,39 @@
                             <div class="card">
                                 <div class="card-body">
 
+                                    <div class="p-4">
+                                        <h5 class="mb-5 text-center">Заявка</h5>
+
+                                        <form class="form-horizontal" method="POST" action="{% url 'depositwalletform' %}" >
+                                            {% csrf_token %}
+                                            <div class="row">
+                                                {{ form.non_field.errors }}
+                                                <div class="col-md-12">
+                                                    <div class="form-group form-group-custom mb-4">
+                                                        {{ form.request_sistemchange }}
+                                                        <label for="{{ form.request_sistemchange.id_for_label }}"></label>
+                                                    </div>
+
+                                                    <div class="form-group form-group-custom mb-4">
+                                                        <label for="{{ form.request_currency.id_for_label }}"></label>
+                                                        {{ form.request_currency }}
+                                                    </div>
+
+                                                    <div class="form-group form-group-custom mb-4">
+                                                        <div>
+                                                            {{ form.request_sum.errors }}
+                                                        </div>
+                                                        {{ form.request_sum }}
+                                                        <label for="{{ form.request_sum.id_for_label }}"></label>
+                                                    </div>
+
+                                                    <div class="mt-4">
+                                                        <button class="btn btn-outline-primary btn-block waves-effect waves-light " type="submit">Пополнить</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
                                 </div>
                             </div>
                         </div>

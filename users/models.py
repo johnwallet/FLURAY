@@ -18,7 +18,6 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     balance = models.DecimalField('Баланс общий', default=0, max_digits=10, decimal_places=2)
     balancerub = models.DecimalField('Баланс RUB', default=0, max_digits=10, decimal_places=2)
     balanceusd = models.DecimalField('Баланс USD', default=0, max_digits=10, decimal_places=2)
-    balancebtc = models.DecimalField('Баланс BTC', default=0, max_digits=10, decimal_places=8)
     is_staff = models.BooleanField('Модератор', default=False)
     is_active = models.BooleanField('Активный', default=True)
     is_superuser = models.BooleanField('Админ', default=False)

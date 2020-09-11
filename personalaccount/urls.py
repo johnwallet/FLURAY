@@ -1,10 +1,10 @@
-from django.urls import path
+from django.urls import path, include
 from personalaccount import views
 
 
 urlpatterns = [
     path('', views.personalaccount.as_view(), name='personalaccount'),
-    path('depositwallet/', views.depositwallet, name='depositwallet'),
+    path('depositwallet/', include('pay.urls')),
     path('withdrawalwallet/', views.withdrawalwallet, name='withdrawalwallet'),
     path('transferwallet/', views.transferwallet, name='transferwallet'),
     path('transactionwallet/', views.transactionwallet, name='transactionwallet'),
