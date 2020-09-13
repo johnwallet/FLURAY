@@ -1,9 +1,9 @@
-{% extends "personalaccount/cabinet/indexchange.html" %}
+{% extends "personalaccount/cabinet/indexwallet.html" %}
 
 {% load static %}
 
 {% block title %}
-    Заявки на пополнение
+Заявки
 {% endblock %}
 
 {% block content %}
@@ -16,12 +16,13 @@
                 <div class="container-fluid">
                     <div class="row align-items-center">
                         <div class="col-md-8">
-                            <h4 class="page-title mb-1">Заявки на пополнение</h4>
+                            <h4 class="page-title mb-1">Ваши заявки</h4>
                             <ol class="breadcrumb m-0">
-                                <li class="breadcrumb-item active">Обрабатывайте заявки на пополнение</li>
+                                <li class="breadcrumb-item active">Здесь отображаються все заявки на пополнение и вывод</li>
                             </ol>
                         </div>
                     </div>
+
                 </div>
             </div>
             <!-- end page title end breadcrumb -->
@@ -30,26 +31,13 @@
             <div class="page-content-wrapper">
                 <div class="container-fluid">
                     <div class="row">
-                        {% for item in depexchange %}
-                            <div class="col-xl-12">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <div class="card-header">
-                                            Статус: {{ item.request_status }}
-                                        </div>
-                                        <div class="card-body">
-                                            <h5 class="card-title">{{ item.request_name }}</h5>
-                                            <p class="card-text">Cоздана: {{ item.date_joined_change }}</p>
-                                            <p class="card-text">Пользователь: {{ item.request_user }}</p>
-                                            <p class="card-text">Сумма: {{ item.request_sum }} {{ item.request_currency }}</p>
-                                            <p class="card-text">Платежная система: {{ item.request_sistemchange }}</p>
-                                            <a href="#" class="btn btn-primary">Перейти к заявке</a>
-                                        </div>
-                                    </div>
+                        <div class="col-xl-12">
+                            <div class="card">
+                                <div class="card-body">
+
                                 </div>
                             </div>
-                        {% endfor %}
-
+                        </div>
                     </div>
                     <!-- end row -->
 

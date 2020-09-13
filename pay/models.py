@@ -1,7 +1,9 @@
 from django.db import models
+from django.utils import timezone
 
 
 class Transaction(models.Model):
+    date_joined_change = models.DateTimeField('Заявка создана', default=timezone.now)
     transaction_name = models.CharField('Название транзакции', max_length=150)
     transaction_user = models.ForeignKey('users.CustomUser', on_delete=models.PROTECT, default=1,
                                          verbose_name='Логин пользователя')
@@ -44,12 +46,14 @@ class SistemChange(models.Model):
 
 
 class RequestChange(models.Model):
+    request_userchange = models.CharField('Обработчик заявки', max_length=150, blank=True)
+    date_joined_change = models.DateTimeField('Дата создания', default=timezone.now)
     request_name = models.CharField('Название заявки', max_length=150)
     request_user = models.CharField('Логин пользователя', max_length=150)
     request_status = models.CharField('Статус заявки', max_length=150, default="в обработке")
     request_currency = models.ForeignKey('Currency', on_delete=models.PROTECT, default=1,
                                          verbose_name='Валюта')
-    request_sum = models.DecimalField('Сумма', default=0.00, max_digits=10, decimal_places=2)
+    request_sum = models.DecimalField('Сумма', max_digits=10, decimal_places=2)
     request_sistemchange = models.ForeignKey('SistemChange', on_delete=models.PROTECT, default=1,
                                              verbose_name='Платежная система')
 

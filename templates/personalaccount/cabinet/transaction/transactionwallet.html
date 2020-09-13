@@ -43,6 +43,7 @@
                                                 <th>Валюта</th>
                                                 <th>Плат.система</th>
                                                 <th>Статус</th>
+                                                <th>Создана</th>
                                             </tr>
                                             </thead>
                                             <tbody>
@@ -53,6 +54,7 @@
                                                     <td>{{ i.transaction_currency }}</td>
                                                     <td>{{ i.transaction_sistemchange }}</td>
                                                     <td>{{ i.transaction_status }}</td>
+                                                    <td>{{ i.date_joined_change }}</td>
                                                     </tr>
                                                 {% endfor %}
                                             </tbody>

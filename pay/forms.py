@@ -1,5 +1,5 @@
 from django import forms
-from django.forms import Select, NumberInput
+from django.forms import Select, TextInput
 
 from .models import RequestChange
 
@@ -12,5 +12,5 @@ class RequestForm(forms.ModelForm):
         widgets = {
             'request_sistemchange': Select(attrs={'class': 'btn btn-outline-primary btn-block waves-effect waves-light'}),
             'request_currency': Select(attrs={'class': 'btn btn-outline-primary btn-block waves-effect waves-light'}),
-            'request_sum': NumberInput(attrs={'class': 'form-control'}),
+            'request_sum': TextInput(attrs={'class': 'form-control'}),
         }

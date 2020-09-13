@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, ListView
 
-from pay.models import Transaction
+from pay.models import Transaction, RequestChange
 from users.models import CustomUserId
 
 
@@ -29,6 +29,10 @@ def transferwallet(request):
     return render(request, 'personalaccount/cabinet/transfer/transferwallet.html')
 
 
+def requsetwallet(request):
+    return render(request, 'personalaccount/cabinet/requset/requsetwallet.html')
+
+
 def transactionwallet(request):
     tranview = Transaction.objects.all()
     return render(request, 'personalaccount/cabinet/transaction/transactionwallet.html', {'tranview': tranview})
@@ -50,8 +54,13 @@ def withdrawalexchange(request):
     return render(request, 'personalaccount/cabinet/withdrawal/withdrawalexchange.html')
 
 
-def depositexchange(request):
-    return render(request, 'personalaccount/cabinet/deposit/depositexchange.html')
+class depositexchange(ListView):
+    model = RequestChange
+    template_name = 'personalaccount/cabinet/deposit/depositexchange.html'
+    context_object_name = 'depexchange'
+
+    def get_queryset(self):
+        return RequestChange.objects.filter(request_status="в обработке")
 
 
 def depositreservchange(request):

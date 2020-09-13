@@ -11,9 +11,10 @@ urlpatterns = [
     path('rekvisitwallet/', views.rekvisitwallet, name='rekvisitwallet'),
     path('profilewallet/', views.profilewallet, name='profilewallet'),
     path('settingwallet/', views.settingwallet, name='settingwallet'),
+    path('requsetwallet/', views.requsetwallet, name='requsetwallet'),
 
     path('withdrawalexchange/', views.withdrawalexchange, name='withdrawalexchange'),
-    path('depositexchange/', views.depositexchange, name='depositexchange'),
+    path('depositexchange/', views.depositexchange.as_view(), name='depositexchange'),
     path('depositreservchange/', views.depositreservchange, name='depositreservchange'),
     path('withdrawalreservchange/', views.withdrawalreservchange, name='withdrawalreservchange'),
     path('transactionchange/', views.transactionchange, name='transactionchange'),
