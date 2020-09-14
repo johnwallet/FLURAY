@@ -1,8 +1,8 @@
 from django.shortcuts import render, redirect
-from django.views.generic import TemplateView, ListView
+from django.views.generic import TemplateView, ListView, DetailView
 
 from pay.models import Transaction, RequestChange
-from users.models import CustomUserId
+from users.models import CustomUserId, CustomUser
 
 
 # проверяем, если пользователь залогинен и владелец кошелька или обменника, выдаем нужный шаблон
@@ -60,7 +60,49 @@ class depositexchange(ListView):
     context_object_name = 'depexchange'
 
     def get_queryset(self):
-        return RequestChange.objects.filter(request_status="в обработке")
+        return RequestChange.objects.all()
+
+
+class depositexchangerequest(DetailView):
+    model = RequestChange
+    template_name = 'personalaccount/cabinet/deposit/depositexchangerequest.html'
+    context_object_name = 'depexchangerequest'
+
+
+def depositexchangerequestupdate(request, pk):
+    update_data = RequestChange.objects.all()
+    update_data_tran = Transaction.objects.all()
+    update_balance_i = CustomUser.objects.all()
+    if request.method == "POST":
+        update = update_data.get(pk=pk)
+        update_tran = update_data_tran.get(transaction_name=update.request_name)
+        update_balance = update_balance_i.get(username=update.request_user)
+        if str(update.request_currency) == "USD":
+            update_balance.balanceusd += update.request_sum
+        if str(update.request_currency) == "RUB":
+            update_balance.balancerub += update.request_sum
+        if str(update.request_currency) == "EUR":
+            update_balance.balanceeur += update.request_sum
+
+        update_tran.transaction_status = 'Выполнена'
+        update.request_status = 'Выполнена'
+        update_balance.save()
+        update_tran.save()
+        update.save()
+        return redirect('depositexchange')
+
+
+def depositexchangerequestupdateno(request, pk):
+    update_data = RequestChange.objects.all()
+    update_data_tran = Transaction.objects.all()
+    if request.method == "POST":
+        update = update_data.get(pk=pk)
+        update_tran = update_data_tran.get(transaction_name=update.request_name)
+        update_tran.transaction_status = 'В обработке'
+        update.request_status = 'В обработке'
+        update_tran.save()
+        update.save()
+        return redirect('depositexchange')
 
 
 def depositreservchange(request):
@@ -72,7 +114,8 @@ def withdrawalreservchange(request):
 
 
 def transactionchange(request):
-    return render(request, 'personalaccount/cabinet/transaction/transactionchange.html')
+    tranviewchange = Transaction.objects.all()
+    return render(request, 'personalaccount/cabinet/transaction/transactionchange.html', {'tranviewchange': tranviewchange})
 
 
 def coursechange(request):

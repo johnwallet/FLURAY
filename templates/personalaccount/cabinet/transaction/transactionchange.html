@@ -38,25 +38,25 @@
                                         <table class="table mb-0">
                                             <thead>
                                             <tr>
-                                                <th>#</th>
-                                                <th>Table heading</th>
-                                                <th>Table heading</th>
-                                                <th>Table heading</th>
-                                                <th>Table heading</th>
-                                                <th>Table heading</th>
-                                                <th>Table heading</th>
+                                                <th>Название</th>
+                                                <th>Сумма</th>
+                                                <th>Валюта</th>
+                                                <th>Плат.система</th>
+                                                <th>Статус</th>
+                                                <th>Создана</th>
                                             </tr>
                                             </thead>
                                             <tbody>
-                                            <tr>
-                                                <th scope="row">1</th>
-                                                <td>Table cell</td>
-                                                <td>-</td>
-                                                <td>Table cell</td>
-                                                <td>-</td>
-                                                <td>-</td>
-                                                <td>Table cell</td>
-                                            </tr>
+                                                {% for i in tranviewchange %}
+                                                    <tr>
+                                                    <td>Заявка № {{ i.transaction_name }}</td>
+                                                    <td>{{ i.transaction_sum }}</td>
+                                                    <td>{{ i.transaction_currency }}</td>
+                                                    <td>{{ i.transaction_sistemchange }}</td>
+                                                    <td>{{ i.transaction_status }}</td>
+                                                    <td>{{ i.date_joined_change }}</td>
+                                                    </tr>
+                                                {% endfor %}
                                             </tbody>
                                         </table>
                                     </div>

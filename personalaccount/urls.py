@@ -15,6 +15,9 @@ urlpatterns = [
 
     path('withdrawalexchange/', views.withdrawalexchange, name='withdrawalexchange'),
     path('depositexchange/', views.depositexchange.as_view(), name='depositexchange'),
+    path('depositexchange/<int:pk>/', views.depositexchangerequest.as_view(), name='depositexchangerequest'),
+    path('depositexchange/update/<int:pk>/', views.depositexchangerequestupdate, name='depositexchangerequestupdate'),
+    path('depositexchange/updateno/<int:pk>/', views.depositexchangerequestupdateno, name='depositexchangerequestupdateno'),
     path('depositreservchange/', views.depositreservchange, name='depositreservchange'),
     path('withdrawalreservchange/', views.withdrawalreservchange, name='withdrawalreservchange'),
     path('transactionchange/', views.transactionchange, name='transactionchange'),

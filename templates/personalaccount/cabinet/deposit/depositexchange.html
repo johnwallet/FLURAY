@@ -38,12 +38,12 @@
                                             Статус: {{ item.request_status }}
                                         </div>
                                         <div class="card-body">
-                                            <h5 class="card-title">{{ item.request_name }}</h5>
+                                            <h5 class="card-title">Заявка № {{ item.request_name }}</h5>
                                             <p class="card-text">Cоздана: {{ item.date_joined_change }}</p>
                                             <p class="card-text">Пользователь: {{ item.request_user }}</p>
                                             <p class="card-text">Сумма: {{ item.request_sum }} {{ item.request_currency }}</p>
                                             <p class="card-text">Платежная система: {{ item.request_sistemchange }}</p>
-                                            <a href="#" class="btn btn-primary">Перейти к заявке</a>
+                                            <a href="{{ item.get_absolute_url }}" class="btn btn-primary">Перейти к заявке</a>
                                         </div>
                                     </div>
                                 </div>

@@ -23,7 +23,7 @@ class CustomUserAdmin(UserAdmin):
     # структура карточки пользователя
     fieldsets = (
         ('Основные настройки', {'fields': ('avatar', 'id', 'username', 'email', 'password', 'kompan_name', 'first_name', 'last_name', 'middle_name', ('date_joined', 'last_login'))}),
-        ('Балансы', {'fields': ('balance', 'balancerub', 'balanceusd', 'balancebtc')}),
+        ('Балансы', {'fields': ('balanceeur', 'balancerub', 'balanceusd')}),
         ('Разрешения', {'fields': ('userid', 'is_staff', 'is_active', 'is_superuser')}),
     )
     # структура карточки создания нового пользователя

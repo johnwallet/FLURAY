@@ -12,8 +12,8 @@ def depositwalletform(request):
         if form.is_valid():
             post = form.save(commit=False)
             post.request_user = request.user
-            post.request_name = 'Заявка № ' + str(n)
-            formtran = Transaction.objects.create(transaction_name='Заявка на пополнение № ' + str(n),
+            post.request_name = str(n)
+            formtran = Transaction.objects.create(transaction_name=str(n),
                                                   transaction_user=post.request_user,
                                                   transaction_type='пополнение',
                                                   transaction_status=post.request_status,
