@@ -3,7 +3,7 @@
 {% load static %}
 
 {% block title %}
-Заявки
+    Заявки
 {% endblock %}
 
 {% block content %}
@@ -31,13 +31,30 @@
             <div class="page-content-wrapper">
                 <div class="container-fluid">
                     <div class="row">
-                        <div class="col-xl-12">
-                            <div class="card">
-                                <div class="card-body">
 
+                        {% for item in depexchangereq %}
+                            {% if item.request_user == user.username %}
+                            <div class="col-xl-12">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="card-header">
+                                            Статус: {{ item.request_status }}
+                                        </div>
+                                        <div class="card-body">
+                                            <h5 class="card-title">Заявка № {{ item.request_name }}</h5>
+                                            <p class="card-text">Cоздана: {{ item.date_joined_change }}</p>
+                                            <p class="card-text">Обработчик: {{ item.request_userchange }}</p>
+                                            <p class="card-text">Сумма: {{ item.request_sum }} {{ item.request_currency }}</p>
+                                            <p class="card-text">Платежная система: {{ item.request_sistemchange }}</p>
+                                            <a href="{{ item.get_absolute_url }}" class="btn btn-primary">Перейти к заявке</a>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                            {% endif %}
+                        {% endfor %}
+
+
                     </div>
                     <!-- end row -->
 

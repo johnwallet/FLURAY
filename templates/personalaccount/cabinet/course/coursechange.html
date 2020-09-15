@@ -3,7 +3,7 @@
 {% load static %}
 
 {% block title %}
-Курсы валют
+    Курсы валют
 {% endblock %}
 
 {% block content %}
@@ -30,10 +30,35 @@
             <div class="page-content-wrapper">
                 <div class="container-fluid">
                     <div class="row">
+                        <div class="card">
+                            <div class="col-xl-12">
+                                <div class="card-body">
+                                    <table class="table mb-0">
+                                        <thead>
+                                        <tr>
+                                            <th>Валюта</th>
+                                            <th>Курс</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for item in currencyview %}
+                                            <tr>
+                                                <td>{{ item.name_currency }}</td>
+                                                <td>{{ item.base_currency }}</td>
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
                         <div class="col-xl-12">
                             <div class="card">
                                 <div class="card-body">
-
+                                    <form action="{% url 'coursechangeupdate' %}" method="POST">
+                                        {% csrf_token %}
+                                        <input type="submit"  value="Обновить"/>
+                                    </form>
                                 </div>
                             </div>
                         </div>

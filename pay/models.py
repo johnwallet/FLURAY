@@ -6,9 +6,9 @@ from django.utils import timezone
 class Transaction(models.Model):
     date_joined_change = models.DateTimeField('Заявка создана', default=timezone.now)
     transaction_name = models.CharField('Название транзакции', max_length=150)
-    transaction_user = models.ForeignKey('users.CustomUser', on_delete=models.PROTECT, default=1,
-                                         verbose_name='Логин пользователя')
-    transaction_type = models.CharField('Тип транзакции', max_length=150, default="выполнена")
+    transaction_user = models.CharField('Логин пользователя', max_length=150)
+    transaction_userchange = models.CharField('Обработчик', max_length=150, blank=True)
+    transaction_type = models.CharField('Тип транзакции', max_length=150)
     transaction_status = models.CharField('Статус', max_length=150, default="выполнена")
     transaction_currency = models.ForeignKey('Currency', on_delete=models.PROTECT, default=1,
                                              verbose_name='Валюта')
@@ -67,3 +67,11 @@ class RequestChange(models.Model):
     class Meta:
         verbose_name = 'Заявку'
         verbose_name_plural = 'Заявки'
+
+
+class CurrencyCBRF(models.Model):
+    name_currency = models.CharField('Название валюты', max_length=50)
+    base_currency = models.DecimalField('Курс  валюты', max_digits=10, decimal_places=2)
+
+    def __str__(self):
+        return self.name_currency

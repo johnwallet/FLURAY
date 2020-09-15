@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect
 from django.views.generic import TemplateView, ListView, DetailView
 
-from pay.models import Transaction, RequestChange
+from pay.apicbrf import get_rates
+from pay.models import Transaction, RequestChange, CurrencyCBRF
 from users.models import CustomUserId, CustomUser
 
 
@@ -29,8 +30,10 @@ def transferwallet(request):
     return render(request, 'personalaccount/cabinet/transfer/transferwallet.html')
 
 
-def requsetwallet(request):
-    return render(request, 'personalaccount/cabinet/requset/requsetwallet.html')
+class requsetwallet(ListView):
+    model = RequestChange
+    template_name = 'personalaccount/cabinet/requset/requsetwallet.html'
+    context_object_name = 'depexchangereq'
 
 
 def transactionwallet(request):
@@ -79,10 +82,15 @@ def depositexchangerequestupdate(request, pk):
         update_balance = update_balance_i.get(username=update.request_user)
         if str(update.request_currency) == "USD":
             update_balance.balanceusd += update.request_sum
+            curup = CurrencyCBRF.objects.get(name_currency="USD")
+            update_balance.balance += (update.request_sum * curup.base_currency)
         if str(update.request_currency) == "RUB":
             update_balance.balancerub += update.request_sum
+            update_balance.balance += update.request_sum
         if str(update.request_currency) == "EUR":
             update_balance.balanceeur += update.request_sum
+            curup = CurrencyCBRF.objects.get(name_currency="EUR")
+            update_balance.balance += (update.request_sum * curup.base_currency)
 
         update_tran.transaction_status = 'Выполнена'
         update.request_status = 'Выполнена'
@@ -115,11 +123,31 @@ def withdrawalreservchange(request):
 
 def transactionchange(request):
     tranviewchange = Transaction.objects.all()
-    return render(request, 'personalaccount/cabinet/transaction/transactionchange.html', {'tranviewchange': tranviewchange})
+    return render(request, 'personalaccount/cabinet/transaction/transactionchange.html',
+                  {'tranviewchange': tranviewchange})
 
 
 def coursechange(request):
-    return render(request, 'personalaccount/cabinet/course/coursechange.html')
+    currencyview = CurrencyCBRF.objects.all()
+    return render(request, 'personalaccount/cabinet/course/coursechange.html', {'currencyview': currencyview})
+
+
+def coursechangeupdate(request):
+    # добавляем новый курс в базу
+    #    i = get_rates(section_id='R01235')
+    #    CurrencyCBRF.objects.create(name_currency=i.name, base_currency=i.rate)
+
+    # обновляем курс USD
+    iusd = get_rates(section_id='R01235')
+    currencyviewusd = CurrencyCBRF.objects.get(name_currency=iusd.name)
+    currencyviewusd.base_currency = iusd.rate
+    currencyviewusd.save()
+    # обновляем курс EUR
+    ieur = get_rates(section_id='R01239')
+    currencyvieweur = CurrencyCBRF.objects.get(name_currency=ieur.name)
+    currencyvieweur.base_currency = ieur.rate
+    currencyvieweur.save()
+    return redirect('coursechange')
 
 
 def rekvisitchange(request):
