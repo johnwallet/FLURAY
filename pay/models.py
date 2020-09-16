@@ -46,6 +46,17 @@ class SistemChange(models.Model):
         verbose_name_plural = 'Платежные системы'
 
 
+class CriteriChange(models.Model):
+    base_criteri = models.CharField('Критерий', db_index=True, max_length=150)
+
+    def __str__(self):
+        return self.base_criteri
+
+    class Meta:
+        verbose_name = 'Критерий'
+        verbose_name_plural = 'Критерии'
+
+
 class RequestChange(models.Model):
     request_userchange = models.CharField('Обработчик заявки', max_length=150, blank=True)
     date_joined_change = models.DateTimeField('Дата создания', default=timezone.now)
@@ -57,6 +68,8 @@ class RequestChange(models.Model):
     request_sum = models.DecimalField('Сумма', max_digits=10, decimal_places=2)
     request_sistemchange = models.ForeignKey('SistemChange', on_delete=models.PROTECT, default=1,
                                              verbose_name='Платежная система')
+    criteri = models.ForeignKey('CriteriChange', on_delete=models.PROTECT, default=1,
+                                verbose_name='Критерий')
 
     def get_absolute_url(self):
         return reverse('depositexchangerequest', kwargs={"pk": self.pk})

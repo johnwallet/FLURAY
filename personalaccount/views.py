@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.views.generic import TemplateView, ListView, DetailView
 
-from pay.apicbrf import get_rates
+from pay.apicourse import get_rates
 from pay.models import Transaction, RequestChange, CurrencyCBRF
 from users.models import CustomUserId, CustomUser
 
@@ -73,24 +73,18 @@ class depositexchangerequest(DetailView):
 
 
 def depositexchangerequestupdate(request, pk):
-    update_data = RequestChange.objects.all()
-    update_data_tran = Transaction.objects.all()
-    update_balance_i = CustomUser.objects.all()
     if request.method == "POST":
-        update = update_data.get(pk=pk)
-        update_tran = update_data_tran.get(transaction_name=update.request_name)
-        update_balance = update_balance_i.get(username=update.request_user)
-        if str(update.request_currency) == "USD":
-            update_balance.balanceusd += update.request_sum
-            curup = CurrencyCBRF.objects.get(name_currency="USD")
-            update_balance.balance += (update.request_sum * curup.base_currency)
+        update = RequestChange.objects.get(pk=pk)
+        update_tran = Transaction.objects.get(transaction_name=update.request_name)
+        update_balance = CustomUser.objects.get(username=update.request_user)
         if str(update.request_currency) == "RUB":
-            update_balance.balancerub += update.request_sum
+            curup = CurrencyCBRF.objects.get(name_currency="RUB")
+            update_balance.balance += (update.request_sum / curup.base_currency)
+        if str(update.request_currency) == "USD":
             update_balance.balance += update.request_sum
         if str(update.request_currency) == "EUR":
-            update_balance.balanceeur += update.request_sum
             curup = CurrencyCBRF.objects.get(name_currency="EUR")
-            update_balance.balance += (update.request_sum * curup.base_currency)
+            update_balance.balance += (update.request_sum / curup.base_currency)
 
         update_tran.transaction_status = 'Выполнена'
         update.request_status = 'Выполнена'
@@ -101,11 +95,9 @@ def depositexchangerequestupdate(request, pk):
 
 
 def depositexchangerequestupdateno(request, pk):
-    update_data = RequestChange.objects.all()
-    update_data_tran = Transaction.objects.all()
     if request.method == "POST":
-        update = update_data.get(pk=pk)
-        update_tran = update_data_tran.get(transaction_name=update.request_name)
+        update = RequestChange.objects.get(pk=pk)
+        update_tran = Transaction.objects.get(transaction_name=update.request_name)
         update_tran.transaction_status = 'В обработке'
         update.request_status = 'В обработке'
         update_tran.save()
@@ -134,16 +126,16 @@ def coursechange(request):
 
 def coursechangeupdate(request):
     # добавляем новый курс в базу
-    #    i = get_rates(section_id='R01235')
+    #    i = get_rates(section_id='Russian Rouble')
     #    CurrencyCBRF.objects.create(name_currency=i.name, base_currency=i.rate)
 
-    # обновляем курс USD
-    iusd = get_rates(section_id='R01235')
-    currencyviewusd = CurrencyCBRF.objects.get(name_currency=iusd.name)
-    currencyviewusd.base_currency = iusd.rate
+    # обновляем курс RUB
+    irub = get_rates(section_id='Russian Rouble')
+    currencyviewusd = CurrencyCBRF.objects.get(name_currency=irub.name)
+    currencyviewusd.base_currency = irub.rate
     currencyviewusd.save()
     # обновляем курс EUR
-    ieur = get_rates(section_id='R01239')
+    ieur = get_rates(section_id='Euro')
     currencyvieweur = CurrencyCBRF.objects.get(name_currency=ieur.name)
     currencyvieweur.base_currency = ieur.rate
     currencyvieweur.save()

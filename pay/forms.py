@@ -8,9 +8,12 @@ class RequestForm(forms.ModelForm):
 
     class Meta:
         model = RequestChange
-        fields = ('request_sistemchange', 'request_currency', 'request_sum')
+        fields = ('request_sistemchange', 'request_currency', 'request_sum', 'criteri')
         widgets = {
             'request_sistemchange': Select(attrs={'class': 'btn btn-outline-primary btn-block waves-effect waves-light'}),
             'request_currency': Select(attrs={'class': 'btn btn-outline-primary btn-block waves-effect waves-light'}),
             'request_sum': TextInput(attrs={'class': 'form-control'}),
+            'criteri': Select(
+                attrs={'class': 'btn btn-outline-primary btn-block waves-effect waves-light'}),
+
         }
