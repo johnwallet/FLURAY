@@ -6,7 +6,7 @@ from pay.models import Transaction, RequestChange, CurrencyCBRF
 from users.models import CustomUserId, CustomUser
 
 
-# проверяем, если пользователь залогинен и владелец кошелька или обменника, выдаем нужный шаблон
+# РЕНДЕРИМ НУЖНЫЙ ШАБЛОН, КАБИНЕТ ПОЛЬЗОВАТЕЛЯ (ДАШБОРД)
 class personalaccount(TemplateView):
     def dispatch(self, request, *args, **kwargs):
         if request.user.is_authenticated:
@@ -18,45 +18,55 @@ class personalaccount(TemplateView):
             return redirect('account_login')
 
 
+# /КОШЕЛЕК/ СТРАНИЦА ПОПОЛНЕНИЯ
 def depositwallet(request):
     return render(request, 'personalaccount/cabinet/deposit/depositwallet.html')
 
 
+# /КОШЕЛЕК/ СТРАНИЦА ВЫВОДА
 def withdrawalwallet(request):
     return render(request, 'personalaccount/cabinet/withdrawal/withdrawalwallet.html')
 
 
+# /КОШЕЛЕК/ СТРАНИЦА ВНУТРЕННЕГО ПЕРЕВОДА
 def transferwallet(request):
     return render(request, 'personalaccount/cabinet/transfer/transferwallet.html')
 
 
+# /КОШЕЛЕК/ ЗАЯВКИ
 class requsetwallet(ListView):
     model = RequestChange
     template_name = 'personalaccount/cabinet/requset/requsetwallet.html'
     context_object_name = 'depexchangereq'
 
 
+# /КОШЕЛЕК/ ТРАНЗАКЦИИ
 def transactionwallet(request):
     tranview = Transaction.objects.all()
     return render(request, 'personalaccount/cabinet/transaction/transactionwallet.html', {'tranview': tranview})
 
 
+# /КОШЕЛЕК/ РЕКВИЗИТЫ
 def rekvisitwallet(request):
     return render(request, 'personalaccount/cabinet/rekvisit/rekvisitwallet.html')
 
 
+# /КОШЕЛЕК/ ПРОФИЛЬ
 def profilewallet(request):
     return render(request, 'personalaccount/cabinet/profile/profilewallet.html')
 
 
+# /КОШЕЛЕК/ НАСТРОЙКИ
 def settingwallet(request):
     return render(request, 'personalaccount/cabinet/setting/settingwallet.html')
 
 
+# /ОБМЕННИК/ ЗАЯВКИ НА ВЫВОД
 def withdrawalexchange(request):
     return render(request, 'personalaccount/cabinet/withdrawal/withdrawalexchange.html')
 
 
+# /ОБМЕННИК/ ЗАЯВКИ НА ПОПОЛНЕНИЕ
 class depositexchange(ListView):
     model = RequestChange
     template_name = 'personalaccount/cabinet/deposit/depositexchange.html'
@@ -66,12 +76,14 @@ class depositexchange(ListView):
         return RequestChange.objects.all()
 
 
+# /ОБМЕННИК/ ПРОСМОТР ЗАЯВКИ НА ПОПОЛНЕНИЕ, ДЕТАЛЬНЫЙ ПРОСМОТР
 class depositexchangerequest(DetailView):
     model = RequestChange
     template_name = 'personalaccount/cabinet/deposit/depositexchangerequest.html'
     context_object_name = 'depexchangerequest'
 
 
+# /ОБМЕННИК/ ИСПОЛНЕНИЕ ЗАЯВКИ НА ПОПОЛНЕНИЕ, НАЧИСЛЕНИЕ СРЕДСТВ, СМЕНА СТАТУСА У ЗАЯВКИ И ТРАНЗАКЦИИ
 def depositexchangerequestupdate(request, pk):
     if request.method == "POST":
         update = RequestChange.objects.get(pk=pk)
@@ -94,6 +106,7 @@ def depositexchangerequestupdate(request, pk):
         return redirect('depositexchange')
 
 
+# /ОБМЕННИК/ ОБРАТНАЯ СМЕНА СТАТУСА У ЗАЯВКИ И ТРАНЗАКЦИИ НА ПОПОЛНЕНИЕ ==/ТЕСТ/==
 def depositexchangerequestupdateno(request, pk):
     if request.method == "POST":
         update = RequestChange.objects.get(pk=pk)
@@ -105,25 +118,30 @@ def depositexchangerequestupdateno(request, pk):
         return redirect('depositexchange')
 
 
+# /ОБМЕННИК/ ПОПОЛНЕНИЕ РЕЗЕРВА
 def depositreservchange(request):
     return render(request, 'personalaccount/cabinet/deposit/depositreservchange.html')
 
 
+# /ОБМЕННИК/ ВЫВОД РЕЗЕРВА
 def withdrawalreservchange(request):
     return render(request, 'personalaccount/cabinet/withdrawal/withdrawalreservchange.html')
 
 
+# /ОБМЕННИК/ ТРАНЗАКЦИИ
 def transactionchange(request):
     tranviewchange = Transaction.objects.all()
     return render(request, 'personalaccount/cabinet/transaction/transactionchange.html',
                   {'tranviewchange': tranviewchange})
 
 
+# /ОБМЕННИК/ КУРСЫ ВАЛЮТ
 def coursechange(request):
     currencyview = CurrencyCBRF.objects.all()
     return render(request, 'personalaccount/cabinet/course/coursechange.html', {'currencyview': currencyview})
 
 
+# /ОБМЕННИК/ ОБНОВЛЕНИЕ И ДОБАВЛЕНИЕ КУРСОВ ВАЛЮТ
 def coursechangeupdate(request):
     # добавляем новый курс в базу
     #    i = get_rates(section_id='Russian Rouble')
@@ -142,13 +160,16 @@ def coursechangeupdate(request):
     return redirect('coursechange')
 
 
+# /ОБМЕННИК/ РЕКВИЗИТЫ
 def rekvisitchange(request):
     return render(request, 'personalaccount/cabinet/rekvisit/rekvisitchange.html')
 
 
+# /ОБМЕННИК/ ПРОФИЛЬ
 def profilechange(request):
     return render(request, 'personalaccount/cabinet/profile/profilechange.html')
 
 
+# /ОБМЕННИК/ НАСТРОЙКИ
 def settingchange(request):
     return render(request, 'personalaccount/cabinet/setting/settingchange.html')

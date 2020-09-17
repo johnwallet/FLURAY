@@ -30,28 +30,63 @@
             <div class="page-content-wrapper">
                 <div class="container-fluid">
                     <div class="row">
-                        <div class="card">
-                            <div class="col-xl-12">
-                                <div class="card-body">
-                                    <table class="table mb-0">
-                                        <thead>
-                                        <tr>
-                                            <th>Валюта</th>
-                                            <th>Курс</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        {% for item in currencyview %}
+                        <div class="col-xl-6">
+                            <div class="card">
+                                <div class="col-xl-6">
+                                    <div class="card-body">
+                                        <table class="table mb-0">
+                                            <thead>
                                             <tr>
-                                                <td>{{ item.name_currency }}</td>
-                                                <td>{{ item.base_currency }}</td>
+                                                <th>Валюта</th>
+                                                <th>Курс</th>
                                             </tr>
-                                        {% endfor %}
-                                        </tbody>
-                                    </table>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>USD</td>
+                                                    <td>1,00</td>
+                                                </tr>
+                                            {% for item in currencyview %}
+                                                <tr>
+                                                    <td>{{ item.name_currency }}</td>
+                                                    <td>{{ item.base_currency }}</td>
+                                                </tr>
+                                            {% endfor %}
+                                            </tbody>
+                                        </table>
+
+                                    </div>
                                 </div>
                             </div>
                         </div>
+                        <div class="col-xl-6">
+                            <div class="card">
+                                <div class="col-xl-6">
+                                    <div class="card-body">
+
+                                        <table class="table mb-0">
+                                            <thead>
+                                            <tr>
+                                                <th>Прибыль</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>{{ user.valute_usd }} %</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>{{ user.valute_eur }} %</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>{{ user.valute_rub }} %</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                         <div class="col-xl-12">
                             <div class="card">
                                 <div class="card-body">
@@ -59,6 +94,9 @@
                                         {% csrf_token %}
                                         <input type="submit"  value="Обновить"/>
                                     </form>
+                                </div>
+                                <div class="card-body">
+                                    <a href="{% url 'coursechangecommission' %}" class="btn btn-primary">Изменить прибыль</a>
                                 </div>
                             </div>
                         </div>
