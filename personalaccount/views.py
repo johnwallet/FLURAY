@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.utils import timezone
 from django.views.generic import TemplateView, ListView, DetailView
 
 from pay.apicourse import get_rates
@@ -98,6 +99,8 @@ def depositexchangerequestupdate(request, pk):
             curup = CurrencyCBRF.objects.get(name_currency="EUR")
             update_balance.balance += (update.request_sum / curup.base_currency)
 
+        update.date_end_change = timezone.now()
+        update_tran.date_end_change = timezone.now()
         update_tran.transaction_status = 'Выполнена'
         update.request_status = 'Выполнена'
         update_balance.save()

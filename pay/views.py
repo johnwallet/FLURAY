@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 import random
 
 from pay.forms import RequestForm, CommissionForm
-from pay.models import Transaction, CurrencyCBRF
+from pay.models import Transaction, CurrencyCBRF, RequestChange
 from users.models import CustomUser
 
 
@@ -21,29 +21,84 @@ def depositwalletform(request):
             # получаем обработчика заявки
             itemchange = CustomUser.objects.filter(userid__custuserid='Владелец Обменника')
 
-            # список обменников у кого хватает баланса на обработку заявки и самый лучший курс валюты
+            # список обменников у кого хватает баланса на обработку заявки, и проверяем критерий
             base_comis = 100
+            base_time = 1000
             itemchangeset = 'None'
             for i in itemchange:
                 if str(post.request_currency) == "RUB":
                     c = CurrencyCBRF.objects.get(name_currency=post.request_currency)
                     if c.base_currency * i.balance > post.request_sum:
-                        if i.valute_rub < base_comis:
-                            itemchangeset = i.username
-                            base_comis = i.valute_rub
+                        if str(post.criteri) == 'Лучший курс':
+                            if i.valute_rub < base_comis:
+                                itemchangeset = i.username
+                                base_comis = i.valute_rub
+                        if str(post.criteri) == 'Быстрый обмен':
+                            timechange = RequestChange.objects.filter(request_userchange=i.username)
+                            if timechange:
+                                chartime = []
+                                for time in timechange:
+                                    if time.date_end_change:
+                                        timelimit = time.date_end_change - time.date_joined_change
+                                        timebase = timelimit.seconds / 60
+                                        chartime += [timebase]
+                                if len(chartime) >= 1:
+                                    timea = min(chartime)
+                                    timeb = max(chartime)
+                                    timedef = (int(timea) + int(timeb)) / 2
+                                    if timedef < base_time:
+                                        itemchangeset = i.username
+                                        base_time = timedef
+
                 if str(post.request_currency) == "EUR":
                     c = CurrencyCBRF.objects.get(name_currency=post.request_currency)
                     if c.base_currency * i.balance > post.request_sum:
-                        if i.valute_eur < base_comis:
-                            itemchangeset = i.username
-                            base_comis = i.valute_eur
+                        if str(post.criteri) == 'Лучший курс':
+                            if i.valute_eur < base_comis:
+                                itemchangeset = i.username
+                                base_comis = i.valute_eur
+                        if str(post.criteri) == 'Быстрый обмен':
+                            timechange = RequestChange.objects.filter(request_userchange=i.username)
+                            if timechange:
+                                chartime = []
+                                for time in timechange:
+                                    if time.date_end_change:
+                                        timelimit = time.date_end_change - time.date_joined_change
+                                        timebase = timelimit.seconds / 60
+                                        chartime += [timebase]
+                                if len(chartime) >= 1:
+                                    timea = min(chartime)
+                                    timeb = max(chartime)
+                                    timedef = (int(timea) + int(timeb)) / 2
+                                    if timedef < base_time:
+                                        itemchangeset = i.username
+                                        base_time = timedef
+
                 if str(post.request_currency) == "USD":
                     if i.balance > post.request_sum:
-                        if i.valute_usd < base_comis:
-                            itemchangeset = i.username
-                            base_comis = i.valute_usd
+                        if str(post.criteri) == 'Лучший курс':
+                            if i.valute_usd < base_comis:
+                                itemchangeset = i.username
+                                base_comis = i.valute_usd
+                        if str(post.criteri) == 'Быстрый обмен':
+                            timechange = RequestChange.objects.filter(request_userchange=i.username)
+                            if timechange:
+                                chartime = []
+                                for time in timechange:
+                                    if time.date_end_change:
+                                        timelimit = time.date_end_change - time.date_joined_change
+                                        timebase = timelimit.seconds / 60
+                                        chartime += [timebase]
+                                if len(chartime) >= 1:
+                                    timea = min(chartime)
+                                    timeb = max(chartime)
+                                    timedef = (int(timea) + int(timeb)) / 2
+                                    if timedef < base_time:
+                                        itemchangeset = i.username
+                                        base_time = timedef
 
             post.request_userchange = itemchangeset
+
             # создаем транзакцию
             Transaction.objects.create(transaction_name=str(n),
                                        transaction_user=post.request_user,
