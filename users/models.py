@@ -25,6 +25,9 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     valute_rub = models.DecimalField('Коммисия на обмен RUB', max_digits=4, decimal_places=2, default=0)
     valute_eur = models.DecimalField('Коммисия на обмен EUR', max_digits=4, decimal_places=2, default=0)
 
+    requsites_sberbank = models.CharField('Сбербанк', max_length=50, blank=True)
+    requsites_qiwi = models.CharField('Киви-кошелек', max_length=50, blank=True)
+
     USERNAME_FIELD = 'username'
     REQUIRED_FIELDS = ['email', 'userid']
 

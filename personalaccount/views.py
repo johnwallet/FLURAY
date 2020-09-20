@@ -7,7 +7,7 @@ from django.views.generic import TemplateView, ListView, DetailView
 from personalaccount.apicourse import get_rates
 from personalaccount.models import Transaction, RequestChange, CurrencyCBRF
 
-from personalaccount.forms import RequestForm, CommissionForm
+from personalaccount.forms import RequestForm, CommissionForm, RequisitesForm
 from users.models import CustomUserId, CustomUser
 
 
@@ -34,6 +34,7 @@ def depositwalletform(request):
             post = form.save(commit=False)
             post.request_user = request.user
             post.request_name = str(n)
+            post.request_type = 'Заявка на пополнение'
 
             # получаем обработчика заявки
             itemchange = CustomUser.objects.filter(userid__custuserid='Владелец Обменника')
@@ -118,6 +119,11 @@ def depositwalletform(request):
                                         base_time = timedef
 
             post.request_userchange = itemchangeset
+            requisit = CustomUser.objects.get(username=itemchangeset)
+            if str(post.request_sistemchange) == 'SBERBANK':
+                post.requisites = requisit.requsites_sberbank
+            if str(post.request_sistemchange) == 'QIWI':
+                post.requisites = requisit.requsites_qiwi
 
             # создаем транзакцию
             Transaction.objects.create(transaction_name=str(n),
@@ -158,9 +164,22 @@ def transactionwallet(request):
     return render(request, 'personalaccount/cabinet/transaction/transactionwallet.html', {'tranview': tranview})
 
 
-# /КОШЕЛЕК/ РЕКВИЗИТЫ
+# /КОШЕЛЕК/ РЕКВИЗИТЫ / ФОРМА
 def rekvisitwallet(request):
-    return render(request, 'personalaccount/cabinet/rekvisit/rekvisitwallet.html')
+    rekvis = CustomUser.objects.get(username=request.user)
+    context = {
+        'rekvis': rekvis,
+        'form': RequisitesForm(instance=rekvis),
+    }
+    if request.method == "POST":
+        form = RequisitesForm(request.POST, instance=rekvis)
+        if form.is_valid():
+            forme = form.save(commit=False)
+            rekvis.requsites_sberbank = forme.requsites_sberbank
+            rekvis.requsites_qiwi = forme.requsites_qiwi
+            rekvis.save()
+            return redirect('rekvisitwallet')
+    return render(request, 'personalaccount/cabinet/rekvisit/rekvisitwallet.html', context)
 
 
 # /КОШЕЛЕК/ ПРОФИЛЬ
@@ -295,7 +314,20 @@ def coursechangeupdate(request):
 
 # /ОБМЕННИК/ РЕКВИЗИТЫ
 def rekvisitchange(request):
-    return render(request, 'personalaccount/cabinet/rekvisit/rekvisitchange.html')
+    rekvis = CustomUser.objects.get(username=request.user)
+    context = {
+        'rekvis': rekvis,
+        'form': RequisitesForm(instance=rekvis),
+    }
+    if request.method == "POST":
+        form = RequisitesForm(request.POST, instance=rekvis)
+        if form.is_valid():
+            forme = form.save(commit=False)
+            rekvis.requsites_sberbank = forme.requsites_sberbank
+            rekvis.requsites_qiwi = forme.requsites_qiwi
+            rekvis.save()
+            return redirect('rekvisitchange')
+    return render(request, 'personalaccount/cabinet/rekvisit/rekvisitchange.html', context)
 
 
 # /ОБМЕННИК/ ПРОФИЛЬ

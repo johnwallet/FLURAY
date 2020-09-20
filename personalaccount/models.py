@@ -63,6 +63,7 @@ class RequestChange(models.Model):
     date_joined_change = models.DateTimeField('Дата создания', default=timezone.now)
     date_end_change = models.DateTimeField('Дата исполнения', blank=True, null=True)
     request_name = models.CharField('Название заявки', max_length=150)
+    request_type = models.CharField('Тип заявки', max_length=150)
     request_user = models.CharField('Логин пользователя', max_length=150)
     request_status = models.CharField('Статус заявки', max_length=150, default="В обработке")
     request_currency = models.ForeignKey('Currency', on_delete=models.PROTECT, default=1,
@@ -72,6 +73,7 @@ class RequestChange(models.Model):
                                              verbose_name='Платежная система')
     criteri = models.ForeignKey('CriteriChange', on_delete=models.PROTECT, default=1,
                                 verbose_name='Критерий')
+    requisites = models.CharField('Реквизиты', max_length=50)
 
     def get_absolute_url(self):
         return reverse('depositexchangerequest', kwargs={"pk": self.pk})

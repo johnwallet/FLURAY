@@ -29,3 +29,13 @@ class CommissionForm(forms.ModelForm):
             'valute_rub': TextInput(attrs={'class': 'form-control'}),
             'valute_eur': TextInput(attrs={'class': 'form-control'}),
         }
+
+
+class RequisitesForm(forms.ModelForm):
+    class Meta:
+        model = CustomUser
+        fields = ('requsites_sberbank', 'requsites_qiwi')
+        widgets = {
+            'requsites_sberbank': TextInput(attrs={'class': 'form-control'}),
+            'requsites_qiwi': TextInput(attrs={'class': 'form-control'}),
+        }
