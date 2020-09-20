@@ -3,7 +3,7 @@ from personalaccount import views
 
 urlpatterns = [
     path('', views.personalaccount.as_view(), name='personalaccount'),
-    path('depositwallet/', include('pay.urls')),
+    path('depositwallet/', views.depositwalletform, name='depositwalletform'),
     path('withdrawalwallet/', views.withdrawalwallet, name='withdrawalwallet'),
     path('transferwallet/', views.transferwallet, name='transferwallet'),
     path('transactionwallet/', views.transactionwallet, name='transactionwallet'),
@@ -26,7 +26,7 @@ urlpatterns = [
 
     path('coursechange/', views.coursechange, name='coursechange'),
     path('coursechange/update/', views.coursechangeupdate, name='coursechangeupdate'),
-    path('coursechange/commission/', include('pay.urls')),
+    path('coursechange/commission/', views.coursechangecommission, name='coursechangecommission'),
 
 
     path('rekvisitchange/', views.rekvisitchange, name='rekvisitchange'),

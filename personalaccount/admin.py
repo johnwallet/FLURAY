@@ -1,3 +1,9 @@
 from django.contrib import admin
 
-# Register your models here.
+from personalaccount.models import Transaction, Currency, SistemChange, RequestChange, CriteriChange
+
+admin.site.register(CriteriChange)
+admin.site.register(Transaction)
+admin.site.register(Currency, )
+admin.site.register(SistemChange, )
+admin.site.register(RequestChange, )
