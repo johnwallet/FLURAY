@@ -10,14 +10,16 @@ urlpatterns = [
     path('rekvisitwallet/', views.rekvisitwallet, name='rekvisitwallet'),
     path('profilewallet/', views.profilewallet, name='profilewallet'),
     path('settingwallet/', views.settingwallet, name='settingwallet'),
-    path('requsetwallet/', views.requsetwallet.as_view(), name='requsetwallet'),
 
-    path('withdrawalexchange/', views.withdrawalexchange, name='withdrawalexchange')
-    ,
+    path('requsetwallet/', views.requsetwallet.as_view(), name='requsetwallet'),
+    path('requsetwallet/<int:pk>/', views.requsetwalletsuccess, name='requsetwalletsuccess'),
+
+    path('withdrawalexchange/', views.withdrawalexchange, name='withdrawalexchange'),
+
     path('depositexchange/', views.depositexchange.as_view(), name='depositexchange'),
     path('depositexchange/<int:pk>/', views.depositexchangerequest.as_view(), name='depositexchangerequest'),
-    path('depositexchange/update/<int:pk>/', views.depositexchangerequestupdate, name='depositexchangerequestupdate'),
-    path('depositexchange/updateno/<int:pk>/', views.depositexchangerequestupdateno,
+    path('depositexchange/<int:pk>/good/', views.depositexchangerequestupdate, name='depositexchangerequestupdate'),
+    path('depositexchange/<int:pk>/no/', views.depositexchangerequestupdateno,
          name='depositexchangerequestupdateno'),
 
     path('depositreservchange/', views.depositreservchange, name='depositreservchange'),

@@ -32,34 +32,23 @@
                     <div class="row">
                         <div class="col-xl-12">
                             <div class="card">
-                                <div class="card-body">
-                                    <div class="card-body">
-                                        <a href="{% url 'depositexchange' %}"><button type="button" class="btn btn-link">Вернуться</button></a>
-                                    </div>
-
                                     <div class="card-header">
-                                        {{ depexchangerequest.request_status }}
+                                        Статус заявки: {{ depexchangerequest.request_status }}
                                     </div>
                                     <div class="card-body">
                                         <p class="card-text">Пользователь: {{ depexchangerequest.request_user }}</p>
                                         <p class="card-text">Сумма: {{ depexchangerequest.request_sum }} {{ depexchangerequest.request_currency }}</p>
                                         <p class="card-text">Платежная система: {{ depexchangerequest.request_sistemchange }}</p>
                                     </div>
+                                    <div class="dropdown-divider"></div>
+                                    <div class="card-body">
+                                        <a href="{% url 'depositexchange' %}"><button type="button" class="btn btn-link">Вернуться</button></a>
+                                        <a href="good/" class="btn btn-success">Завершить</a>
+                                        <a href="no/" class="btn btn-danger">Обновить назад</a>
+                                    </div>
                                     <div class="card-footer">
-                                        <p class="card-text">{{ depexchangerequest.date_joined_change }}</p>
+                                        <p class="card-text">Заявка создана: {{ depexchangerequest.date_joined_change }}</p>
                                     </div>
-                                    <div>
-                                        <form action="{% url 'depositexchangerequestupdate' depexchangerequest.id %}" method="POST">
-                                            {% csrf_token %}
-                                            <input type="submit" name="Start"  value="Обновить"/>
-                                        </form>
-                                        <form action="{% url 'depositexchangerequestupdateno' depexchangerequest.id %}" method="POST">
-                                            {% csrf_token %}
-                                            <input type="submit" name="Start"  value="Обновить назад"/>
-                                        </form>
-
-                                    </div>
-                                </div>
                             </div>
                         </div>
                     </div>

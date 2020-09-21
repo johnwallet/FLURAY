@@ -34,25 +34,43 @@
 
                         {% for item in depexchangereq %}
                             {% if item.request_user == user.username %}
-                            <div class="col-xl-12">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <div class="card-header">
-                                            Статус: {{ item.request_status }}
-                                        </div>
-                                        <div class="card-body">
-                                            <h5 class="card-title">Заявка № {{ item.request_name }}</h5>
-                                            <p class="card-text">Cоздана: {{ item.date_joined_change }}</p>
-                                            <p class="card-text">Обработчик заявки: {{ item.request_userchange }}</p>
-                                            <p class="card-text">Сумма: {{ item.request_sum }} {{ item.request_currency }}</p>
-                                            <p class="card-text">Платежная система: {{ item.request_sistemchange }}</p>
-                                        </div>
-                                        <div class="card-header">
-                                            <h5 class="card-title">Выполните перевод по этим реквизитам {{ item.requisites }}</h5>
+                                {% if item.request_status == 'Ожидает оплаты' %}
+                                    <div class="col-xl-12">
+                                        <div class="card">
+                                            <div class="card-header">
+                                                Статус: {{ item.request_status }}
+                                            </div>
+                                            <div class="card-body">
+                                                <h5 class="card-title">Заявка № {{ item.request_name }}</h5>
+                                                <p class="card-text">Cоздана: {{ item.date_joined_change }}</p>
+                                                <p class="card-text">Обработчик заявки: {{ item.request_userchange }}</p>
+                                                <p class="card-text">Сумма: {{ item.request_sum }} {{ item.request_currency }}</p>
+                                                <p class="card-text">Платежная система: {{ item.request_sistemchange }}</p>
+                                            </div>
+                                            <div class="dropdown-divider"></div>
+                                            <div class="card-body">
+                                                <h5 class="card-title">Выполните перевод по этим реквизитам {{ item.requisites }}</h5>
+                                                <p class="card-title-desc">* После перевода по реквизитам, обязательно подтвердите это, нажатием кнопки ниже.</p>
+                                                <a href="{{ item.pk }}/" class="btn btn-success">Перевод выполнен</a>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            </div>
+                                {% elif item.request_status == 'Оплачена клиентом' %}
+                                    <div class="col-xl-12">
+                                        <div class="card">
+                                            <div class="card-header">
+                                                Статус: {{ item.request_status }}
+                                            </div>
+                                            <div class="card-body">
+                                                <h5 class="card-title">Заявка № {{ item.request_name }}</h5>
+                                                <p class="card-text">Cоздана: {{ item.date_joined_change }}</p>
+                                                <p class="card-text">Обработчик заявки: {{ item.request_userchange }}</p>
+                                                <p class="card-text">Сумма: {{ item.request_sum }} {{ item.request_currency }}</p>
+                                                <p class="card-text">Платежная система: {{ item.request_sistemchange }}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endif %}
                             {% endif %}
                         {% endfor %}
 

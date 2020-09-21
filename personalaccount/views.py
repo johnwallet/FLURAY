@@ -158,6 +158,17 @@ class requsetwallet(ListView):
     context_object_name = 'depexchangereq'
 
 
+# /КОШЕЛЕК/ ЗАЯВКИ/ КНОПКА ОПЛАТИЛ
+def requsetwalletsuccess(request, pk):
+    succ = RequestChange.objects.get(pk=pk)
+    succtran = Transaction.objects.get(transaction_name=succ.request_name)
+    succ.request_status = 'Оплачена клиентом'
+    succtran.transaction_status = 'Оплачена клиентом'
+    succ.save()
+    succtran.save()
+    return redirect('requsetwallet')
+
+
 # /КОШЕЛЕК/ ТРАНЗАКЦИИ
 def transactionwallet(request):
     tranview = Transaction.objects.all()
@@ -216,39 +227,37 @@ class depositexchangerequest(DetailView):
 
 # /ОБМЕННИК/ ИСПОЛНЕНИЕ ЗАЯВКИ НА ПОПОЛНЕНИЕ, НАЧИСЛЕНИЕ СРЕДСТВ, СМЕНА СТАТУСА У ЗАЯВКИ И ТРАНЗАКЦИИ
 def depositexchangerequestupdate(request, pk):
-    if request.method == "POST":
-        update = RequestChange.objects.get(pk=pk)
-        update_tran = Transaction.objects.get(transaction_name=update.request_name)
-        update_balance = CustomUser.objects.get(username=update.request_user)
-        if str(update.request_currency) == "RUB":
-            curup = CurrencyCBRF.objects.get(name_currency="RUB")
-            update_balance.balance += (update.request_sum / curup.base_currency)
-        if str(update.request_currency) == "USD":
-            update_balance.balance += update.request_sum
-        if str(update.request_currency) == "EUR":
-            curup = CurrencyCBRF.objects.get(name_currency="EUR")
-            update_balance.balance += (update.request_sum / curup.base_currency)
+    update = RequestChange.objects.get(pk=pk)
+    update_tran = Transaction.objects.get(transaction_name=update.request_name)
+    update_balance = CustomUser.objects.get(username=update.request_user)
+    if str(update.request_currency) == "RUB":
+        curup = CurrencyCBRF.objects.get(name_currency="RUB")
+        update_balance.balance += (update.request_sum / curup.base_currency)
+    if str(update.request_currency) == "USD":
+        update_balance.balance += update.request_sum
+    if str(update.request_currency) == "EUR":
+        curup = CurrencyCBRF.objects.get(name_currency="EUR")
+        update_balance.balance += (update.request_sum / curup.base_currency)
 
-        update.date_end_change = timezone.now()
-        update_tran.date_end_change = timezone.now()
-        update_tran.transaction_status = 'Выполнена'
-        update.request_status = 'Выполнена'
-        update_balance.save()
-        update_tran.save()
-        update.save()
-        return redirect('depositexchange')
+    update.date_end_change = timezone.now()
+    update_tran.date_end_change = timezone.now()
+    update_tran.transaction_status = 'Выполнена'
+    update.request_status = 'Выполнена'
+    update_balance.save()
+    update_tran.save()
+    update.save()
+    return redirect('depositexchange')
 
 
 # /ОБМЕННИК/ ОБРАТНАЯ СМЕНА СТАТУСА У ЗАЯВКИ И ТРАНЗАКЦИИ НА ПОПОЛНЕНИЕ ==/ТЕСТ/==
 def depositexchangerequestupdateno(request, pk):
-    if request.method == "POST":
-        update = RequestChange.objects.get(pk=pk)
-        update_tran = Transaction.objects.get(transaction_name=update.request_name)
-        update_tran.transaction_status = 'В обработке'
-        update.request_status = 'В обработке'
-        update_tran.save()
-        update.save()
-        return redirect('depositexchange')
+    update = RequestChange.objects.get(pk=pk)
+    update_tran = Transaction.objects.get(transaction_name=update.request_name)
+    update_tran.transaction_status = 'Ожидает оплаты'
+    update.request_status = 'Ожидает оплаты'
+    update_tran.save()
+    update.save()
+    return redirect('depositexchange')
 
 
 # /ОБМЕННИК/ ПОПОЛНЕНИЕ РЕЗЕРВА

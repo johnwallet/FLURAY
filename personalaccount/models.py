@@ -65,7 +65,7 @@ class RequestChange(models.Model):
     request_name = models.CharField('Название заявки', max_length=150)
     request_type = models.CharField('Тип заявки', max_length=150)
     request_user = models.CharField('Логин пользователя', max_length=150)
-    request_status = models.CharField('Статус заявки', max_length=150, default="В обработке")
+    request_status = models.CharField('Статус заявки', max_length=150, default="Ожидает оплаты")
     request_currency = models.ForeignKey('Currency', on_delete=models.PROTECT, default=1,
                                          verbose_name='Валюта')
     request_sum = models.DecimalField('Сумма', max_digits=10, decimal_places=2)
@@ -74,9 +74,6 @@ class RequestChange(models.Model):
     criteri = models.ForeignKey('CriteriChange', on_delete=models.PROTECT, default=1,
                                 verbose_name='Критерий')
     requisites = models.CharField('Реквизиты', max_length=50)
-
-    def get_absolute_url(self):
-        return reverse('depositexchangerequest', kwargs={"pk": self.pk})
 
     def __str__(self):
         return self.request_name
