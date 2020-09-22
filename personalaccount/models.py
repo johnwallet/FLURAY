@@ -65,7 +65,7 @@ class RequestChange(models.Model):
     request_name = models.CharField('Название заявки', max_length=150)
     request_type = models.CharField('Тип заявки', max_length=150)
     request_user = models.CharField('Логин пользователя', max_length=150)
-    request_status = models.CharField('Статус заявки', max_length=150, default="Ожидает оплаты")
+    request_status = models.CharField('Статус заявки', max_length=150)
     request_currency = models.ForeignKey('Currency', on_delete=models.PROTECT, default=1,
                                          verbose_name='Валюта')
     request_sum = models.DecimalField('Сумма', max_digits=10, decimal_places=2)
@@ -74,6 +74,8 @@ class RequestChange(models.Model):
     criteri = models.ForeignKey('CriteriChange', on_delete=models.PROTECT, default=1,
                                 verbose_name='Критерий')
     requisites = models.CharField('Реквизиты', max_length=50)
+    request_commission = models.DecimalField('Коммисия', max_digits=4, decimal_places=2)
+    request_good_sum = models.DecimalField('Общая сумма', max_digits=10, decimal_places=2)
 
     def __str__(self):
         return self.request_name

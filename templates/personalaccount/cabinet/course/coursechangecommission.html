@@ -41,24 +41,49 @@
 
                                         <form action="{% url 'coursechangecommission' %}" method="POST">
                                             {% csrf_token %}
-                                            <div class="form-group form-group-custom mb-4">
-                                                {{ form.valute_usd }}
-                                                <label for="{{ form.valute_usd.id_for_label }}">Установите в % коммисию на обмен USD</label>
-                                            </div>
+                                            <div class="row">
+                                                <div class="col-xl-6">
+                                                    <h4 class="card-title">Прибыль с заявок на пополнение</h4>
+                                                    <div class="card-body">
+                                                        <div class="form-group form-group-custom mb-4">
+                                                            {{ form.valute_usd }}
+                                                            <label for="{{ form.valute_usd.id_for_label }}">Установите в % коммисию на обмен USD</label>
+                                                        </div>
 
-                                            <div class="form-group form-group-custom mb-4">
-                                                {{ form.valute_rub }}
-                                                <label for="{{ form.valute_rub.id_for_label }}">Установите в % коммисию на обмен RUB</label>
-                                            </div>
+                                                        <div class="form-group form-group-custom mb-4">
+                                                            {{ form.valute_rub }}
+                                                            <label for="{{ form.valute_rub.id_for_label }}">Установите в % коммисию на обмен RUB</label>
+                                                        </div>
 
-                                            <div class="form-group form-group-custom mb-4">
-                                                {{ form.valute_eur }}
-                                                <label for="{{ form.valute_eur.id_for_label }}">Установите в % коммисию на обмен EUR</label>
-                                            </div>
+                                                        <div class="form-group form-group-custom mb-4">
+                                                            {{ form.valute_eur }}
+                                                            <label for="{{ form.valute_eur.id_for_label }}">Установите в % коммисию на обмен EUR</label>
+                                                        </div>
+                                                    </div>
+                                                </div>
 
+                                                <div class="col-xl-6">
+                                                    <h4 class="card-title">Прибыль с заявок на вывод</h4>
+                                                    <div class="card-body">
+                                                        <div class="form-group form-group-custom mb-4">
+                                                            {{ form.valute_with_usd }}
+                                                            <label for="{{ form.valute_with_usd.id_for_label }}">Установите в % коммисию на обмен USD</label>
+                                                        </div>
+
+                                                        <div class="form-group form-group-custom mb-4">
+                                                            {{ form.valute_with_rub }}
+                                                            <label for="{{ form.valute_with_rub.id_for_label }}">Установите в % коммисию на обмен RUB</label>
+                                                        </div>
+
+                                                        <div class="form-group form-group-custom mb-4">
+                                                            {{ form.valute_with_eur }}
+                                                            <label for="{{ form.valute_with_eur.id_for_label }}">Установите в % коммисию на обмен EUR</label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                             <button class="btn btn-outline-primary btn-block waves-effect waves-light " type="submit">Подтвердить</button>
                                         </form>
-
                                     </div>
                                 </div>
                             </div>

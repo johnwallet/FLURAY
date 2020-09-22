@@ -21,9 +21,13 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     is_superuser = models.BooleanField('Админ', default=False)
     userid = models.ForeignKey('CustomUserId', on_delete=models.PROTECT, default=1, verbose_name='Роль')
 
-    valute_usd = models.DecimalField('Коммисия на обмен USD', max_digits=4, decimal_places=2, default=0)
-    valute_rub = models.DecimalField('Коммисия на обмен RUB', max_digits=4, decimal_places=2, default=0)
-    valute_eur = models.DecimalField('Коммисия на обмен EUR', max_digits=4, decimal_places=2, default=0)
+    valute_usd = models.DecimalField('Коммисия на пополнение USD', max_digits=4, decimal_places=2, default=0)
+    valute_rub = models.DecimalField('Коммисия на пополнение RUB', max_digits=4, decimal_places=2, default=0)
+    valute_eur = models.DecimalField('Коммисия на пополнение EUR', max_digits=4, decimal_places=2, default=0)
+
+    valute_with_usd = models.DecimalField('Коммисия на вывод USD', max_digits=4, decimal_places=2, default=0)
+    valute_with_rub = models.DecimalField('Коммисия на вывод RUB', max_digits=4, decimal_places=2, default=0)
+    valute_with_eur = models.DecimalField('Коммисия на вывод EUR', max_digits=4, decimal_places=2, default=0)
 
     requsites_sberbank = models.CharField('Сбербанк', max_length=50, blank=True)
     requsites_qiwi = models.CharField('Киви-кошелек', max_length=50, blank=True)

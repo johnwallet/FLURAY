@@ -3,7 +3,7 @@ from personalaccount import views
 
 urlpatterns = [
     path('', views.personalaccount.as_view(), name='personalaccount'),
-    path('depositwallet/', views.depositwalletform, name='depositwalletform'),
+    path('depositwallet/', views.depositwalletform, name='depositwallet'),
     path('withdrawalwallet/', views.withdrawalwallet, name='withdrawalwallet'),
     path('transferwallet/', views.transferwallet, name='transferwallet'),
     path('transactionwallet/', views.transactionwallet, name='transactionwallet'),
