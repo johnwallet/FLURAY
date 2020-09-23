@@ -335,8 +335,44 @@ def settingwallet(request):
 
 
 # /ОБМЕННИК/ ЗАЯВКИ НА ВЫВОД
-def withdrawalexchange(request):
-    return render(request, 'personalaccount/cabinet/withdrawal/withdrawalexchange.html')
+class withdrawalexchange(ListView):
+    model = RequestChange
+    template_name = 'personalaccount/cabinet/withdrawal/withdrawalexchange.html'
+    context_object_name = 'withchange'
+
+    def get_queryset(self):
+        return RequestChange.objects.filter(request_type='Заявка на вывод')
+
+
+# /ОБМЕННИК/ ПРОСМОТР ЗАЯВКИ НА ВЫВОД, ДЕТАЛЬНЫЙ ПРОСМОТР
+class withdrawalexchangerequest(DetailView):
+    model = RequestChange
+    template_name = 'personalaccount/cabinet/withdrawal/withdrawalexchangerequest.html'
+    context_object_name = 'withdrawalexchangerequest'
+
+
+# /ОБМЕННИК/ ИСПОЛНЕНИЕ ЗАЯВКИ НА ВЫВОД, НАЧИСЛЕНИЕ СРЕДСТВ, СМЕНА СТАТУСА У ЗАЯВКИ И ТРАНЗАКЦИИ
+def withdrawalexchangerequestupdate(request, pk):
+    update = RequestChange.objects.get(pk=pk)
+    update_tran = Transaction.objects.get(transaction_name=update.request_name)
+    update_balance_change = CustomUser.objects.get(username=request.user)
+    if str(update.request_currency) == "RUB":
+        curup = CurrencyCBRF.objects.get(name_currency="RUB")
+        update_balance_change.balance += (update.request_sum / curup.base_currency)
+    if str(update.request_currency) == "USD":
+        update_balance_change.balance += update.request_sum
+    if str(update.request_currency) == "EUR":
+        curup = CurrencyCBRF.objects.get(name_currency="EUR")
+        update_balance_change.balance += (update.request_sum / curup.base_currency)
+
+    update.date_end_change = timezone.now()
+    update_tran.date_end_change = timezone.now()
+    update_tran.transaction_status = 'Выполнена'
+    update.request_status = 'Выполнена'
+    update_balance_change.save()
+    update_tran.save()
+    update.save()
+    return redirect('withdrawalexchange')
 
 
 # /ОБМЕННИК/ ЗАЯВКИ НА ПОПОЛНЕНИЕ
@@ -346,7 +382,7 @@ class depositexchange(ListView):
     context_object_name = 'depexchange'
 
     def get_queryset(self):
-        return RequestChange.objects.all()
+        return RequestChange.objects.filter(request_type='Заявка на пополнение')
 
 
 # /ОБМЕННИК/ ПРОСМОТР ЗАЯВКИ НА ПОПОЛНЕНИЕ, ДЕТАЛЬНЫЙ ПРОСМОТР

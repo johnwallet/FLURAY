@@ -1,0 +1,85 @@
+{% extends "personalaccount/cabinet/indexchange.html" %}
+
+{% load static %}
+
+{% block title %}
+    Заявка № {{ withdrawalexchangerequest.request_name }}
+{% endblock %}
+
+{% block content %}
+    <div class="main-content">
+
+        <div class="page-content">
+
+            <!-- Page-Title -->
+            <div class="page-title-box">
+                <div class="container-fluid">
+                    <div class="row align-items-center">
+                        <div class="col-md-8">
+                            <h4 class="page-title mb-1">Заявка № {{ withdrawalexchangerequest.request_name }}</h4>
+                            <ol class="breadcrumb m-0">
+                                <li class="breadcrumb-item active">Обрабатывайте заявки на вывод</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- end page title end breadcrumb -->
+
+            <!-- Сердце -->
+            <div class="page-content-wrapper">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-xl-12">
+                            <div class="card">
+                                    <div class="alert alert-success">
+                                        Статус заявки: {{ withdrawalexchangerequest.request_status }}
+                                    </div>
+                                    <div class="card-body">
+                                        <p class="card-text">Пользователь: {{ withdrawalexchangerequest.request_user }}</p>
+                                        <p class="card-text">Платежная система: {{ withdrawalexchangerequest.request_sistemchange }}</p>
+                                        <p class="card-title">Сумма заявки: {{ withdrawalexchangerequest.request_good_sum }} {{ withdrawalexchangerequest.request_currency }}</p>
+                                        <p class="card-text">Ваша коммиссия: {{ withdrawalexchangerequest.request_commission }} %</p>
+                                        <h6 class="card-text">Будет добавлено к вашему резерву: {{ withdrawalexchangerequest.request_sum }} {{ withdrawalexchangerequest.request_currency }}</h6>
+                                    </div>
+                                    <div class="dropdown-divider"></div>
+                                    <div class="card-body">
+                                        <h5 class="card-title">Сделайте перевод {{ withdrawalexchangerequest.request_good_sum }} {{ withdrawalexchangerequest.request_currency }}, на реквизиты клиента {{ withdrawalexchangerequest.request_sistemchange }} {{ withdrawalexchangerequest.requisites }}</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <a href="{% url 'withdrawalexchange' %}"><button type="button" class="btn btn-link">Вернуться</button></a>
+                                        <a href="good/" class="btn btn-success">Завершить</a>
+                                    </div>
+                                    <div class="card-footer">
+                                        <p class="card-text">Заявка создана: {{ withdrawalexchangerequest.date_joined_change }}</p>
+                                    </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end row -->
+
+                </div>
+                <!-- end container-fluid -->
+            </div>
+            <!-- end page-content-wrapper -->
+
+        </div>
+
+        <!-- End Page-content -->
+        <footer class="footer">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-sm-6">
+                        2020 © Wallets.
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="text-sm-right d-none d-sm-block">
+                            Разработка <i class="mdi mdi-heart text-danger"></i> by Russia
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+{% endblock %}

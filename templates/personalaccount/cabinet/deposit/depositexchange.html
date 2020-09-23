@@ -32,24 +32,22 @@
                     <div class="row">
                         {% for item in depexchange %}
                             {% if item.request_userchange == user.username %}
-                                {% if item.request_type == 'Заявка на пополнение' %}
-                                    {% if item.request_status == 'Оплачена клиентом' %}
-                                        <div class="col-xl-12">
-                                            <div class="card">
-                                                <div class="alert alert-success">
-                                                    Статус: {{ item.request_status }}
-                                                </div>
-                                                <div class="card-body">
-                                                    <h5 class="card-title">Заявка № {{ item.request_name }}</h5>
-                                                    <p class="card-text">Cоздана: {{ item.date_joined_change }}</p>
-                                                    <p class="card-text">Пользователь: {{ item.request_user }}</p>
-                                                    <p class="card-text">Сумма: {{ item.request_sum }} {{ item.request_currency }}</p>
-                                                    <p class="card-text">Платежная система: {{ item.request_sistemchange }}</p>
-                                                    <a href="{{ item.pk }}/" class="btn btn-primary">Перейти к заявке</a>
-                                                </div>
+                                {% if item.request_status == 'Оплачена клиентом' %}
+                                    <div class="col-xl-12">
+                                        <div class="card">
+                                            <div class="alert alert-success">
+                                                Статус: {{ item.request_status }}
+                                            </div>
+                                            <div class="card-body">
+                                                <h5 class="card-title">{{ item.request_type }} № {{ item.request_name }}</h5>
+                                                <p class="card-text">Cоздана: {{ item.date_joined_change }}</p>
+                                                <p class="card-text">Пользователь: {{ item.request_user }}</p>
+                                                <p class="card-text">Сумма: {{ item.request_sum }} {{ item.request_currency }}</p>
+                                                <p class="card-text">Платежная система: {{ item.request_sistemchange }}</p>
+                                                <a href="{{ item.pk }}/" class="btn btn-primary">Перейти к заявке</a>
                                             </div>
                                         </div>
-                                    {% endif %}
+                                    </div>
                                 {% endif %}
                             {% endif %}
                         {% endfor %}
