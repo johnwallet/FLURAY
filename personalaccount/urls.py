@@ -1,23 +1,27 @@
-from django.urls import path, include
+from django.urls import path
 from personalaccount import views
 
 urlpatterns = [
     path('', views.personalaccount.as_view(), name='personalaccount'),
-    path('depositwallet/', views.depositwalletform, name='depositwalletform'),
+    path('depositwallet/', views.depositwalletform, name='depositwallet'),
     path('withdrawalwallet/', views.withdrawalwallet, name='withdrawalwallet'),
     path('transferwallet/', views.transferwallet, name='transferwallet'),
     path('transactionwallet/', views.transactionwallet, name='transactionwallet'),
     path('rekvisitwallet/', views.rekvisitwallet, name='rekvisitwallet'),
     path('profilewallet/', views.profilewallet, name='profilewallet'),
     path('settingwallet/', views.settingwallet, name='settingwallet'),
-    path('requsetwallet/', views.requsetwallet.as_view(), name='requsetwallet'),
 
-    path('withdrawalexchange/', views.withdrawalexchange, name='withdrawalexchange')
-    ,
+    path('requsetwallet/', views.requsetwallet.as_view(), name='requsetwallet'),
+    path('requsetwallet/<int:pk>/', views.requsetwalletsuccess, name='requsetwalletsuccess'),
+
+    path('withdrawalexchange/', views.withdrawalexchange.as_view(), name='withdrawalexchange'),
+    path('withdrawalexchange/<int:pk>/', views.withdrawalexchangerequest.as_view(), name='withdrawalexchangerequest'),
+    path('withdrawalexchange/<int:pk>/good/', views.withdrawalexchangerequestupdate, name='withdrawalexchangerequestupdate'),
+
     path('depositexchange/', views.depositexchange.as_view(), name='depositexchange'),
     path('depositexchange/<int:pk>/', views.depositexchangerequest.as_view(), name='depositexchangerequest'),
-    path('depositexchange/update/<int:pk>/', views.depositexchangerequestupdate, name='depositexchangerequestupdate'),
-    path('depositexchange/updateno/<int:pk>/', views.depositexchangerequestupdateno,
+    path('depositexchange/<int:pk>/good/', views.depositexchangerequestupdate, name='depositexchangerequestupdate'),
+    path('depositexchange/<int:pk>/no/', views.depositexchangerequestupdateno,
          name='depositexchangerequestupdateno'),
 
     path('depositreservchange/', views.depositreservchange, name='depositreservchange'),

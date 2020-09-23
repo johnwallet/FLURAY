@@ -1,7 +1,5 @@
 {% extends "personalaccount/cabinet/indexwallet.html" %}
 
-{% load static %}
-
 {% block title %}
     Транзакции
 {% endblock %}
@@ -35,7 +33,7 @@
                                 <div class="card-body">
 
                                     <div class="table-responsive">
-                                        <table class="table mb-0">
+                                        <table id="datatable" class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                                             <thead>
                                             <tr>
                                                 <th>Название</th>
@@ -50,11 +48,27 @@
                                             <tbody>
                                                 {% for i in tranview %}
                                                     <tr>
-                                                    <td>Заявка № {{ i.transaction_name }}</td>
+                                                    <td>№ {{ i.transaction_name }}</td>
                                                     <td>{{ i.transaction_sum }}</td>
                                                     <td>{{ i.transaction_currency }}</td>
                                                     <td>{{ i.transaction_sistemchange }}</td>
-                                                    <td>{{ i.transaction_status }}</td>
+                                                    {% if i.transaction_status == 'Ожидает оплаты' %}
+                                                        <td>
+                                                            <div class="badge badge-soft-warning">{{ i.transaction_status }}</div>
+                                                        </td>
+                                                    {% elif i.transaction_status == 'Оплачена клиентом' %}
+                                                        <td>
+                                                            <div class="badge badge-soft-success">{{ i.transaction_status }}</div>
+                                                        </td>
+                                                    {% elif i.transaction_status == 'Выполнена' %}
+                                                        <td>
+                                                            <div class="badge badge-soft-success">{{ i.transaction_status }}</div>
+                                                        </td>
+                                                    {% else %}
+                                                        <td>
+                                                            <div class="badge badge-soft-secondary">{{ i.transaction_status }}</div>
+                                                        </td>
+                                                    {% endif %}
                                                     <td>{{ i.date_joined_change }}</td>
                                                     <td>{{ i.date_end_change }}</td>
                                                     </tr>

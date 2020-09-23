@@ -3,7 +3,7 @@
 {% load static %}
 
 {% block title %}
-    Заявка № {{ depexchangerequest.request_name }}
+    Заявка № {{ withdrawalexchangerequest.request_name }}
 {% endblock %}
 
 {% block content %}
@@ -16,9 +16,9 @@
                 <div class="container-fluid">
                     <div class="row align-items-center">
                         <div class="col-md-8">
-                            <h4 class="page-title mb-1">Заявка № {{ depexchangerequest.request_name }}</h4>
+                            <h4 class="page-title mb-1">Заявка № {{ withdrawalexchangerequest.request_name }}</h4>
                             <ol class="breadcrumb m-0">
-                                <li class="breadcrumb-item active">Обрабатывайте заявки на пополнение</li>
+                                <li class="breadcrumb-item active">Обрабатывайте заявки на вывод</li>
                             </ol>
                         </div>
                     </div>
@@ -33,23 +33,25 @@
                         <div class="col-xl-12">
                             <div class="card">
                                     <div class="alert alert-success">
-                                        Статус заявки: {{ depexchangerequest.request_status }}
+                                        Статус заявки: {{ withdrawalexchangerequest.request_status }}
                                     </div>
                                     <div class="card-body">
-                                        <p class="card-text">Пользователь: {{ depexchangerequest.request_user }}</p>
-                                        <p class="card-text">Платежная система: {{ depexchangerequest.request_sistemchange }}</p>
-                                        <p class="card-title">Сумма заявки: {{ depexchangerequest.request_good_sum }} {{ depexchangerequest.request_currency }}</p>
-                                        <p class="card-text">Ваша коммиссия: {{ depexchangerequest.request_commission }} %</p>
-                                        <h6 class="card-text">Будет списано с резерва: {{ depexchangerequest.request_sum }} {{ depexchangerequest.request_currency }}</h6>
+                                        <p class="card-text">Пользователь: {{ withdrawalexchangerequest.request_user }}</p>
+                                        <p class="card-text">Платежная система: {{ withdrawalexchangerequest.request_sistemchange }}</p>
+                                        <p class="card-title">Сумма заявки: {{ withdrawalexchangerequest.request_good_sum }} {{ withdrawalexchangerequest.request_currency }}</p>
+                                        <p class="card-text">Ваша коммиссия: {{ withdrawalexchangerequest.request_commission }} %</p>
+                                        <h6 class="card-text">Будет добавлено к вашему резерву: {{ withdrawalexchangerequest.request_sum }} {{ withdrawalexchangerequest.request_currency }}</h6>
                                     </div>
                                     <div class="dropdown-divider"></div>
                                     <div class="card-body">
-                                        <a href="{% url 'depositexchange' %}"><button type="button" class="btn btn-link">Вернуться</button></a>
+                                        <h5 class="card-title">Сделайте перевод {{ withdrawalexchangerequest.request_good_sum }} {{ withdrawalexchangerequest.request_currency }}, на реквизиты клиента {{ withdrawalexchangerequest.request_sistemchange }} {{ withdrawalexchangerequest.requisites }}</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <a href="{% url 'withdrawalexchange' %}"><button type="button" class="btn btn-link">Вернуться</button></a>
                                         <a href="good/" class="btn btn-success">Завершить</a>
-                                        <a href="no/" class="btn btn-danger">Обновить назад</a>
                                     </div>
                                     <div class="card-footer">
-                                        <p class="card-text">Заявка создана: {{ depexchangerequest.date_joined_change }}</p>
+                                        <p class="card-text">Заявка создана: {{ withdrawalexchangerequest.date_joined_change }}</p>
                                     </div>
                             </div>
                         </div>

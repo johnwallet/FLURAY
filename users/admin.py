@@ -23,6 +23,7 @@ class CustomUserAdmin(UserAdmin):
     # структура карточки пользователя
     fieldsets = (
         ('Основные настройки', {'fields': ('avatar', 'id', 'username', 'balance', 'email', 'password', 'kompan_name', 'first_name', 'last_name', 'middle_name', ('date_joined', 'last_login'))}),
+        ('Реквизиты', {'fields': ('requsites_sberbank', 'requsites_qiwi')}),
         ('Разрешения', {'fields': ('userid', 'is_staff', 'is_active', 'is_superuser')}),
     )
     # структура карточки создания нового пользователя
