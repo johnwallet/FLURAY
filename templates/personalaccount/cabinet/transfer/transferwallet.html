@@ -18,7 +18,7 @@
                         <div class="col-md-8">
                             <h4 class="page-title mb-1">Перевод средств</h4>
                             <ol class="breadcrumb m-0">
-                                <li class="breadcrumb-item active">На этой странице вы можете перевести средства другому пользователю</li>
+                                <li class="breadcrumb-item active">На этой странице вы можете перевести средства любому пользователю системы</li>
                             </ol>
                         </div>
                     </div>
@@ -33,7 +33,37 @@
                         <div class="col-xl-12">
                             <div class="card">
                                 <div class="card-body">
+                                    <div class="p-4">
+                                        <h5 class="mb-5 text-center">Внутренний перевод средств</h5>
 
+                                        <form class="form-horizontal" method="POST" action="{% url 'transferwallet' %}" >
+                                            {% csrf_token %}
+                                            <div class="row">
+                                                {{ form.non_field.errors }}
+                                                <div class="col-md-12">
+                                                    <div class="form-group form-group-custom mb-4">
+                                                        <div>
+                                                            {{ form.transfer_in.errors }}
+                                                        </div>
+                                                        {{ form.transfer_in }}
+                                                        <label for="{{ form.transfer_in.id_for_label }}">Введите логин пользователя</label>
+                                                    </div>
+
+                                                    <div class="form-group form-group-custom mb-4">
+                                                        <div>
+                                                            {{ form.transfer_sum.errors }}
+                                                        </div>
+                                                        {{ form.transfer_sum }}
+                                                        <label for="{{ form.transfer_sum.id_for_label }}">Введите сумму</label>
+                                                    </div>
+
+                                                    <div class="mt-4">
+                                                        <button class="btn btn-outline-primary btn-block waves-effect waves-light " type="submit">Отправить</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
                                 </div>
                             </div>
                         </div>

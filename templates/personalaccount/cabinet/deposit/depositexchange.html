@@ -30,27 +30,48 @@
             <div class="page-content-wrapper">
                 <div class="container-fluid">
                     <div class="row">
-                        {% for item in depexchange %}
-                            {% if item.request_userchange == user.username %}
-                                {% if item.request_status == 'Оплачена клиентом' %}
-                                    <div class="col-xl-12">
-                                        <div class="card">
-                                            <div class="alert alert-success">
-                                                Статус: {{ item.request_status }}
+
+                        {% if depexchange %}
+                            {% if status_reque %}
+                                {% for item in depexchange %}
+                                    {% if item.request_userchange == user.username %}
+                                        {% if item.request_status == 'Оплачена клиентом' %}
+                                            <div class="col-xl-12">
+                                                <div class="card">
+                                                    <div class="alert alert-success">
+                                                        Статус: {{ item.request_status }}
+                                                    </div>
+                                                    <div class="card-body">
+                                                        <h5 class="card-title">{{ item.request_type }} № {{ item.request_name }}</h5>
+                                                        <p class="card-text">Cоздана: {{ item.date_joined_change }}</p>
+                                                        <p class="card-text">Пользователь: {{ item.request_user }}</p>
+                                                        <p class="card-text">Сумма: {{ item.request_sum }} {{ item.request_currency }}</p>
+                                                        <p class="card-text">Платежная система: {{ item.request_sistemchange }}</p>
+                                                        <a href="{{ item.pk }}/" class="btn btn-primary">Перейти к заявке</a>
+                                                    </div>
+                                                </div>
                                             </div>
-                                            <div class="card-body">
-                                                <h5 class="card-title">{{ item.request_type }} № {{ item.request_name }}</h5>
-                                                <p class="card-text">Cоздана: {{ item.date_joined_change }}</p>
-                                                <p class="card-text">Пользователь: {{ item.request_user }}</p>
-                                                <p class="card-text">Сумма: {{ item.request_sum }} {{ item.request_currency }}</p>
-                                                <p class="card-text">Платежная система: {{ item.request_sistemchange }}</p>
-                                                <a href="{{ item.pk }}/" class="btn btn-primary">Перейти к заявке</a>
-                                            </div>
+                                        {% endif %}
+                                    {% endif %}
+                                {% endfor %}
+                            {% else %}
+                                <div class="col-xl-12">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <h6 class="card-title">На данный момент, для вас нет активных заявок на пополнение, ожидайте новых!</h6>
                                         </div>
                                     </div>
-                                {% endif %}
+                                </div>
                             {% endif %}
-                        {% endfor %}
+                        {% else %}
+                            <div class="col-xl-12">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h6 class="card-title">Вы еще не выполняли заявки на пополнение, ожидайте своих первых сделок!</h6>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endif %}
                     </div>
                     <!-- end row -->
 

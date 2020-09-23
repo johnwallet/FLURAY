@@ -2,7 +2,7 @@ from django import forms
 from django.forms import Select, TextInput
 
 from users.models import CustomUser
-from .models import RequestChange
+from .models import RequestChange, Transfer
 
 
 # // КОШЕЛЕК // ФОРМА ДЛЯ ПОПОЛНЕНИЯ КОШЕЛЬКА
@@ -60,4 +60,15 @@ class WithdrawalForm(forms.ModelForm):
             'requisites': TextInput(attrs={'class': 'form-control'}),
             'criteri': Select(
                 attrs={'class': 'btn btn-outline-primary btn-block waves-effect waves-light'}),
+        }
+
+
+# // ОБЩАЯ // ФОРМА ПЕРЕВОДА
+class TransferForm(forms.ModelForm):
+    class Meta:
+        model = Transfer
+        fields = ('transfer_in', 'transfer_sum')
+        widgets = {
+            'transfer_in': TextInput(attrs={'class': 'form-control'}),
+            'transfer_sum': TextInput(attrs={'class': 'form-control'}),
         }

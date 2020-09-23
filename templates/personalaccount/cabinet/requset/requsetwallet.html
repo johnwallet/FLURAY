@@ -32,89 +32,90 @@
                 <div class="container-fluid">
                     <div class="row">
 
-                        {% for item in depexchangereq %}
-                            {% if item.request_user == user.username %}
-                                {% if item.request_status == 'Ожидает оплаты' and item.request_type == 'Заявка на пополнение'%}
-                                    <div class="col-xl-12">
-                                        <div class="card">
-                                            <div class="alert alert-warning">
-                                                Статус: {{ item.request_status }}
-                                            </div>
-                                            <div class="card-body">
-                                                <h4 class="card-title">{{ item.request_type }} № {{ item.request_name }}</h4>
-                                                <p class="card-text">Cоздана: {{ item.date_joined_change }}</p>
-                                                <p class="card-text">Обработчик заявки: {{ item.request_userchange }}</p>
-                                                <p class="card-text">Платежная система: {{ item.request_sistemchange }}</p>
-                                                <p class="card-text">Сумма заявки: {{ item.request_sum }} {{ item.request_currency }}</p>
-                                                <p class="card-text">Коммиссия: {{ item.request_commission }} %</p>
-                                                <h6 class="card-title">Итоговая сумма заявки: {{ item.request_good_sum }} {{ item.request_currency }}</h6>
-                                            </div>
-                                            <div class="dropdown-divider"></div>
-                                            <div class="card-body">
-                                                <h5 class="card-title">Выполните перевод {{ item.request_good_sum }} {{ item.request_currency }}, на {{ item.request_sistemchange }}, по этим реквизитам {{ item.requisites }}</h5>
-                                                <p class="card-title-desc">* После перевода по реквизитам, обязательно подтвердите это, нажатием кнопки ниже.</p>
-                                                <a href="{{ item.pk }}/" class="btn btn-success">Перевод выполнен</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                {% elif item.request_status == 'Оплачена клиентом' and item.request_type == 'Заявка на пополнение' %}
-                                    <div class="col-xl-12">
-                                        <div class="card">
-                                            <div class="alert alert-success">
-                                                Статус: {{ item.request_status }}
-                                            </div>
-                                            <div class="card-body">
-                                                <h5 class="card-title">{{ item.request_type }} № {{ item.request_name }}</h5>
-                                                <p class="card-text">Cоздана: {{ item.date_joined_change }}</p>
-                                                <p class="card-text">Обработчик заявки: {{ item.request_userchange }}</p>
-                                                <p class="card-text">Платежная система: {{ item.request_sistemchange }}</p>
-                                                <p class="card-text">Сумма заявки: {{ item.request_sum }} {{ item.request_currency }}</p>
-                                                <p class="card-text">Коммиссия: {{ item.request_commission }} %</p>
-                                                <h6 class="card-title">Итоговая сумма заявки: {{ item.request_good_sum }} {{ item.request_currency }}</h6>
+                        {% if base_reque %}
+                            {% if status_reque %}
+                                {% for item in base_reque %}
+                                    {% if item.request_status == 'Ожидает оплаты' and item.request_type == 'Заявка на пополнение'%}
+                                        <div class="col-xl-12">
+                                            <div class="card">
+                                                <div class="alert alert-warning">
+                                                    Статус: {{ item.request_status }}
+                                                </div>
+                                                <div class="card-body">
+                                                    <h4 class="card-title">{{ item.request_type }} № {{ item.request_name }}</h4>
+                                                    <p class="card-text">Cоздана: {{ item.date_joined_change }}</p>
+                                                    <p class="card-text">Обработчик заявки: {{ item.request_userchange }}</p>
+                                                    <p class="card-text">Платежная система: {{ item.request_sistemchange }}</p>
+                                                    <p class="card-text">Сумма заявки: {{ item.request_sum }} {{ item.request_currency }}</p>
+                                                    <p class="card-text">Коммиссия: {{ item.request_commission }} %</p>
+                                                    <h6 class="card-title">Итоговая сумма заявки: {{ item.request_good_sum }} {{ item.request_currency }}</h6>
+                                                </div>
+                                                <div class="dropdown-divider"></div>
+                                                <div class="card-body">
+                                                    <h5 class="card-title">Выполните перевод {{ item.request_good_sum }} {{ item.request_currency }}, на {{ item.request_sistemchange }}, по этим реквизитам {{ item.requisites }}</h5>
+                                                    <p class="card-title-desc">* После перевода по реквизитам, обязательно подтвердите это, нажатием кнопки ниже.</p>
+                                                    <a href="{{ item.pk }}/" class="btn btn-success">Перевод выполнен</a>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                {% elif item.request_status == 'Ожидает оплаты' and item.request_type == 'Заявка на вывод'%}
-                                    <div class="col-xl-12">
-                                        <div class="card">
-                                            <div class="alert alert-warning">
-                                                Статус: {{ item.request_status }}
-                                            </div>
-                                            <div class="card-body">
-                                                <h5 class="card-title">{{ item.request_type }} № {{ item.request_name }}</h5>
-                                                <p class="card-text">Cоздана: {{ item.date_joined_change }}</p>
-                                                <p class="card-text">Обработчик заявки: {{ item.request_userchange }}</p>
-                                                <p class="card-text">Платежная система: {{ item.request_sistemchange }}</p>
-                                                <p class="card-text">Сумма заявки: {{ item.request_sum }} {{ item.request_currency }}</p>
-                                                <p class="card-text">Коммиссия: {{ item.request_commission }} %</p>
-                                                <h6 class="card-title">Итоговая сумма заявки: {{ item.request_good_sum }} {{ item.request_currency }}</h6>
-                                            </div>
-                                            <div class="dropdown-divider"></div>
-                                            <div class="card-body">
-                                                <h5 class="card-title">Ожидайте перевод {{ item.request_good_sum }} {{ item.request_currency }}, на свои реквизиты {{ item.request_sistemchange }} {{ item.requisites }}</h5>
+                                    {% elif item.request_status == 'Оплачена клиентом' and item.request_type == 'Заявка на пополнение' %}
+                                        <div class="col-xl-12">
+                                            <div class="card">
+                                                <div class="alert alert-success">
+                                                    Статус: {{ item.request_status }}
+                                                </div>
+                                                <div class="card-body">
+                                                    <h5 class="card-title">{{ item.request_type }} № {{ item.request_name }}</h5>
+                                                    <p class="card-text">Cоздана: {{ item.date_joined_change }}</p>
+                                                    <p class="card-text">Обработчик заявки: {{ item.request_userchange }}</p>
+                                                    <p class="card-text">Платежная система: {{ item.request_sistemchange }}</p>
+                                                    <p class="card-text">Сумма заявки: {{ item.request_sum }} {{ item.request_currency }}</p>
+                                                    <p class="card-text">Коммиссия: {{ item.request_commission }} %</p>
+                                                    <h6 class="card-title">Итоговая сумма заявки: {{ item.request_good_sum }} {{ item.request_currency }}</h6>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                {% elif item.request_status == 'Выполнена' and item.request_type == 'Заявка на вывод'%}
-                                    <div class="col-xl-12">
-                                        <div class="card">
-                                            <div class="alert alert-success">
-                                                Статус: {{ item.request_status }}
-                                            </div>
-                                            <div class="card-body">
-                                                <h5 class="card-title">{{ item.request_type }} № {{ item.request_name }}</h5>
-                                                <p class="card-text">Cоздана: {{ item.date_joined_change }}</p>
-                                                <p class="card-text">Обработчик заявки: {{ item.request_userchange }}</p>
-                                                <p class="card-text">Платежная система: {{ item.request_sistemchange }}</p>
-                                                <p class="card-text">Сумма заявки: {{ item.request_sum }} {{ item.request_currency }}</p>
-                                                <p class="card-text">Коммиссия: {{ item.request_commission }} %</p>
-                                                <h6 class="card-title">Итоговая сумма заявки: {{ item.request_good_sum }} {{ item.request_currency }}</h6>
+                                    {% elif item.request_status == 'Ожидает оплаты' and item.request_type == 'Заявка на вывод'%}
+                                        <div class="col-xl-12">
+                                            <div class="card">
+                                                <div class="alert alert-warning">
+                                                    Статус: {{ item.request_status }}
+                                                </div>
+                                                <div class="card-body">
+                                                    <h5 class="card-title">{{ item.request_type }} № {{ item.request_name }}</h5>
+                                                    <p class="card-text">Cоздана: {{ item.date_joined_change }}</p>
+                                                    <p class="card-text">Обработчик заявки: {{ item.request_userchange }}</p>
+                                                    <p class="card-text">Платежная система: {{ item.request_sistemchange }}</p>
+                                                    <p class="card-text">Сумма заявки: {{ item.request_sum }} {{ item.request_currency }}</p>
+                                                    <p class="card-text">Коммиссия: {{ item.request_commission }} %</p>
+                                                    <h6 class="card-title">Итоговая сумма заявки: {{ item.request_good_sum }} {{ item.request_currency }}</h6>
+                                                </div>
+                                                <div class="dropdown-divider"></div>
+                                                <div class="card-body">
+                                                    <h5 class="card-title">Ожидайте перевод {{ item.request_good_sum }} {{ item.request_currency }}, на свои реквизиты {{ item.request_sistemchange }} {{ item.requisites }}</h5>
+                                                </div>
                                             </div>
                                         </div>
+                                    {% endif %}
+                                {% endfor %}
+                            {% else %}
+                                <div class="col-xl-12">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <h6 class="card-title">У вас нет активных заявок, вы можете создать свою<a href="{% url 'depositwallet' %}"><button type="button" class="btn btn-link">заявку!</button></a></h6>
+                                        </div>
                                     </div>
-                                {% endif %}
+                                </div>
                             {% endif %}
-                        {% endfor %}
+                        {% else %}
+                            <div class="col-xl-12">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h6 class="card-title">У Вас пока еще не было заявок, но вы можете создать свою первую<a href="{% url 'depositwallet' %}"><button type="button" class="btn btn-link">заявку!</button></a></h6>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endif %}
 
 
                     </div>

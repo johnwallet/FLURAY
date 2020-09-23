@@ -11,14 +11,14 @@ urlpatterns = [
     path('profilewallet/', views.profilewallet, name='profilewallet'),
     path('settingwallet/', views.settingwallet, name='settingwallet'),
 
-    path('requsetwallet/', views.requsetwallet.as_view(), name='requsetwallet'),
+    path('requsetwallet/', views.requsetwallet, name='requsetwallet'),
     path('requsetwallet/<int:pk>/', views.requsetwalletsuccess, name='requsetwalletsuccess'),
 
-    path('withdrawalexchange/', views.withdrawalexchange.as_view(), name='withdrawalexchange'),
+    path('withdrawalexchange/', views.withdrawalexchange, name='withdrawalexchange'),
     path('withdrawalexchange/<int:pk>/', views.withdrawalexchangerequest.as_view(), name='withdrawalexchangerequest'),
     path('withdrawalexchange/<int:pk>/good/', views.withdrawalexchangerequestupdate, name='withdrawalexchangerequestupdate'),
 
-    path('depositexchange/', views.depositexchange.as_view(), name='depositexchange'),
+    path('depositexchange/', views.depositexchange, name='depositexchange'),
     path('depositexchange/<int:pk>/', views.depositexchangerequest.as_view(), name='depositexchangerequest'),
     path('depositexchange/<int:pk>/good/', views.depositexchangerequestupdate, name='depositexchangerequestupdate'),
     path('depositexchange/<int:pk>/no/', views.depositexchangerequestupdateno,

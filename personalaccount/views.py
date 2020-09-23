@@ -7,7 +7,7 @@ from django.views.generic import TemplateView, ListView, DetailView
 from personalaccount.apicourse import get_rates
 from personalaccount.models import Transaction, RequestChange, CurrencyCBRF
 
-from personalaccount.forms import RequestForm, CommissionForm, RequisitesForm, WithdrawalForm
+from personalaccount.forms import RequestForm, CommissionForm, RequisitesForm, WithdrawalForm, TransferForm
 from users.models import CustomUserId, CustomUser
 
 
@@ -69,7 +69,7 @@ def depositwalletform(request):
                                     if timedef < base_time:
                                         itemchangeset = i.username
                                         base_time = timedef
-                post.request_commission = i.valute_rub
+                post.request_commission = base_comis
 
                 if str(post.request_currency) == "EUR":
                     c = CurrencyCBRF.objects.get(name_currency=post.request_currency)
@@ -95,7 +95,7 @@ def depositwalletform(request):
                                     if timedef < base_time:
                                         itemchangeset = i.username
                                         base_time = timedef
-                post.request_commission = i.valute_eur
+                post.request_commission = base_comis
 
                 if str(post.request_currency) == "USD":
                     if i.balance > post.request_sum:
@@ -120,7 +120,7 @@ def depositwalletform(request):
                                     if timedef < base_time:
                                         itemchangeset = i.username
                                         base_time = timedef
-                post.request_commission = i.valute_usd
+                post.request_commission = base_comis
 
             post.request_userchange = itemchangeset
             post.request_good_sum = post.request_sum + ((post.request_sum/100)*post.request_commission)
@@ -193,7 +193,7 @@ def withdrawalwallet(request):
                                     if timedef < base_time:
                                         itemchangeset = i.username
                                         base_time = timedef
-                post.request_commission = i.valute_rub
+                post.request_commission = base_comis
 
                 if str(post.request_currency) == "EUR":
                     c = CurrencyCBRF.objects.get(name_currency=post.request_currency)
@@ -219,7 +219,7 @@ def withdrawalwallet(request):
                                     if timedef < base_time:
                                         itemchangeset = i.username
                                         base_time = timedef
-                post.request_commission = i.valute_eur
+                post.request_commission = base_comis
 
                 if str(post.request_currency) == "USD":
                     if i.balance > post.request_sum:
@@ -244,7 +244,7 @@ def withdrawalwallet(request):
                                     if timedef < base_time:
                                         itemchangeset = i.username
                                         base_time = timedef
-                post.request_commission = i.valute_usd
+                post.request_commission = base_comis
 
             post.request_userchange = itemchangeset
             post.request_good_sum = post.request_sum - ((post.request_sum / 100) * post.request_commission)
@@ -253,8 +253,10 @@ def withdrawalwallet(request):
             if itemchangeset:
                 g = CustomUser.objects.get(username=post.request_user)
                 if str(post.request_currency) == "RUB":
+                    c = CurrencyCBRF.objects.get(name_currency=post.request_currency)
                     g.balance = g.balance - (post.request_sum / c.base_currency)
                 if str(post.request_currency) == "EUR":
+                    c = CurrencyCBRF.objects.get(name_currency=post.request_currency)
                     g.balance = g.balance - (post.request_sum / c.base_currency)
                 if str(post.request_currency) == "USD":
                     g.balance = g.balance - post.request_sum
@@ -279,14 +281,55 @@ def withdrawalwallet(request):
 
 # /КОШЕЛЕК/ СТРАНИЦА ВНУТРЕННЕГО ПЕРЕВОДА
 def transferwallet(request):
-    return render(request, 'personalaccount/cabinet/transfer/transferwallet.html')
+    if request.method == "POST":
+        form = TransferForm(request.POST)
+        if form.is_valid():
+            post = form.save(commit=False)
+            n = random.randint(10000, 999999)
+            post.transfer_out = request.user
+            post.transfer_name = str(n)
+            usertranout = CustomUser.objects.get(username=post.transfer_out)
+            usertranall = CustomUser.objects.all()
+            for i in usertranall:
+                if i.username == post.transfer_in:
+                    usertranin = CustomUser.objects.get(username=post.transfer_in)
+                    if usertranout.balance > post.transfer_sum:
+                        usertranout.balance -= post.transfer_sum
+                        usertranin.balance += post.transfer_sum
+
+                        # создаем транзакцию
+                        Transaction.objects.create(transaction_name=str(n),
+                                                   transaction_user=post.transfer_out,
+                                                   transaction_userchange=post.transfer_in,
+                                                   transaction_type='Внутренний перевод',
+                                                   transaction_status='Выполнен',
+                                                   date_end_change=timezone.now(),
+                                                   transaction_currency='USD',
+                                                   transaction_sum=post.transfer_sum,
+                                                   transaction_sistemchange='Внутренний')
+                        usertranout.save()
+                        usertranin.save()
+                        post.save()
+                    break
+            return redirect('transferwallet')
+    else:
+        form = TransferForm()
+    return render(request, 'personalaccount/cabinet/transfer/transferwallet.html', {'form': form})
 
 
 # /КОШЕЛЕК/ ЗАЯВКИ
-class requsetwallet(ListView):
-    model = RequestChange
-    template_name = 'personalaccount/cabinet/requset/requsetwallet.html'
-    context_object_name = 'depexchangereq'
+def requsetwallet(request):
+    status_reque = False
+    base_reque = RequestChange.objects.filter(request_user=request.user)
+    for i in base_reque:
+        if i.request_status != 'Выполнена':
+            status_reque = True
+            break
+    context = {
+        'status_reque': status_reque,
+        'base_reque': base_reque,
+    }
+    return render(request, 'personalaccount/cabinet/requset/requsetwallet.html', context)
 
 
 # /КОШЕЛЕК/ ЗАЯВКИ/ КНОПКА ОПЛАТИЛ
@@ -335,13 +378,19 @@ def settingwallet(request):
 
 
 # /ОБМЕННИК/ ЗАЯВКИ НА ВЫВОД
-class withdrawalexchange(ListView):
-    model = RequestChange
-    template_name = 'personalaccount/cabinet/withdrawal/withdrawalexchange.html'
-    context_object_name = 'withchange'
-
-    def get_queryset(self):
-        return RequestChange.objects.filter(request_type='Заявка на вывод')
+def withdrawalexchange(request):
+    status_reque = False
+    withchang = RequestChange.objects.filter(request_userchange=request.user)
+    withchange = withchang.filter(request_type='Заявка на вывод')
+    for i in withchange:
+        if i.request_status != 'Выполнена':
+            status_reque = True
+            break
+    context = {
+        'status_reque': status_reque,
+        'withchange': withchange,
+    }
+    return render(request, 'personalaccount/cabinet/withdrawal/withdrawalexchange.html', context)
 
 
 # /ОБМЕННИК/ ПРОСМОТР ЗАЯВКИ НА ВЫВОД, ДЕТАЛЬНЫЙ ПРОСМОТР
@@ -376,13 +425,19 @@ def withdrawalexchangerequestupdate(request, pk):
 
 
 # /ОБМЕННИК/ ЗАЯВКИ НА ПОПОЛНЕНИЕ
-class depositexchange(ListView):
-    model = RequestChange
-    template_name = 'personalaccount/cabinet/deposit/depositexchange.html'
-    context_object_name = 'depexchange'
-
-    def get_queryset(self):
-        return RequestChange.objects.filter(request_type='Заявка на пополнение')
+def depositexchange(request):
+    status_reque = False
+    withchang = RequestChange.objects.filter(request_userchange=request.user)
+    depexchange = withchang.filter(request_type='Заявка на пополнение')
+    for i in depexchange:
+        if i.request_status != 'Выполнена' and i.request_status != 'Ожидает оплаты':
+            status_reque = True
+            break
+    context = {
+        'status_reque': status_reque,
+        'depexchange': depexchange,
+    }
+    return render(request, 'personalaccount/cabinet/deposit/depositexchange.html', context)
 
 
 # /ОБМЕННИК/ ПРОСМОТР ЗАЯВКИ НА ПОПОЛНЕНИЕ, ДЕТАЛЬНЫЙ ПРОСМОТР
