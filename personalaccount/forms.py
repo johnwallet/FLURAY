@@ -1,5 +1,5 @@
 from django import forms
-from django.forms import Select, TextInput
+from django.forms import Select, TextInput, RadioSelect
 
 from users.models import CustomUser
 from .models import RequestChange, Transfer
@@ -11,12 +11,10 @@ class RequestForm(forms.ModelForm):
         model = RequestChange
         fields = ('request_sistemchange', 'request_currency', 'request_sum', 'criteri')
         widgets = {
-            'request_sistemchange': Select(
-                attrs={'class': 'btn btn-outline-primary btn-block waves-effect waves-light'}),
+            'request_sistemchange': Select(attrs={'class': 'btn btn-outline-primary btn-block waves-effect waves-light'}),
             'request_currency': Select(attrs={'class': 'btn btn-outline-primary btn-block waves-effect waves-light'}),
             'request_sum': TextInput(attrs={'class': 'form-control'}),
-            'criteri': Select(
-                attrs={'class': 'btn btn-outline-primary btn-block waves-effect waves-light'}),
+            'criteri': RadioSelect(),
 
         }
 

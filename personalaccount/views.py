@@ -41,7 +41,7 @@ def depositwalletform(request):
             itemchange = CustomUser.objects.filter(userid__custuserid='Владелец Обменника')
 
             # список обменников у кого хватает баланса на обработку заявки, и проверяем критерий
-            base_comis = 100
+            base_comis = 99
             base_time = 1000
             itemchangeset = ''
             for i in itemchange:
@@ -52,6 +52,7 @@ def depositwalletform(request):
                             if i.valute_rub < base_comis:
                                 itemchangeset = i.username
                                 base_comis = i.valute_rub
+                                post.request_commission = base_comis
                         if str(post.criteri) == 'Быстрый обмен':
                             timechange = RequestChange.objects.filter(request_userchange=i.username)
                             if timechange:
@@ -69,7 +70,7 @@ def depositwalletform(request):
                                     if timedef < base_time:
                                         itemchangeset = i.username
                                         base_time = timedef
-                post.request_commission = base_comis
+                                        post.request_commission = i.valute_rub
 
                 if str(post.request_currency) == "EUR":
                     c = CurrencyCBRF.objects.get(name_currency=post.request_currency)
@@ -78,6 +79,7 @@ def depositwalletform(request):
                             if i.valute_eur < base_comis:
                                 itemchangeset = i.username
                                 base_comis = i.valute_eur
+                                post.request_commission = base_comis
                         if str(post.criteri) == 'Быстрый обмен':
                             timechange = RequestChange.objects.filter(request_userchange=i.username)
                             if timechange:
@@ -95,7 +97,7 @@ def depositwalletform(request):
                                     if timedef < base_time:
                                         itemchangeset = i.username
                                         base_time = timedef
-                post.request_commission = base_comis
+                                        post.request_commission = i.valute_eur
 
                 if str(post.request_currency) == "USD":
                     if i.balance > post.request_sum:
@@ -103,6 +105,7 @@ def depositwalletform(request):
                             if i.valute_usd < base_comis:
                                 itemchangeset = i.username
                                 base_comis = i.valute_usd
+                                post.request_commission = base_comis
                         if str(post.criteri) == 'Быстрый обмен':
                             timechange = RequestChange.objects.filter(request_userchange=i.username)
                             if timechange:
@@ -120,7 +123,7 @@ def depositwalletform(request):
                                     if timedef < base_time:
                                         itemchangeset = i.username
                                         base_time = timedef
-                post.request_commission = base_comis
+                                        post.request_commission = i.valute_usd
 
             post.request_userchange = itemchangeset
             post.request_good_sum = post.request_sum + ((post.request_sum/100)*post.request_commission)
@@ -165,7 +168,7 @@ def withdrawalwallet(request):
             itemchange = CustomUser.objects.filter(userid__custuserid='Владелец Обменника')
 
             # список обменников у кого хватает баланса на обработку заявки, и проверяем критерий
-            base_comis = 100
+            base_comis = 99
             base_time = 1000
             itemchangeset = 'None'
             for i in itemchange:
@@ -176,6 +179,7 @@ def withdrawalwallet(request):
                             if i.valute_with_rub < base_comis:
                                 itemchangeset = i.username
                                 base_comis = i.valute_with_rub
+                                post.request_commission = base_comis
                         if str(post.criteri) == 'Быстрый обмен':
                             timechange = RequestChange.objects.filter(request_userchange=i.username)
                             if timechange:
@@ -193,7 +197,7 @@ def withdrawalwallet(request):
                                     if timedef < base_time:
                                         itemchangeset = i.username
                                         base_time = timedef
-                post.request_commission = base_comis
+                                        post.request_commission = i.valute_with_rub
 
                 if str(post.request_currency) == "EUR":
                     c = CurrencyCBRF.objects.get(name_currency=post.request_currency)
@@ -202,6 +206,7 @@ def withdrawalwallet(request):
                             if i.valute_with_eur < base_comis:
                                 itemchangeset = i.username
                                 base_comis = i.valute_with_eur
+                                post.request_commission = base_comis
                         if str(post.criteri) == 'Быстрый обмен':
                             timechange = RequestChange.objects.filter(request_userchange=i.username)
                             if timechange:
@@ -219,7 +224,7 @@ def withdrawalwallet(request):
                                     if timedef < base_time:
                                         itemchangeset = i.username
                                         base_time = timedef
-                post.request_commission = base_comis
+                                        post.request_commission = i.valute_with_eur
 
                 if str(post.request_currency) == "USD":
                     if i.balance > post.request_sum:
@@ -227,6 +232,7 @@ def withdrawalwallet(request):
                             if i.valute_with_usd < base_comis:
                                 itemchangeset = i.username
                                 base_comis = i.valute_with_usd
+                                post.request_commission = base_comis
                         if str(post.criteri) == 'Быстрый обмен':
                             timechange = RequestChange.objects.filter(request_userchange=i.username)
                             if timechange:
@@ -244,7 +250,7 @@ def withdrawalwallet(request):
                                     if timedef < base_time:
                                         itemchangeset = i.username
                                         base_time = timedef
-                post.request_commission = base_comis
+                                        post.request_commission = i.valute_with_usd
 
             post.request_userchange = itemchangeset
             post.request_good_sum = post.request_sum - ((post.request_sum / 100) * post.request_commission)
