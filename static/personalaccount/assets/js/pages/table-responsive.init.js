@@ -1,1 +1,5 @@
-$(function(){$(".table-responsive").responsiveTable({addDisplayAllBtn:"btn btn-secondary"})});
+$(function() {
+	$(".table-responsive").responsiveTable({
+		addDisplayAllBtn: "btn btn-secondary"
+	})
+});

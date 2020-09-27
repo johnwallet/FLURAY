@@ -42,20 +42,34 @@
                                                 {{ form.non_field.errors }}
                                                 <div class="col-md-12">
                                                     <div class="form-group form-group-custom mb-4">
-                                                        {{ form.request_sistemchange }}
-                                                        <label for="{{ form.request_sistemchange.id_for_label }}"></label>
+                                                        <div class="btn-group btn-group-toggle mt-2 mt-sm-0" data-toggle="buttons">
+                                                            {% for radio in form.request_sistemchange %}
+                                                                <label for="{{ radio.id_for_label }}" class="btn btn-primary btn-lg">
+                                                                    {{ radio.tag }} {{ radio.choice_label }}
+                                                                </label>
+                                                            {% endfor %}
+                                                        </div>
                                                     </div>
 
                                                     <div class="form-group form-group-custom mb-4">
-                                                        <label for="{{ form.request_currency.id_for_label }}"></label>
-                                                        {{ form.request_currency }}
+                                                        <div class="btn-group btn-group-toggle mt-2 mt-sm-0" data-toggle="buttons">
+                                                            {% for radio in form.request_currency %}
+                                                                <label for="{{ radio.id_for_label }}" class="btn btn-primary btn-lg">
+                                                                    {{ radio.tag }} {{ radio.choice_label }}
+                                                                </label>
+                                                            {% endfor %}
+                                                        </div>
                                                     </div>
 
-                                                    {% for radio in form.criteri %}
-                                                        <div class="myradio">
-                                                            {{ radio }}
+                                                    <div class="form-group form-group-custom mb-4">
+                                                        <div class="btn-group btn-group-toggle mt-2 mt-sm-0" data-toggle="buttons">
+                                                            {% for radio in form.criteri %}
+                                                                <label for="{{ radio.id_for_label }}" class="btn btn-primary btn-lg">
+                                                                    {{ radio.tag }} {{ radio.choice_label }}
+                                                                </label>
+                                                            {% endfor %}
                                                         </div>
-                                                    {% endfor %}
+                                                    </div>
 
                                                     <div class="form-group form-group-custom mb-4">
                                                         <div>

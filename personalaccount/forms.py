@@ -11,8 +11,8 @@ class RequestForm(forms.ModelForm):
         model = RequestChange
         fields = ('request_sistemchange', 'request_currency', 'request_sum', 'criteri')
         widgets = {
-            'request_sistemchange': Select(attrs={'class': 'btn btn-outline-primary btn-block waves-effect waves-light'}),
-            'request_currency': Select(attrs={'class': 'btn btn-outline-primary btn-block waves-effect waves-light'}),
+            'request_sistemchange': RadioSelect(),
+            'request_currency': RadioSelect(),
             'request_sum': TextInput(attrs={'class': 'form-control'}),
             'criteri': RadioSelect(),
 
