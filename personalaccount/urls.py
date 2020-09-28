@@ -2,7 +2,7 @@ from django.urls import path
 from personalaccount import views
 
 urlpatterns = [
-    path('', views.personalaccount.as_view(), name='personalaccount'),
+    path('', views.personalaccount, name='personalaccount'),
     path('depositwallet/', views.depositwalletform, name='depositwallet'),
     path('withdrawalwallet/', views.withdrawalwallet, name='withdrawalwallet'),
     path('transferwallet/', views.transferwallet, name='transferwallet'),
@@ -15,11 +15,11 @@ urlpatterns = [
     path('requsetwallet/<int:pk>/', views.requsetwalletsuccess, name='requsetwalletsuccess'),
 
     path('withdrawalexchange/', views.withdrawalexchange, name='withdrawalexchange'),
-    path('withdrawalexchange/<int:pk>/', views.withdrawalexchangerequest.as_view(), name='withdrawalexchangerequest'),
+    path('withdrawalexchange/<int:pk>/', views.withdrawalexchangerequest, name='withdrawalexchangerequest'),
     path('withdrawalexchange/<int:pk>/good/', views.withdrawalexchangerequestupdate, name='withdrawalexchangerequestupdate'),
 
     path('depositexchange/', views.depositexchange, name='depositexchange'),
-    path('depositexchange/<int:pk>/', views.depositexchangerequest.as_view(), name='depositexchangerequest'),
+    path('depositexchange/<int:pk>/', views.depositexchangerequest, name='depositexchangerequest'),
     path('depositexchange/<int:pk>/good/', views.depositexchangerequestupdate, name='depositexchangerequestupdate'),
     path('depositexchange/<int:pk>/no/', views.depositexchangerequestupdateno,
          name='depositexchangerequestupdateno'),

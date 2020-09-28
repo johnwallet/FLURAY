@@ -4,11 +4,10 @@ from django.utils import timezone
 
 
 class Transaction(models.Model):
-    date_joined_change = models.DateTimeField('Заявка создана', default=timezone.now)
+    date_joined_change = models.DateTimeField('Создана', default=timezone.now)
     date_end_change = models.DateTimeField('Дата исполнения', blank=True, null=True)
     transaction_name = models.CharField('Название транзакции', max_length=150)
     transaction_user = models.CharField('Логин пользователя', max_length=150)
-    transaction_userchange = models.CharField('Обработчик', max_length=150, blank=True)
     transaction_type = models.CharField('Тип транзакции', max_length=150)
     transaction_status = models.CharField('Статус', max_length=150, default="выполнена")
     transaction_currency = models.CharField('Валюта', max_length=150, default='')

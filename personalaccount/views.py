@@ -1,344 +1,369 @@
 import random
-
+from django.http import Http404
 from django.shortcuts import render, redirect
 from django.utils import timezone
-from django.views.generic import TemplateView, ListView, DetailView
-
 from personalaccount.apicourse import get_rates
 from personalaccount.models import Transaction, RequestChange, CurrencyCBRF
-
 from personalaccount.forms import RequestForm, CommissionForm, RequisitesForm, WithdrawalForm, TransferForm
 from users.models import CustomUserId, CustomUser
 
 
 # РЕНДЕРИМ НУЖНЫЙ ШАБЛОН, КАБИНЕТ ПОЛЬЗОВАТЕЛЯ (ДАШБОРД)
-class personalaccount(TemplateView):
-    def dispatch(self, request, *args, **kwargs):
-        if request.user.is_authenticated:
-            if request.user.userid == CustomUserId.objects.get(pk=1):
-                return render(request, 'personalaccount/cabinet/dashboard/dashboardwallet.html')
-            elif request.user.userid == CustomUserId.objects.get(pk=2):
-                return render(request, 'personalaccount/cabinet/dashboard/dashboardchange.html')
-        else:
-            return redirect('account_login')
+def personalaccount(request):
+    if request.user.is_authenticated:
+        if request.user.userid == CustomUserId.objects.get(pk=1):
+            dash_tran = Transaction.objects.filter(transaction_user=request.user)
+            context = {
+                'dash_tran': dash_tran,
+            }
+            return render(request, 'personalaccount/cabinet/dashboard/dashboardwallet.html', context)
+        elif request.user.userid == CustomUserId.objects.get(pk=2):
+            dash_tran = Transaction.objects.filter(transaction_user=request.user)
+            context = {
+                'dash_tran': dash_tran,
+            }
+            return render(request, 'personalaccount/cabinet/dashboard/dashboardchange.html', context)
+    else:
+        return redirect('account_login')
 
 
-# ЗАЯВКА НА ПОПОЛНЕНИЕ ДЛЯ ОБРАБОТЧИКА
+# /КОШЕЛЕК/ ПОПОЛНЕНИЕ
 def depositwalletform(request):
-    if request.method == "POST":
-        form = RequestForm(request.POST)
-        # получаем номер завки
-        n = random.randint(1000000, 9999999)
+    if request.user.is_authenticated:
+        if request.user.userid == CustomUserId.objects.get(pk=1):
+            if request.method == "POST":
+                form = RequestForm(request.POST)
+                # получаем номер завки
+                n = random.randint(1000000, 9999999)
 
-        if form.is_valid():
-            post = form.save(commit=False)
-            post.request_user = request.user
-            post.request_name = str(n)
-            post.request_type = 'Заявка на пополнение'
-            post.request_status = 'Ожидает оплаты'
+                if form.is_valid():
+                    post = form.save(commit=False)
+                    post.request_user = request.user
+                    post.request_name = str(n)
+                    post.request_type = 'Заявка на пополнение'
+                    post.request_status = 'Ожидает оплаты'
 
-            # получаем обработчика заявки
-            itemchange = CustomUser.objects.filter(userid__custuserid='Владелец Обменника')
+                    # получаем обработчика заявки
+                    itemchange = CustomUser.objects.filter(userid__custuserid='Владелец Обменника')
 
-            # список обменников у кого хватает баланса на обработку заявки, и проверяем критерий
-            base_comis = 99
-            base_time = 1000
-            itemchangeset = ''
-            for i in itemchange:
-                if str(post.request_currency) == "RUB":
-                    c = CurrencyCBRF.objects.get(name_currency=post.request_currency)
-                    if c.base_currency * i.balance > post.request_sum:
-                        if str(post.criteri) == 'Лучший курс':
-                            if i.valute_rub < base_comis:
-                                itemchangeset = i.username
-                                base_comis = i.valute_rub
-                                post.request_commission = base_comis
-                        if str(post.criteri) == 'Быстрый обмен':
-                            timechange = RequestChange.objects.filter(request_userchange=i.username)
-                            if timechange:
-                                chartime = []
-                                for time in timechange:
-                                    if time.date_end_change and time.request_type == 'Заявка на пополнение':
-                                        timelimit = time.date_end_change - time.date_joined_change
-                                        timebase = timelimit.seconds / 60
-                                        chartime += [timebase]
-                                if len(chartime) >= 1:
-                                    itemchar = float(0)
-                                    for ichar in chartime:
-                                        itemchar = itemchar + ichar
-                                    timedef = itemchar / float(len(chartime))
-                                    if timedef < base_time:
+                    # список обменников у кого хватает баланса на обработку заявки, и проверяем критерий
+                    base_comis = 99
+                    base_time = 1000
+                    itemchangeset = ''
+                    for i in itemchange:
+                        if str(post.request_currency) == "RUB":
+                            c = CurrencyCBRF.objects.get(name_currency=post.request_currency)
+                            if c.base_currency * i.balance > post.request_sum:
+                                if str(post.criteri) == 'Лучший курс':
+                                    if i.valute_rub < base_comis:
                                         itemchangeset = i.username
-                                        base_time = timedef
-                                        post.request_commission = i.valute_rub
+                                        base_comis = i.valute_rub
+                                        post.request_commission = base_comis
+                                if str(post.criteri) == 'Быстрый обмен':
+                                    timechange = RequestChange.objects.filter(request_userchange=i.username)
+                                    if timechange:
+                                        chartime = []
+                                        for time in timechange:
+                                            if time.date_end_change and time.request_type == 'Заявка на пополнение':
+                                                timelimit = time.date_end_change - time.date_joined_change
+                                                timebase = timelimit.seconds / 60
+                                                chartime += [timebase]
+                                        if len(chartime) >= 1:
+                                            itemchar = float(0)
+                                            for ichar in chartime:
+                                                itemchar = itemchar + ichar
+                                            timedef = itemchar / float(len(chartime))
+                                            if timedef < base_time:
+                                                itemchangeset = i.username
+                                                base_time = timedef
+                                                post.request_commission = i.valute_rub
 
-                if str(post.request_currency) == "EUR":
-                    c = CurrencyCBRF.objects.get(name_currency=post.request_currency)
-                    if c.base_currency * i.balance > post.request_sum:
-                        if str(post.criteri) == 'Лучший курс':
-                            if i.valute_eur < base_comis:
-                                itemchangeset = i.username
-                                base_comis = i.valute_eur
-                                post.request_commission = base_comis
-                        if str(post.criteri) == 'Быстрый обмен':
-                            timechange = RequestChange.objects.filter(request_userchange=i.username)
-                            if timechange:
-                                chartime = []
-                                for time in timechange:
-                                    if time.date_end_change and time.request_type == 'Заявка на пополнение':
-                                        timelimit = time.date_end_change - time.date_joined_change
-                                        timebase = timelimit.seconds / 60
-                                        chartime += [timebase]
-                                if len(chartime) >= 1:
-                                    itemchar = float(0)
-                                    for ichar in chartime:
-                                        itemchar = itemchar + ichar
-                                    timedef = itemchar / float(len(chartime))
-                                    if timedef < base_time:
+                        if str(post.request_currency) == "EUR":
+                            c = CurrencyCBRF.objects.get(name_currency=post.request_currency)
+                            if c.base_currency * i.balance > post.request_sum:
+                                if str(post.criteri) == 'Лучший курс':
+                                    if i.valute_eur < base_comis:
                                         itemchangeset = i.username
-                                        base_time = timedef
-                                        post.request_commission = i.valute_eur
+                                        base_comis = i.valute_eur
+                                        post.request_commission = base_comis
+                                if str(post.criteri) == 'Быстрый обмен':
+                                    timechange = RequestChange.objects.filter(request_userchange=i.username)
+                                    if timechange:
+                                        chartime = []
+                                        for time in timechange:
+                                            if time.date_end_change and time.request_type == 'Заявка на пополнение':
+                                                timelimit = time.date_end_change - time.date_joined_change
+                                                timebase = timelimit.seconds / 60
+                                                chartime += [timebase]
+                                        if len(chartime) >= 1:
+                                            itemchar = float(0)
+                                            for ichar in chartime:
+                                                itemchar = itemchar + ichar
+                                            timedef = itemchar / float(len(chartime))
+                                            if timedef < base_time:
+                                                itemchangeset = i.username
+                                                base_time = timedef
+                                                post.request_commission = i.valute_eur
 
-                if str(post.request_currency) == "USD":
-                    if i.balance > post.request_sum:
-                        if str(post.criteri) == 'Лучший курс':
-                            if i.valute_usd < base_comis:
-                                itemchangeset = i.username
-                                base_comis = i.valute_usd
-                                post.request_commission = base_comis
-                        if str(post.criteri) == 'Быстрый обмен':
-                            timechange = RequestChange.objects.filter(request_userchange=i.username)
-                            if timechange:
-                                chartime = []
-                                for time in timechange:
-                                    if time.date_end_change and time.request_type == 'Заявка на пополнение':
-                                        timelimit = time.date_end_change - time.date_joined_change
-                                        timebase = timelimit.seconds / 60
-                                        chartime += [timebase]
-                                if len(chartime) >= 1:
-                                    itemchar = float(0)
-                                    for ichar in chartime:
-                                        itemchar = itemchar + ichar
-                                    timedef = itemchar / float(len(chartime))
-                                    if timedef < base_time:
+                        if str(post.request_currency) == "USD":
+                            if i.balance > post.request_sum:
+                                if str(post.criteri) == 'Лучший курс':
+                                    if i.valute_usd < base_comis:
                                         itemchangeset = i.username
-                                        base_time = timedef
-                                        post.request_commission = i.valute_usd
+                                        base_comis = i.valute_usd
+                                        post.request_commission = base_comis
+                                if str(post.criteri) == 'Быстрый обмен':
+                                    timechange = RequestChange.objects.filter(request_userchange=i.username)
+                                    if timechange:
+                                        chartime = []
+                                        for time in timechange:
+                                            if time.date_end_change and time.request_type == 'Заявка на пополнение':
+                                                timelimit = time.date_end_change - time.date_joined_change
+                                                timebase = timelimit.seconds / 60
+                                                chartime += [timebase]
+                                        if len(chartime) >= 1:
+                                            itemchar = float(0)
+                                            for ichar in chartime:
+                                                itemchar = itemchar + ichar
+                                            timedef = itemchar / float(len(chartime))
+                                            if timedef < base_time:
+                                                itemchangeset = i.username
+                                                base_time = timedef
+                                                post.request_commission = i.valute_usd
 
-            post.request_userchange = itemchangeset
-            post.request_good_sum = post.request_sum + ((post.request_sum/100)*post.request_commission)
+                    post.request_userchange = itemchangeset
+                    post.request_good_sum = post.request_sum + ((post.request_sum/100)*post.request_commission)
 
-            # добавляем реквизиты обменника, если есть имя в списке
-            if itemchangeset:
-                requisit = CustomUser.objects.get(username=itemchangeset)
-                if str(post.request_sistemchange) == 'SBERBANK':
-                    post.requisites = requisit.requsites_sberbank
-                if str(post.request_sistemchange) == 'QIWI':
-                    post.requisites = requisit.requsites_qiwi
+                    # добавляем реквизиты обменника, если есть имя в списке
+                    if itemchangeset:
+                        requisit = CustomUser.objects.get(username=itemchangeset)
+                        if str(post.request_sistemchange) == 'SBERBANK':
+                            post.requisites = requisit.requsites_sberbank
+                        if str(post.request_sistemchange) == 'QIWI':
+                            post.requisites = requisit.requsites_qiwi
 
-            # создаем транзакцию
-            Transaction.objects.create(transaction_name=str(n),
-                                       transaction_user=post.request_user,
-                                       transaction_userchange=itemchangeset,
-                                       transaction_type='Пополнение кошелька',
-                                       transaction_status=post.request_status,
-                                       transaction_currency=post.request_currency,
-                                       transaction_sum=post.request_sum,
-                                       transaction_sistemchange=post.request_sistemchange)
-            post.save()
-            return redirect('requsetwallet')
+                    # создаем транзакцию
+                    Transaction.objects.create(transaction_name=str(n),
+                                               transaction_user=post.request_user,
+                                               transaction_type='Пополнение кошелька',
+                                               transaction_status=post.request_status,
+                                               transaction_currency=post.request_currency,
+                                               transaction_sum=post.request_sum,
+                                               transaction_sistemchange=post.request_sistemchange)
+                    post.save()
+                    return redirect('requsetwallet')
+            else:
+                form = RequestForm()
+            return render(request, 'personalaccount/cabinet/deposit/depositwallet.html', {'form': form})
+        else:
+            raise Http404
     else:
-        form = RequestForm()
-    return render(request, 'personalaccount/cabinet/deposit/depositwallet.html', {'form': form})
+        return redirect('account_login')
 
 
-# /КОШЕЛЕК/ СТРАНИЦА ВЫВОДА
+# /КОШЕЛЕК/ ВЫВОД
 def withdrawalwallet(request):
-    if request.method == "POST":
-        form = WithdrawalForm(request.POST)
-        if form.is_valid():
-            post = form.save(commit=False)
-            n = random.randint(1000000, 9999999)
-            post.request_user = request.user
-            post.request_name = str(n)
-            post.request_type = 'Заявка на вывод'
-            post.request_status = 'Ожидает оплаты'
+    if request.user.is_authenticated:
+        if request.user.userid == CustomUserId.objects.get(pk=1):
+            if request.method == "POST":
+                form = WithdrawalForm(request.POST)
+                if form.is_valid():
+                    post = form.save(commit=False)
+                    n = random.randint(1000000, 9999999)
+                    post.request_user = request.user
+                    post.request_name = str(n)
+                    post.request_type = 'Заявка на вывод'
+                    post.request_status = 'Ожидает оплаты'
 
-            # получаем обработчика заявки
-            itemchange = CustomUser.objects.filter(userid__custuserid='Владелец Обменника')
+                    # получаем обработчика заявки
+                    itemchange = CustomUser.objects.filter(userid__custuserid='Владелец Обменника')
 
-            # список обменников у кого хватает баланса на обработку заявки, и проверяем критерий
-            base_comis = 99
-            base_time = 1000
-            itemchangeset = 'None'
-            for i in itemchange:
-                if str(post.request_currency) == "RUB":
-                    c = CurrencyCBRF.objects.get(name_currency=post.request_currency)
-                    if c.base_currency * i.balance > post.request_sum:
-                        if str(post.criteri) == 'Лучший курс':
-                            if i.valute_with_rub < base_comis:
-                                itemchangeset = i.username
-                                base_comis = i.valute_with_rub
-                                post.request_commission = base_comis
-                        if str(post.criteri) == 'Быстрый обмен':
-                            timechange = RequestChange.objects.filter(request_userchange=i.username)
-                            if timechange:
-                                chartime = []
-                                for time in timechange:
-                                    if time.date_end_change and time.request_type == 'Заявка на вывод':
-                                        timelimit = time.date_end_change - time.date_joined_change
-                                        timebase = timelimit.seconds / 60
-                                        chartime += [timebase]
-                                if len(chartime) >= 1:
-                                    itemchar = float(0)
-                                    for ichar in chartime:
-                                        itemchar = itemchar + ichar
-                                    timedef = itemchar / float(len(chartime))
-                                    if timedef < base_time:
+                    # список обменников у кого хватает баланса на обработку заявки, и проверяем критерий
+                    base_comis = 99
+                    base_time = 1000
+                    itemchangeset = 'None'
+                    for i in itemchange:
+                        if str(post.request_currency) == "RUB":
+                            c = CurrencyCBRF.objects.get(name_currency=post.request_currency)
+                            if c.base_currency * i.balance > post.request_sum:
+                                if str(post.criteri) == 'Лучший курс':
+                                    if i.valute_with_rub < base_comis:
                                         itemchangeset = i.username
-                                        base_time = timedef
-                                        post.request_commission = i.valute_with_rub
+                                        base_comis = i.valute_with_rub
+                                        post.request_commission = base_comis
+                                if str(post.criteri) == 'Быстрый обмен':
+                                    timechange = RequestChange.objects.filter(request_userchange=i.username)
+                                    if timechange:
+                                        chartime = []
+                                        for time in timechange:
+                                            if time.date_end_change and time.request_type == 'Заявка на вывод':
+                                                timelimit = time.date_end_change - time.date_joined_change
+                                                timebase = timelimit.seconds / 60
+                                                chartime += [timebase]
+                                        if len(chartime) >= 1:
+                                            itemchar = float(0)
+                                            for ichar in chartime:
+                                                itemchar = itemchar + ichar
+                                            timedef = itemchar / float(len(chartime))
+                                            if timedef < base_time:
+                                                itemchangeset = i.username
+                                                base_time = timedef
+                                                post.request_commission = i.valute_with_rub
 
-                if str(post.request_currency) == "EUR":
-                    c = CurrencyCBRF.objects.get(name_currency=post.request_currency)
-                    if c.base_currency * i.balance > post.request_sum:
-                        if str(post.criteri) == 'Лучший курс':
-                            if i.valute_with_eur < base_comis:
-                                itemchangeset = i.username
-                                base_comis = i.valute_with_eur
-                                post.request_commission = base_comis
-                        if str(post.criteri) == 'Быстрый обмен':
-                            timechange = RequestChange.objects.filter(request_userchange=i.username)
-                            if timechange:
-                                chartime = []
-                                for time in timechange:
-                                    if time.date_end_change and time.request_type == 'Заявка на вывод':
-                                        timelimit = time.date_end_change - time.date_joined_change
-                                        timebase = timelimit.seconds / 60
-                                        chartime += [timebase]
-                                if len(chartime) >= 1:
-                                    itemchar = float(0)
-                                    for ichar in chartime:
-                                        itemchar = itemchar + ichar
-                                    timedef = itemchar / float(len(chartime))
-                                    if timedef < base_time:
+                        if str(post.request_currency) == "EUR":
+                            c = CurrencyCBRF.objects.get(name_currency=post.request_currency)
+                            if c.base_currency * i.balance > post.request_sum:
+                                if str(post.criteri) == 'Лучший курс':
+                                    if i.valute_with_eur < base_comis:
                                         itemchangeset = i.username
-                                        base_time = timedef
-                                        post.request_commission = i.valute_with_eur
+                                        base_comis = i.valute_with_eur
+                                        post.request_commission = base_comis
+                                if str(post.criteri) == 'Быстрый обмен':
+                                    timechange = RequestChange.objects.filter(request_userchange=i.username)
+                                    if timechange:
+                                        chartime = []
+                                        for time in timechange:
+                                            if time.date_end_change and time.request_type == 'Заявка на вывод':
+                                                timelimit = time.date_end_change - time.date_joined_change
+                                                timebase = timelimit.seconds / 60
+                                                chartime += [timebase]
+                                        if len(chartime) >= 1:
+                                            itemchar = float(0)
+                                            for ichar in chartime:
+                                                itemchar = itemchar + ichar
+                                            timedef = itemchar / float(len(chartime))
+                                            if timedef < base_time:
+                                                itemchangeset = i.username
+                                                base_time = timedef
+                                                post.request_commission = i.valute_with_eur
 
-                if str(post.request_currency) == "USD":
-                    if i.balance > post.request_sum:
-                        if str(post.criteri) == 'Лучший курс':
-                            if i.valute_with_usd < base_comis:
-                                itemchangeset = i.username
-                                base_comis = i.valute_with_usd
-                                post.request_commission = base_comis
-                        if str(post.criteri) == 'Быстрый обмен':
-                            timechange = RequestChange.objects.filter(request_userchange=i.username)
-                            if timechange:
-                                chartime = []
-                                for time in timechange:
-                                    if time.date_end_change and time.request_type == 'Заявка на вывод':
-                                        timelimit = time.date_end_change - time.date_joined_change
-                                        timebase = timelimit.seconds / 60
-                                        chartime += [timebase]
-                                if len(chartime) >= 1:
-                                    itemchar = float(0)
-                                    for ichar in chartime:
-                                        itemchar = itemchar + ichar
-                                    timedef = itemchar / float(len(chartime))
-                                    if timedef < base_time:
+                        if str(post.request_currency) == "USD":
+                            if i.balance > post.request_sum:
+                                if str(post.criteri) == 'Лучший курс':
+                                    if i.valute_with_usd < base_comis:
                                         itemchangeset = i.username
-                                        base_time = timedef
-                                        post.request_commission = i.valute_with_usd
+                                        base_comis = i.valute_with_usd
+                                        post.request_commission = base_comis
+                                if str(post.criteri) == 'Быстрый обмен':
+                                    timechange = RequestChange.objects.filter(request_userchange=i.username)
+                                    if timechange:
+                                        chartime = []
+                                        for time in timechange:
+                                            if time.date_end_change and time.request_type == 'Заявка на вывод':
+                                                timelimit = time.date_end_change - time.date_joined_change
+                                                timebase = timelimit.seconds / 60
+                                                chartime += [timebase]
+                                        if len(chartime) >= 1:
+                                            itemchar = float(0)
+                                            for ichar in chartime:
+                                                itemchar = itemchar + ichar
+                                            timedef = itemchar / float(len(chartime))
+                                            if timedef < base_time:
+                                                itemchangeset = i.username
+                                                base_time = timedef
+                                                post.request_commission = i.valute_with_usd
 
-            post.request_userchange = itemchangeset
-            post.request_good_sum = post.request_sum - ((post.request_sum / 100) * post.request_commission)
+                    post.request_userchange = itemchangeset
+                    post.request_good_sum = post.request_sum - ((post.request_sum / 100) * post.request_commission)
 
-            # списываем с баланса сумму заявки
-            if itemchangeset:
-                g = CustomUser.objects.get(username=post.request_user)
-                if str(post.request_currency) == "RUB":
-                    c = CurrencyCBRF.objects.get(name_currency=post.request_currency)
-                    g.balance = g.balance - (post.request_sum / c.base_currency)
-                if str(post.request_currency) == "EUR":
-                    c = CurrencyCBRF.objects.get(name_currency=post.request_currency)
-                    g.balance = g.balance - (post.request_sum / c.base_currency)
-                if str(post.request_currency) == "USD":
-                    g.balance = g.balance - post.request_sum
-                g.save()
+                    # списываем с баланса сумму заявки
+                    if itemchangeset:
+                        g = CustomUser.objects.get(username=post.request_user)
+                        if str(post.request_currency) == "RUB":
+                            c = CurrencyCBRF.objects.get(name_currency=post.request_currency)
+                            g.balance = g.balance - (post.request_sum / c.base_currency)
+                        if str(post.request_currency) == "EUR":
+                            c = CurrencyCBRF.objects.get(name_currency=post.request_currency)
+                            g.balance = g.balance - (post.request_sum / c.base_currency)
+                        if str(post.request_currency) == "USD":
+                            g.balance = g.balance - post.request_sum
+                        g.save()
 
-            # создаем транзакцию
-            Transaction.objects.create(transaction_name=str(n),
-                                       transaction_user=post.request_user,
-                                       transaction_userchange=itemchangeset,
-                                       transaction_type='Вывод из кошелька',
-                                       transaction_status=post.request_status,
-                                       transaction_currency=post.request_currency,
-                                       transaction_sum=post.request_sum,
-                                       transaction_sistemchange=post.request_sistemchange)
-            post.save()
-            return redirect('requsetwallet')
+                    # создаем транзакцию
+                    Transaction.objects.create(transaction_name=str(n),
+                                               transaction_user=post.request_user,
+                                               transaction_type='Вывод из кошелька',
+                                               transaction_status=post.request_status,
+                                               transaction_currency=post.request_currency,
+                                               transaction_sum=post.request_sum,
+                                               transaction_sistemchange=post.request_sistemchange)
+                    post.save()
+                    return redirect('requsetwallet')
 
+            else:
+                form = WithdrawalForm()
+            return render(request, 'personalaccount/cabinet/withdrawal/withdrawalwallet.html', {'form': form})
+        else:
+            raise Http404
     else:
-        form = WithdrawalForm()
-    return render(request, 'personalaccount/cabinet/withdrawal/withdrawalwallet.html', {'form': form})
+        return redirect('account_login')
 
 
-# /КОШЕЛЕК/ СТРАНИЦА ВНУТРЕННЕГО ПЕРЕВОДА
+# /КОШЕЛЕК/ ВНУТРЕННИЙ ПЕРЕВОД
 def transferwallet(request):
-    if request.method == "POST":
-        form = TransferForm(request.POST)
-        if form.is_valid():
-            post = form.save(commit=False)
-            n = random.randint(10000, 999999)
-            post.transfer_out = request.user
-            post.transfer_name = str(n)
-            usertranout = CustomUser.objects.get(username=post.transfer_out)
-            usertranall = CustomUser.objects.all()
-            for i in usertranall:
-                if i.username == post.transfer_in:
-                    usertranin = CustomUser.objects.get(username=post.transfer_in)
-                    if usertranout.balance > post.transfer_sum:
-                        usertranout.balance -= post.transfer_sum
-                        usertranin.balance += post.transfer_sum
+    if request.user.is_authenticated:
+        if request.user.userid == CustomUserId.objects.get(pk=1):
+            if request.method == "POST":
+                form = TransferForm(request.POST)
+                if form.is_valid():
+                    post = form.save(commit=False)
+                    n = random.randint(10000, 999999)
+                    post.transfer_out = request.user
+                    post.transfer_name = str(n)
+                    usertranout = CustomUser.objects.get(username=post.transfer_out)
+                    usertranall = CustomUser.objects.all()
+                    for i in usertranall:
+                        if i.username == post.transfer_in:
+                            usertranin = CustomUser.objects.get(username=post.transfer_in)
+                            if usertranout.balance > post.transfer_sum:
+                                usertranout.balance -= post.transfer_sum
+                                usertranin.balance += post.transfer_sum
 
-                        # создаем транзакцию
-                        Transaction.objects.create(transaction_name=str(n),
-                                                   transaction_user=post.transfer_out,
-                                                   transaction_userchange=post.transfer_in,
-                                                   transaction_type='Внутренний перевод',
-                                                   transaction_status='Выполнен',
-                                                   date_end_change=timezone.now(),
-                                                   transaction_currency='USD',
-                                                   transaction_sum=post.transfer_sum,
-                                                   transaction_sistemchange='Внутренний')
-                        usertranout.save()
-                        usertranin.save()
-                        post.save()
-                    break
-            return redirect('transferwallet')
+                                # создаем транзакцию
+                                Transaction.objects.create(transaction_name=str(n),
+                                                           transaction_user=post.transfer_out,
+                                                           transaction_type='Внутренний перевод',
+                                                           transaction_status='Выполнен',
+                                                           date_end_change=timezone.now(),
+                                                           transaction_currency='USD',
+                                                           transaction_sum=post.transfer_sum,
+                                                           transaction_sistemchange='Внутренний')
+                                usertranout.save()
+                                usertranin.save()
+                                post.save()
+                            break
+                    return redirect('transferwallet')
+            else:
+                form = TransferForm()
+            return render(request, 'personalaccount/cabinet/transfer/transferwallet.html', {'form': form})
+        else:
+            raise Http404
     else:
-        form = TransferForm()
-    return render(request, 'personalaccount/cabinet/transfer/transferwallet.html', {'form': form})
+        return redirect('account_login')
 
 
 # /КОШЕЛЕК/ ЗАЯВКИ
 def requsetwallet(request):
-    status_reque = False
-    base_reque = RequestChange.objects.filter(request_user=request.user)
-    for i in base_reque:
-        if i.request_status != 'Выполнена':
-            status_reque = True
-            break
-    context = {
-        'status_reque': status_reque,
-        'base_reque': base_reque,
-    }
-    return render(request, 'personalaccount/cabinet/requset/requsetwallet.html', context)
+    if request.user.is_authenticated:
+        if request.user.userid == CustomUserId.objects.get(pk=1):
+            status_reque = False
+            base_reque = RequestChange.objects.filter(request_user=request.user)
+            for i in base_reque:
+                if i.request_status != 'Выполнена':
+                    status_reque = True
+                    break
+            context = {
+                'status_reque': status_reque,
+                'base_reque': base_reque,
+            }
+            return render(request, 'personalaccount/cabinet/requset/requsetwallet.html', context)
+        else:
+            raise Http404
+    else:
+        return redirect('account_login')
 
 
-# /КОШЕЛЕК/ ЗАЯВКИ/ КНОПКА ОПЛАТИЛ
+# /КОШЕЛЕК/ ПОДТВЕРЖДЕНИЕ ОПЛАТЫ КЛИЕНТОМ
 def requsetwalletsuccess(request, pk):
     succ = RequestChange.objects.get(pk=pk)
     succtran = Transaction.objects.get(transaction_name=succ.request_name)
@@ -351,59 +376,97 @@ def requsetwalletsuccess(request, pk):
 
 # /КОШЕЛЕК/ ТРАНЗАКЦИИ
 def transactionwallet(request):
-    tranview = Transaction.objects.all()
-    return render(request, 'personalaccount/cabinet/transaction/transactionwallet.html', {'tranview': tranview})
+    if request.user.is_authenticated:
+        if request.user.userid == CustomUserId.objects.get(pk=1):
+            tranview = Transaction.objects.filter(transaction_user=request.user)
+            return render(request, 'personalaccount/cabinet/transaction/transactionwallet.html', {'tranview': tranview})
+        else:
+            raise Http404
+    else:
+        return redirect('account_login')
 
 
-# /КОШЕЛЕК/ РЕКВИЗИТЫ / ФОРМА
+# /КОШЕЛЕК/ ПОЛУЧЕНИЕ РЕКВИЗИТОВ
 def rekvisitwallet(request):
-    rekvis = CustomUser.objects.get(username=request.user)
-    context = {
-        'rekvis': rekvis,
-        'form': RequisitesForm(instance=rekvis),
-    }
-    if request.method == "POST":
-        form = RequisitesForm(request.POST, instance=rekvis)
-        if form.is_valid():
-            forme = form.save(commit=False)
-            rekvis.requsites_sberbank = forme.requsites_sberbank
-            rekvis.requsites_qiwi = forme.requsites_qiwi
-            rekvis.save()
-            return redirect('rekvisitwallet')
-    return render(request, 'personalaccount/cabinet/rekvisit/rekvisitwallet.html', context)
+    if request.user.is_authenticated:
+        if request.user.userid == CustomUserId.objects.get(pk=1):
+            rekvis = CustomUser.objects.get(username=request.user)
+            context = {
+                'rekvis': rekvis,
+                'form': RequisitesForm(instance=rekvis),
+            }
+            if request.method == "POST":
+                form = RequisitesForm(request.POST, instance=rekvis)
+                if form.is_valid():
+                    forme = form.save(commit=False)
+                    rekvis.requsites_sberbank = forme.requsites_sberbank
+                    rekvis.requsites_qiwi = forme.requsites_qiwi
+                    rekvis.save()
+                    return redirect('rekvisitwallet')
+            return render(request, 'personalaccount/cabinet/rekvisit/rekvisitwallet.html', context)
+        else:
+            raise Http404
+    else:
+        return redirect('account_login')
 
 
 # /КОШЕЛЕК/ ПРОФИЛЬ
 def profilewallet(request):
-    return render(request, 'personalaccount/cabinet/profile/profilewallet.html')
+    if request.user.is_authenticated:
+        if request.user.userid == CustomUserId.objects.get(pk=1):
+            return render(request, 'personalaccount/cabinet/profile/profilewallet.html')
+        else:
+            raise Http404
+    else:
+        return redirect('account_login')
 
 
 # /КОШЕЛЕК/ НАСТРОЙКИ
 def settingwallet(request):
-    return render(request, 'personalaccount/cabinet/setting/settingwallet.html')
+    if request.user.is_authenticated:
+        if request.user.userid == CustomUserId.objects.get(pk=1):
+            return render(request, 'personalaccount/cabinet/setting/settingwallet.html')
+        else:
+            raise Http404
+    else:
+        return redirect('account_login')
+
+
+# ===========/ОБМЕННИК/=============
 
 
 # /ОБМЕННИК/ ЗАЯВКИ НА ВЫВОД
 def withdrawalexchange(request):
-    status_reque = False
-    withchang = RequestChange.objects.filter(request_userchange=request.user)
-    withchange = withchang.filter(request_type='Заявка на вывод')
-    for i in withchange:
-        if i.request_status != 'Выполнена':
-            status_reque = True
-            break
-    context = {
-        'status_reque': status_reque,
-        'withchange': withchange,
-    }
-    return render(request, 'personalaccount/cabinet/withdrawal/withdrawalexchange.html', context)
+    if request.user.is_authenticated:
+        if request.user.userid == CustomUserId.objects.get(pk=2):
+            status_reque = False
+            withchang = RequestChange.objects.filter(request_userchange=request.user)
+            withchange = withchang.filter(request_type='Заявка на вывод')
+            for i in withchange:
+                if i.request_status != 'Выполнена':
+                    status_reque = True
+                    break
+            context = {
+                'status_reque': status_reque,
+                'withchange': withchange,
+            }
+            return render(request, 'personalaccount/cabinet/withdrawal/withdrawalexchange.html', context)
+        else:
+            raise Http404
+    else:
+        return redirect('account_login')
 
 
 # /ОБМЕННИК/ ПРОСМОТР ЗАЯВКИ НА ВЫВОД, ДЕТАЛЬНЫЙ ПРОСМОТР
-class withdrawalexchangerequest(DetailView):
-    model = RequestChange
-    template_name = 'personalaccount/cabinet/withdrawal/withdrawalexchangerequest.html'
-    context_object_name = 'withdrawalexchangerequest'
+def withdrawalexchangerequest(request, pk):
+    if request.user.is_authenticated:
+        if request.user.userid == CustomUserId.objects.get(pk=2):
+            wi = RequestChange.objects.get(pk=pk)
+            return render(request, 'personalaccount/cabinet/withdrawal/withdrawalexchangerequest.html', {'wi': wi})
+        else:
+            raise Http404
+    else:
+        return redirect('account_login')
 
 
 # /ОБМЕННИК/ ИСПОЛНЕНИЕ ЗАЯВКИ НА ВЫВОД, НАЧИСЛЕНИЕ СРЕДСТВ, СМЕНА СТАТУСА У ЗАЯВКИ И ТРАНЗАКЦИИ
@@ -432,25 +495,37 @@ def withdrawalexchangerequestupdate(request, pk):
 
 # /ОБМЕННИК/ ЗАЯВКИ НА ПОПОЛНЕНИЕ
 def depositexchange(request):
-    status_reque = False
-    withchang = RequestChange.objects.filter(request_userchange=request.user)
-    depexchange = withchang.filter(request_type='Заявка на пополнение')
-    for i in depexchange:
-        if i.request_status != 'Выполнена' and i.request_status != 'Ожидает оплаты':
-            status_reque = True
-            break
-    context = {
-        'status_reque': status_reque,
-        'depexchange': depexchange,
-    }
-    return render(request, 'personalaccount/cabinet/deposit/depositexchange.html', context)
+    if request.user.is_authenticated:
+        if request.user.userid == CustomUserId.objects.get(pk=2):
+            status_reque = False
+            withchang = RequestChange.objects.filter(request_userchange=request.user)
+            depexchange = withchang.filter(request_type='Заявка на пополнение')
+            for i in depexchange:
+                if i.request_status != 'Выполнена' and i.request_status != 'Ожидает оплаты':
+                    status_reque = True
+                    break
+            context = {
+                'status_reque': status_reque,
+                'depexchange': depexchange,
+            }
+            return render(request, 'personalaccount/cabinet/deposit/depositexchange.html', context)
+        else:
+            raise Http404
+    else:
+        return redirect('account_login')
 
 
 # /ОБМЕННИК/ ПРОСМОТР ЗАЯВКИ НА ПОПОЛНЕНИЕ, ДЕТАЛЬНЫЙ ПРОСМОТР
-class depositexchangerequest(DetailView):
-    model = RequestChange
-    template_name = 'personalaccount/cabinet/deposit/depositexchangerequest.html'
-    context_object_name = 'depexchangerequest'
+def depositexchangerequest(request, pk):
+    if request.user.is_authenticated:
+        if request.user.userid == CustomUserId.objects.get(pk=2):
+            depexchangerequest = RequestChange.objects.get(pk=pk)
+            return render(request, 'personalaccount/cabinet/deposit/depositexchangerequest.html',
+                          {'depexchangerequest': depexchangerequest})
+        else:
+            raise Http404
+    else:
+        return redirect('account_login')
 
 
 # /ОБМЕННИК/ ИСПОЛНЕНИЕ ЗАЯВКИ НА ПОПОЛНЕНИЕ, НАЧИСЛЕНИЕ СРЕДСТВ, СМЕНА СТАТУСА У ЗАЯВКИ И ТРАНЗАКЦИИ
@@ -495,25 +570,98 @@ def depositexchangerequestupdateno(request, pk):
 
 # /ОБМЕННИК/ ПОПОЛНЕНИЕ РЕЗЕРВА
 def depositreservchange(request):
-    return render(request, 'personalaccount/cabinet/deposit/depositreservchange.html')
+    if request.user.is_authenticated:
+        if request.user.userid == CustomUserId.objects.get(pk=2):
+            return render(request, 'personalaccount/cabinet/deposit/depositreservchange.html')
+        else:
+            raise Http404
+    else:
+        return redirect('account_login')
 
 
 # /ОБМЕННИК/ ВЫВОД РЕЗЕРВА
 def withdrawalreservchange(request):
-    return render(request, 'personalaccount/cabinet/withdrawal/withdrawalreservchange.html')
+    if request.user.is_authenticated:
+        if request.user.userid == CustomUserId.objects.get(pk=2):
+            return render(request, 'personalaccount/cabinet/withdrawal/withdrawalreservchange.html')
+        else:
+            raise Http404
+    else:
+        return redirect('account_login')
 
 
 # /ОБМЕННИК/ ТРАНЗАКЦИИ
 def transactionchange(request):
-    tranviewchange = Transaction.objects.all()
-    return render(request, 'personalaccount/cabinet/transaction/transactionchange.html',
-                  {'tranviewchange': tranviewchange})
+    if request.user.is_authenticated:
+        if request.user.userid == CustomUserId.objects.get(pk=2):
+            tranviewchange = Transaction.objects.filter(transaction_user=request.user)
+            return render(request, 'personalaccount/cabinet/transaction/transactionchange.html',
+                          {'tranviewchange': tranviewchange})
+        else:
+            raise Http404
+    else:
+        return redirect('account_login')
 
 
 # /ОБМЕННИК/ КУРСЫ ВАЛЮТ
 def coursechange(request):
-    currencyview = CurrencyCBRF.objects.all()
-    return render(request, 'personalaccount/cabinet/course/coursechange.html', {'currencyview': currencyview})
+    if request.user.is_authenticated:
+        if request.user.userid == CustomUserId.objects.get(pk=2):
+            currencyview = CurrencyCBRF.objects.all()
+            return render(request, 'personalaccount/cabinet/course/coursechange.html', {'currencyview': currencyview})
+        else:
+            raise Http404
+    else:
+        return redirect('account_login')
+
+
+# /ОБМЕННИК/ РЕКВИЗИТЫ
+def rekvisitchange(request):
+    if request.user.is_authenticated:
+        if request.user.userid == CustomUserId.objects.get(pk=2):
+            rekvis = CustomUser.objects.get(username=request.user)
+            context = {
+                'rekvis': rekvis,
+                'form': RequisitesForm(instance=rekvis),
+            }
+            if request.method == "POST":
+                form = RequisitesForm(request.POST, instance=rekvis)
+                if form.is_valid():
+                    forme = form.save(commit=False)
+                    rekvis.requsites_sberbank = forme.requsites_sberbank
+                    rekvis.requsites_qiwi = forme.requsites_qiwi
+                    rekvis.save()
+                    return redirect('rekvisitchange')
+            return render(request, 'personalaccount/cabinet/rekvisit/rekvisitchange.html', context)
+        else:
+            raise Http404
+    else:
+        return redirect('account_login')
+
+
+# /ОБМЕННИК/ ПРОФИЛЬ
+def profilechange(request):
+    if request.user.is_authenticated:
+        if request.user.userid == CustomUserId.objects.get(pk=2):
+            return render(request, 'personalaccount/cabinet/profile/profilechange.html')
+        else:
+            raise Http404
+    else:
+        return redirect('account_login')
+
+
+# /ОБМЕННИК/ НАСТРОЙКИ
+def settingchange(request):
+    if request.user.is_authenticated:
+        if request.user.userid == CustomUserId.objects.get(pk=2):
+            return render(request, 'personalaccount/cabinet/setting/settingchange.html')
+        else:
+            raise Http404
+    else:
+        return redirect('account_login')
+
+
+# ===============/ДРУГОЕ/==================
 
 
 # ИЗМЕНЕНИЕ ПРИБЫЛИ ОБРАБОТЧИКА В ЛИЧНОМ КАБИНЕТЕ
@@ -538,7 +686,7 @@ def coursechangecommission(request):
     return render(request, 'personalaccount/cabinet/course/coursechangecommission.html', context)
 
 
-# /ОБМЕННИК/ ОБНОВЛЕНИЕ И ДОБАВЛЕНИЕ КУРСОВ ВАЛЮТ
+# ОБНОВЛЕНИЕ И ДОБАВЛЕНИЕ КУРСОВ ВАЛЮТ
 def coursechangeupdate(request):
     # добавляем новый курс в базу
     #    i = get_rates(section_id='Russian Rouble')
@@ -555,31 +703,3 @@ def coursechangeupdate(request):
     currencyvieweur.base_currency = ieur.rate
     currencyvieweur.save()
     return redirect('coursechange')
-
-
-# /ОБМЕННИК/ РЕКВИЗИТЫ
-def rekvisitchange(request):
-    rekvis = CustomUser.objects.get(username=request.user)
-    context = {
-        'rekvis': rekvis,
-        'form': RequisitesForm(instance=rekvis),
-    }
-    if request.method == "POST":
-        form = RequisitesForm(request.POST, instance=rekvis)
-        if form.is_valid():
-            forme = form.save(commit=False)
-            rekvis.requsites_sberbank = forme.requsites_sberbank
-            rekvis.requsites_qiwi = forme.requsites_qiwi
-            rekvis.save()
-            return redirect('rekvisitchange')
-    return render(request, 'personalaccount/cabinet/rekvisit/rekvisitchange.html', context)
-
-
-# /ОБМЕННИК/ ПРОФИЛЬ
-def profilechange(request):
-    return render(request, 'personalaccount/cabinet/profile/profilechange.html')
-
-
-# /ОБМЕННИК/ НАСТРОЙКИ
-def settingchange(request):
-    return render(request, 'personalaccount/cabinet/setting/settingchange.html')
