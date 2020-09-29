@@ -13,14 +13,18 @@ def personalaccount(request):
     if request.user.is_authenticated:
         if request.user.userid == CustomUserId.objects.get(pk=1):
             dash_tran = Transaction.objects.filter(transaction_user=request.user)
+            dash_cour = CurrencyCBRF.objects.all()
             context = {
                 'dash_tran': dash_tran,
+                'dash_cour': dash_cour,
             }
             return render(request, 'personalaccount/cabinet/dashboard/dashboardwallet.html', context)
         elif request.user.userid == CustomUserId.objects.get(pk=2):
             dash_tran = Transaction.objects.filter(transaction_user=request.user)
+            dash_cour = CurrencyCBRF.objects.all()
             context = {
                 'dash_tran': dash_tran,
+                'dash_cour': dash_cour,
             }
             return render(request, 'personalaccount/cabinet/dashboard/dashboardchange.html', context)
     else:

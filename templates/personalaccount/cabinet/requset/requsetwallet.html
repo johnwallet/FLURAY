@@ -34,7 +34,7 @@
 
                         {% if base_reque %}
                             {% if status_reque %}
-                                {% for item in base_reque %}
+                                {% for item in base_reque|slice:"::-1" %}
                                     {% if item.request_status == 'Ожидает оплаты' and item.request_type == 'Заявка на пополнение'%}
                                         <div class="col-xl-12">
                                             <div class="card">

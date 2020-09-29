@@ -3,7 +3,7 @@
 {% load static %}
 
 {% block title %}
-Главная
+    Главная
 {% endblock %}
 
 {% block content %}
@@ -18,7 +18,7 @@
                         <div class="col-md-8">
                             <h4 class="page-title mb-1">Главная</h4>
                             <ol class="breadcrumb m-0">
-                                <li class="breadcrumb-item active">Добро пожаловать в ваш личный кошелек!</li>
+                                <li class="breadcrumb-item active">Ваш личный кабинет!</li>
                             </ol>
                         </div>
                     </div>
@@ -31,10 +31,108 @@
             <div class="page-content-wrapper">
                 <div class="container-fluid">
                     <div class="row">
-                        <div class="col-xl-12">
+                        <div class="col-xl-6">
                             <div class="card">
                                 <div class="card-body">
+                                    <h5 class="header-title mb-4">Информация о балансе</h5>
+                                    <div class="media">
+                                        <div class="media-body">
+                                            <p class="text-muted mb-2">Ваш баланс</p>
+                                            <h2 class="mdi mdi-account-cash-outline"> {{ user.balance }} $</h2>
+                                        </div>
+                                        <div class="media-body">
+                                            <p class="text-muted">Действия</p>
+                                            <a href="{% url 'depositwallet' %}" class="btn btn-outline-primary btn-block btn-sm mdi mdi-credit-card-plus-outline mdi-24px"> Пополнить</a>
+                                            <a href="{% url 'withdrawalwallet' %}" class="btn btn-outline-primary btn-block btn-sm mdi mdi-credit-card-minus mdi-24px"> Вывести</a>
+                                            <a href="{% url 'transferwallet' %}" class="btn btn-outline-primary btn-block btn-sm mdi mdi-credit-card-refund-outline mdi-24px"> Перевести</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-6">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="header-title mb-4">Актуальные курсы валют</h5>
+                                    <table class="table mb-0">
+                                        <thead>
+                                        <tr>
+                                            <th>Валюта</th>
+                                            <th>Курс</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr>
+                                            <td>USD</td>
+                                            <td>1,00</td>
+                                        </tr>
+                                        {% for item in dash_cour %}
+                                            <tr>
+                                                <td>{{ item.name_currency }}</td>
+                                                <td>{{ item.base_currency }}</td>
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="float-right ml-2">
+                                        <a href="{% url 'transactionwallet' %}">Все транзакции</a>
+                                    </div>
+                                    <h5 class="header-title mb-4">Последние транзакции</h5>
 
+                                    <div class="table-responsive">
+                                        <table class="table table-centered table-hover mb-0">
+                                            <thead>
+                                            <tr>
+                                                <th scope="col">Название</th>
+                                                <th scope="col">Сумма</th>
+                                                <th scope="col">Плат.система</th>
+                                                <th scope="col">Статус</th>
+                                                <th scope="col">Исполнена</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            {% if dash_tran %}
+                                                {% for i in dash_tran|slice:"::-1"|slice:":5" %}
+                                                <tr>
+                                                    {% if i.transaction_type == 'Пополнение кошелька' or i.transaction_type == 'Вывод из кошелька' %}
+                                                        <td>Заявка № {{ i.transaction_name }}</td>
+                                                    {% elif i.transaction_type == 'Внутренний перевод' %}
+                                                        <td>Перевод № {{ i.transaction_name }}</td>
+                                                    {% endif %}
+                                                    <td>{{ i.transaction_sum }} {{ i.transaction_currency }}</td>
+                                                    <td>{{ i.transaction_sistemchange }}</td>
+                                                    {% if i.transaction_status == 'Ожидает оплаты' %}
+                                                        <td>
+                                                            <div class="badge badge-soft-warning">{{ i.transaction_status }}</div>
+                                                        </td>
+                                                    {% elif i.transaction_status == 'Оплачена клиентом' or i.transaction_status == 'Выполнена' or i.transaction_status == 'Выполнен'%}
+                                                        <td>
+                                                            <div class="badge badge-soft-success">{{ i.transaction_status }}</div>
+                                                        </td>
+                                                    {% else %}
+                                                        <td>
+                                                            <div class="badge badge-soft-secondary">{{ i.transaction_status }}</div>
+                                                        </td>
+                                                    {% endif %}
+                                                    <td>{{ i.date_end_change }}</td>
+                                                </tr>
+                                            {% endfor %}
+                                            {% else %}
+                                                <tr>
+                                                    <td>Транзакции отсутсвуют</td>
+                                                </tr>
+                                            {% endif %}
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
                             </div>
                         </div>
