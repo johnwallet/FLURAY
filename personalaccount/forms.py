@@ -1,5 +1,5 @@
 from django import forms
-from django.forms import Select, TextInput, RadioSelect
+from django.forms import Select, TextInput, RadioSelect, ClearableFileInput
 
 from users.models import CustomUser
 from .models import RequestChange, Transfer

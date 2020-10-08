@@ -1,4 +1,6 @@
 import random
+
+from django.core.files.storage import FileSystemStorage
 from django.http import Http404
 from django.shortcuts import render, redirect
 from django.utils import timezone
@@ -418,6 +420,13 @@ def rekvisitwallet(request):
 def profilewallet(request):
     if request.user.is_authenticated:
         if request.user.userid == CustomUserId.objects.get(pk=1):
+            if request.method == 'POST' and request.FILES['avatar']:
+                avauser = CustomUser.objects.get(username=request.user)
+                file = request.FILES['avatar']
+                fs = FileSystemStorage()
+                avauser.avatar = fs.save(file.name, file)
+                avauser.save()
+                return redirect('profilewallet')
             return render(request, 'personalaccount/cabinet/profile/profilewallet.html')
         else:
             raise Http404
@@ -647,6 +656,13 @@ def rekvisitchange(request):
 def profilechange(request):
     if request.user.is_authenticated:
         if request.user.userid == CustomUserId.objects.get(pk=2):
+            if request.method == 'POST' and request.FILES['avatar']:
+                avauser = CustomUser.objects.get(username=request.user)
+                file = request.FILES['avatar']
+                fs = FileSystemStorage()
+                avauser.avatar = fs.save(file.name, file)
+                avauser.save()
+                return redirect('profilechange')
             return render(request, 'personalaccount/cabinet/profile/profilechange.html')
         else:
             raise Http404

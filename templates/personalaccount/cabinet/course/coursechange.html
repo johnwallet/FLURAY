@@ -54,6 +54,10 @@
                                         {% endfor %}
                                         </tbody>
                                     </table>
+                                    <div class="card-body">
+                                        <a href="{% url 'coursechangeupdate' %}" class="btn btn-primary">Обновить курсы валют</a>
+                                    </div>
+
                                 </div>
                             </div>
                         </div>
@@ -84,20 +88,9 @@
 
                                         </tbody>
                                     </table>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-xl-12">
-                            <div class="card">
-                                <div class="card-body">
-                                    <form action="{% url 'coursechangeupdate' %}" method="POST">
-                                        {% csrf_token %}
-                                        <input type="submit"  value="Обновить"/>
-                                    </form>
-                                </div>
-                                <div class="card-body">
-                                    <a href="{% url 'coursechangecommission' %}" class="btn btn-primary">Изменить прибыль</a>
+                                    <div class="card-body">
+                                        <a href="{% url 'coursechangecommission' %}" class="btn btn-primary">Изменить прибыль</a>
+                                    </div>
                                 </div>
                             </div>
                         </div>

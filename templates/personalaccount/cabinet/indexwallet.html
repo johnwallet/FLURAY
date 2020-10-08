@@ -40,23 +40,6 @@
                             <img class="" src="{% static 'personalaccount/assets/images/flags/russia.jpg' %}" alt="Header Language" height="14">
                         </button>
                         <div class="dropdown-menu dropdown-menu-right">
-
-                            <!-- item-->
-                            <a href="javascript:void(0);" class="dropdown-item notify-item">
-                                <img src="{% static 'personalaccount/assets/images/flags/spain.jpg' %}" alt="user-image" class="mr-2" height="12"><span class="align-middle">Spanish</span>
-                            </a>
-
-                            <!-- item-->
-                            <a href="javascript:void(0);" class="dropdown-item notify-item">
-                                <img src="{% static 'personalaccount/assets/images/flags/germany.jpg' %}" alt="user-image" class="mr-2" height="12"><span class="align-middle">German</span>
-                            </a>
-
-                            <!-- item-->
-                            <a href="javascript:void(0);" class="dropdown-item notify-item">
-                                <img src="{% static 'personalaccount/assets/images/flags/italy.jpg' %}" alt="user-image" class="mr-2" height="12"><span class="align-middle">Italian</span>
-                            </a>
-
-                            <!-- item-->
                             <a href="javascript:void(0);" class="dropdown-item notify-item">
                                 <img src="{% static 'personalaccount/assets/images/flags/us.jpg' %}" alt="user-image" class="mr-2" height="12"><span class="align-middle">USA</span>
                             </a>
@@ -65,7 +48,11 @@
 
                     <div class="dropdown d-inline-block">
                         <button type="button" class="btn header-item waves-effect" id="page-header-user-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <img class="rounded-circle header-profile-user" src="{% static 'personalaccount/assets/images/users/avatar-1.jpg' %}" alt="Header Avatar">
+                            {% if user.avatar %}
+                                <img class="rounded-circle header-profile-user" src="{{ user.avatar.url }}" alt="Header Avatar">
+                            {% else %}
+                            <img class="rounded-circle header-profile-user" src="{% static 'personalaccount/assets/images/users/avatar.jpg' %}" alt="Header Avatar">
+                            {% endif %}
                             <span class="d-none d-sm-inline-block ml-1">{{ user.username }}</span>
                             <i class="mdi mdi-chevron-down d-none d-sm-inline-block"></i>
                         </button>

@@ -37,7 +37,16 @@
                                         <div class="form-group row">
                                             <label for="example-text-input" class="col-md-2 col-form-label">Аватар</label>
                                             <div class="col-md-10">
-                                                <img src="{% static 'personalaccount/assets/images/users/avatar-4.jpg' %}" class="rounded-circle avatar-xl" alt="...">
+                                                {% if user.avatar %}
+                                                    <img class="rounded-circle avatar-xl" src="{{ user.avatar.url }}">
+                                                {% else %}
+                                                    <img class="rounded-circle avatar-xl" src="{% static 'personalaccount/assets/images/users/avatar.jpg' %}">
+                                                {% endif %}
+                                                <form enctype="multipart/form-data" method="post" action="{% url 'profilewallet' %}">
+                                                    {% csrf_token %}
+                                                    <input type="file" name="avatar">
+                                                    <button class="btn btn-link" type="submit">Подтвердить</button>
+                                                </form>
                                             </div>
                                         </div>
                                     </div>
