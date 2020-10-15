@@ -59,7 +59,7 @@ File: Main Css (Dark) File
 .navbar-brand-box {
   padding: 0 1.5rem;
   text-align: center;
-  width: 250px; }
+  width: 200px; }
 
 .logo {
   line-height: 70px; }
@@ -376,7 +376,7 @@ body[data-layout="horizontal"] .footer {
           box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08); }
 
 .main-content {
-  margin-left: 250px;
+  margin-left: 200px;
   overflow: hidden; }
   .main-content .content {
     padding: 0 15px 10px 15px;

@@ -6,18 +6,18 @@
 {% block index %}
     <div id="layout-wrapper">
         <!-- ========== Top Bar ========== -->
-            <header id="page-topbar">
+        <header id="page-topbar">
             <div class="navbar-header">
                 <div class="d-flex">
                     <!-- LOGO -->
                     <div class="navbar-brand-box">
                         <a href="{% url 'home' %}" class="logo logo-dark">
-                                    <span class="logo-sm">
-                                        <img src="{% static '' %}" alt="" height="22">
-                                    </span>
+                            <span class="logo-sm">
+                                <img src="{% static 'personalaccount/assets/images/logo-dark-sm.png' %}" alt="" height="35">
+                            </span>
                             <span class="logo-lg">
-                                        <img src="{% static '' %}" alt="" height="20">
-                                    </span>
+                                <img src="{% static 'personalaccount/assets/images/logo-dark.png' %}" alt="" height="55">
+                            </span>
                         </a>
                     </div>
 
@@ -51,7 +51,7 @@
                             {% if user.avatar %}
                                 <img class="rounded-circle header-profile-user" src="{{ user.avatar.url }}" alt="Header Avatar">
                             {% else %}
-                            <img class="rounded-circle header-profile-user" src="{% static 'personalaccount/assets/images/users/avatar.jpg' %}" alt="Header Avatar">
+                                <img class="rounded-circle header-profile-user" src="{% static 'personalaccount/assets/images/users/avatar.jpg' %}" alt="Header Avatar">
                             {% endif %}
                             <span class="d-none d-sm-inline-block ml-1">{{ user.username }}</span>
                             <i class="mdi mdi-chevron-down d-none d-sm-inline-block"></i>
@@ -72,7 +72,7 @@
         <!-- ========== END Top Bar ========== -->
 
         <!-- ========== Vertical Menu ========== -->
-            <div class="vertical-menu">
+        <div class="vertical-menu">
 
             <div data-simplebar class="h-100">
 
@@ -147,8 +147,8 @@
         <!-- ========== End Vertical Menu ========== -->
 
         <!-- ========== Content ========== -->
-            {% block content %}
-            {% endblock %}
+        {% block content %}
+        {% endblock %}
         <!-- ========== End Content ========== -->
     </div>
 {% endblock %}

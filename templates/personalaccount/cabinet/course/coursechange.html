@@ -18,7 +18,7 @@
                         <div class="col-md-8">
                             <h4 class="page-title mb-1">Курсы валют</h4>
                             <ol class="breadcrumb m-0">
-                                <li class="breadcrumb-item active">Все курсы валют</li>
+                                <li class="breadcrumb-item active">Здесь вы можете выставить свою прибыль в % от совершенных сделок</li>
                             </ol>
                         </div>
                     </div>
@@ -30,7 +30,7 @@
             <div class="page-content-wrapper">
                 <div class="container-fluid">
                     <div class="row">
-                        <div class="col-xl-6">
+                        <div class="col-xl-4">
                             <div class="card">
                                 <div class="card-body">
                                     <h5 class="card-title">Актуальные курсы валют</h5>
@@ -54,34 +54,39 @@
                                         {% endfor %}
                                         </tbody>
                                     </table>
-                                    <div class="card-body">
-                                        <a href="{% url 'coursechangeupdate' %}" class="btn btn-primary">Обновить курсы валют</a>
-                                    </div>
-
+                                    {% if user.username == 'admin' %}
+                                        <div class="card-body">
+                                            <a href="{% url 'coursechangeupdate' %}" class="btn btn-primary">Обновить курсы валют</a>
+                                        </div>
+                                    {% endif %}
                                 </div>
                             </div>
                         </div>
-                        <div class="col-xl-6">
+                        <div class="col-xl-8">
                             <div class="card">
                                 <div class="card-body">
                                     <h5 class="card-title">Ваша прибыль с заявок</h5>
                                     <table class="table mb-0">
                                         <thead>
                                         <tr>
+                                            <th>Валюта</th>
                                             <th>Пополнение</th>
                                             <th>Вывод</th>
                                         </tr>
                                         </thead>
                                         <tbody>
                                         <tr>
+                                            <td>USD</td>
                                             <td>{{ user.valute_usd }} %</td>
                                             <td>{{ user.valute_with_usd }} %</td>
                                         </tr>
                                         <tr>
+                                            <td>EUR</td>
                                             <td>{{ user.valute_eur }} %</td>
                                             <td>{{ user.valute_with_eur }} %</td>
                                         </tr>
                                         <tr>
+                                            <td>RUB</td>
                                             <td>{{ user.valute_rub }} %
                                             <td>{{ user.valute_with_rub }} %</td>
                                         </tr>

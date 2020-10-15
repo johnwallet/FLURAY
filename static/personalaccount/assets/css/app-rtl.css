@@ -60,7 +60,7 @@ File: Main Css (RTL) File
 .navbar-brand-box {
   padding: 0 1.5rem;
   text-align: center;
-  width: 250px; }
+  width: 200px; }
 
 .logo {
   line-height: 70px; }
@@ -377,7 +377,7 @@ body[data-layout="horizontal"] .footer {
           box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08); }
 
 .main-content {
-  margin-left: 250px;
+  margin-left: 200px;
   overflow: hidden; }
   .main-content .content {
     padding: 0 15px 10px 15px;
@@ -4366,8 +4366,8 @@ dd {
   right: 13px; }
 
 .main-content {
-  margin-left: 0px;
-  margin-right: 250px; }
+  margin-left: 0;
+  margin-right: 200px; }
 
 .footer {
   left: 0px;
