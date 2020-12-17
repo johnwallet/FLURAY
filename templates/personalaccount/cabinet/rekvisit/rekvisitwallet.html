@@ -29,75 +29,669 @@
             <!-- Сердце -->
             <div class="page-content-wrapper">
                 <div class="container-fluid">
-                    <div class="row">
-                        <div class="col-xl-12">
-                            <div class="card">
-                                <div class="col-xl-6">
-                                    <div class="card-body">
-                                        <table class="table mb-0">
-                                            <thead>
-                                            <tr>
-                                                <th>Наименование</th>
-                                                <th>Реквизиты</th>
-                                            </tr>
-                                            </thead>
-                                            <tbody>
-                                            <tr>
-                                                <td>Сбербанк</td>
-                                                <td>{{ rekvis.requsites_sberbank }}</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Киви кошелек</td>
-                                                <td>{{ rekvis.requsites_qiwi }}</td>
-                                            </tr>
-                                            </tbody>
-                                        </table>
+                     <div class="row">
+                         <div class="col-xl-12">
+                             <div class="card">
+                                 <div class="reqisites-card-custom">
+                                     <div class="requsites-categories">
+                                         <div class="categories-in--active">
+                                             <div class="in-box active">
+                                                 <div class="in-img-deposit active"></div>
+                                                 <div class="in-text active">
+                                                     ДЛЯ ПОПОЛНЕНИЯ
+                                                 </div>
+                                             </div>
+                                         </div>
+                                         <div class="categories-in">
+                                             <div class="in-box">
+                                                 <div class="in-img-withdrawal"></div>
+                                                 <div class="in-text">
+                                                     ДЛЯ ВЫВОДА
+                                                 </div>
+                                             </div>
+                                         </div>
+                                     </div>
 
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
 
-                        <div class="col-xl-12">
-                            <div class="card">
-                                <div class="card-body">
+                                     <div class="requsites-card-content">
+                                         <div class="requsites-box">
+                                             <div id="requsites-box-header1" class="requsites-box-header">
+                                                 <div class="requsites-header-text">
+                                                     <div class="requsites-text-text">Коммерческие банки</div>
+                                                     <img id="requsites-box-img1" src="{% static 'personalaccount/assets/images/icon/arrow.svg' %}" alt="">
+                                                 </div>
+                                             </div>
+                                             <div id="requsites-box-content1" class="requsites-box-content">
+                                                 <div class="requsites-content-card">
+                                                     <div class="requsites-card-logo">
+                                                         <img src="{% static 'personalaccount/assets/images/logo-ps/sber.png' %}" alt="SBERBANK">
+                                                     </div>
+                                                     <div class="requsites-card-input">
+                                                         <div class="requsites-input-valute">
+                                                             <div class="requsites-valute-content">RUB</div>
+                                                         </div>
+                                                         <div class="requsites-input-card">
+                                                             <input spellcheck="false" type="text" value="4275 8355 8549 8356">
+                                                         </div>
+                                                     </div>
+                                                 </div>
 
-                                    <div class="p-4">
-                                        <h5 class="mb-5 text-center">Изменить реквизиты</h5>
+                                                 <div class="requsites-content-card">
+                                                     <div class="requsites-card-logo">
+                                                         <img src="{% static 'personalaccount/assets/images/logo-ps/psb.png' %}" alt="PSB">
+                                                     </div>
+                                                     <div class="requsites-card-input">
+                                                         <div class="requsites-input-valute">
+                                                             <div class="requsites-valute-content">RUB</div>
+                                                         </div>
+                                                         <div class="requsites-input-card">
+                                                             <input spellcheck="false" type="text" value="4275 8355 8549 8356">
+                                                         </div>
+                                                     </div>
+                                                 </div>
 
-                                        <form class="form-horizontal" method="POST" action="{% url 'rekvisitwallet' %}" >
-                                            {% csrf_token %}
-                                            <div class="row">
-                                                {{ form.non_field.errors }}
-                                                <div class="col-md-12">
+                                                 <div class="requsites-content-card">
+                                                     <div class="requsites-card-logo">
+                                                         <img src="{% static 'personalaccount/assets/images/logo-ps/tinkoff.png' %}" alt="TINKOFF">
+                                                     </div>
+                                                     <div class="requsites-card-input">
+                                                         <div class="requsites-input-valute">
+                                                             <div class="requsites-valute-content">RUB</div>
+                                                         </div>
+                                                         <div class="requsites-input-card">
+                                                             <input spellcheck="false" type="text" value="4275 8355 8549 8356">
+                                                         </div>
+                                                     </div>
+                                                 </div>
 
-                                                    <div class="form-group form-group-custom mb-4">
-                                                        <div>
-                                                            {{ form.requsites_sberbank.errors }}
-                                                        </div>
-                                                        {{ form.requsites_sberbank }}
-                                                        <label for="{{ form.requsites_sberbank.id_for_label }}">Введите карту Сбербанка</label>
-                                                    </div>
+                                                 <div class="requsites-content-card">
+                                                     <div class="requsites-card-logo">
+                                                         <img src="{% static 'personalaccount/assets/images/logo-ps/gazprom.png' %}" alt="GAZPROM">
+                                                     </div>
+                                                     <div class="requsites-card-input">
+                                                         <div class="requsites-input-valute">
+                                                             <div class="requsites-valute-content">RUB</div>
+                                                         </div>
+                                                         <div class="requsites-input-card">
+                                                             <input spellcheck="false" type="text" value="4275 8355 8549 8356">
+                                                         </div>
+                                                     </div>
+                                                 </div>
 
-                                                    <div class="form-group form-group-custom mb-4">
-                                                        <div>
-                                                            {{ form.requsites_qiwi.errors }}
-                                                        </div>
-                                                        {{ form.requsites_qiwi }}
-                                                        <label for="{{ form.requsites_qiwi.id_for_label }}">Введите номер QIWI Кошелька</label>
-                                                    </div>
+                                                 <div class="requsites-content-card">
+                                                     <div class="requsites-card-logo">
+                                                         <img src="{% static 'personalaccount/assets/images/logo-ps/alfa.png' %}" alt="ALFABANK">
+                                                     </div>
+                                                     <div class="requsites-card-input">
+                                                         <div class="requsites-input-valute">
+                                                             <div class="requsites-valute-content">RUB</div>
+                                                         </div>
+                                                         <div class="requsites-input-card">
+                                                             <input spellcheck="false" type="text" value="4275 8355 8549 8356">
+                                                         </div>
+                                                     </div>
+                                                 </div>
 
-                                                    <div class="mt-4">
-                                                        <button class="btn btn-outline-primary btn-block waves-effect waves-light " type="submit">Изменить</button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                                                 <div class="requsites-content-card">
+                                                     <div class="requsites-card-logo">
+                                                         <img src="{% static 'personalaccount/assets/images/logo-ps/standart.png' %}" alt="RUSSTANDART">
+                                                     </div>
+                                                     <div class="requsites-card-input">
+                                                         <div class="requsites-input-valute">
+                                                             <div class="requsites-valute-content">RUB</div>
+                                                         </div>
+                                                         <div class="requsites-input-card">
+                                                             <input spellcheck="false" type="text" value="4275 8355 8549 8356">
+                                                         </div>
+                                                     </div>
+                                                 </div>
+
+                                                 <div class="requsites-content-card">
+                                                     <div class="requsites-card-logo">
+                                                         <img src="{% static 'personalaccount/assets/images/logo-ps/vtb.png' %}" alt="VTB">
+                                                     </div>
+                                                     <div class="requsites-card-input">
+                                                         <div class="requsites-input-valute">
+                                                             <div class="requsites-valute-content">RUB</div>
+                                                         </div>
+                                                         <div class="requsites-input-card">
+                                                             <input spellcheck="false" type="text" value="4275 8355 8549 8356">
+                                                         </div>
+                                                     </div>
+                                                 </div>
+
+                                                 <div class="requsites-content-card">
+                                                     <div class="requsites-card-logo">
+                                                         <img src="{% static 'personalaccount/assets/images/logo-ps/rsb.png' %}" alt="RSB">
+                                                     </div>
+                                                     <div class="requsites-card-input">
+                                                         <div class="requsites-input-valute">
+                                                             <div class="requsites-valute-content">RUB</div>
+                                                         </div>
+                                                         <div class="requsites-input-card">
+                                                             <input spellcheck="false" type="text" value="4275 8355 8549 8356">
+                                                         </div>
+                                                     </div>
+                                                 </div>
+
+                                                 <div class="requsites-content-card">
+                                                     <div class="requsites-card-logo">
+                                                         <img src="{% static 'personalaccount/assets/images/logo-ps/raif.png' %}" alt="RAIF">
+                                                     </div>
+                                                     <div class="requsites-card-input">
+                                                         <div class="requsites-input-valute">
+                                                             <div class="requsites-valute-content">RUB</div>
+                                                         </div>
+                                                         <div class="requsites-input-card">
+                                                             <input spellcheck="false" type="text" value="4275 8355 8549 8356">
+                                                         </div>
+                                                     </div>
+                                                 </div>
+
+                                                 <div class="requsites-content-card">
+                                                     <div class="requsites-card-logo">
+                                                         <img src="{% static 'personalaccount/assets/images/logo-ps/roket.png' %}" alt="ROKET">
+                                                     </div>
+                                                     <div class="requsites-card-input">
+                                                         <div class="requsites-input-valute">
+                                                             <div class="requsites-valute-content">RUB</div>
+                                                         </div>
+                                                         <div class="requsites-input-card">
+                                                             <input spellcheck="false" type="text" value="4275 8355 8549 8356">
+                                                         </div>
+                                                     </div>
+                                                 </div>
+
+                                                 <div class="requsites-content-card">
+                                                     <div class="requsites-card-logo">
+                                                         <img src="{% static 'personalaccount/assets/images/logo-ps/otkr.png' %}" alt="OTKRITIE">
+                                                     </div>
+                                                     <div class="requsites-card-input">
+                                                         <div class="requsites-input-valute">
+                                                             <div class="requsites-valute-content">RUB</div>
+                                                         </div>
+                                                         <div class="requsites-input-card">
+                                                             <input spellcheck="false" type="text" value="4275 8355 8549 8356">
+                                                         </div>
+                                                     </div>
+                                                 </div>
+
+                                                 <div class="requsites-content-card">
+                                                     <div class="requsites-card-logo">
+                                                         <img src="{% static 'personalaccount/assets/images/logo-ps/pochta.png' %}" alt="POCHTA">
+                                                     </div>
+                                                     <div class="requsites-card-input">
+                                                         <div class="requsites-input-valute">
+                                                             <div class="requsites-valute-content">RUB</div>
+                                                         </div>
+                                                         <div class="requsites-input-card">
+                                                             <input spellcheck="false" type="text" value="4275 8355 8549 8356">
+                                                         </div>
+                                                     </div>
+                                                 </div>
+
+                                                 <div class="requsites-content-card">
+                                                     <div class="requsites-card-logo">
+                                                         <img src="{% static 'personalaccount/assets/images/logo-ps/rnkb.png' %}" alt="RNKB">
+                                                     </div>
+                                                     <div class="requsites-card-input">
+                                                         <div class="requsites-input-valute">
+                                                             <div class="requsites-valute-content">RUB</div>
+                                                         </div>
+                                                         <div class="requsites-input-card">
+                                                             <input spellcheck="false" type="text" value="4275 8355 8549 8356">
+                                                         </div>
+                                                     </div>
+                                                 </div>
+
+
+                                                 <div class="requsites-content-card">
+                                                     <div class="requsites-card-logo">
+                                                         <img src="{% static 'personalaccount/assets/images/logo-ps/rosbank.png' %}" alt="ROSBANK">
+                                                     </div>
+                                                     <div class="requsites-card-input">
+                                                         <div class="requsites-input-valute">
+                                                             <div class="requsites-valute-content">RUB</div>
+                                                         </div>
+                                                         <div class="requsites-input-card">
+                                                             <input spellcheck="false" type="text" value="4275 8355 8549 8356">
+                                                         </div>
+                                                     </div>
+                                                 </div>
+
+                                                 <div class="requsites-content-card">
+                                                     <div class="requsites-card-logo">
+                                                         <img src="{% static 'personalaccount/assets/images/logo-ps/mts.png' %}" alt="MTS">
+                                                     </div>
+                                                     <div class="requsites-card-input">
+                                                         <div class="requsites-input-valute">
+                                                             <div class="requsites-valute-content">RUB</div>
+                                                         </div>
+                                                         <div class="requsites-input-card">
+                                                             <input spellcheck="false" type="text" value="4275 8355 8549 8356">
+                                                         </div>
+                                                     </div>
+                                                 </div>
+                                             </div>
+                                         </div>
+
+                                         <div class="requsites-box">
+                                             <div id="requsites-box-header2" class="requsites-box-header">
+                                                 <div class="requsites-header-text">
+                                                     <div class="requsites-text-text">Электронные кошельки</div>
+                                                     <img id="requsites-box-img2" src="{% static 'personalaccount/assets/images/icon/arrow.svg' %}" alt="">
+                                                 </div>
+                                             </div>
+                                             <div id="requsites-box-content2" class="requsites-box-content">
+                                                 <div class="requsites-content-card">
+                                                     <div class="requsites-card-logo lg">
+                                                         <img src="{% static 'personalaccount/assets/images/logo-ps/qiwi.png' %}" alt="QIWI">
+                                                     </div>
+                                                     <div class="requsites-card-input lg two">
+                                                         <div class="requsites-input-field two">
+                                                             <div class="requsites-input-valute">
+                                                                 <div class="requsites-valute-content">RUB</div>
+                                                             </div>
+                                                             <div class="requsites-input-card">
+                                                                 <input spellcheck="false" type="text" value="+7 998 983 93 82">
+                                                             </div>
+                                                         </div>
+
+                                                         <div class="requsites-input-field two">
+                                                             <div class="requsites-input-valute">
+                                                                 <div class="requsites-valute-content">USD</div>
+                                                             </div>
+                                                             <div class="requsites-input-card">
+                                                                 <input spellcheck="false" type="text" value="+7 998 983 93 82">
+                                                             </div>
+                                                         </div>
+                                                     </div>
+                                                 </div>
+
+                                                 <div class="requsites-content-card">
+                                                     <div class="requsites-card-logo lg">
+                                                         <img src="{% static 'personalaccount/assets/images/logo-ps/payeer.png' %}" alt="PAYEER">
+                                                     </div>
+                                                     <div class="requsites-card-input lg">
+                                                         <div class="requsites-input-field">
+                                                             <div class="requsites-input-valute">
+                                                                 <div class="requsites-valute-content">RUB</div>
+                                                             </div>
+                                                             <div class="requsites-input-card">
+                                                                 <input spellcheck="false" type="text" value="+7 998 983 93 82">
+                                                             </div>
+                                                         </div>
+
+                                                         <div class="requsites-input-field">
+                                                             <div class="requsites-input-valute">
+                                                                 <div class="requsites-valute-content">USD</div>
+                                                             </div>
+                                                             <div class="requsites-input-card">
+                                                                 <input spellcheck="false" type="text" value="+7 998 983 93 82">
+                                                             </div>
+                                                         </div>
+
+                                                         <div class="requsites-input-field">
+                                                             <div class="requsites-input-valute">
+                                                                 <div class="requsites-valute-content">EUR</div>
+                                                             </div>
+                                                             <div class="requsites-input-card">
+                                                                 <input spellcheck="false" type="text" value="+7 998 983 93 82">
+                                                             </div>
+                                                         </div>
+                                                     </div>
+                                                 </div>
+
+                                                 <div class="requsites-content-card">
+                                                     <div class="requsites-card-logo lg">
+                                                         <img src="{% static 'personalaccount/assets/images/logo-ps/wm.png' %}" alt="WEBMONEY">
+                                                     </div>
+                                                     <div class="requsites-card-input lg">
+                                                         <div class="requsites-input-field">
+                                                             <div class="requsites-input-valute">
+                                                                 <div class="requsites-valute-content">RUB</div>
+                                                             </div>
+                                                             <div class="requsites-input-card">
+                                                                 <input spellcheck="false" type="text" value="+7 998 983 93 82">
+                                                             </div>
+                                                         </div>
+
+                                                         <div class="requsites-input-field">
+                                                             <div class="requsites-input-valute">
+                                                                 <div class="requsites-valute-content">USD</div>
+                                                             </div>
+                                                             <div class="requsites-input-card">
+                                                                 <input spellcheck="false" type="text" value="+7 998 983 93 82">
+                                                             </div>
+                                                         </div>
+
+                                                         <div class="requsites-input-field">
+                                                             <div class="requsites-input-valute">
+                                                                 <div class="requsites-valute-content">EUR</div>
+                                                             </div>
+                                                             <div class="requsites-input-card">
+                                                                 <input spellcheck="false" type="text" value="+7 998 983 93 82">
+                                                             </div>
+                                                         </div>
+                                                     </div>
+                                                 </div>
+
+                                                 <div class="requsites-content-card">
+                                                     <div class="requsites-card-logo lg">
+                                                         <img src="{% static 'personalaccount/assets/images/logo-ps/pm.png' %}" alt="PM">
+                                                     </div>
+                                                     <div class="requsites-card-input lg">
+                                                         <div class="requsites-input-field">
+                                                             <div class="requsites-input-valute">
+                                                                 <div class="requsites-valute-content">BTC</div>
+                                                             </div>
+                                                             <div class="requsites-input-card">
+                                                                 <input spellcheck="false" type="text" value="+7 998 983 93 82">
+                                                             </div>
+                                                         </div>
+
+                                                         <div class="requsites-input-field">
+                                                             <div class="requsites-input-valute">
+                                                                 <div class="requsites-valute-content">USD</div>
+                                                             </div>
+                                                             <div class="requsites-input-card">
+                                                                 <input spellcheck="false" type="text" value="+7 998 983 93 82">
+                                                             </div>
+                                                         </div>
+
+                                                         <div class="requsites-input-field">
+                                                             <div class="requsites-input-valute">
+                                                                 <div class="requsites-valute-content">EUR</div>
+                                                             </div>
+                                                             <div class="requsites-input-card">
+                                                                 <input spellcheck="false" type="text" value="+7 998 983 93 82">
+                                                             </div>
+                                                         </div>
+                                                     </div>
+                                                 </div>
+
+
+                                                 <div class="requsites-content-card">
+                                                     <div class="requsites-card-logo lg">
+                                                         <img src="{% static 'personalaccount/assets/images/logo-ps/skrill.png' %}" alt="SKRILL">
+                                                     </div>
+                                                     <div class="requsites-card-input lg two">
+                                                         <div class="requsites-input-field two">
+                                                             <div class="requsites-input-valute">
+                                                                 <div class="requsites-valute-content">RUB</div>
+                                                             </div>
+                                                             <div class="requsites-input-card">
+                                                                 <input spellcheck="false" type="text" value="+7 998 983 93 82">
+                                                             </div>
+                                                         </div>
+
+                                                         <div class="requsites-input-field two">
+                                                             <div class="requsites-input-valute">
+                                                                 <div class="requsites-valute-content">USD</div>
+                                                             </div>
+                                                             <div class="requsites-input-card">
+                                                                 <input spellcheck="false" type="text" value="+7 998 983 93 82">
+                                                             </div>
+                                                         </div>
+                                                     </div>
+                                                 </div>
+
+
+                                                 <div class="requsites-content-card">
+                                                     <div class="requsites-card-logo lg">
+                                                         <img src="{% static 'personalaccount/assets/images/logo-ps/paypal.png' %}" alt="PAYPAL">
+                                                     </div>
+                                                     <div class="requsites-card-input lg">
+                                                         <div class="requsites-input-field">
+                                                             <div class="requsites-input-valute">
+                                                                 <div class="requsites-valute-content">RUB</div>
+                                                             </div>
+                                                             <div class="requsites-input-card">
+                                                                 <input spellcheck="false" type="text" value="+7 998 983 93 82">
+                                                             </div>
+                                                         </div>
+
+                                                         <div class="requsites-input-field">
+                                                             <div class="requsites-input-valute">
+                                                                 <div class="requsites-valute-content">USD</div>
+                                                             </div>
+                                                             <div class="requsites-input-card">
+                                                                 <input spellcheck="false" type="text" value="+7 998 983 93 82">
+                                                             </div>
+                                                         </div>
+
+                                                         <div class="requsites-input-field">
+                                                             <div class="requsites-input-valute">
+                                                                 <div class="requsites-valute-content">EUR</div>
+                                                             </div>
+                                                             <div class="requsites-input-card">
+                                                                 <input spellcheck="false" type="text" value="+7 998 983 93 82">
+                                                             </div>
+                                                         </div>
+                                                     </div>
+                                                 </div>
+
+                                                 <div class="requsites-content-card">
+                                                     <div class="requsites-card-logo">
+                                                         <img src="{% static 'personalaccount/assets/images/logo-ps/umani.png' %}" alt="UMONEY">
+                                                     </div>
+                                                     <div class="requsites-card-input">
+                                                         <div class="requsites-input-valute">
+                                                             <div class="requsites-valute-content">RUB</div>
+                                                         </div>
+                                                         <div class="requsites-input-card">
+                                                             <input spellcheck="false" type="text" value="+7 998 983 93 82">
+                                                         </div>
+                                                     </div>
+                                                 </div>
+                                             </div>
+                                         </div>
+
+                                         <div class="requsites-box">
+                                             <div id="requsites-box-header3" class="requsites-box-header">
+                                                 <div class="requsites-header-text">
+                                                     <div class="requsites-text-text">Криптовалюты</div>
+                                                     <img id="requsites-box-img3" src="{% static 'personalaccount/assets/images/icon/arrow.svg' %}" alt="">
+                                                 </div>
+                                             </div>
+                                             <div id="requsites-box-content3" class="requsites-box-content">
+                                                 <div class="requsites-content-card">
+                                                     <div class="requsites-card-logo">
+                                                         <img src="{% static 'personalaccount/assets/images/logo-ps/btc.png' %}" alt="BTC">
+                                                     </div>
+                                                     <div class="requsites-card-input">
+                                                         <div class="requsites-input-valute">
+                                                             <div class="requsites-valute-content">BTC</div>
+                                                         </div>
+                                                         <div class="requsites-input-card">
+                                                             <input spellcheck="false" type="text" value="1SffdefGfedgHg54657Ftr76JKHYGy7UYGF6f">
+                                                         </div>
+                                                     </div>
+                                                 </div>
+
+                                                 <div class="requsites-content-card">
+                                                     <div class="requsites-card-logo">
+                                                         <img src="{% static 'personalaccount/assets/images/logo-ps/xrp.png' %}" alt="RIPPLE">
+                                                     </div>
+                                                     <div class="requsites-card-input">
+                                                         <div class="requsites-input-valute">
+                                                             <div class="requsites-valute-content">XRP</div>
+                                                         </div>
+                                                         <div class="requsites-input-card">
+                                                             <input spellcheck="false" type="text" value="1SffdefGfedgHg54657Ftr76JKHYGy7UYGF6f">
+                                                         </div>
+                                                     </div>
+                                                 </div>
+
+                                                 <div class="requsites-content-card">
+                                                     <div class="requsites-card-logo">
+                                                         <img src="{% static 'personalaccount/assets/images/logo-ps/ltc.png' %}" alt="LITECOIN">
+                                                     </div>
+                                                     <div class="requsites-card-input">
+                                                         <div class="requsites-input-valute">
+                                                             <div class="requsites-valute-content">LTC</div>
+                                                         </div>
+                                                         <div class="requsites-input-card">
+                                                             <input spellcheck="false" type="text" value="1SffdefGfedgHg54657Ftr76JKHYGy7UYGF6f">
+                                                         </div>
+                                                     </div>
+                                                 </div>
+
+                                                 <div class="requsites-content-card">
+                                                     <div class="requsites-card-logo">
+                                                         <img src="{% static 'personalaccount/assets/images/logo-ps/bch.png' %}" alt="BITCOINCASH">
+                                                     </div>
+                                                     <div class="requsites-card-input">
+                                                         <div class="requsites-input-valute">
+                                                             <div class="requsites-valute-content">BCH</div>
+                                                         </div>
+                                                         <div class="requsites-input-card">
+                                                             <input spellcheck="false" type="text" value="1SffdefGfedgHg54657Ftr76JKHYGy7UYGF6f">
+                                                         </div>
+                                                     </div>
+                                                 </div>
+
+                                                 <div class="requsites-content-card">
+                                                     <div class="requsites-card-logo">
+                                                         <img src="{% static 'personalaccount/assets/images/logo-ps/xmr.png' %}" alt="MONERO">
+                                                     </div>
+                                                     <div class="requsites-card-input">
+                                                         <div class="requsites-input-valute">
+                                                             <div class="requsites-valute-content">XMR</div>
+                                                         </div>
+                                                         <div class="requsites-input-card">
+                                                             <input spellcheck="false" type="text" value="1SffdefGfedgHg54657Ftr76JKHYGy7UYGF6f">
+                                                         </div>
+                                                     </div>
+                                                 </div>
+
+                                                 <div class="requsites-content-card">
+                                                     <div class="requsites-card-logo">
+                                                         <img src="{% static 'personalaccount/assets/images/logo-ps/eth.png' %}" alt="ETHERIUM">
+                                                     </div>
+                                                     <div class="requsites-card-input">
+                                                         <div class="requsites-input-valute">
+                                                             <div class="requsites-valute-content">ETH</div>
+                                                         </div>
+                                                         <div class="requsites-input-card">
+                                                             <input spellcheck="false" type="text" value="1SffdefGfedgHg54657Ftr76JKHYGy7UYGF6f">
+                                                         </div>
+                                                     </div>
+                                                 </div>
+
+                                                 <div class="requsites-content-card">
+                                                     <div class="requsites-card-logo">
+                                                         <img src="{% static 'personalaccount/assets/images/logo-ps/etc.png' %}" alt="ETC">
+                                                     </div>
+                                                     <div class="requsites-card-input">
+                                                         <div class="requsites-input-valute">
+                                                             <div class="requsites-valute-content">ETC</div>
+                                                         </div>
+                                                         <div class="requsites-input-card">
+                                                             <input spellcheck="false" type="text" value="1SffdefGfedgHg54657Ftr76JKHYGy7UYGF6f">
+                                                         </div>
+                                                     </div>
+                                                 </div>
+
+                                                 <div class="requsites-content-card">
+                                                     <div class="requsites-card-logo">
+                                                         <img src="{% static 'personalaccount/assets/images/logo-ps/dash.png' %}" alt="DASH">
+                                                     </div>
+                                                     <div class="requsites-card-input">
+                                                         <div class="requsites-input-valute">
+                                                             <div class="requsites-valute-content">DASH</div>
+                                                         </div>
+                                                         <div class="requsites-input-card">
+                                                             <input spellcheck="false" type="text" value="1SffdefGfedgHg54657Ftr76JKHYGy7UYGF6f">
+                                                         </div>
+                                                     </div>
+                                                 </div>
+                                             </div>
+                                         </div>
+
+
+                                     </div>
+                                 </div>
+                             </div>
+                         </div>
+                     </div>
+
+
+
+
+
+
+
+
+{#                    <div class="row">#}
+{#                        <div class="col-xl-12">#}
+{#                            <div class="card">#}
+{#                                <div class="col-xl-6">#}
+{#                                    <div class="card-body">#}
+{#                                        <table class="table mb-0">#}
+{#                                            <thead>#}
+{#                                            <tr>#}
+{#                                                <th>Наименование</th>#}
+{#                                                <th>Реквизиты</th>#}
+{#                                            </tr>#}
+{#                                            </thead>#}
+{#                                            <tbody>#}
+{#                                            <tr>#}
+{#                                                <td>Сбербанк</td>#}
+{#                                                <td>{{ rekvis.requsites_sberbank }}</td>#}
+{#                                            </tr>#}
+{#                                            <tr>#}
+{#                                                <td>Киви кошелек</td>#}
+{#                                                <td>{{ rekvis.requsites_qiwi }}</td>#}
+{#                                            </tr>#}
+{#                                            </tbody>#}
+{#                                        </table>#}
+{##}
+{#                                    </div>#}
+{#                                </div>#}
+{#                            </div>#}
+{#                        </div>#}
+{##}
+{#                        <div class="col-xl-12">#}
+{#                            <div class="card">#}
+{#                                <div class="card-body">#}
+{##}
+{#                                    <div class="p-4">#}
+{#                                        <h5 class="mb-5 text-center">Изменить реквизиты</h5>#}
+{##}
+{#                                        <form class="form-horizontal" method="POST" action="{% url 'rekvisitwallet' %}" >#}
+{#                                            {% csrf_token %}#}
+{#                                            <div class="row">#}
+{#                                                {{ form.non_field.errors }}#}
+{#                                                <div class="col-md-12">#}
+{##}
+{#                                                    <div class="form-group form-group-custom mb-4">#}
+{#                                                        <div>#}
+{#                                                            {{ form.requsites_sberbank.errors }}#}
+{#                                                        </div>#}
+{#                                                        {{ form.requsites_sberbank }}#}
+{#                                                        <label for="{{ form.requsites_sberbank.id_for_label }}">Введите карту Сбербанка</label>#}
+{#                                                    </div>#}
+{##}
+{#                                                    <div class="form-group form-group-custom mb-4">#}
+{#                                                        <div>#}
+{#                                                            {{ form.requsites_qiwi.errors }}#}
+{#                                                        </div>#}
+{#                                                        {{ form.requsites_qiwi }}#}
+{#                                                        <label for="{{ form.requsites_qiwi.id_for_label }}">Введите номер QIWI Кошелька</label>#}
+{#                                                    </div>#}
+{##}
+{#                                                    <div class="mt-4">#}
+{#                                                        <button class="btn btn-outline-primary btn-block waves-effect waves-light " type="submit">Изменить</button>#}
+{#                                                    </div>#}
+{#                                                </div>#}
+{#                                            </div>#}
+{#                                        </form>#}
+{#                                    </div>#}
+{#                                </div>#}
+{#                            </div>#}
+{#                        </div>#}
+{#                    </div>#}
                     <!-- end row -->
 
                 </div>
@@ -106,22 +700,6 @@
             <!-- end page-content-wrapper -->
 
         </div>
-
-        <!-- End Page-content -->
-        <footer class="footer">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-sm-6">
-                        2020 © Wallets.
-                    </div>
-                    <div class="col-sm-6">
-                        <div class="text-sm-right d-none d-sm-block">
-                            Разработка <i class="mdi mdi-heart text-danger"></i> by Russia
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </footer>
     </div>
 
 {% endblock %}
