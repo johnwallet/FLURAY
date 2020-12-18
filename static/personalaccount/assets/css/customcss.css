@@ -1,0 +1,1087 @@
+/* Content */
+/* ОБНУЛЕНИЕ */
+
+/* DEPOSIT */
+/* 1. INFO */
+/* 2. PS */
+/* 3. REQUEST */
+
+/* REQUEST */
+/* 1. REQUEST CARD */
+
+/* REKVISITES */
+/* 1. REKVISITES CARD */
+
+
+
+/*==========================// ОБНУЛЕНИЕ //==========================*/
+ul {padding: 0;margin: 0;}
+ul li {list-style: none;}
+*{padding: 0;margin: 0;border: 0;}
+*, a:focus {outline: none !important;}
+input {font: inherit;}
+/*==========================// INFO //==========================*/
+.col-md-6.cust {
+    padding-bottom: 24px;
+}
+
+.card.cust {
+    margin-bottom: 0;
+    height: 100%;
+}
+
+/*== LEFTCARD ==*/
+.line-block {
+    position: relative;
+    display: flex;
+    margin-bottom: 20px;
+    max-width: 320px;
+    align-items: center;
+}
+
+.line-block:last-child {
+    margin-bottom: 0;
+}
+
+.line-block-img {
+    min-width: 40px;
+    min-height: 40px;
+}
+
+.line-block-p {
+    padding-left: 30px;
+    font-size: 16px;
+}
+
+/*== RIGHTCARD ==*/
+.right-card-p {
+    font-size: 14px;
+    max-width: 380px;
+}
+
+.right-card-p:last-child {
+    margin-bottom: 0;
+}
+
+/*==========================// PS //==========================*/
+/*== NAME PS ==*/
+.card-title-custom {
+    display: flex;
+}
+
+.card-title-custom a {
+    margin: 0 0 0 auto;
+    color: #010181;
+    font-size: 12px;
+}
+
+.card-title-custom a:hover {
+    color: #3051d3;
+}
+
+/*== CARD PS ==*/
+.list-card {
+    margin-bottom: 10px;
+}
+
+.list-card:last-child {
+    margin-bottom: 0;
+}
+
+.card-ps-list {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+/*== NAME CARD PS ==*/
+.name-ps {
+    user-select: none;
+}
+
+.name-ps span {
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.name-ps:hover {
+    cursor: pointer;
+    background: linear-gradient(180deg, rgba(249, 246, 246, 0) 0%, #E2F9FF 100%);
+}
+
+.name-ps:active {
+    background: linear-gradient(0deg, rgba(249, 246, 246, 0) 0%, #E2F9FF 100%);
+}
+
+.name-ps img {
+    margin-left: 5px;
+    transition: 0.5s;
+}
+
+/*== CONTENT CARD ==*/
+.card-ps {
+    height: 101px;
+    width: 135px;
+    margin: 10px 20px 10px 0;
+    user-select: none;
+}
+
+.card-ps:hover {
+    box-shadow: 0 0 10px #010181;
+    border-radius: 8px;
+}
+
+.card-content-ps {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 135px;
+    height: 71px;
+    background: linear-gradient(180deg, #FFFFFF 64.37%, #e2f9ff 100%);
+    box-shadow: 0 0 10px rgba(33, 160, 56, 0.5);
+    border-radius: 8px 8px 0 0;
+}
+
+/*== BTN CARD ==*/
+.card-content-ps-a-list {
+    display: flex;
+    width: 135px;
+    height: 30px;
+    border-radius: 0 0 8px 8px;
+    overflow: hidden;
+    justify-content: space-between;
+}
+
+.card-content-ps-a {
+    width: 100%;
+    background: #010181;
+}
+
+.card-content-ps-a:hover {
+    box-shadow: 0 0 10px #010181;
+    background: #3051d3;
+    cursor: pointer;
+}
+
+.card-content-ps-a:active {
+    background: #6f8bea;
+}
+
+.card-content-ps-a span{
+    display: block;
+    width: 100%;
+    text-align: center;
+    color: #FFF;
+    font-size: 13px;
+    line-height: 30px;
+}
+
+.card-content-ps-a.twobtn {
+    width: 66px;
+}
+
+.card-content-ps-a.trybtn {
+    width: 32%;
+}
+
+/*==========================// REQUEST //==========================*/
+.content-request {
+    display: flex;
+}
+
+.left-card li {
+    padding-bottom: 15px;
+    font-size: 16px;
+    line-height: 20px;
+}
+
+.right-card {
+    padding: 0 0 0 20px;
+}
+
+.right-card li {
+    padding-bottom: 15px;
+    font-size: 18px;
+    line-height: 20px;
+    color: rgba(1, 1, 129, 0.75);
+    font-weight: bold;
+}
+
+.request-button {
+    margin-top: 7px;
+}
+
+.request-button button {
+    height: 100%;
+    font-size: 17px;
+    border-radius: 8px;
+    color: #3051d3;
+    border-color: #ced4da;
+}
+
+.request-button button:hover {
+    background-color: #010181;
+    border-color: #010181;
+}
+
+.request-button button:active {
+    background-color: #3051d3;
+}
+
+.card-2step {
+    margin-top: 20px;
+}
+
+.radiochekbox {
+    font-size: 16px;
+    line-height: 20px;
+    padding: 3px 0 0 70px;
+    position: relative;
+    cursor: pointer;
+}
+
+.radiochekbox.active label {
+    font-weight: 700;
+    transition: all 0.5s ease 0s;
+}
+
+
+.radiochekbox.active {
+    color:#010181;
+}
+
+.radiochekbox.active:after {
+    background-color: #010181;
+    left: 25px;
+    transition: all 0.5s ease 0s;
+}
+
+.radiochekbox.active:before {
+    background-color: #3051d3;
+    transition: all 0.5s ease 0s;
+}
+
+.radiochekbox:before {
+    content: '';
+    width: 50px;
+    height: 20px;
+    border-radius: 20px;
+    background-color: #e8e9f1;
+    position: absolute;
+    left: 0;
+    top: 3px;
+    -webkit-box-shadow: 0 0 3px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 0 3px rgba(0, 0, 0, 0.3);
+    transition: all 0.5s ease 0s;
+}
+
+.radiochekbox:after {
+    content: '';
+    position: absolute;
+    width: 26px;
+    height: 26px;
+    left: 0;
+    top: 0;
+    background-color: #dcdee2;
+    border-radius: 50%;
+    -webkit-box-shadow: 0 0 3px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 0 3px rgba(0, 0, 0, 0.3);
+    transition: all 0.5s ease 0s;
+}
+
+.radiochekbox input {
+    display: none;
+}
+
+.input-group-text {
+    font-size: 18px;
+    color:#010181;
+    padding: 0 40px 0 40px;
+    background-color: #fff;
+}
+
+/*==========================// REQUEST CARD //==========================*/
+.card-request {
+    margin: 20px 0;
+    position: relative;
+    height: 250px;
+    background: linear-gradient(180deg, #FFFFFF 64.37%, #E2F9FF 100%);
+    box-shadow: 0 0 6px rgba(1, 1, 129, 0.5);
+    border-radius: 8px;
+}
+
+.card-request:last-child {
+    margin-bottom: 0;
+}
+
+/*= HEADER =*/
+.request-header {
+    height: 50px;
+    width: 100%;
+    display: flex;
+    background: #FFFFFF;
+    box-shadow: 0 3px 6px rgba(1, 1, 129, 0.25);
+    border-radius: 8px 8px 0 0;
+    overflow: hidden;
+}
+
+.request-header-box{
+    display: flex;
+    width: 65%;
+}
+
+.request-header-number {
+    width: 40%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.number-content {
+    padding: 0 10px;
+    font-weight: 600;
+    font-size: 19px;
+    line-height: 22px;
+    color: #010181;
+}
+
+.request-header-hm {
+    width: 60%;
+    display: flex;
+    align-items: center;
+}
+
+.hm-content {
+    padding: 0 10px;
+    font-size: 11px;
+    line-height: 13px;
+    color: rgba(0, 0, 0, 0.7);
+
+}
+
+.request-header-status {
+    width: 45%;
+}
+
+.status-box {
+    display: flex;
+    width: 100%;
+}
+
+.status-box:before {
+    content: '';
+    display: block;
+    width: 100%;
+    border-bottom: 50px solid #010181;
+    border-left: 30px solid transparent;
+}
+
+.status-content {
+    position: absolute;
+    font-size: 16px;
+    color: #FFFFFF;
+    top: 12px;
+    right: 15px;
+}
+
+/*= CONTENT =*/
+.request-content {
+    height: 200px;
+    width: 100%;
+    display: flex;
+}
+
+.request-content-left {
+    width: 40%;
+    padding: 20px;
+}
+
+.request-content-right {
+    width: 60%;
+    padding: 20px;
+}
+
+.content-left-box {
+    display: flex;
+    padding: 10px 0;
+    line-height: 19px;
+}
+
+.content-left-title {
+    width: 60%;
+    font-size: 16px;
+    color: #000000;
+}
+
+.content-left-content {
+    width: 40%;
+    margin-left: 10px;
+    font-size: 16px;
+    font-weight: 600;
+    color: #010181;
+}
+
+.content-right-one {
+    display: flex;
+    padding: 10px 0;
+}
+
+.right-one-title {
+    font-size: 16px;
+    color: #000000;
+}
+
+.right-one-content {
+    margin-left: 10px;
+    font-size: 16px;
+    font-weight: 600;
+    color: #010181;
+}
+
+.content-right-two {
+    padding: 10px 0;
+}
+
+.right-two-title {
+    font-size: 16px;
+    color: #000000;
+    padding-bottom: 5px;
+}
+
+.right-two-content {
+    display: flex;
+    align-items: center;
+    word-break: break-all;
+}
+
+.right-two-content-content {
+    font-size: 19px;
+    line-height: 22px;
+    color: #010181;
+}
+
+.right-two-content-ico {
+    padding-left: 10px;
+    padding-bottom: 3px;
+    cursor: pointer;
+}
+
+.right-two-content-ico img {
+    width: 17px;
+    height: 17px;
+}
+
+.content-right-try{
+    display: flex;
+    margin-top: 5px;
+}
+
+.right-try-content-del {
+    border: 1px solid #E30000;
+    border-radius: 8px;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.right-try-content-del span {
+    display: none;
+    left: 40px;
+    width: 110px;
+    font-size: 14px;
+    line-height: 16px;
+    color: #E30000;
+    margin-left: 10px;
+}
+
+.right-try-content-del img {
+    width: 15px;
+    height: 15px;
+}
+
+.right-try-content-succes {
+    margin-left: 10px;
+    border: 1px solid #03AA00;
+    border-radius: 8px;
+    width: 100%;
+    height: 40px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.right-try-content-succes span {
+    font-size: 14px;
+    line-height: 16px;
+    color: #03AA00;
+}
+
+.right-try-content-succes img {
+    margin-right: 10px;
+    width: 17px;
+    height: 17px;
+}
+
+.card-request.succes {
+    box-shadow: 0 0 6px rgba(3, 170, 0, 0.5);
+}
+
+.status-box.succes:before {
+    content: '';
+    display: block;
+    width: 100%;
+    border-bottom: 50px solid #03AA00;
+    border-left: 30px solid transparent;
+}
+
+.request-header.succes {
+    box-shadow: 0 3px 6px rgba(33, 160, 56, 0.25);
+}
+
+.number-content.succes {
+    color: #03AA00;
+}
+
+.right-try-content-succes-request {
+    margin-top: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.right-try-content-succes-request img {
+    width: 25px;
+    height: 25px;
+}
+
+.right-try-content-succes-request span{
+    padding-left: 10px;
+    color: #03AA00;
+    font-size: 21px;
+    line-height: 26px;
+}
+
+/*==========================// REKVISITES CARD //==========================*/
+
+.reqisites-card-custom {
+    overflow: hidden;
+    border-radius: .25rem;
+    user-select: none;
+}
+
+.requsites-categories {
+    height: 60px;
+    display: flex;
+}
+
+.categories-in {
+    width: 50%;
+    cursor: pointer;
+    background: #E3EBED;
+}
+
+.categories-in--active {
+    width: 50%;
+    cursor: pointer;
+    background: #FFF;
+}
+
+.in-box {
+    display: flex;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+}
+
+.in-box.active {
+}
+
+.in-text {
+    font-size: 17px;
+    line-height: 20px;
+    color: #909FA3;
+}
+
+.in-text.active {
+    color: #010181;
+    font-weight: 600;
+}
+
+.in-img-deposit {
+    margin-right: 10px;
+    height: 30px;
+    width: 30px;
+    background: url("../images/icon/walletplussilver.svg");
+    background-size: cover;
+}
+
+.in-img-deposit.active {
+    background: url("../images/icon/walletplus.svg");
+    background-size: cover;
+}
+
+.in-img-withdrawal {
+    margin-right: 10px;
+    height: 30px;
+    width: 30px;
+    background: url("../images/icon/walletminsilver.svg");
+    background-size: cover;
+}
+
+.in-img-withdrawal.active {
+    background: url("../images/icon/walletmin.svg");
+    background-size: cover;
+}
+
+.requsites-card-content {
+    padding: 20px 50px;
+}
+
+.requsites-box {
+    padding: 10px 0;
+}
+
+.requsites-box-header:hover {
+    cursor: pointer;
+    background: linear-gradient(180deg, rgba(249, 246, 246, 0) 0%, #E2F9FF 100%);
+}
+
+.requsites-box-header:active {
+    background: linear-gradient(0deg, rgba(249, 246, 246, 0) 0%, #E2F9FF 100%);
+}
+
+.requsites-header-text {
+    display: flex;
+}
+
+.requsites-text-text {
+    font-size: 16px;
+    line-height: 19px;
+}
+
+.requsites-header-text img {
+    margin-left: 5px;
+    transition: 0.5s;
+}
+
+.transfor {
+    transform: rotate(180deg);
+    transition: 0.5s;
+}
+
+.requsites-box-content {
+    margin-top: 10px;
+    display: flex;
+    position: relative;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+.requsites-content-card {
+    margin: 5px 10px;
+    display: flex;
+}
+
+.requsites-card-logo {
+    display: flex;
+    width: 130px;
+    height: 60px;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(180deg, #FFFFFF 64.37%, #E2F9FF 100%);
+    border: 1px solid rgba(1, 1, 129, 0.1);
+    box-sizing: border-box;
+    border-radius: 8px 0 0 8px;
+}
+
+.requsites-card-logo.lg {
+    height: 113px;
+}
+
+.requsites-card-input {
+    position: relative;
+    left: -1px;
+    display: flex;
+    align-items: center;
+    min-width: 290px;
+    height: 60px;
+    background: linear-gradient(180deg, #FFFFFF 64.37%, #E2F9FF 100%);
+    border: 1px solid rgba(1, 1, 129, 0.1);
+    box-sizing: border-box;
+    border-radius: 0 8px 8px 0;
+}
+
+.requsites-card-input.lg {
+    display: block;
+    height: 113px;
+}
+
+.requsites-input-field {
+    margin: 10px 0;
+    display: flex;
+    align-items: center;
+}
+
+.requsites-input-field.two {
+     margin: 21px 0;
+}
+
+.requsites-input-valute {
+    position: relative;
+    left: -1px;
+    width: 45px;
+    height: 24px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #FFFFFF;
+    border: 1px solid rgba(1, 1, 129, 0.1);
+}
+
+.requsites-valute-content {
+    font-size: 14px;
+    line-height: 16px;
+    color: #010181;
+}
+
+.requsites-input-card {
+    position: relative;
+    left: -2px;
+}
+
+.requsites-input-card input {
+    width: 230px;
+    height: 24px;
+    background: #FFFFFF;
+    box-shadow: inset 0 0 3px rgba(1, 1, 129, 0.25);
+    border-radius: 0 4px 4px 0;
+    font-size: 12px;
+    line-height: 14px;
+    padding: 0 5px;
+    color: #495057;
+    background-clip: padding-box;
+}
+
+.requsites-input-card input:focus {
+    box-shadow: inset 0 0 3px rgba(1, 1, 129, 0.50);
+}
+
+.btn-box {
+    display: flex;
+    justify-content: center;
+    padding: 10px 0;
+}
+
+.form-rekvisites.active {
+    display: block;
+}
+
+.form-rekvisites {
+    display: none;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@media (max-width: 1200px) {
+    .request-header-box {
+        display: block;
+    }
+
+    .request-header-number {
+        padding: 10px 0 0 10px;
+        width: 100%;
+        justify-content: flex-start;
+    }
+
+    .request-header-hm {
+        padding: 6px 0 0 10px;
+        width: 100%;
+    }
+
+    .request-header {
+        height: 60px;
+    }
+
+    .request-header.succes {
+        height: 60px;
+    }
+
+    .status-box:before {
+        content: '';
+        border-bottom: 60px solid #010181;
+    }
+
+    .status-box.succes:before {
+        content: '';
+        border-bottom: 60px solid #03AA00;
+    }
+
+    .status-content {
+        top: 18px;
+    }
+
+    .request-content {
+        display: block;
+    }
+
+    .card-request {
+        height: inherit;
+    }
+
+    .request-content {
+        height: inherit;
+    }
+
+    .request-content-left {
+        width: 100%;
+        padding: 20px 0 0 20px;
+    }
+
+    .content-left-title {
+       width: 150px;
+    }
+
+    .content-left-content {
+        width: inherit;
+    }
+
+    .request-content-right {
+        padding: 0 20px 0 20px;
+        width: 100%;
+    }
+
+    .right-one-title {
+        width: 150px;
+    }
+
+    .content-right-try {
+        padding: 5px 0 20px 0;
+        margin-top: 0;
+    }
+
+
+
+}
+
+@media (max-width: 992px) {
+
+}
+
+@media (max-width: 767px) {
+    .card-title-custom {
+        display: block;
+    }
+
+    .card-title-custom h5 {
+        margin-bottom: 0!important ;
+    }
+
+    .card-title-custom a {
+        display: block;
+        margin: 5px 0;
+        font-size: 12px;
+    }
+
+    .card-ps {
+        margin: 10px 5px;
+    }
+}
+
+@media (max-width: 575px) {
+    .requsites-content-card {
+        display: block;
+        background: linear-gradient(180deg, #FFFFFF 64.37%, #E2F9FF 100%);
+        border: 1px solid rgba(1, 1, 129, 0.1);
+        border-radius: 8px;
+    }
+
+    .requsites-card-logo {
+        display: flex;
+        width: 100%;
+        height: 60px;
+        justify-content: center;
+        align-items: center;
+        background: none;
+        border: none;
+        border-radius: inherit;
+    }
+
+    .requsites-input-field.two {
+        margin: 5px;
+    }
+
+    .requsites-card-logo.lg {
+        height: 60px;
+    }
+
+    .requsites-card-input {
+        padding: 0 5px;
+        width: 100%;
+        position: relative;
+        left: 0;
+        display: flex;
+        align-items: center;
+        min-width: inherit;
+        height: 37px;
+        background: none;
+        border: none;
+        border-radius: inherit;
+    }
+
+    .requsites-input-card input {
+        width: 230px;
+    }
+
+    .requsites-input-field {
+        margin: 5px;
+    }
+
+    .requsites-card-input.lg.two {
+       height: 73px;
+    }
+
+    .requsites-card-input.lg {
+        display: flex;
+        flex-direction: column;
+        padding: 0;
+    }
+
+    .requsites-input-card {
+        left: -1px;
+    }
+
+    .requsites-input-valute {
+        left: 0;
+    }
+
+    .in-img-deposit {
+        height: 23px;
+        width: 23px;
+    }
+
+    .in-img-withdrawal {
+        height: 23px;
+        width: 23px;
+    }
+
+    .in-text {
+        font-size: 12px;
+    }
+    .requsites-card-content {
+        padding: 10px 10px;
+    }
+    .col-xl-12 {
+        padding-right: 0;
+        padding-left: 0;
+    }
+    .request-header {
+        display: block;
+        background-color: #010181;
+    }
+
+    .request-header.succes {
+        display: block;
+        background-color: #03AA00;
+    }
+
+    .request-header-box {
+        width: 100%;
+        height: 100%;
+    }
+
+    .number-content {
+        color: #FFF;
+        font-size: 17px;
+    }
+
+    .number-content.succes {
+        color: #FFF;
+        font-size: 17px;
+    }
+
+    .hm-content {
+        color: rgba(255, 255, 255, 0.7);
+        font-size: 10px;
+    }
+
+    .request-header-hm {
+        padding: 3px 0 0 10px;
+    }
+
+    .status-content {
+        left: 20px;
+        top: 75px;
+        font-size: 16px;
+        color: #010181;
+        font-weight: 600;
+    }
+
+    .status-content:before {
+        margin-right: 40px;
+        content: 'Статус заявки:';
+        color: #000;
+    }
+
+    .request-content-left {
+        padding: 40px 0 0 20px;
+    }
+}
+
+@media (max-width: 380px) {
+
+    .in-img-deposit {
+        height: 30px;
+        width: 30px;
+    }
+
+    .in-img-withdrawal {
+        height: 30px;
+        width: 30px;
+    }
+
+    .requsites-text-text {
+        font-size: 14px;
+        line-height: 19px;
+    }
+
+    .requsites-header-text img {
+        height: 16px;
+        width: 13px;
+    }
+
+    .in-text {
+        display: none;
+    }
+
+    .card-body {
+        padding: 15px;
+    }
+
+    .col-md-12, .col-md-6 {
+        padding-right: 0;
+        padding-left: 0;
+    }
+}

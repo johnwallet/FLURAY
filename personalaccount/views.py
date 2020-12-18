@@ -6,7 +6,8 @@ from django.shortcuts import render, redirect
 from django.utils import timezone
 from personalaccount.apicourse import get_rates
 from personalaccount.models import Transaction, RequestChange, CurrencyCBRF
-from personalaccount.forms import RequestForm, CommissionForm, RequisitesForm, WithdrawalForm, TransferForm
+from personalaccount.forms import RequestForm, CommissionForm, RequisitesForm2, WithdrawalForm, TransferForm, \
+    RequisitesForm1
 from users.models import CustomUserId, CustomUser
 
 
@@ -399,16 +400,102 @@ def rekvisitwallet(request):
             rekvis = CustomUser.objects.get(username=request.user)
             context = {
                 'rekvis': rekvis,
-                'form': RequisitesForm(instance=rekvis),
+                'form1': RequisitesForm1(instance=rekvis),
+                'form2': RequisitesForm2(instance=rekvis),
             }
             if request.method == "POST":
-                form = RequisitesForm(request.POST, instance=rekvis)
-                if form.is_valid():
-                    forme = form.save(commit=False)
-                    rekvis.requsites_sberbank = forme.requsites_sberbank
-                    rekvis.requsites_qiwi = forme.requsites_qiwi
-                    rekvis.save()
-                    return redirect('rekvisitwallet')
+                if 'deposit' in request.POST:
+                    form = RequisitesForm1(request.POST, instance=rekvis)
+                    if form.is_valid():
+                        forme = form.save(commit=False)
+                        rekvis.requsites_sberbank_rub = forme.requsites_sberbank_rub
+                        rekvis.requsites_psb_rub = forme.requsites_psb_rub
+                        rekvis.requsites_tinkoff_rub = forme.requsites_tinkoff_rub
+                        rekvis.requsites_gazprombank_rub = forme.requsites_gazprombank_rub
+                        rekvis.requsites_alfabank_rub = forme.requsites_alfabank_rub
+                        rekvis.requsites_russtandart_rub = forme.requsites_russtandart_rub
+                        rekvis.requsites_vtb_rub = forme.requsites_vtb_rub
+                        rekvis.requsites_rosselhoz_rub = forme.requsites_rosselhoz_rub
+                        rekvis.requsites_raifaizen_rub = forme.requsites_raifaizen_rub
+                        rekvis.requsites_roketbank_rub = forme.requsites_roketbank_rub
+                        rekvis.requsites_otkritie_rub = forme.requsites_otkritie_rub
+                        rekvis.requsites_pochtabank_rub = forme.requsites_pochtabank_rub
+                        rekvis.requsites_rnkb_rub = forme.requsites_rnkb_rub
+                        rekvis.requsites_rosbank_rub = forme.requsites_rosbank_rub
+                        rekvis.requsites_mtsbank_rub = forme.requsites_mtsbank_rub
+                        rekvis.requsites_qiwi_rub = forme.requsites_qiwi_rub
+                        rekvis.requsites_qiwi_usd = forme.requsites_qiwi_usd
+                        rekvis.requsites_payeer_rub = forme.requsites_payeer_rub
+                        rekvis.requsites_payeer_usd = forme.requsites_payeer_usd
+                        rekvis.requsites_payeer_eur = forme.requsites_payeer_eur
+                        rekvis.requsites_webmoney_rub = forme.requsites_webmoney_rub
+                        rekvis.requsites_webmoney_usd = forme.requsites_webmoney_usd
+                        rekvis.requsites_webmoney_eur = forme.requsites_webmoney_eur
+                        rekvis.requsites_pm_btc = forme.requsites_pm_btc
+                        rekvis.requsites_pm_usd = forme.requsites_pm_usd
+                        rekvis.requsites_pm_eur = forme.requsites_pm_eur
+                        rekvis.requsites_skrill_rub = forme.requsites_skrill_rub
+                        rekvis.requsites_skrill_usd = forme.requsites_skrill_usd
+                        rekvis.requsites_paypal_rub = forme.requsites_paypal_rub
+                        rekvis.requsites_paypal_usd = forme.requsites_paypal_usd
+                        rekvis.requsites_paypal_eur = forme.requsites_paypal_eur
+                        rekvis.requsites_umoney_rub = forme.requsites_umoney_rub
+                        rekvis.requsites_btc = forme.requsites_btc
+                        rekvis.requsites_xrp = forme.requsites_xrp
+                        rekvis.requsites_ltc = forme.requsites_ltc
+                        rekvis.requsites_bch = forme.requsites_bch
+                        rekvis.requsites_xmr = forme.requsites_xmr
+                        rekvis.requsites_eth = forme.requsites_eth
+                        rekvis.requsites_etc = forme.requsites_etc
+                        rekvis.requsites_dash = forme.requsites_dash
+                        rekvis.save()
+                        return redirect('rekvisitwallet')
+                if 'widthdrawal' in request.POST:
+                    form = RequisitesForm2(request.POST, instance=rekvis)
+                    if form.is_valid():
+                        forme = form.save(commit=False)
+                        rekvis.requsites_width_sberbank_rub = forme.requsites_width_sberbank_rub
+                        rekvis.requsites_width_psb_rub = forme.requsites_width_psb_rub
+                        rekvis.requsites_width_tinkoff_rub = forme.requsites_width_tinkoff_rub
+                        rekvis.requsites_width_gazprombank_rub = forme.requsites_width_gazprombank_rub
+                        rekvis.requsites_width_alfabank_rub = forme.requsites_width_alfabank_rub
+                        rekvis.requsites_width_russtandart_rub = forme.requsites_width_russtandart_rub
+                        rekvis.requsites_width_vtb_rub = forme.requsites_width_vtb_rub
+                        rekvis.requsites_width_rosselhoz_rub = forme.requsites_width_rosselhoz_rub
+                        rekvis.requsites_width_raifaizen_rub = forme.requsites_width_raifaizen_rub
+                        rekvis.requsites_width_roketbank_rub = forme.requsites_width_roketbank_rub
+                        rekvis.requsites_width_otkritie_rub = forme.requsites_width_otkritie_rub
+                        rekvis.requsites_width_pochtabank_rub = forme.requsites_width_pochtabank_rub
+                        rekvis.requsites_width_rnkb_rub = forme.requsites_width_rnkb_rub
+                        rekvis.requsites_width_rosbank_rub = forme.requsites_width_rosbank_rub
+                        rekvis.requsites_width_mtsbank_rub = forme.requsites_width_mtsbank_rub
+                        rekvis.requsites_width_qiwi_rub = forme.requsites_width_qiwi_rub
+                        rekvis.requsites_width_qiwi_usd = forme.requsites_width_qiwi_usd
+                        rekvis.requsites_width_payeer_rub = forme.requsites_width_payeer_rub
+                        rekvis.requsites_width_payeer_usd = forme.requsites_width_payeer_usd
+                        rekvis.requsites_width_payeer_eur = forme.requsites_width_payeer_eur
+                        rekvis.requsites_width_webmoney_rub = forme.requsites_width_webmoney_rub
+                        rekvis.requsites_width_webmoney_usd = forme.requsites_width_webmoney_usd
+                        rekvis.requsites_width_webmoney_eur = forme.requsites_width_webmoney_eur
+                        rekvis.requsites_width_pm_btc = forme.requsites_width_pm_btc
+                        rekvis.requsites_width_pm_usd = forme.requsites_width_pm_usd
+                        rekvis.requsites_width_pm_eur = forme.requsites_width_pm_eur
+                        rekvis.requsites_width_skrill_rub = forme.requsites_width_skrill_rub
+                        rekvis.requsites_width_skrill_usd = forme.requsites_width_skrill_usd
+                        rekvis.requsites_width_paypal_rub = forme.requsites_width_paypal_rub
+                        rekvis.requsites_width_paypal_usd = forme.requsites_width_paypal_usd
+                        rekvis.requsites_width_paypal_eur = forme.requsites_width_paypal_eur
+                        rekvis.requsites_width_umoney_rub = forme.requsites_width_umoney_rub
+                        rekvis.requsites_width_btc = forme.requsites_width_btc
+                        rekvis.requsites_width_xrp = forme.requsites_width_xrp
+                        rekvis.requsites_width_ltc = forme.requsites_width_ltc
+                        rekvis.requsites_width_bch = forme.requsites_width_bch
+                        rekvis.requsites_width_xmr = forme.requsites_width_xmr
+                        rekvis.requsites_width_eth = forme.requsites_width_eth
+                        rekvis.requsites_width_etc = forme.requsites_width_etc
+                        rekvis.requsites_width_dash = forme.requsites_width_dash
+                        rekvis.save()
+                        return redirect('rekvisitwallet')
             return render(request, 'personalaccount/cabinet/rekvisit/rekvisitwallet.html', context)
         else:
             raise Http404
