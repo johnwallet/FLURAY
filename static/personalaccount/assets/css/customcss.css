@@ -190,7 +190,7 @@ input {font: inherit;}
     display: flex;
 }
 
-.left-card li {
+.left-card span {
     padding-bottom: 15px;
     font-size: 16px;
     line-height: 20px;
@@ -200,12 +200,13 @@ input {font: inherit;}
     padding: 0 0 0 20px;
 }
 
-.right-card li {
+.input-final {
     padding-bottom: 15px;
     font-size: 18px;
     line-height: 20px;
     color: rgba(1, 1, 129, 0.75);
     font-weight: bold;
+    background-color: inherit;
 }
 
 .request-button {
@@ -1083,5 +1084,14 @@ input {font: inherit;}
     .col-md-12, .col-md-6 {
         padding-right: 0;
         padding-left: 0;
+    }
+
+    .left-card span {
+        font-size: 12px;
+    }
+
+    .right-card input {
+        font-size: 14px;
+        background-color: inherit;
     }
 }

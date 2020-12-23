@@ -9,13 +9,11 @@ from .models import RequestChange, Transfer
 class RequestForm(forms.ModelForm):
     class Meta:
         model = RequestChange
-        fields = ('request_sistemchange', 'request_currency', 'request_sum', 'criteri')
+        fields = ('request_sistemchange', 'request_sum', 'criteri')
         widgets = {
-            'request_sistemchange': RadioSelect(),
-            'request_currency': RadioSelect(),
-            'request_sum': TextInput(attrs={'class': 'form-control'}),
-            'criteri': RadioSelect(),
-
+            'request_sistemchange': TextInput(attrs={'class': 'input-final', 'id': 'name-fin-request-deposit', 'value': 'СБЕРБАНК'}),
+            'request_sum': TextInput(attrs={'class': 'input-final', 'id': 'sum-fin-request-deposit', 'value': '0'}),
+            'criteri': TextInput(attrs={'class': 'input-final', 'id': 'kriteri-fin-request-deposit', 'value': 'БЫСТРАЯ ЗАЯВКА'}),
         }
 
 
@@ -69,11 +67,8 @@ class RequisitesForm2(forms.ModelForm):
 class WithdrawalForm(forms.ModelForm):
     class Meta:
         model = RequestChange
-        fields = ('request_sistemchange', 'request_currency', 'request_sum', 'requisites', 'criteri')
+        fields = ('request_sum', 'requisites', 'criteri')
         widgets = {
-            'request_sistemchange': Select(
-                attrs={'class': 'btn btn-outline-primary btn-block waves-effect waves-light'}),
-            'request_currency': Select(attrs={'class': 'btn btn-outline-primary btn-block waves-effect waves-light'}),
             'request_sum': TextInput(attrs={'class': 'form-control'}),
             'requisites': TextInput(attrs={'class': 'form-control'}),
             'criteri': Select(

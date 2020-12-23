@@ -80,7 +80,7 @@ WSGI_APPLICATION = 'MyWallets.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'mywallets',
+        'NAME': 'fluray',
         'USER': 'root',
         'PASSWORD': 'root',
         'HOST': 'Localhost',

@@ -21,39 +21,6 @@ class Transaction(models.Model):
         verbose_name_plural = 'Транзакции'
 
 
-class Currency(models.Model):
-    base_currency = models.CharField('Валюта', db_index=True, max_length=150)
-
-    def __str__(self):
-        return self.base_currency
-
-    class Meta:
-        verbose_name = 'Валюту'
-        verbose_name_plural = 'Валюты'
-
-
-class SistemChange(models.Model):
-    base_sistemchange = models.CharField('Платежная система', db_index=True, max_length=150)
-
-    def __str__(self):
-        return self.base_sistemchange
-
-    class Meta:
-        verbose_name = 'Платежную систему'
-        verbose_name_plural = 'Платежные системы'
-
-
-class CriteriChange(models.Model):
-    base_criteri = models.CharField('Критерий', db_index=True, max_length=150)
-
-    def __str__(self):
-        return self.base_criteri
-
-    class Meta:
-        verbose_name = 'Критерий'
-        verbose_name_plural = 'Критерии'
-
-
 class RequestChange(models.Model):
     request_userchange = models.CharField('Обработчик заявки', max_length=150, blank=True)
     date_joined_change = models.DateTimeField('Дата создания', default=timezone.now)
@@ -62,13 +29,9 @@ class RequestChange(models.Model):
     request_type = models.CharField('Тип заявки', max_length=150)
     request_user = models.CharField('Логин пользователя', max_length=150)
     request_status = models.CharField('Статус заявки', max_length=150)
-    request_currency = models.ForeignKey('Currency', on_delete=models.PROTECT, default=1,
-                                         verbose_name='Валюта')
     request_sum = models.DecimalField('Сумма', max_digits=10, decimal_places=2)
-    request_sistemchange = models.ForeignKey('SistemChange', on_delete=models.PROTECT, default=1,
-                                             verbose_name='Платежная система')
-    criteri = models.ForeignKey('CriteriChange', on_delete=models.PROTECT, default=1,
-                                verbose_name='Критерий')
+    request_sistemchange = models.CharField('Платежная система', max_length=150)
+    criteri = models.CharField('Критерий', max_length=150)
     requisites = models.CharField('Реквизиты', max_length=50)
     request_commission = models.DecimalField('Коммисия', max_digits=4, decimal_places=2)
     request_good_sum = models.DecimalField('Общая сумма', max_digits=10, decimal_places=2)

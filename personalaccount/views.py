@@ -5,6 +5,7 @@ from django.http import Http404
 from django.shortcuts import render, redirect
 from django.utils import timezone
 from personalaccount.apicourse import get_rates
+from personalaccount.apicoursecrypto import get_rates_crypto
 from personalaccount.models import Transaction, RequestChange, CurrencyCBRF
 from personalaccount.forms import RequestForm, CommissionForm, RequisitesForm2, WithdrawalForm, TransferForm, \
     RequisitesForm1
@@ -720,19 +721,19 @@ def rekvisitchange(request):
     if request.user.is_authenticated:
         if request.user.userid == CustomUserId.objects.get(pk=2):
             rekvis = CustomUser.objects.get(username=request.user)
-            context = {
-                'rekvis': rekvis,
-                'form': RequisitesForm(instance=rekvis),
-            }
-            if request.method == "POST":
-                form = RequisitesForm(request.POST, instance=rekvis)
-                if form.is_valid():
-                    forme = form.save(commit=False)
-                    rekvis.requsites_sberbank = forme.requsites_sberbank
-                    rekvis.requsites_qiwi = forme.requsites_qiwi
-                    rekvis.save()
-                    return redirect('rekvisitchange')
-            return render(request, 'personalaccount/cabinet/rekvisit/rekvisitchange.html', context)
+            # context = {
+            #     'rekvis': rekvis,
+            #     'form': RequisitesForm(instance=rekvis),
+            # }
+            # if request.method == "POST":
+            #     form = RequisitesForm(request.POST, instance=rekvis)
+            #     if form.is_valid():
+            #         forme = form.save(commit=False)
+            #         rekvis.requsites_sberbank = forme.requsites_sberbank
+            #         rekvis.requsites_qiwi = forme.requsites_qiwi
+            #         rekvis.save()
+            #         return redirect('rekvisitchange')
+            # return render(request, 'personalaccount/cabinet/rekvisit/rekvisitchange.html', context)
         else:
             raise Http404
     else:
@@ -792,12 +793,18 @@ def coursechangecommission(request):
             return redirect('coursechange')
     return render(request, 'personalaccount/cabinet/course/coursechangecommission.html', context)
 
-
 # ОБНОВЛЕНИЕ И ДОБАВЛЕНИЕ КУРСОВ ВАЛЮТ
 def coursechangeupdate(request):
-    # добавляем новый курс в базу
-    #    i = get_rates(section_id='Russian Rouble')
-    #    CurrencyCBRF.objects.create(name_currency=i.name, base_currency=i.rate)
+    # добавляем новый курс в базу из национальных валют
+    # i = get_rates(section_id='Euro')
+    # CurrencyCBRF.objects.create(name_currency=i.name, base_currency=i.rate)
+    # return redirect('coursechange')
+
+    # добавляем новый курс в базу из криптовалют
+    # i = get_rates_crypto(section_id='litecoin')
+    # CurrencyCBRF.objects.create(name_currency=i.name, base_currency=i.rate)
+    # return redirect('coursechange')
+
 
     # обновляем курс RUB
     irub = get_rates(section_id='Russian Rouble')
@@ -809,4 +816,14 @@ def coursechangeupdate(request):
     currencyvieweur = CurrencyCBRF.objects.get(name_currency=ieur.name)
     currencyvieweur.base_currency = ieur.rate
     currencyvieweur.save()
+
+    # обновляем курсы криптовалют
+    currencyjson = get_rates_crypto()
+    iistcrypto = ['bitcoin', 'ethereum', 'ethereum-classic', 'monero', 'ripple', 'dash', 'bitcoin-cash', 'litecoin']
+    for item in iistcrypto:
+        for aut in currencyjson:
+            if aut['id'] == item:
+                currencyvieweur = CurrencyCBRF.objects.get(name_currency=aut['symbol'].upper())
+                currencyvieweur.base_currency = aut['current_price']
+                currencyvieweur.save()
     return redirect('coursechange')
