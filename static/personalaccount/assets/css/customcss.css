@@ -1429,9 +1429,46 @@ input[type="number"]:focus {
     display: none;
 }
 
+.block-comis {
+    font-weight: bold;
+    font-size: 16px;
+    margin: 5px 0 0 20px;
+}
 
+.box-info-right-onebtn {
+    padding-right: 20px;
+}
 
+.block-input-comis {
+    margin: 5px 0 0 20px;
+    display: flex;
+}
 
+.block-input-comis input {
+    margin-right: 3px;
+    padding: 0 2px;
+    width: 45px;
+    border-radius: 4px;
+    background: #FFFFFF;
+    border: 1px solid rgba(1, 1, 129, 0.25);
+}
+
+.card-change-box.reserv {
+    width: 140px;
+    height: 130px;
+}
+
+.block-reserv {
+    margin: 5px 0 0 20px;
+}
+
+.block-reserv input {
+    width: 100px;
+    border-radius: 4px;
+    background: #FFFFFF;
+    border: 1px solid rgba(1, 1, 129, 0.25);
+    padding: 0 2px;
+}
 
 
 

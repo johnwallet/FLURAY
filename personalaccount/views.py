@@ -8,7 +8,7 @@ from personalaccount.apicourse import get_rates
 from personalaccount.apicoursecrypto import get_rates_crypto
 from personalaccount.models import Transaction, RequestChange, CurrencyCBRF
 from personalaccount.forms import RequestForm, RequisitesForm2, WithdrawalForm, TransferForm, RequisitesForm1, \
-    CommissionForm, ActivePSForm
+    CommissionForm, ActivePSForm, ReservChangeForm
 from users.models import CustomUserId, CustomUser
 
 
@@ -598,6 +598,67 @@ def reservchange(request):
     if request.user.is_authenticated:
         if request.user.userid == CustomUserId.objects.get(pk=2):
             return render(request, 'personalaccount/cabinet/reserv/reservchange.html')
+        else:
+            raise Http404
+    else:
+        return redirect('account_login')
+
+# /ОБМЕННИК/ РЕЗЕРВ ФОРМА
+def reservchangeedit(request):
+    if request.user.is_authenticated:
+        if request.user.userid == CustomUserId.objects.get(pk=2):
+            rekvis = CustomUser.objects.get(username=request.user)
+            context = {
+                'rekvis': rekvis,
+                'form': ReservChangeForm(instance=rekvis),
+            }
+            if request.method == "POST":
+                form = ReservChangeForm(request.POST, instance=rekvis)
+                if form.is_valid():
+                    forme = form.save(commit=False)
+                    rekvis.reserv_sberbank_rub = forme.reserv_sberbank_rub
+                    rekvis.reserv_psb_rub = forme.reserv_psb_rub
+                    rekvis.reserv_tinkoff_rub = forme.reserv_tinkoff_rub
+                    rekvis.reserv_gazprombank_rub = forme.reserv_gazprombank_rub
+                    rekvis.reserv_alfabank_rub = forme.reserv_alfabank_rub
+                    rekvis.reserv_russtandart_rub = forme.reserv_russtandart_rub
+                    rekvis.reserv_vtb_rub = forme.reserv_vtb_rub
+                    rekvis.reserv_rosselhoz_rub = forme.reserv_rosselhoz_rub
+                    rekvis.reserv_raifaizen_rub = forme.reserv_raifaizen_rub
+                    rekvis.reserv_roketbank_rub = forme.reserv_roketbank_rub
+                    rekvis.reserv_otkritie_rub = forme.reserv_otkritie_rub
+                    rekvis.reserv_pochtabank_rub = forme.reserv_pochtabank_rub
+                    rekvis.reserv_rnkb_rub = forme.reserv_rnkb_rub
+                    rekvis.reserv_rosbank_rub = forme.reserv_rosbank_rub
+                    rekvis.reserv_mtsbank_rub = forme.reserv_mtsbank_rub
+                    rekvis.reserv_qiwi_rub = forme.reserv_qiwi_rub
+                    rekvis.reserv_qiwi_usd = forme.reserv_qiwi_usd
+                    rekvis.reserv_payeer_rub = forme.reserv_payeer_rub
+                    rekvis.reserv_payeer_usd = forme.reserv_payeer_usd
+                    rekvis.reserv_payeer_eur = forme.reserv_payeer_eur
+                    rekvis.reserv_webmoney_rub = forme.reserv_webmoney_rub
+                    rekvis.reserv_webmoney_usd = forme.reserv_webmoney_usd
+                    rekvis.reserv_webmoney_eur = forme.reserv_webmoney_eur
+                    rekvis.reserv_pm_btc = forme.reserv_pm_btc
+                    rekvis.reserv_pm_usd = forme.reserv_pm_usd
+                    rekvis.reserv_pm_eur = forme.reserv_pm_eur
+                    rekvis.reserv_skrill_eur = forme.reserv_skrill_eur
+                    rekvis.reserv_skrill_usd = forme.reserv_skrill_usd
+                    rekvis.reserv_paypal_rub = forme.reserv_paypal_rub
+                    rekvis.reserv_paypal_usd = forme.reserv_paypal_usd
+                    rekvis.reserv_paypal_eur = forme.reserv_paypal_eur
+                    rekvis.reserv_umoney_rub = forme.reserv_umoney_rub
+                    rekvis.reserv_btc = forme.reserv_btc
+                    rekvis.reserv_xrp = forme.reserv_xrp
+                    rekvis.reserv_ltc = forme.reserv_ltc
+                    rekvis.reserv_bch = forme.reserv_bch
+                    rekvis.reserv_xmr = forme.reserv_xmr
+                    rekvis.reserv_eth = forme.reserv_eth
+                    rekvis.reserv_etc = forme.reserv_etc
+                    rekvis.reserv_dash = forme.reserv_dash
+                    rekvis.save()
+                    return redirect('reservchange')
+            return render(request, 'personalaccount/cabinet/reserv/reservchangeedit.html', context)
         else:
             raise Http404
     else:

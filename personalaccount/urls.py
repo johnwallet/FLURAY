@@ -35,6 +35,7 @@ urlpatterns = [
 
 
     path('reservchange/', views.reservchange, name='reservchange'),
+    path('reservchangeedit/', views.reservchangeedit, name='reservchangeedit'),
     path('coursechange/', views.coursechange, name='coursechange'),
     path('coursechange/update/', views.coursechangeupdate, name='coursechangeupdate'),
     path('coursechange/commission/', views.coursechangecommission, name='coursechangecommission'),

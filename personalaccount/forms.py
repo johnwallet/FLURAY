@@ -73,6 +73,19 @@ class RequisitesForm2(forms.ModelForm):
             'requsites_width_paypal_eur', 'requsites_width_umoney_rub', 'requsites_width_btc', 'requsites_width_xrp', 'requsites_width_ltc', 'requsites_width_bch', 'requsites_width_xmr', 'requsites_width_eth', 'requsites_width_etc', 'requsites_width_dash')
 
 
+# // ОБМЕННИК // ФОРМА РЕЗЕРВА
+class ReservChangeForm(forms.ModelForm):
+    class Meta:
+        model = CustomUser
+        fields = (
+            'reserv_sberbank_rub', 'reserv_psb_rub', 'reserv_tinkoff_rub', 'reserv_gazprombank_rub',
+            'reserv_alfabank_rub', 'reserv_russtandart_rub', 'reserv_vtb_rub', 'reserv_rosselhoz_rub',
+            'reserv_raifaizen_rub', 'reserv_roketbank_rub', 'reserv_otkritie_rub', 'reserv_pochtabank_rub', 'reserv_rnkb_rub',
+            'reserv_rosbank_rub', 'reserv_mtsbank_rub', 'reserv_qiwi_rub', 'reserv_qiwi_usd', 'reserv_payeer_rub',
+            'reserv_payeer_usd', 'reserv_payeer_eur', 'reserv_webmoney_rub', 'reserv_webmoney_usd', 'reserv_webmoney_eur', 'reserv_pm_btc',
+            'reserv_pm_usd', 'reserv_pm_eur', 'reserv_skrill_eur', 'reserv_skrill_usd', 'reserv_paypal_rub', 'reserv_paypal_usd',
+            'reserv_paypal_eur', 'reserv_umoney_rub', 'reserv_btc', 'reserv_xrp', 'reserv_ltc', 'reserv_bch', 'reserv_xmr',
+            'reserv_eth', 'reserv_etc', 'reserv_dash')
 
 
 # // КОШЕЛЕК // ФОРМА ДЛЯ ВЫВОДА ИЗ КОШЕЛЬКА

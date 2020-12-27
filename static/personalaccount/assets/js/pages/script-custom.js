@@ -1,4 +1,9 @@
 $(document).ready(function () {
+    $(document).on('keyup', 'input', function (){
+        if($(this).val()<0){
+            $(this).val('0.00');
+        }
+    });
     //ЧЕКБОКСЫ
     $.each($('.radiochekbox'), function (index, val) {
         if($(this).find('input').prop('checked')===true){
@@ -261,6 +266,12 @@ $(document).ready(function () {
         $('#sum-fin-request-deposit').val(value);
     });
 
+// РЕЗЕРВ МЕНЯЕМ НА ноль при загрузке
+    $.each($('.block-reserv'), function (index, val) {
+       if($(this).find('input').val()==='0E-8'){
+           $(this).find('input').val('0.00000000');
+       }
+    });
 });
 
 
