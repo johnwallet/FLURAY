@@ -19,6 +19,22 @@ $(document).ready(function () {
         $('#kriteri-fin-request-deposit').val('ВЫГОДНЫЙ КУРС');
     });
 
+    //ЧЕКБОКСЫ ПС
+    $.each($('.block-checkbox'), function (index, val) {
+       if($(this).find('input').prop('checked')===true){
+           $(this).addClass('active');
+       }
+    });
+
+    $(document).on('click', '.block-checkbox', function (event){
+        if($(this).hasClass('active')){
+            $(this).find('input').prop('checked', false);
+        }else{
+            $(this).find('input').prop('checked', true);
+        }
+        $(this).toggleClass('active')
+    });
+
     //КНОПКИ ПЕРЕКЛЮЧЕНИЕ РЕКВИЗИТЫ
     $(document).on('click', '.categories-in', function (){
         $('.categories-in--active').addClass('categories-in').removeClass('categories-in--active');
@@ -30,7 +46,7 @@ $(document).ready(function () {
         $('.in-img-deposit').toggleClass('active');
         $('.in-img-withdrawal').toggleClass('active');
     });
-    //КНОПКИ СРЫТВАЮЩИЕ БЛОКИ С ПС РЕКВИЗИТЫ
+    //КНОПКИ СКРЫВАЮЩИЕ БЛОКИ С ПС РЕКВИЗИТЫ
     $(document).on('click', '#requsites-box-header1', function (){
         $('#requsites-box-content1').fadeToggle();
         $('#requsites-box-img1').toggleClass('transfor');
@@ -233,8 +249,15 @@ $(document).ready(function () {
         $('#val-deposit').text('ETH')
     });
 
-    $('#input-change').change(function (){
+    $('#input-change').keyup(function (){
         var value = $(this).val();
+        if(value === ''){
+            value = 0;
+        }
+        if(value < 0){
+            value = 0;
+            $(this).val('')
+        }
         $('#sum-fin-request-deposit').val(value);
     });
 

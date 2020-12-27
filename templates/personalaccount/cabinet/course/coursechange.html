@@ -16,7 +16,7 @@
                 <div class="container-fluid">
                     <div class="row align-items-center">
                         <div class="col-md-8">
-                            <h4 class="page-title mb-1">Курсы валют</h4>
+                            <h4 class="page-title mb-1">Коммисия</h4>
                             <ol class="breadcrumb m-0">
                                 <li class="breadcrumb-item active">Здесь вы можете выставить свою прибыль в % от совершенных сделок</li>
                             </ol>
@@ -30,65 +30,218 @@
             <div class="page-content-wrapper">
                 <div class="container-fluid">
                     <div class="row">
-                        <div class="col-xl-4">
-                            <div class="card">
-                                <div class="card-body">
-                                    <h5 class="card-title">Актуальные курсы валют</h5>
-                                    <table class="table mb-0">
-                                        <thead>
-                                        <tr>
-                                            <th>Валюта</th>
-                                            <th>Курс</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        <tr>
-                                            <td>USD</td>
-                                            <td>1,00</td>
-                                        </tr>
-                                        {% for item in currencyview %}
-                                            <tr>
-                                                <td>{{ item.name_currency }}</td>
-                                                <td>{{ item.base_currency }}</td>
-                                            </tr>
-                                        {% endfor %}
-                                        </tbody>
-                                    </table>
-                                    {% if user.username == 'admin' %}
-                                        <div class="card-body">
-                                            <a href="{% url 'coursechangeupdate' %}" class="btn btn-primary">Обновить курсы валют</a>
-                                        </div>
-                                    {% endif %}
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-xl-8">
+                        <div class="col-xl-12">
                             <div class="card">
                                 <div class="card-body">
                                     <h5 class="card-title">Ваша прибыль с заявок</h5>
                                     <table class="table mb-0">
                                         <thead>
                                         <tr>
-                                            <th>Валюта</th>
+                                            <th>Платежная система</th>
                                             <th>Пополнение</th>
                                             <th>Вывод</th>
                                         </tr>
                                         </thead>
                                         <tbody>
                                         <tr>
-                                            <td>USD</td>
-                                            <td>{{ user.valute_usd }} %</td>
-                                            <td>{{ user.valute_with_usd }} %</td>
+                                            <td>СБЕРБАНК</td>
+                                            <td>{{ user.comis_in_sberbank_rub }} %</td>
+                                            <td>{{ user.comis_out_sberbank_rub }} %</td>
                                         </tr>
                                         <tr>
-                                            <td>EUR</td>
-                                            <td>{{ user.valute_eur }} %</td>
-                                            <td>{{ user.valute_with_eur }} %</td>
+                                            <td>ПСБ</td>
+                                            <td>{{ user.comis_in_psb_rub }} %</td>
+                                            <td>{{ user.comis_out_psb_rub }} %</td>
                                         </tr>
                                         <tr>
-                                            <td>RUB</td>
-                                            <td>{{ user.valute_rub }} %
-                                            <td>{{ user.valute_with_rub }} %</td>
+                                            <td>ТИНЬКОФФ</td>
+                                            <td>{{ user.comis_in_tinkoff_rub }} %
+                                            <td>{{ user.comis_out_tinkoff_rub }} %</td>
+                                        </tr>
+                                        <tr>
+                                            <td>ГАЗПРОМБАНК</td>
+                                            <td>{{ user.comis_in_gazprombank_rub }} %
+                                            <td>{{ user.comis_out_gazprombank_rub }} %</td>
+                                        </tr>
+                                        <tr>
+                                            <td>АЛЬФАБАНК</td>
+                                            <td>{{ user.comis_in_alfabank_rub }} %
+                                            <td>{{ user.comis_out_alfabank_rub }} %</td>
+                                        </tr>
+                                        <tr>
+                                            <td>РУССКИЙ СТАНДАРТ</td>
+                                            <td>{{ user.comis_in_russtandart_rub }} %
+                                            <td>{{ user.comis_out_russtandart_rub }} %</td>
+                                        </tr>
+                                        <tr>
+                                            <td>ВТБ</td>
+                                            <td>{{ user.comis_in_vtb_rub }} %
+                                            <td>{{ user.comis_out_vtb_rub }} %</td>
+                                        </tr>
+                                        <tr>
+                                            <td>РОССЕЛЬХОЗБАНК</td>
+                                            <td>{{ user.comis_in_rosselhoz_rub }} %
+                                            <td>{{ user.comis_out_rosselhoz_rub }} %</td>
+                                        </tr>
+                                        <tr>
+                                            <td>РАЙФФАЙЗЕНБАНК</td>
+                                            <td>{{ user.comis_in_raifaizen_rub }} %
+                                            <td>{{ user.comis_out_raifaizen_rub }} %</td>
+                                        </tr>
+                                        <tr>
+                                            <td>РОКЕТБАНК</td>
+                                            <td>{{ user.comis_in_roketbank_rub }} %
+                                            <td>{{ user.comis_out_roketbank_rub }} %</td>
+                                        </tr>
+                                        <tr>
+                                            <td>ОТКРЫТИЕ</td>
+                                            <td>{{ user.comis_in_otkritie_rub }} %
+                                            <td>{{ user.comis_out_otkritie_rub }} %</td>
+                                        </tr>
+                                        <tr>
+                                            <td>ПОЧТА БАНК</td>
+                                            <td>{{ user.comis_in_pochtabank_rub }} %
+                                            <td>{{ user.comis_out_pochtabank_rub }} %</td>
+                                        </tr>
+                                        <tr>
+                                            <td>РНКБ</td>
+                                            <td>{{ user.comis_in_rnkb_rub }} %
+                                            <td>{{ user.comis_out_rnkb_rub }} %</td>
+                                        </tr>
+                                        <tr>
+                                            <td>РОСБАНК</td>
+                                            <td>{{ user.comis_in_rosbank_rub }} %
+                                            <td>{{ user.comis_out_rosbank_rub }} %</td>
+                                        </tr>
+                                        <tr>
+                                            <td>МТС БАНК</td>
+                                            <td>{{ user.comis_in_mtsbank_rub }} %
+                                            <td>{{ user.comis_out_mtsbank_rub }} %</td>
+                                        </tr>
+                                        <tr>
+                                            <td>QIWI RUB</td>
+                                            <td>{{ user.comis_in_qiwi_rub }} %
+                                            <td>{{ user.comis_out_qiwi_rub }} %</td>
+                                        </tr>
+                                        <tr>
+                                            <td>QIWI USD</td>
+                                            <td>{{ user.comis_in_qiwi_usd }} %
+                                            <td>{{ user.comis_out_qiwi_usd }} %</td>
+                                        </tr>
+                                        <tr>
+                                            <td>PAYEER RUB</td>
+                                            <td>{{ user.comis_in_payeer_rub }} %
+                                            <td>{{ user.comis_out_payeer_rub }} %</td>
+                                        </tr>
+                                        <tr>
+                                            <td>PAYEER USD</td>
+                                            <td>{{ user.comis_in_payeer_usd }} %
+                                            <td>{{ user.comis_out_payeer_usd }} %</td>
+                                        </tr>
+                                        <tr>
+                                            <td>PAYEER EUR</td>
+                                            <td>{{ user.comis_in_payeer_eur }} %
+                                            <td>{{ user.comis_out_payeer_eur }} %</td>
+                                        </tr>
+                                        <tr>
+                                            <td>WEBMONEY RUB</td>
+                                            <td>{{ user.comis_in_webmoney_rub }} %
+                                            <td>{{ user.comis_out_webmoney_rub }} %</td>
+                                        </tr>
+                                        <tr>
+                                            <td>WEBMONEY USD</td>
+                                            <td>{{ user.comis_in_webmoney_usd }} %
+                                            <td>{{ user.comis_out_webmoney_usd }} %</td>
+                                        </tr>
+                                        <tr>
+                                            <td>WEBMONEY EUR</td>
+                                            <td>{{ user.comis_in_webmoney_eur }} %
+                                            <td>{{ user.comis_out_webmoney_eur }} %</td>
+                                        </tr>
+                                        <tr>
+                                            <td>PERFECT MONEY BTC</td>
+                                            <td>{{ user.comis_in_pm_btc }} %
+                                            <td>{{ user.comis_out_pm_btc }} %</td>
+                                        </tr>
+                                        <tr>
+                                            <td>PERFECT MONEY USD</td>
+                                            <td>{{ user.comis_in_pm_usd }} %
+                                            <td>{{ user.comis_out_pm_usd }} %</td>
+                                        </tr>
+                                        <tr>
+                                            <td>PERFECT MONEY EUR</td>
+                                            <td>{{ user.comis_in_pm_eur }} %
+                                            <td>{{ user.comis_out_pm_eur }} %</td>
+                                        </tr>
+                                        <tr>
+                                            <td>SKRILL RUB</td>
+                                            <td>{{ user.comis_in_skrill_rub }} %
+                                            <td>{{ user.comis_out_skrill_rub }} %</td>
+                                        </tr>
+                                        <tr>
+                                            <td>SKRILL USD</td>
+                                            <td>{{ user.comis_in_skrill_usd }} %
+                                            <td>{{ user.comis_out_skrill_usd }} %</td>
+                                        </tr>
+                                        <tr>
+                                            <td>PAYPAL RUB</td>
+                                            <td>{{ user.comis_in_paypal_rub }} %
+                                            <td>{{ user.comis_out_paypal_rub }} %</td>
+                                        </tr>
+                                        <tr>
+                                            <td>PAYPAL USD</td>
+                                            <td>{{ user.comis_in_paypal_usd }} %
+                                            <td>{{ user.comis_out_paypal_usd }} %</td>
+                                        </tr>
+                                        <tr>
+                                            <td>PAYPAL EUR</td>
+                                            <td>{{ user.comis_in_paypal_eur }} %
+                                            <td>{{ user.comis_out_paypal_eur }} %</td>
+                                        </tr>
+                                        <tr>
+                                            <td>UMONEY</td>
+                                            <td>{{ user.comis_in_umoney_rub }} %
+                                            <td>{{ user.comis_out_umoney_rub }} %</td>
+                                        </tr>
+                                        <tr>
+                                            <td>BITCOIN</td>
+                                            <td>{{ user.comis_in_btc }} %
+                                            <td>{{ user.comis_out_btc }} %</td>
+                                        </tr>
+                                        <tr>
+                                            <td>RIPPLE</td>
+                                            <td>{{ user.comis_in_xrp }} %
+                                            <td>{{ user.comis_out_xrp }} %</td>
+                                        </tr>
+                                        <tr>
+                                            <td>LITECOIN</td>
+                                            <td>{{ user.comis_in_ltc }} %
+                                            <td>{{ user.comis_out_ltc }} %</td>
+                                        </tr>
+                                        <tr>
+                                            <td>BITCOIN CASH</td>
+                                            <td>{{ user.comis_in_bch }} %
+                                            <td>{{ user.comis_out_bch }} %</td>
+                                        </tr>
+                                        <tr>
+                                            <td>MONERO</td>
+                                            <td>{{ user.comis_in_xmr }} %
+                                            <td>{{ user.comis_out_xmr }} %</td>
+                                        </tr>
+                                        <tr>
+                                            <td>ETHEREUM</td>
+                                            <td>{{ user.comis_in_eth }} %
+                                            <td>{{ user.comis_out_eth }} %</td>
+                                        </tr>
+                                        <tr>
+                                            <td>ETHEREUM CLASSIC</td>
+                                            <td>{{ user.comis_in_etc }} %
+                                            <td>{{ user.comis_out_etc }} %</td>
+                                        </tr>
+                                        <tr>
+                                            <td>DASH</td>
+                                            <td>{{ user.comis_in_dash }} %
+                                            <td>{{ user.comis_out_dash }} %</td>
                                         </tr>
 
                                         </tbody>

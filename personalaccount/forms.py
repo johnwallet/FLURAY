@@ -11,9 +11,9 @@ class RequestForm(forms.ModelForm):
         model = RequestChange
         fields = ('request_sistemchange', 'request_sum', 'criteri')
         widgets = {
-            'request_sistemchange': TextInput(attrs={'class': 'input-final', 'id': 'name-fin-request-deposit', 'value': 'СБЕРБАНК'}),
-            'request_sum': TextInput(attrs={'class': 'input-final', 'id': 'sum-fin-request-deposit', 'value': '0'}),
-            'criteri': TextInput(attrs={'class': 'input-final', 'id': 'kriteri-fin-request-deposit', 'value': 'БЫСТРАЯ ЗАЯВКА'}),
+            'request_sistemchange': TextInput(attrs={'class': 'input-final', 'id': 'name-fin-request-deposit', 'value': 'СБЕРБАНК', 'readonly': ''}),
+            'request_sum': TextInput(attrs={'class': 'input-final', 'id': 'sum-fin-request-deposit', 'value': '0', 'readonly': '', 'type': 'number'}),
+            'criteri': TextInput(attrs={'class': 'input-final', 'id': 'kriteri-fin-request-deposit', 'value': 'БЫСТРАЯ ЗАЯВКА', 'readonly': ''}),
         }
 
 
@@ -21,14 +21,29 @@ class RequestForm(forms.ModelForm):
 class CommissionForm(forms.ModelForm):
     class Meta:
         model = CustomUser
-        fields = ('valute_usd', 'valute_rub', 'valute_eur', 'valute_with_usd', 'valute_with_rub', 'valute_with_eur')
+        fields = (
+            'comis_in_sberbank_rub', 'comis_in_psb_rub', 'comis_in_tinkoff_rub', 'comis_in_gazprombank_rub',
+            'comis_in_alfabank_rub', 'comis_in_russtandart_rub', 'comis_in_vtb_rub', 'comis_in_rosselhoz_rub',
+            'comis_in_raifaizen_rub', 'comis_in_roketbank_rub', 'comis_in_otkritie_rub', 'comis_in_pochtabank_rub',
+            'comis_in_rnkb_rub', 'comis_in_rosbank_rub', 'comis_in_mtsbank_rub', 'comis_in_qiwi_rub',
+            'comis_in_qiwi_usd', 'comis_in_payeer_rub', 'comis_in_payeer_usd', 'comis_in_payeer_eur',
+            'comis_in_webmoney_rub', 'comis_in_webmoney_usd', 'comis_in_webmoney_eur', 'comis_in_pm_btc',
+            'comis_in_pm_usd', 'comis_in_pm_eur', 'comis_in_skrill_eur', 'comis_in_skrill_usd', 'comis_in_paypal_rub',
+            'comis_in_paypal_usd', 'comis_in_paypal_eur', 'comis_in_umoney_rub', 'comis_in_btc', 'comis_in_xrp',
+            'comis_in_ltc', 'comis_in_bch', 'comis_in_xmr', 'comis_in_eth', 'comis_in_etc', 'comis_in_dash',
+
+            'comis_out_sberbank_rub', 'comis_out_psb_rub', 'comis_out_tinkoff_rub', 'comis_out_gazprombank_rub',
+            'comis_out_alfabank_rub', 'comis_out_russtandart_rub', 'comis_out_vtb_rub', 'comis_out_rosselhoz_rub',
+            'comis_out_raifaizen_rub', 'comis_out_roketbank_rub', 'comis_out_otkritie_rub', 'comis_out_pochtabank_rub',
+            'comis_out_rnkb_rub', 'comis_out_rosbank_rub', 'comis_out_mtsbank_rub', 'comis_out_qiwi_rub',
+            'comis_out_qiwi_usd', 'comis_out_payeer_rub', 'comis_out_payeer_usd', 'comis_out_payeer_eur',
+            'comis_out_webmoney_rub', 'comis_out_webmoney_usd', 'comis_out_webmoney_eur', 'comis_out_pm_btc',
+            'comis_out_pm_usd', 'comis_out_pm_eur', 'comis_out_skrill_eur', 'comis_out_skrill_usd', 'comis_out_paypal_rub',
+            'comis_out_paypal_usd', 'comis_out_paypal_eur', 'comis_out_umoney_rub', 'comis_out_btc', 'comis_out_xrp',
+            'comis_out_ltc', 'comis_out_bch', 'comis_out_xmr', 'comis_out_eth', 'comis_out_etc', 'comis_out_dash'
+        )
         widgets = {
-            'valute_usd': TextInput(attrs={'class': 'form-control'}),
-            'valute_rub': TextInput(attrs={'class': 'form-control'}),
-            'valute_eur': TextInput(attrs={'class': 'form-control'}),
-            'valute_with_usd': TextInput(attrs={'class': 'form-control'}),
-            'valute_with_rub': TextInput(attrs={'class': 'form-control'}),
-            'valute_with_eur': TextInput(attrs={'class': 'form-control'}),
+
         }
 
 
@@ -42,11 +57,8 @@ class RequisitesForm1(forms.ModelForm):
             'requsites_roketbank_rub', 'requsites_otkritie_rub', 'requsites_pochtabank_rub', 'requsites_rnkb_rub', 'requsites_rosbank_rub',
             'requsites_mtsbank_rub', 'requsites_qiwi_rub', 'requsites_qiwi_usd', 'requsites_payeer_rub', 'requsites_payeer_usd', 'requsites_payeer_eur',
             'requsites_webmoney_rub', 'requsites_webmoney_usd', 'requsites_webmoney_eur', 'requsites_pm_btc', 'requsites_pm_usd', 'requsites_pm_eur',
-            'requsites_skrill_rub', 'requsites_skrill_usd', 'requsites_paypal_rub', 'requsites_paypal_usd', 'requsites_paypal_eur', 'requsites_umoney_rub',
+            'requsites_skrill_eur', 'requsites_skrill_usd', 'requsites_paypal_rub', 'requsites_paypal_usd', 'requsites_paypal_eur', 'requsites_umoney_rub',
             'requsites_btc', 'requsites_xrp', 'requsites_ltc', 'requsites_bch', 'requsites_xmr', 'requsites_eth', 'requsites_etc', 'requsites_dash')
-        widgets = {
-
-        }
 
 class RequisitesForm2(forms.ModelForm):
     class Meta:
@@ -57,7 +69,7 @@ class RequisitesForm2(forms.ModelForm):
             'requsites_width_raifaizen_rub', 'requsites_width_roketbank_rub', 'requsites_width_otkritie_rub', 'requsites_width_pochtabank_rub', 'requsites_width_rnkb_rub',
             'requsites_width_rosbank_rub', 'requsites_width_mtsbank_rub', 'requsites_width_qiwi_rub', 'requsites_width_qiwi_usd', 'requsites_width_payeer_rub',
             'requsites_width_payeer_usd', 'requsites_width_payeer_eur', 'requsites_width_webmoney_rub', 'requsites_width_webmoney_usd', 'requsites_width_webmoney_eur', 'requsites_width_pm_btc',
-            'requsites_width_pm_usd', 'requsites_width_pm_eur', 'requsites_width_skrill_rub', 'requsites_width_skrill_usd', 'requsites_width_paypal_rub', 'requsites_width_paypal_usd',
+            'requsites_width_pm_usd', 'requsites_width_pm_eur', 'requsites_width_skrill_eur', 'requsites_width_skrill_usd', 'requsites_width_paypal_rub', 'requsites_width_paypal_usd',
             'requsites_width_paypal_eur', 'requsites_width_umoney_rub', 'requsites_width_btc', 'requsites_width_xrp', 'requsites_width_ltc', 'requsites_width_bch', 'requsites_width_xmr', 'requsites_width_eth', 'requsites_width_etc', 'requsites_width_dash')
 
 
@@ -85,3 +97,25 @@ class TransferForm(forms.ModelForm):
             'transfer_in': TextInput(attrs={'class': 'form-control'}),
             'transfer_sum': TextInput(attrs={'class': 'form-control'}),
         }
+
+# // ОБМЕННИК // ФОРМА АКТИВНОСТИ ПС
+class ActivePSForm(forms.ModelForm):
+    class Meta:
+        model = CustomUser
+        fields = ('active_in_sberbank_rub', 'active_in_psb_rub', 'active_in_tinkoff_rub', 'active_in_gazprombank_rub',
+                  'active_in_alfabank_rub', 'active_in_russtandart_rub', 'active_in_vtb_rub', 'active_in_rosselhoz_rub',
+                  'active_in_raifaizen_rub', 'active_in_roketbank_rub', 'active_in_otkritie_rub', 'active_in_pochtabank_rub',
+                  'active_in_rnkb_rub', 'active_in_rosbank_rub', 'active_in_mtsbank_rub', 'active_in_qiwi_rub', 'active_in_qiwi_usd',
+                  'active_in_payeer_rub', 'active_in_payeer_usd', 'active_in_payeer_eur', 'active_in_webmoney_rub', 'active_in_webmoney_usd',
+                  'active_in_webmoney_eur', 'active_in_pm_btc', 'active_in_pm_usd', 'active_in_pm_eur', 'active_in_skrill_eur',
+                  'active_in_skrill_usd', 'active_in_paypal_rub', 'active_in_paypal_usd', 'active_in_paypal_eur', 'active_in_umoney_rub',
+                  'active_in_btc', 'active_in_xrp', 'active_in_ltc', 'active_in_bch', 'active_in_xmr', 'active_in_eth', 'active_in_etc',
+                  'active_in_dash', 'active_out_sberbank_rub', 'active_out_psb_rub', 'active_out_tinkoff_rub', 'active_out_gazprombank_rub',
+                  'active_out_alfabank_rub', 'active_out_russtandart_rub', 'active_out_vtb_rub', 'active_out_rosselhoz_rub',
+                  'active_out_raifaizen_rub', 'active_out_roketbank_rub', 'active_out_otkritie_rub', 'active_out_pochtabank_rub',
+                  'active_out_rnkb_rub', 'active_out_rosbank_rub', 'active_out_mtsbank_rub', 'active_out_qiwi_rub', 'active_out_qiwi_usd',
+                  'active_out_payeer_rub', 'active_out_payeer_usd', 'active_out_payeer_eur', 'active_out_webmoney_rub',
+                  'active_out_webmoney_usd', 'active_out_webmoney_eur', 'active_out_pm_btc', 'active_out_pm_usd', 'active_out_pm_eur',
+                  'active_out_skrill_eur', 'active_out_skrill_usd', 'active_out_paypal_rub', 'active_out_paypal_usd',
+                  'active_out_paypal_eur', 'active_out_umoney_rub', 'active_out_btc', 'active_out_xrp', 'active_out_ltc',
+                  'active_out_bch', 'active_out_xmr', 'active_out_eth', 'active_out_etc', 'active_out_dash')

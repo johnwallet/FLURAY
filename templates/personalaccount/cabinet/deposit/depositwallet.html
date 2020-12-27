@@ -522,7 +522,7 @@
                                                     <span>Платежная система</span>
                                                 </div>
                                                 <div class="right-card">
-                                                    <input class="input-final" readonly type="text" value="СБЕРБАНК" id="name-fin-request-deposit">
+                                                    {{ form.request_sistemchange }}
                                                 </div>
                                             </div>
                                             <div class="content-request">
@@ -530,7 +530,7 @@
                                                     <span>Сумма пополнения</span>
                                                 </div>
                                                 <div class="right-card">
-                                                    <input class="input-final" readonly type="number" value="0" id="sum-fin-request-deposit">
+                                                    {{ form.request_sum }}
                                                 </div>
                                             </div>
                                             <div class="content-request">
@@ -538,7 +538,7 @@
                                                     <span>Критерий заявки</span>
                                                 </div>
                                                 <ul class="right-card">
-                                                    <input class="input-final" readonly type="text" value="БЫСТРАЯ ЗАЯВКА" id="kriteri-fin-request-deposit">
+                                                    {{ form.criteri }}
                                                 </ul>
                                             </div>
                                             <div class="request-button">

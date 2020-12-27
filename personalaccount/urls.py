@@ -7,7 +7,7 @@ urlpatterns = [
     path('withdrawalwallet/', views.withdrawalwallet, name='withdrawalwallet'),
     path('transferwallet/', views.transferwallet, name='transferwallet'),
     path('transactionwallet/', views.transactionwallet, name='transactionwallet'),
-    path('rekvisitwallet/', views.rekvisitwallet, name='rekvisitwallet'),
+
     path('profilewallet/', views.profilewallet, name='profilewallet'),
     path('settingwallet/', views.settingwallet, name='settingwallet'),
 
@@ -28,12 +28,18 @@ urlpatterns = [
     path('withdrawalreservchange/', views.withdrawalreservchange, name='withdrawalreservchange'),
     path('transactionchange/', views.transactionchange, name='transactionchange'),
 
+    path('activechange/', views.activechange, name='activechange'),
+    path('activechange/statuschange/', views.activechangestch, name='activechangestch'),
+    path('activechange/statuschange/toggle', views.activechangestchtoggle, name='activechangestchtoggle'),
+    path('activechange/statusps/', views.activechangestps, name='activechangestps'),
+
+
+    path('reservchange/', views.reservchange, name='reservchange'),
     path('coursechange/', views.coursechange, name='coursechange'),
     path('coursechange/update/', views.coursechangeupdate, name='coursechangeupdate'),
     path('coursechange/commission/', views.coursechangecommission, name='coursechangecommission'),
-
-
     path('rekvisitchange/', views.rekvisitchange, name='rekvisitchange'),
+
     path('profilechange/', views.profilechange, name='profilechange'),
     path('settingchange/', views.settingchange, name='settingchange'),
 ]

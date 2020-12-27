@@ -106,7 +106,7 @@
                         <li>
                             <a href="{% url 'depositreservchange' %}" class="waves-effect">
                                 <div class="d-inline-block icons-sm mr-1"><i class="uim uim-plus-square"></i></div>
-                                <span>Пополнение резерва</span>
+                                <span>Пополнение баланса</span>
                             </a>
                         </li>
 
@@ -114,7 +114,7 @@
                         <li>
                             <a href="{% url 'withdrawalreservchange' %}" class="waves-effect">
                                 <div class="d-inline-block icons-sm mr-1"><i class="uim uim-minus-square-full"></i></div>
-                                <span>Вывод резерва</span>
+                                <span>Вывод баланса</span>
                             </a>
                         </li>
 
@@ -125,10 +125,12 @@
                             </a>
                         </li>
 
+                        <li class="menu-title">Настройки</li>
+
                         <li>
                             <a href="{% url 'coursechange' %}" class="waves-effect">
                                 <div class="d-inline-block icons-sm mr-1"><i class="uim uim-refresh"></i></div>
-                                <span>Курсы валют</span>
+                                <span>Коммисия</span>
                             </a>
                         </li>
 
@@ -136,6 +138,20 @@
                             <a href="{% url 'rekvisitchange' %}" class="waves-effect">
                                 <div class="d-inline-block icons-sm mr-1"><i class="uim uim-horizontal-align-left"></i></div>
                                 <span>Реквизиты</span>
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="{% url 'activechange' %}" class="waves-effect">
+                                <div class="d-inline-block icons-sm mr-1"><i class="uim uim-horizontal-align-left"></i></div>
+                                <span>Активность</span>
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="{% url 'reservchange' %}" class="waves-effect">
+                                <div class="d-inline-block icons-sm mr-1"><i class="uim uim-horizontal-align-left"></i></div>
+                                <span>Резерв</span>
                             </a>
                         </li>
 
