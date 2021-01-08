@@ -12,7 +12,7 @@ class RequestForm(forms.ModelForm):
         fields = ('request_sistemchange', 'request_sum', 'criteri')
         widgets = {
             'request_sistemchange': TextInput(attrs={'class': 'input-final', 'id': 'name-fin-request-deposit', 'value': 'СБЕРБАНК', 'readonly': ''}),
-            'request_sum': TextInput(attrs={'class': 'input-final', 'id': 'sum-fin-request-deposit', 'value': '0', 'readonly': '', 'type': 'number'}),
+            'request_sum': TextInput(attrs={'class': 'input-final', 'id': 'sum-fin-request-deposit', 'value': '0.00', 'readonly': '', 'type': 'number'}),
             'criteri': TextInput(attrs={'class': 'input-final', 'id': 'kriteri-fin-request-deposit', 'value': 'БЫСТРАЯ ЗАЯВКА', 'readonly': ''}),
         }
 
@@ -92,12 +92,12 @@ class ReservChangeForm(forms.ModelForm):
 class WithdrawalForm(forms.ModelForm):
     class Meta:
         model = RequestChange
-        fields = ('request_sum', 'requisites', 'criteri')
+        fields = ('request_sistemchange', 'request_sum', 'criteri', 'requisites')
         widgets = {
-            'request_sum': TextInput(attrs={'class': 'form-control'}),
-            'requisites': TextInput(attrs={'class': 'form-control'}),
-            'criteri': Select(
-                attrs={'class': 'btn btn-outline-primary btn-block waves-effect waves-light'}),
+            'request_sistemchange': TextInput(attrs={'class': 'input-final', 'id': 'name-fin-request-deposit', 'value': 'СБЕРБАНК', 'readonly': ''}),
+            'request_sum': TextInput(attrs={'class': 'input-final', 'id': 'sum-fin-request-deposit', 'value': '0.00', 'readonly': '', 'type': 'number'}),
+            'criteri': TextInput(attrs={'class': 'input-final', 'id': 'kriteri-fin-request-deposit', 'value': 'БЫСТРАЯ ЗАЯВКА', 'readonly': ''}),
+            'requisites': TextInput(attrs={'class': 'input-final', 'id': 'requisites-fin-request-deposit', 'value': '-', 'readonly': ''}),
         }
 
 

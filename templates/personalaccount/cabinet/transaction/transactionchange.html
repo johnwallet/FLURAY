@@ -37,9 +37,8 @@
                                             <thead>
                                             <tr>
                                                 <th>Название</th>
-                                                <th>Сумма</th>
-                                                <th>Валюта</th>
                                                 <th>Плат.система</th>
+                                                <th>Сумма</th>
                                                 <th>Статус</th>
                                                 <th>Дата создания</th>
                                                 <th>Дата исполнения</th>
@@ -48,15 +47,10 @@
                                             <tbody>
                                                 {% for i in tranviewchange %}
                                                     <tr>
-                                                    {% if i.transaction_type == 'Пополнение кошелька' or i.transaction_type == 'Вывод из кошелька' %}
-                                                        <td>Заявка № {{ i.transaction_name }}</td>
-                                                    {% elif i.transaction_type == 'Внутренний перевод' %}
-                                                        <td>Перевод № {{ i.transaction_name }}</td>
-                                                    {% endif %}
-                                                    <td>{{ i.transaction_sum }}</td>
-                                                    <td>{{ i.transaction_currency }}</td>
+                                                    <td>{{ i.transaction_name }}</td>
                                                     <td>{{ i.transaction_sistemchange }}</td>
-                                                    {% if i.transaction_status == 'Ожидает оплаты' %}
+                                                    <td>{{ i.transaction_sum }}</td>
+                                                    {% if i.transaction_status == 'В обработке' %}
                                                         <td>
                                                             <div class="badge badge-soft-warning">{{ i.transaction_status }}</div>
                                                         </td>

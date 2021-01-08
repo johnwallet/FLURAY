@@ -13,16 +13,14 @@ urlpatterns = [
 
     path('requsetwallet/', views.requsetwallet, name='requsetwallet'),
     path('requsetwallet/<int:pk>/', views.requsetwalletsuccess, name='requsetwalletsuccess'),
+    path('requsetwallet/<int:pk>/del/', views.requsetwalletdel, name='requsetwalletdel'),
 
     path('withdrawalexchange/', views.withdrawalexchange, name='withdrawalexchange'),
-    path('withdrawalexchange/<int:pk>/', views.withdrawalexchangerequest, name='withdrawalexchangerequest'),
-    path('withdrawalexchange/<int:pk>/good/', views.withdrawalexchangerequestupdate, name='withdrawalexchangerequestupdate'),
+    path('withdrawalexchange/<int:pk>/good/', views.withdrawalexchangegood, name='withdrawalexchangegood'),
 
     path('depositexchange/', views.depositexchange, name='depositexchange'),
     path('depositexchange/<int:pk>/', views.depositexchangerequest, name='depositexchangerequest'),
     path('depositexchange/<int:pk>/good/', views.depositexchangerequestupdate, name='depositexchangerequestupdate'),
-    path('depositexchange/<int:pk>/no/', views.depositexchangerequestupdateno,
-         name='depositexchangerequestupdateno'),
 
     path('depositreservchange/', views.depositreservchange, name='depositreservchange'),
     path('withdrawalreservchange/', views.withdrawalreservchange, name='withdrawalreservchange'),

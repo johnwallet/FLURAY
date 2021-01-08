@@ -71,17 +71,19 @@
                         <div class="col-md-12">
                             <div class="card">
                                 <div class="card-body">
+
                                     <div class="card-title-custom">
                                         <h5 class="mb-4 text-left">Выберите платежную систему</h5>
                                         <a href="#">Платежной системы нет в списке?</a>
                                     </div>
+
                                     <div class="list-card">
-                                        <div class="name-ps">
+                                        <div id="name-ps-1" class="name-ps">
                                             <span>Коммерческие банки</span>
-                                            <img src="{% static 'personalaccount/assets/images/icon/arrow.svg' %}"
+                                            <img id="name-ps-img-1" src="{% static 'personalaccount/assets/images/icon/arrow.svg' %}"
                                                  alt="arrow">
                                         </div>
-                                        <div class="card-ps-list">
+                                        <div id="card-ps-list-1" class="card-ps-list">
                                             <div class="card-ps">
                                                 <div class="card-content-ps">
                                                     <img src="{% static 'personalaccount/assets/images/logo-ps/sber.png' %}"
@@ -89,374 +91,374 @@
                                                 </div>
                                                 <div class="card-content-ps-a-list">
                                                     <div class="card-content-ps-a">
-                                                        <a href="#">RUB</a>
+                                                        <span id="sber-rub-deposit">RUB</span>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="card-ps">
                                                 <div class="card-content-ps">
                                                     <img src="{% static 'personalaccount/assets/images/logo-ps/tinkoff.png' %}"
-                                                         alt="sber">
+                                                         alt="tinkoff">
                                                 </div>
                                                 <div class="card-content-ps-a-list">
                                                     <div class="card-content-ps-a">
-                                                        <a href="#">RUB</a>
+                                                        <span id="tinkoff-rub-deposit">RUB</span>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="card-ps">
                                                 <div class="card-content-ps">
                                                     <img src="{% static 'personalaccount/assets/images/logo-ps/alfa.png' %}"
-                                                         alt="sber">
+                                                         alt="alfabank">
                                                 </div>
                                                 <div class="card-content-ps-a-list">
                                                     <div class="card-content-ps-a">
-                                                        <a href="#">RUB</a>
+                                                        <span id="alfabank-rub-deposit">RUB</span>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="card-ps">
                                                 <div class="card-content-ps">
                                                     <img src="{% static 'personalaccount/assets/images/logo-ps/vtb.png' %}"
-                                                         alt="sber">
+                                                         alt="vtb">
                                                 </div>
                                                 <div class="card-content-ps-a-list">
                                                     <div class="card-content-ps-a">
-                                                        <a href="#">RUB</a>
+                                                        <span id="vtb-rub-deposit">RUB</span>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="card-ps">
                                                 <div class="card-content-ps">
                                                     <img src="{% static 'personalaccount/assets/images/logo-ps/raif.png' %}"
-                                                         alt="sber">
+                                                         alt="raiffaizen">
                                                 </div>
                                                 <div class="card-content-ps-a-list">
                                                     <div class="card-content-ps-a">
-                                                        <a href="#">RUB</a>
+                                                        <span id="raif-rub-deposit">RUB</span>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="card-ps">
                                                 <div class="card-content-ps">
                                                     <img src="{% static 'personalaccount/assets/images/logo-ps/otkr.png' %}"
-                                                         alt="sber">
+                                                         alt="otkritie">
                                                 </div>
                                                 <div class="card-content-ps-a-list">
                                                     <div class="card-content-ps-a">
-                                                        <a href="#">RUB</a>
+                                                        <span id="otkr-rub-deposit">RUB</span>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="card-ps">
                                                 <div class="card-content-ps">
                                                     <img src="{% static 'personalaccount/assets/images/logo-ps/psb.png' %}"
-                                                         alt="sber">
+                                                         alt="psb">
                                                 </div>
                                                 <div class="card-content-ps-a-list">
                                                     <div class="card-content-ps-a">
-                                                        <a href="#">RUB</a>
+                                                        <span id="psb-rub-deposit">RUB</span>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="card-ps">
                                                 <div class="card-content-ps">
                                                     <img src="{% static 'personalaccount/assets/images/logo-ps/gazprom.png' %}"
-                                                         alt="sber">
+                                                         alt="gazprom">
                                                 </div>
                                                 <div class="card-content-ps-a-list">
                                                     <div class="card-content-ps-a">
-                                                        <a href="#">RUB</a>
+                                                        <span id="gazprom-rub-deposit">RUB</span>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="card-ps">
                                                 <div class="card-content-ps">
                                                     <img src="{% static 'personalaccount/assets/images/logo-ps/standart.png' %}"
-                                                         alt="sber">
+                                                         alt="standart">
                                                 </div>
                                                 <div class="card-content-ps-a-list">
                                                     <div class="card-content-ps-a">
-                                                        <a href="#">RUB</a>
+                                                        <span id="standart-rub-deposit">RUB</span>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="card-ps">
                                                 <div class="card-content-ps">
                                                     <img src="{% static 'personalaccount/assets/images/logo-ps/rsb.png' %}"
-                                                         alt="sber">
+                                                         alt="rsb">
                                                 </div>
                                                 <div class="card-content-ps-a-list">
                                                     <div class="card-content-ps-a">
-                                                        <a href="#">RUB</a>
+                                                        <span id="rsb-rub-deposit">RUB</span>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="card-ps">
                                                 <div class="card-content-ps">
                                                     <img src="{% static 'personalaccount/assets/images/logo-ps/roket.png' %}"
-                                                         alt="sber">
+                                                         alt="roket">
                                                 </div>
                                                 <div class="card-content-ps-a-list">
                                                     <div class="card-content-ps-a">
-                                                        <a href="#">RUB</a>
+                                                        <span id="roket-rub-deposit">RUB</span>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="card-ps">
                                                 <div class="card-content-ps">
                                                     <img src="{% static 'personalaccount/assets/images/logo-ps/pochta.png' %}"
-                                                         alt="sber">
+                                                         alt="pochta">
                                                 </div>
                                                 <div class="card-content-ps-a-list">
                                                     <div class="card-content-ps-a">
-                                                        <a href="#">RUB</a>
+                                                        <span id="pochta-rub-deposit">RUB</span>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="card-ps">
                                                 <div class="card-content-ps">
                                                     <img src="{% static 'personalaccount/assets/images/logo-ps/rosbank.png' %}"
-                                                         alt="sber">
+                                                         alt="rosbank">
                                                 </div>
                                                 <div class="card-content-ps-a-list">
                                                     <div class="card-content-ps-a">
-                                                        <a href="#">RUB</a>
+                                                        <span id="rosbank-rub-deposit">RUB</span>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="card-ps">
                                                 <div class="card-content-ps">
                                                     <img src="{% static 'personalaccount/assets/images/logo-ps/rnkb.png' %}"
-                                                         alt="sber">
+                                                         alt="rnkb">
                                                 </div>
                                                 <div class="card-content-ps-a-list">
                                                     <div class="card-content-ps-a">
-                                                        <a href="#">RUB</a>
+                                                        <span id="rnkb-rub-deposit">RUB</span>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="card-ps">
                                                 <div class="card-content-ps">
                                                     <img src="{% static 'personalaccount/assets/images/logo-ps/mts.png' %}"
-                                                         alt="sber">
+                                                         alt="mts">
                                                 </div>
                                                 <div class="card-content-ps-a-list">
                                                     <div class="card-content-ps-a">
-                                                        <a href="#">RUB</a>
+                                                        <span id="mts-rub-deposit">RUB</span>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="list-card">
-                                        <div class="name-ps">
+                                        <div id="name-ps-2" class="name-ps">
                                             <span>Электронные кошельки</span>
-                                            <img src="{% static 'personalaccount/assets/images/icon/arrow.svg' %}"
+                                            <img id="name-ps-img-2" src="{% static 'personalaccount/assets/images/icon/arrow.svg' %}"
                                                  alt="arrow">
                                         </div>
-                                        <div class="card-ps-list">
+                                        <div id="card-ps-list-2" class="card-ps-list">
                                             <div class="card-ps">
                                                 <div class="card-content-ps">
                                                     <img src="{% static 'personalaccount/assets/images/logo-ps/qiwi.png' %}"
-                                                         alt="sber">
+                                                         alt="qiwi">
                                                 </div>
                                                 <div class="card-content-ps-a-list">
                                                     <div class="card-content-ps-a twobtn">
-                                                        <a href="#">RUB</a>
+                                                        <span id="qiwi-rub-deposit">RUB</span>
                                                     </div>
                                                     <div class="card-content-ps-a twobtn">
-                                                        <a href="#">USD</a>
+                                                        <span id="qiwi-usd-deposit">USD</span>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="card-ps">
                                                 <div class="card-content-ps">
                                                     <img src="{% static 'personalaccount/assets/images/logo-ps/payeer.png' %}"
-                                                         alt="sber">
+                                                         alt="payeer">
                                                 </div>
                                                 <div class="card-content-ps-a-list">
                                                     <div class="card-content-ps-a trybtn">
-                                                        <a href="#">RUB</a>
+                                                        <span id="payeer-rub-deposit">RUB</span>
                                                     </div>
                                                     <div class="card-content-ps-a trybtn">
-                                                        <a href="#">EUR</a>
+                                                        <span id="payeer-eur-deposit">EUR</span>
                                                     </div>
                                                     <div class="card-content-ps-a trybtn">
-                                                        <a href="#">USD</a>
+                                                        <span id="payeer-usd-deposit">USD</span>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="card-ps">
                                                 <div class="card-content-ps">
                                                     <img src="{% static 'personalaccount/assets/images/logo-ps/wm.png' %}"
-                                                         alt="sber">
+                                                         alt="wm">
                                                 </div>
                                                 <div class="card-content-ps-a-list">
                                                     <div class="card-content-ps-a trybtn">
-                                                        <a href="#">RUB</a>
+                                                        <span id="wm-rub-deposit">RUB</span>
                                                     </div>
                                                     <div class="card-content-ps-a trybtn">
-                                                        <a href="#">EUR</a>
+                                                        <span id="wm-eur-deposit">EUR</span>
                                                     </div>
                                                     <div class="card-content-ps-a trybtn">
-                                                        <a href="#">USD</a>
+                                                        <span id="wm-usd-deposit">USD</span>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="card-ps">
                                                 <div class="card-content-ps">
                                                     <img src="{% static 'personalaccount/assets/images/logo-ps/pm.png' %}"
-                                                         alt="sber">
+                                                         alt="pm">
                                                 </div>
                                                 <div class="card-content-ps-a-list">
                                                     <div class="card-content-ps-a trybtn">
-                                                        <a href="#">BTC</a>
+                                                        <span id="pm-btc-deposit">BTC</span>
                                                     </div>
                                                     <div class="card-content-ps-a trybtn">
-                                                        <a href="#">EUR</a>
+                                                        <span id="pm-eur-deposit">EUR</span>
                                                     </div>
                                                     <div class="card-content-ps-a trybtn">
-                                                        <a href="#">USD</a>
+                                                        <span id="pm-usd-deposit">USD</span>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="card-ps">
                                                 <div class="card-content-ps">
                                                     <img src="{% static 'personalaccount/assets/images/logo-ps/paypal.png' %}"
-                                                         alt="sber">
+                                                         alt="paypal">
                                                 </div>
                                                 <div class="card-content-ps-a-list">
                                                     <div class="card-content-ps-a trybtn">
-                                                        <a href="#">RUB</a>
+                                                        <span id="paypal-rub-deposit">RUB</span>
                                                     </div>
                                                     <div class="card-content-ps-a trybtn">
-                                                        <a href="#">EUR</a>
+                                                        <span id="paypal-eur-deposit">EUR</span>
                                                     </div>
                                                     <div class="card-content-ps-a trybtn">
-                                                        <a href="#">USD</a>
+                                                        <span id="paypal-usd-deposit">USD</span>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="card-ps">
                                                 <div class="card-content-ps">
                                                     <img src="{% static 'personalaccount/assets/images/logo-ps/skrill.png' %}"
-                                                         alt="sber">
+                                                         alt="skrill">
                                                 </div>
                                                 <div class="card-content-ps-a-list">
                                                     <div class="card-content-ps-a twobtn">
-                                                        <a href="#">EUR</a>
+                                                        <span id="skrill-eur-deposit">EUR</span>
                                                     </div>
                                                     <div class="card-content-ps-a twobtn">
-                                                        <a href="#">USD</a>
+                                                        <span id="skrill-usd-deposit">USD</span>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="card-ps">
                                                 <div class="card-content-ps">
                                                     <img src="{% static 'personalaccount/assets/images/logo-ps/umani.png' %}"
-                                                         alt="sber">
+                                                         alt="umoney">
                                                 </div>
                                                 <div class="card-content-ps-a-list">
                                                     <div class="card-content-ps-a">
-                                                        <a href="#">RUB</a>
+                                                        <span id="umoney-rub-deposit">RUB</span>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="list-card">
-                                        <div class="name-ps">
+                                        <div id="name-ps-3" class="name-ps">
                                             <span>Криптовалюты</span>
-                                            <img src="{% static 'personalaccount/assets/images/icon/arrow.svg' %}"
+                                            <img id="name-ps-img-3" src="{% static 'personalaccount/assets/images/icon/arrow.svg' %}"
                                                  alt="arrow">
                                         </div>
-                                        <div class="card-ps-list">
+                                        <div id="card-ps-list-3" class="card-ps-list">
                                             <div class="card-ps">
                                                 <div class="card-content-ps">
                                                     <img src="{% static 'personalaccount/assets/images/logo-ps/btc.png' %}"
-                                                         alt="sber">
+                                                         alt="btc">
                                                 </div>
                                                 <div class="card-content-ps-a-list">
                                                     <div class="card-content-ps-a">
-                                                        <a href="#">BTC</a>
+                                                        <span id="btc-deposit">BTC</span>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="card-ps">
                                                 <div class="card-content-ps">
                                                     <img src="{% static 'personalaccount/assets/images/logo-ps/ltc.png' %}"
-                                                         alt="sber">
+                                                         alt="ltc">
                                                 </div>
                                                 <div class="card-content-ps-a-list">
                                                     <div class="card-content-ps-a">
-                                                        <a href="#">LTC</a>
+                                                        <span id="ltc-deposit">LTC</span>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="card-ps">
                                                 <div class="card-content-ps">
                                                     <img src="{% static 'personalaccount/assets/images/logo-ps/xmr.png' %}"
-                                                         alt="sber">
+                                                         alt="xmr">
                                                 </div>
                                                 <div class="card-content-ps-a-list">
                                                     <div class="card-content-ps-a">
-                                                        <a href="#">XMR</a>
+                                                        <span id="xmr-deposit">XMR</span>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="card-ps">
                                                 <div class="card-content-ps">
                                                     <img src="{% static 'personalaccount/assets/images/logo-ps/etc.png' %}"
-                                                         alt="sber">
+                                                         alt="etc">
                                                 </div>
                                                 <div class="card-content-ps-a-list">
                                                     <div class="card-content-ps-a">
-                                                        <a href="#">ETC</a>
+                                                        <span id="etc-deposit">ETC</span>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="card-ps">
                                                 <div class="card-content-ps">
                                                     <img src="{% static 'personalaccount/assets/images/logo-ps/dash.png' %}"
-                                                         alt="sber">
+                                                         alt="dash">
                                                 </div>
                                                 <div class="card-content-ps-a-list">
                                                     <div class="card-content-ps-a">
-                                                        <a href="#">DASH</a>
+                                                        <span id="dash-deposit">DASH</span>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="card-ps">
                                                 <div class="card-content-ps">
                                                     <img src="{% static 'personalaccount/assets/images/logo-ps/xrp.png' %}"
-                                                         alt="sber">
+                                                         alt="xrp">
                                                 </div>
                                                 <div class="card-content-ps-a-list">
                                                     <div class="card-content-ps-a">
-                                                        <a href="#">XRP</a>
+                                                        <span id="xrp-deposit">XRP</span>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="card-ps">
                                                 <div class="card-content-ps">
                                                     <img src="{% static 'personalaccount/assets/images/logo-ps/bch.png' %}"
-                                                         alt="sber">
+                                                         alt="bch">
                                                 </div>
                                                 <div class="card-content-ps-a-list">
                                                     <div class="card-content-ps-a">
-                                                        <a href="#">BCH</a>
+                                                        <span id="bch-deposit">BCH</span>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="card-ps">
                                                 <div class="card-content-ps">
                                                     <img src="{% static 'personalaccount/assets/images/logo-ps/eth.png' %}"
-                                                         alt="sber">
+                                                         alt="eth">
                                                 </div>
                                                 <div class="card-content-ps-a-list">
                                                     <div class="card-content-ps-a">
-                                                        <a href="#">ETH</a>
+                                                        <span id="eth-deposit">ETH</span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -475,10 +477,10 @@
                                         <h5 class="mb-4 text-left">Реквизиты для вывода</h5>
                                     </div>
                                     <div class="input-group mb-3">
-                                        <input type="text" class="form-control" placeholder="Введите свои реквизиты для получения средств"
+                                        <input id="requisites-ps-input" type="text" class="form-control" placeholder="Введите свои реквизиты для получения средств"
                                                aria-label="Имя получателя" aria-describedby="basic-addon2">
                                         <div class="input-group-append">
-                                            <span class="input-group-text" id="basic-addon2">СБЕРБАНК</span>
+                                            <span class="input-group-text" id="requisites-ps-name">СБЕРБАНК</span>
                                         </div>
                                     </div>
                                 </div>
@@ -493,13 +495,13 @@
                                     <div class="card-step">
                                         <div class="card-1step">
                                             <div class="card-title">
-                                                <h5 class="mb-3 text-left">Сумма пополнения</h5>
+                                                <h5 class="mb-3 text-left">Сумма вывода</h5>
                                             </div>
                                             <div class="input-group mb-3">
-                                                <input type="text" class="form-control" placeholder="Введите сумму"
-                                                       aria-label="Имя получателя" aria-describedby="basic-addon2">
+                                                <input id="input-change" type="number" class="form-control" placeholder="Введите сумму"
+                                                       aria-label="Имя получателя">
                                                 <div class="input-group-append">
-                                                    <span class="input-group-text" id="basic-addon2">RUB</span>
+                                                    <span class="input-group-text">USD</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -508,13 +510,13 @@
                                                 <h5 class="mb-3 text-left">Выберите критерий заявки</h5>
                                             </div>
                                             <div class="card-chekbox">
-                                                <div class="radiochekbox">
-                                                    <input id="radio-1" type="radio" name="radio" value="1" checked>
-                                                    <label for="radio-1">БЫСТРАЯ ЗАЯВКА</label>
+                                                <div id="chekbox-quickaplication" class="radiochekbox">
+                                                    <input id="winchange" type="radio" name="radio" value="БЫСТРАЯ ЗАЯВКА" checked>
+                                                    <label for="winchange">БЫСТРАЯ ЗАЯВКА</label>
                                                 </div>
-                                                <div class="radiochekbox">
-                                                    <input id="radio-2" type="radio" name="radio" value="2">
-                                                    <label for="radio-2">ВЫГОДНЫЙ КУРС</label>
+                                                <div id="chekbox-wincurse" class="radiochekbox">
+                                                    <input id="wincurse" type="radio" name="radio" value="ВЫГОДНЫЙ КУРС">
+                                                    <label for="wincurse">ВЫГОДНЫЙ КУРС</label>
                                                 </div>
                                             </div>
 
@@ -526,46 +528,49 @@
                         <div class="col-md-6 cust">
                             <div class="card cust">
                                 <div class="card-body">
-                                    <div class="card-step">
-                                        <div class="card-title">
-                                            <h5 class="mb-3 text-left">Заявка на пополнение</h5>
+                                    <form method="POST" action="{% url 'withdrawalwallet' %}" >
+                                        {% csrf_token %}
+                                        <div class="card-step">
+                                            <div class="card-title">
+                                                <h5 class="mb-3 text-left">Заявка на вывод</h5>
+                                            </div>
+                                            <div class="content-request">
+                                                <div class="left-card">
+                                                    <span>Платежная система</span>
+                                                </div>
+                                                <div class="right-card">
+                                                    {{ form.request_sistemchange }}
+                                                </div>
+                                            </div>
+                                            <div class="content-request">
+                                                <div class="left-card">
+                                                    <span>Сумма вывода</span>
+                                                </div>
+                                                <div class="right-card">
+                                                    {{ form.request_sum }}
+                                                </div>
+                                            </div>
+                                            <div class="content-request">
+                                                <div class="left-card">
+                                                    <span>Критерий заявки</span>
+                                                </div>
+                                                <ul class="right-card">
+                                                    {{ form.criteri }}
+                                                </ul>
+                                            </div>
+                                            <div class="content-request">
+                                                <div class="left-card">
+                                                    <span>Реквизиты</span>
+                                                </div>
+                                                <ul class="right-card">
+                                                    {{ form.requisites }}
+                                                </ul>
+                                            </div>
+                                            <div class="request-button">
+                                                <button type="submit" class="btn-request-deposit">Создать заявку</button>
+                                            </div>
                                         </div>
-                                        <div class="content-request">
-                                            <ul class="left-card">
-                                                <li>Платежная система</li>
-                                            </ul>
-                                            <ul class="right-card">
-                                                <li>СБЕРБАНК</li>
-                                            </ul>
-                                        </div>
-                                        <div class="content-request">
-                                            <ul class="left-card">
-                                                <li>Сумма пополнения</li>
-                                            </ul>
-                                            <ul class="right-card">
-                                                <li>2 245 RUB</li>
-                                            </ul>
-                                        </div>
-                                        <div class="content-request">
-                                            <ul class="left-card">
-                                                <li>Критерий заявки</li>
-                                            </ul>
-                                            <ul class="right-card">
-                                                <li>БЫСТРАЯ ЗАЯВКА</li>
-                                            </ul>
-                                        </div>
-                                        <div class="content-request">
-                                            <ul class="left-card">
-                                                <li>Реквизиты</li>
-                                            </ul>
-                                            <ul class="right-card">
-                                                <li>4235 6543 7563 7583</li>
-                                            </ul>
-                                        </div>
-                                        <div class="request-button">
-                                            <button class="btn btn-outline-primary btn-block">Создать заявку</button>
-                                        </div>
-                                    </div>
+                                    </form>
                                 </div>
                             </div>
                         </div>

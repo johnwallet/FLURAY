@@ -62,14 +62,10 @@
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        <tr>
-                                            <td>USD</td>
-                                            <td>1,00</td>
-                                        </tr>
                                         {% for item in dash_cour %}
                                             <tr>
                                                 <td>{{ item.name_currency }}</td>
-                                                <td>{{ item.base_currency }}</td>
+                                                <td>{{ item.base_currency }} $</td>
                                             </tr>
                                         {% endfor %}
                                         </tbody>
@@ -92,28 +88,23 @@
                                             <thead>
                                             <tr>
                                                 <th scope="col">Название</th>
-                                                <th scope="col">Сумма</th>
                                                 <th scope="col">Плат.система</th>
+                                                <th scope="col">Сумма</th>
                                                 <th scope="col">Статус</th>
-                                                <th scope="col">Исполнена</th>
                                             </tr>
                                             </thead>
                                             <tbody>
                                             {% if dash_tran %}
                                                 {% for i in dash_tran|slice:"::-1"|slice:":5" %}
                                                 <tr>
-                                                    {% if i.transaction_type == 'Пополнение кошелька' or i.transaction_type == 'Вывод из кошелька' %}
-                                                        <td>Заявка № {{ i.transaction_name }}</td>
-                                                    {% elif i.transaction_type == 'Внутренний перевод' %}
-                                                        <td>Перевод № {{ i.transaction_name }}</td>
-                                                    {% endif %}
-                                                    <td>{{ i.transaction_sum }} {{ i.transaction_currency }}</td>
+                                                    <td>{{ i.transaction_name }}</td>
                                                     <td>{{ i.transaction_sistemchange }}</td>
-                                                    {% if i.transaction_status == 'Ожидает оплаты' %}
+                                                    <td>{{ i.transaction_sum }}</td>
+                                                    {% if i.transaction_status == 'В обработке' %}
                                                         <td>
                                                             <div class="badge badge-soft-warning">{{ i.transaction_status }}</div>
                                                         </td>
-                                                    {% elif i.transaction_status == 'Оплачена клиентом' or i.transaction_status == 'Выполнена' or i.transaction_status == 'Выполнен'%}
+                                                    {% elif i.transaction_status == 'Оплачена' or i.transaction_status == 'Выполнена' or i.transaction_status == 'Выполнен'%}
                                                         <td>
                                                             <div class="badge badge-soft-success">{{ i.transaction_status }}</div>
                                                         </td>
@@ -122,7 +113,6 @@
                                                             <div class="badge badge-soft-secondary">{{ i.transaction_status }}</div>
                                                         </td>
                                                     {% endif %}
-                                                    <td>{{ i.date_end_change }}</td>
                                                 </tr>
                                             {% endfor %}
                                             {% else %}

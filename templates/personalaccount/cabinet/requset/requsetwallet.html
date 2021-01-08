@@ -18,7 +18,7 @@
                         <div class="col-md-8">
                             <h4 class="page-title mb-1">Ваши заявки</h4>
                             <ol class="breadcrumb m-0">
-                                <li class="breadcrumb-item active">Здесь отображаються все заявки на пополнение и вывод</li>
+                                <li class="breadcrumb-item active">Здесь отображаются все заявки на пополнение и вывод</li>
                             </ol>
                         </div>
                     </div>
@@ -36,405 +36,396 @@
                                 <div class="card-body">
 
                                     <div class="card-title">
-                                        <h5 class="text-left">Заявки на пополнение</h5>
+                                        <h5 class="text-left">Ваши заявки</h5>
                                     </div>
 
-                                    <div class="card-request">
+                                    {% if base_reque %}
+                                        {% if status_reque %}
+                                            {% for item in base_reque|slice:"::-1" %}
+                                                {% if item.request_type == 'Заявка на пополнение' %}
+                                                    {% if item.request_status == 'Ожидает оплаты' %}
+                                                        <div class="card-request">
 
 
-                                        <div class="request-header">
+                                                            <div class="request-header">
 
-                                            <div class="request-header-box">
-                                                <div class="request-header-number">
-                                                    <div class="number-content">
-                                                        Заявка №23432553
-                                                    </div>
-                                                </div>
+                                                                <div class="request-header-box">
+                                                                    <div class="request-header-number">
+                                                                        <div class="number-content">
+                                                                            Заявка № {{ item.request_name }}
+                                                                        </div>
+                                                                    </div>
 
-                                                <div class="request-header-hm">
-                                                    <div class="hm-content">
-                                                        Дата создания: 11 ноября 14:23
-                                                    </div>
-                                                </div>
-                                            </div>
+                                                                    <div class="request-header-hm">
+                                                                        <div class="hm-content">
+                                                                            Дата создания: {{ item.date_joined_change }}
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
 
-                                            <div class="request-header-status">
-                                                <div class="status-box">
-                                                    <div class="status-content">
-                                                        Ожидает оплаты
-                                                    </div>
-                                                </div>
-                                            </div>
+                                                                <div class="request-header-status">
+                                                                    <div class="status-box">
+                                                                        <div class="status-content">
+                                                                            {{ item.request_status }}
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
 
-                                        </div>
+                                                            </div>
 
 
-                                        <div class="request-content">
+                                                            <div class="request-content">
 
-                                            <div class="request-content-left">
-                                                <div class="content-left-box">
-                                                    <div class="content-left-title">
-                                                        Платежная система
-                                                    </div>
-                                                    <div class="content-left-content">
-                                                        СБЕРБАНК
-                                                    </div>
-                                                </div>
-                                                <div class="content-left-box">
-                                                    <div class="content-left-title">
-                                                        Сумма заявки
-                                                    </div>
-                                                    <div class="content-left-content">
-                                                        12 432 RUB
-                                                    </div>
-                                                </div>
-                                                <div class="content-left-box">
-                                                    <div class="content-left-title">
-                                                        Коммисия
-                                                    </div>
-                                                    <div class="content-left-content">
-                                                        2.6 %
-                                                    </div>
-                                                </div>
-                                                <div class="content-left-box">
-                                                    <div class="content-left-title">
-                                                        Обработчик заявки
-                                                    </div>
-                                                    <div class="content-left-content">
-                                                        24change.com
-                                                    </div>
-                                                </div>
-                                            </div>
+                                                                <div class="request-content-left">
+                                                                    <div class="content-left-box">
+                                                                        <div class="content-left-title">
+                                                                            Платежная система
+                                                                        </div>
+                                                                        <div class="content-left-content">
+                                                                            {{ item.request_sistemchange }}
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="content-left-box">
+                                                                        <div class="content-left-title">
+                                                                            Сумма заявки
+                                                                        </div>
+                                                                        <div class="content-left-content">
+                                                                            {% if item.request_type_valute == 'USD' %}
+                                                                                {{ item.request_sum_valute }} $
+                                                                            {% elif item.request_type_valute == 'EUR' %}
+                                                                                {{ item.request_sum_valute }} €
+                                                                            {% elif item.request_type_valute == 'RUB' %}
+                                                                                {{ item.request_sum_valute }} ₽
+                                                                            {% elif item.request_type_valute == 'BTC' %}
+                                                                                {{ item.request_sum }} BTC
+                                                                            {% elif item.request_type_valute == 'LTC' %}
+                                                                                {{ item.request_sum }} LTC
+                                                                            {% elif item.request_type_valute == 'XMR' %}
+                                                                                {{ item.request_sum }} XMR
+                                                                            {% elif item.request_type_valute == 'ETC' %}
+                                                                                {{ item.request_sum }} ETC
+                                                                            {% elif item.request_type_valute == 'DASH' %}
+                                                                                {{ item.request_sum }} DASH
+                                                                            {% elif item.request_type_valute == 'XRP' %}
+                                                                                {{ item.request_sum }} XRP
+                                                                            {% elif item.request_type_valute == 'BCH' %}
+                                                                                {{ item.request_sum }} BCH
+                                                                            {% elif item.request_type_valute == 'ETH' %}
+                                                                                {{ item.request_sum }} ETH
+                                                                            {% endif %}
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="content-left-box">
+                                                                        <div class="content-left-title">
+                                                                            Коммисия
+                                                                        </div>
+                                                                        <div class="content-left-content">
+                                                                            {{ item.request_commission }} %
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="content-left-box">
+                                                                        <div class="content-left-title">
+                                                                            Обработчик заявки
+                                                                        </div>
+                                                                        <div class="content-left-content">
+                                                                            {{ item.request_userchange }}
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
 
-                                            <div class="request-content-right">
-                                                <div class="content-right-one">
-                                                    <div class="right-one-title">
-                                                        Итоговая сумма
-                                                    </div>
-                                                    <div class="right-one-content">
-                                                        13 353 RUB
-                                                    </div>
-                                                </div>
-                                                <div class="content-right-two">
-                                                    <div class="right-two-title">
-                                                        Реквизиты
-                                                    </div>
-                                                    <div class="right-two-content">
-                                                        <div class="right-two-content-content">1G9MeBhkCH2ugVoDtpzrYaqUTBY8MVxJAK</div>
-                                                        <div class="right-two-content-ico">
-                                                            <img src="{% static 'personalaccount/assets/images/icon/copy.svg' %}" alt="copy">
+                                                                <div class="request-content-right">
+                                                                    <div class="content-right-one">
+                                                                        <div class="right-one-title">
+                                                                            Будет начислено
+                                                                        </div>
+                                                                        <div class="right-one-content">
+                                                                            {{ item.request_good_sum_valute }} $
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="content-right-two">
+                                                                        <div class="right-two-title">
+                                                                            Реквизиты
+                                                                        </div>
+                                                                        <div class="right-two-content">
+                                                                            <div class="right-two-content-content">{{ item.requisites }}</div>
+                                                                            <div class="right-two-content-ico">
+                                                                                <img src="{% static 'personalaccount/assets/images/icon/copy.svg' %}" alt="copy">
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="content-right-try">
+                                                                        <a href="{{ item.pk }}/del/" class="right-try-content-del">
+                                                                            <img src="{% static 'personalaccount/assets/images/icon/del-btn.svg' %}" alt="">
+                                                                            <span>Удалить заявку</span>
+                                                                        </a>
+                                                                        <a href="{{ item.pk }}/" class="right-try-content-succes">
+                                                                            <img src="{% static 'personalaccount/assets/images/icon/succes-btn.svg' %}" alt="">
+                                                                            <span>Перевод выполнен</span>
+                                                                        </a>
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+
+
                                                         </div>
-                                                    </div>
-                                                </div>
-                                                <div class="content-right-try">
-                                                    <div class="right-try-content-del">
-                                                        <img src="{% static 'personalaccount/assets/images/icon/del-btn.svg' %}" alt="">
-                                                        <span>Удалить заявку</span>
-                                                    </div>
-                                                    <div class="right-try-content-succes">
-                                                        <img src="{% static 'personalaccount/assets/images/icon/succes-btn.svg' %}" alt="">
-                                                        <span>Перевод выполнен</span>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                                    {% elif item.request_status == 'Оплачена' %}
+                                                        <div class="card-request succes">
 
-                                        </div>
+                                                            <div class="request-header succes">
 
+                                                                <div class="request-header-box">
+                                                                    <div class="request-header-number">
+                                                                        <div class="number-content succes">
+                                                                            Заявка № {{ item.request_name }}
+                                                                        </div>
+                                                                    </div>
 
-                                    </div>
-                                    <div class="card-request succes">
+                                                                    <div class="request-header-hm">
+                                                                        <div class="hm-content">
+                                                                            Дата создания: {{ item.date_joined_change }}
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
 
-                                        <div class="request-header succes">
+                                                                <div class="request-header-status">
+                                                                    <div class="status-box succes">
+                                                                        <div class="status-content">
+                                                                            {{ item.request_status }}
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
 
-                                            <div class="request-header-box">
-                                                <div class="request-header-number">
-                                                    <div class="number-content succes">
-                                                        Заявка №23432553
-                                                    </div>
-                                                </div>
-
-                                                <div class="request-header-hm">
-                                                    <div class="hm-content">
-                                                        Дата создания: 11 ноября 14:23
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="request-header-status">
-                                                <div class="status-box succes">
-                                                    <div class="status-content">
-                                                        Оплачена
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                        </div>
+                                                            </div>
 
 
-                                        <div class="request-content">
+                                                            <div class="request-content">
 
-                                            <div class="request-content-left">
-                                                <div class="content-left-box">
-                                                    <div class="content-left-title">
-                                                        Платежная система
-                                                    </div>
-                                                    <div class="content-left-content">
-                                                        СБЕРБАНК
-                                                    </div>
-                                                </div>
-                                                <div class="content-left-box">
-                                                    <div class="content-left-title">
-                                                        Сумма заявки
-                                                    </div>
-                                                    <div class="content-left-content">
-                                                        12 432 RUB
-                                                    </div>
-                                                </div>
-                                                <div class="content-left-box">
-                                                    <div class="content-left-title">
-                                                        Коммисия
-                                                    </div>
-                                                    <div class="content-left-content">
-                                                        2.6 %
-                                                    </div>
-                                                </div>
-                                                <div class="content-left-box">
-                                                    <div class="content-left-title">
-                                                        Обработчик заявки
-                                                    </div>
-                                                    <div class="content-left-content">
-                                                        24change.com
-                                                    </div>
-                                                </div>
-                                            </div>
+                                                                <div class="request-content-left">
+                                                                    <div class="content-left-box">
+                                                                        <div class="content-left-title">
+                                                                            Платежная система
+                                                                        </div>
+                                                                        <div class="content-left-content">
+                                                                            {{ item.request_sistemchange }}
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="content-left-box">
+                                                                        <div class="content-left-title">
+                                                                            Сумма заявки
+                                                                        </div>
+                                                                        <div class="content-left-content">
+                                                                            {% if item.request_type_valute == 'USD' %}
+                                                                                {{ item.request_sum_valute }} $
+                                                                            {% elif item.request_type_valute == 'EUR' %}
+                                                                                {{ item.request_sum_valute }} €
+                                                                            {% elif item.request_type_valute == 'RUB' %}
+                                                                                {{ item.request_sum_valute }} ₽
+                                                                            {% elif item.request_type_valute == 'BTC' %}
+                                                                                {{ item.request_sum }} BTC
+                                                                            {% elif item.request_type_valute == 'LTC' %}
+                                                                                {{ item.request_sum }} LTC
+                                                                            {% elif item.request_type_valute == 'XMR' %}
+                                                                                {{ item.request_sum }} XMR
+                                                                            {% elif item.request_type_valute == 'ETC' %}
+                                                                                {{ item.request_sum }} ETC
+                                                                            {% elif item.request_type_valute == 'DASH' %}
+                                                                                {{ item.request_sum }} DASH
+                                                                            {% elif item.request_type_valute == 'XRP' %}
+                                                                                {{ item.request_sum }} XRP
+                                                                            {% elif item.request_type_valute == 'BCH' %}
+                                                                                {{ item.request_sum }} BCH
+                                                                            {% elif item.request_type_valute == 'ETH' %}
+                                                                                {{ item.request_sum }} ETH
+                                                                            {% endif %}
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="content-left-box">
+                                                                        <div class="content-left-title">
+                                                                            Коммисия
+                                                                        </div>
+                                                                        <div class="content-left-content">
+                                                                            {{ item.request_commission }} %
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="content-left-box">
+                                                                        <div class="content-left-title">
+                                                                            Обработчик заявки
+                                                                        </div>
+                                                                        <div class="content-left-content">
+                                                                            {{ item.request_userchange }}
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
 
-                                            <div class="request-content-right">
-                                                <div class="content-right-one">
-                                                    <div class="right-one-title">
-                                                        Итоговая сумма
-                                                    </div>
-                                                    <div class="right-one-content">
-                                                        13 353 RUB
-                                                    </div>
-                                                </div>
-                                                <div class="content-right-two">
-                                                    <div class="right-two-title">
-                                                        Реквизиты
-                                                    </div>
-                                                    <div class="right-two-content">
-                                                        <div class="right-two-content-content">1G9MeBhkCH2ugVoDtpzrYaqUTBY8MVxJA</div>
-                                                        <div class="right-two-content-ico">
-                                                            <img src="{% static 'personalaccount/assets/images/icon/copy.svg' %}" alt="copy">
+                                                                <div class="request-content-right">
+                                                                    <div class="content-right-one">
+                                                                        <div class="right-one-title">
+                                                                            Будет начислено
+                                                                        </div>
+                                                                        <div class="right-one-content">
+                                                                            {{ item.request_good_sum_valute }} $
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="content-right-two">
+                                                                        <div class="right-two-title">
+                                                                            Реквизиты
+                                                                        </div>
+                                                                        <div class="right-two-content">
+                                                                            <div class="right-two-content-content">{{ item.requisites }}</div>
+                                                                            <div class="right-two-content-ico">
+                                                                                <img src="{% static 'personalaccount/assets/images/icon/copy.svg' %}" alt="copy">
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="content-right-try">
+                                                                        <div class="right-try-content-succes-request">
+                                                                            <img src="{% static 'personalaccount/assets/images/icon/succes-btn.svg' %}" alt="">
+                                                                            <span>Перевод выполнен</span>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+
+
                                                         </div>
-                                                    </div>
-                                                </div>
-                                                <div class="content-right-try">
-                                                    <div class="right-try-content-succes-request">
-                                                        <img src="{% static 'personalaccount/assets/images/icon/succes-btn.svg' %}" alt="">
-                                                        <span>Перевод выполнен</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                        </div>
+                                                    {% endif %}
+                                                {% endif %}
+                                                {% if item.request_type == 'Заявка на вывод' %}
+                                                    {% if item.request_status == 'Ожидает оплаты' %}
+                                                        <div class="card-request">
 
 
-                                    </div>
+                                                            <div class="request-header">
+
+                                                                <div class="request-header-box">
+                                                                    <div class="request-header-number">
+                                                                        <div class="number-content">
+                                                                            Заявка № {{ item.request_name }}
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="request-header-hm">
+                                                                        <div class="hm-content">
+                                                                            Дата создания: {{ item.date_joined_change }}
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="request-header-status">
+                                                                    <div class="status-box">
+                                                                        <div class="status-content">
+                                                                            {{ item.request_status }}
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
 
 
+                                                            <div class="request-content">
 
+                                                                <div class="request-content-left">
+                                                                    <div class="content-left-box">
+                                                                        <div class="content-left-title">
+                                                                            Платежная система
+                                                                        </div>
+                                                                        <div class="content-left-content">
+                                                                            {{ item.request_sistemchange }}
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="content-left-box">
+                                                                        <div class="content-left-title">
+                                                                            Сумма заявки
+                                                                        </div>
+                                                                        <div class="content-left-content">
+                                                                            {{ item.request_sum_valute }} $
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="content-left-box">
+                                                                        <div class="content-left-title">
+                                                                            Коммисия
+                                                                        </div>
+                                                                        <div class="content-left-content">
+                                                                            {{ item.request_commission }} %
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="content-left-box">
+                                                                        <div class="content-left-title">
+                                                                            Обработчик заявки
+                                                                        </div>
+                                                                        <div class="content-left-content">
+                                                                            {{ item.request_userchange }}
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
 
-
-{#                                    <div class="card-request">#}
-{#                                        <div class="card-request-content">#}
-{#                                            <div class="content-number">#}
-{#                                                 <div class="content-number-title">#}
-{#                                                     Заявка №13324354#}
-{#                                                 </div>#}
-{#                                            </div>#}
-{#                                            <div class="content-status">#}
-{#                                                <div class="status-box">#}
-{#                                                    <div class="status-div">#}
-{#                                                        <div class="status-content">#}
-{#                                                            Ожидает оплаты#}
-{#                                                        </div>#}
-{#                                                    </div>#}
-{#                                                </div>#}
-{#                                            </div>#}
-{#                                            <div class="content-requestcontent">#}
-{#                                                <div class="requestcontent-box-left">#}
-{#                                                    <div class="box-str">#}
-{#                                                        Платежная система:#}
-{#                                                    </div>#}
-{#                                                    <div class="box-str">#}
-{#                                                        Сумма заявки:#}
-{#                                                    </div>#}
-{#                                                </div>#}
-{#                                                <div class="requestcontent-box-right">#}
-{#                                                    <div class="box-str-bold">#}
-{#                                                        СБЕРБАНК#}
-{#                                                    </div>#}
-{#                                                    <div class="box-str-bold">#}
-{#                                                        13 758 RUB#}
-{#                                                    </div>#}
-{#                                                </div>#}
-{#                                            </div>#}
-{#                                            <div class="content-hm">#}
-{#                                                <div class="hm-title">#}
-{#                                                    Заявка создана: 11 ноября 14:23#}
-{#                                                </div>#}
-{#                                            </div>#}
-{#                                            <div class="content-btn">#}
-{#                                                <div class="btn-request-content">#}
-{#                                                    <img src="{% static 'personalaccount/assets/images/icon/btn-arow-peding.svg' %}" alt="">#}
-{#                                                    <span>Подробнее</span>#}
-{#                                                </div>#}
-{#                                            </div>#}
-{#                                        </div>#}
-{#                                    </div>#}
-{#                                    <div class="card-request">#}
-{#                                        <div class="card-request-content succes">#}
-{#                                            <div class="content-number">#}
-{#                                                 <div class="content-number-title">#}
-{#                                                     Заявка №45673894#}
-{#                                                 </div>#}
-{#                                            </div>#}
-{#                                            <div class="content-status">#}
-{#                                                <div class="status-box">#}
-{#                                                    <div class="status-div succes">#}
-{#                                                        <div class="status-content succes">#}
-{#                                                            Оплачена#}
-{#                                                        </div>#}
-{#                                                    </div>#}
-{#                                                </div>#}
-{#                                            </div>#}
-{#                                            <div class="content-requestcontent">#}
-{#                                                <div class="requestcontent-box-left">#}
-{#                                                    <div class="box-str">#}
-{#                                                        Платежная система:#}
-{#                                                    </div>#}
-{#                                                    <div class="box-str">#}
-{#                                                        Сумма заявки:#}
-{#                                                    </div>#}
-{#                                                </div>#}
-{#                                                <div class="requestcontent-box-right">#}
-{#                                                    <div class="box-str-bold succes">#}
-{#                                                        СБЕРБАНК#}
-{#                                                    </div>#}
-{#                                                    <div class="box-str-bold succes">#}
-{#                                                        13 758 RUB#}
-{#                                                    </div>#}
-{#                                                </div>#}
-{#                                            </div>#}
-{#                                            <div class="content-hm">#}
-{#                                                <div class="hm-title">#}
-{#                                                    Заявка создана: 11 ноября 14:23#}
-{#                                                </div>#}
-{#                                            </div>#}
-{#                                            <div class="content-btn">#}
-{#                                                <div class="btn-request-content succes">#}
-{#                                                    <img src="{% static 'personalaccount/assets/images/icon/btn-arow-succes.svg' %}" alt="">#}
-{#                                                    <span>Подробнее</span>#}
-{#                                                </div>#}
-{#                                            </div>#}
-{#                                        </div>#}
-{#                                    </div>#}
+                                                                <div class="request-content-right">
+                                                                    <div class="content-right-one">
+                                                                        <div class="right-one-title">
+                                                                            Ожидайте перевод
+                                                                        </div>
+                                                                        <div class="right-one-content">
+                                                                            {% if item.request_type_valute == 'USD' %}
+                                                                                {{ item.request_good_sum_valute }} $
+                                                                            {% elif item.request_type_valute == 'EUR' %}
+                                                                                {{ item.request_good_sum_valute }} €
+                                                                            {% elif item.request_type_valute == 'RUB' %}
+                                                                                {{ item.request_good_sum_valute }} ₽
+                                                                            {% elif item.request_type_valute == 'BTC' %}
+                                                                                {{ item.request_good_sum }} BTC
+                                                                            {% elif item.request_type_valute == 'LTC' %}
+                                                                                {{ item.request_good_sum }} LTC
+                                                                            {% elif item.request_type_valute == 'XMR' %}
+                                                                                {{ item.request_good_sum }} XMR
+                                                                            {% elif item.request_type_valute == 'ETC' %}
+                                                                                {{ item.request_good_sum }} ETC
+                                                                            {% elif item.request_type_valute == 'DASH' %}
+                                                                                {{ item.request_good_sum }} DASH
+                                                                            {% elif item.request_type_valute == 'XRP' %}
+                                                                                {{ item.request_good_sum }} XRP
+                                                                            {% elif item.request_type_valute == 'BCH' %}
+                                                                                {{ item.request_good_sum }} BCH
+                                                                            {% elif item.request_type_valute == 'ETH' %}
+                                                                                {{ item.request_good_sum }} ETH
+                                                                            {% endif %}
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="content-right-two">
+                                                                        <div class="right-two-title">
+                                                                            На реквизиты
+                                                                        </div>
+                                                                        <div class="right-two-content">
+                                                                            <div class="right-two-content-content">{{ item.requisites }}</div>
+                                                                            <div class="right-two-content-ico">
+                                                                                <img src="{% static 'personalaccount/assets/images/icon/copy.svg' %}" alt="copy">
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="content-right-try">
+                                                                        <div class="right-try-content-succes-request">
+                                                                            <img src="{% static 'personalaccount/assets/images/icon/succes-time.svg' %}" alt="">
+                                                                            <span>В обработке</span>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    {% endif %}
+                                                {% endif %}
+                                            {% endfor %}
+                                        {% else %}
+                                            <h6 class="card-title">У вас нет активных заявок, вы можете создать свою<a href="{% url 'depositwallet' %}"><button type="button" class="btn btn-link">заявку!</button></a></h6>
+                                        {% endif %}
+                                    {% else %}
+                                        <h6 class="card-title">У Вас пока еще не было заявок, но вы можете создать свою первую<a href="{% url 'depositwallet' %}"><button type="button" class="btn btn-link">заявку!</button></a></h6>
+                                    {% endif %}
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    {% comment %}
-                    <div class="row">
-
-                        {% if base_reque %}
-                            {% if status_reque %}
-                                {% for item in base_reque|slice:"::-1" %}
-                                    {% if item.request_status == 'Ожидает оплаты' and item.request_type == 'Заявка на пополнение'%}
-                                        <div class="col-xl-12">
-                                            <div class="card">
-                                                <div class="alert alert-warning">
-                                                    Статус: {{ item.request_status }}
-                                                </div>
-                                                <div class="card-body">
-                                                    <h4 class="card-title">{{ item.request_type }} № {{ item.request_name }}</h4>
-                                                    <p class="card-text">Cоздана: {{ item.date_joined_change }}</p>
-                                                    <p class="card-text">Обработчик заявки: {{ item.request_userchange }}</p>
-                                                    <p class="card-text">Платежная система: {{ item.request_sistemchange }}</p>
-                                                    <p class="card-text">Сумма заявки: {{ item.request_sum }} {{ item.request_currency }}</p>
-                                                    <p class="card-text">Коммиссия: {{ item.request_commission }} %</p>
-                                                    <h6 class="card-title">Итоговая сумма заявки: {{ item.request_good_sum }} {{ item.request_currency }}</h6>
-                                                </div>
-                                                <div class="dropdown-divider"></div>
-                                                <div class="card-body">
-                                                    <h5 class="card-title">Выполните перевод {{ item.request_good_sum }} {{ item.request_currency }}, на {{ item.request_sistemchange }}, по этим реквизитам {{ item.requisites }}</h5>
-                                                    <p class="card-title-desc">* После перевода по реквизитам, обязательно подтвердите это, нажатием кнопки ниже.</p>
-                                                    <a href="{{ item.pk }}/" class="btn btn-success">Перевод выполнен</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    {% elif item.request_status == 'Оплачена клиентом' and item.request_type == 'Заявка на пополнение' %}
-                                        <div class="col-xl-12">
-                                            <div class="card">
-                                                <div class="alert alert-success">
-                                                    Статус: {{ item.request_status }}
-                                                </div>
-                                                <div class="card-body">
-                                                    <h5 class="card-title">{{ item.request_type }} № {{ item.request_name }}</h5>
-                                                    <p class="card-text">Cоздана: {{ item.date_joined_change }}</p>
-                                                    <p class="card-text">Обработчик заявки: {{ item.request_userchange }}</p>
-                                                    <p class="card-text">Платежная система: {{ item.request_sistemchange }}</p>
-                                                    <p class="card-text">Сумма заявки: {{ item.request_sum }} {{ item.request_currency }}</p>
-                                                    <p class="card-text">Коммиссия: {{ item.request_commission }} %</p>
-                                                    <h6 class="card-title">Итоговая сумма заявки: {{ item.request_good_sum }} {{ item.request_currency }}</h6>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    {% elif item.request_status == 'Ожидает оплаты' and item.request_type == 'Заявка на вывод'%}
-                                        <div class="col-xl-12">
-                                            <div class="card">
-                                                <div class="alert alert-warning">
-                                                    Статус: {{ item.request_status }}
-                                                </div>
-                                                <div class="card-body">
-                                                    <h5 class="card-title">{{ item.request_type }} № {{ item.request_name }}</h5>
-                                                    <p class="card-text">Cоздана: {{ item.date_joined_change }}</p>
-                                                    <p class="card-text">Обработчик заявки: {{ item.request_userchange }}</p>
-                                                    <p class="card-text">Платежная система: {{ item.request_sistemchange }}</p>
-                                                    <p class="card-text">Сумма заявки: {{ item.request_sum }} {{ item.request_currency }}</p>
-                                                    <p class="card-text">Коммиссия: {{ item.request_commission }} %</p>
-                                                    <h6 class="card-title">Итоговая сумма заявки: {{ item.request_good_sum }} {{ item.request_currency }}</h6>
-                                                </div>
-                                                <div class="dropdown-divider"></div>
-                                                <div class="card-body">
-                                                    <h5 class="card-title">Ожидайте перевод {{ item.request_good_sum }} {{ item.request_currency }}, на свои реквизиты {{ item.request_sistemchange }} {{ item.requisites }}</h5>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    {% endif %}
-                                {% endfor %}
-                            {% else %}
-                                <div class="col-xl-12">
-                                    <div class="card">
-                                        <div class="card-body">
-                                            <h6 class="card-title">У вас нет активных заявок, вы можете создать свою<a href="{% url 'depositwallet' %}"><button type="button" class="btn btn-link">заявку!</button></a></h6>
-                                        </div>
-                                    </div>
-                                </div>
-                            {% endif %}
-                        {% else %}
-                            <div class="col-xl-12">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <h6 class="card-title">У Вас пока еще не было заявок, но вы можете создать свою первую<a href="{% url 'depositwallet' %}"><button type="button" class="btn btn-link">заявку!</button></a></h6>
-                                    </div>
-                                </div>
-                            </div>
-                        {% endif %}
-
-
-                    </div>
-                    {% endcomment %}
                     <!-- end row -->
 
                 </div>
