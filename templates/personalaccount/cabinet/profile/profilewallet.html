@@ -8,9 +8,7 @@
 
 {% block content %}
     <div class="main-content">
-
         <div class="page-content">
-
             <!-- Page-Title -->
             <div class="page-title-box">
                 <div class="container-fluid">
@@ -18,7 +16,7 @@
                         <div class="col-md-8">
                             <h4 class="page-title mb-1">Профиль</h4>
                             <ol class="breadcrumb m-0">
-                                <li class="breadcrumb-item active">Здесь вся информация вашего профиля</li>
+                                <li class="breadcrumb-item active">Подробная информация о вашем профиле</li>
                             </ol>
                         </div>
                     </div>
@@ -30,87 +28,77 @@
             <div class="page-content-wrapper">
                 <div class="container-fluid">
                     <div class="row">
-                        <div class="col-xl-12">
-                            <div class="card">
-                                <div class="card-body">
-                                    <div class="card-body">
-                                        <div class="form-group row">
-                                            <label for="example-text-input" class="col-md-2 col-form-label">Аватар</label>
-                                            <div class="col-md-10">
-                                                {% if user.avatar %}
-                                                    <img class="rounded-circle avatar-xl" src="{{ user.avatar.url }}">
-                                                {% else %}
-                                                    <img class="rounded-circle avatar-xl" src="{% static 'personalaccount/assets/images/users/avatar.jpg' %}">
-                                                {% endif %}
-                                                <form enctype="multipart/form-data" method="post" action="{% url 'profilewallet' %}">
-                                                    {% csrf_token %}
-                                                    <input type="file" name="avatar">
-                                                    <button class="btn btn-link" type="submit">Подтвердить</button>
-                                                </form>
-                                            </div>
+                        <div class="card-profile-box">
+                            <div class="card-profile-box-left">
+                                <div class="card-profile-content leftz">
+                                    <div class="card-profile-content-avatar-box">
+                                        <div class="card-profile-content-avatar">
+                                            {% if user.avatar %}
+                                                <img id="avatar-img" class="rounded-circle avatar-xl roundcolor" src="{{ user.avatar.url }}" alt="">
+                                            {% else %}
+                                                <img id="avatar-img" class="rounded-circle avatar-xl roundcolor" src="{% static 'personalaccount/assets/images/users/avatar.jpg' %}" alt="">
+                                            {% endif %}
+                                        </div>
+                                        <div class="card-profile-content-username">
+                                            <span>{{ user.username }}</span>
                                         </div>
                                     </div>
-
-                                    <div class="card-body">
-                                        <div class="form-group row">
-                                            <label for="example-text-input" class="col-md-2 col-form-label">Логин</label>
-                                            <div class="col-md-10">
-                                                <input class="form-control" type="text" placeholder="{{ user.username }}" id="example-text-input">
-                                            </div>
+                                    <div class="card-profile-content-content-box">
+                                        <div class="card-profile-content-content">
+                                            <p class="text-muted">Баланс</p>
+                                            <span>{{ user.balance }} $</span>
                                         </div>
-                                        <div class="form-group row">
-                                            <label for="example-text-input" class="col-md-2 col-form-label">Почта</label>
-                                            <div class="col-md-10">
-                                                <input class="form-control" type="text" placeholder="{{ user.email }}" id="example-text-input">
-                                            </div>
+                                        <div class="card-profile-content-content">
+                                            <p class="text-muted">Последнее посещение</p>
+                                            <span>{{ user.last_login }}</span>
                                         </div>
-
-                                        <div class="form-group row">
-                                            <label for="example-datetime-local-input" class="col-md-2 col-form-label">ФИО</label>
-                                            <div class="col-md-10">
-                                                <input class="form-control" type="text" placeholder="{{ user.last_name }} {{ user.first_name }} {{ user.middle_name }}" id="example-datetime-local-input">
-                                            </div>
-                                        </div>
-
-                                        <div class="form-group row">
-                                            <label for="example-datetime-local-input" class="col-md-2 col-form-label">Дата регистрации</label>
-                                            <div class="col-md-10">
-                                                <input class="form-control" type="text" placeholder="{{ user.date_joined }}" id="example-datetime-local-input">
-                                            </div>
-                                        </div>
-
-                                        <div class="form-group row">
-                                            <label for="example-datetime-local-input" class="col-md-2 col-form-label">Последний вход</label>
-                                            <div class="col-md-10">
-                                                <input class="form-control" type="text" placeholder="{{ user.last_login }}" id="example-datetime-local-input">
-                                            </div>
-                                        </div>
-
-                                    </div>
-
-                                    <div class="card-body">
-
-                                        <div class="form-group row">
-                                            <label for="example-datetime-local-input" class="col-md-2 col-form-label">Баланс</label>
-                                            <div class="col-md-10">
-                                                <input class="form-control" type="text" placeholder="{{ user.balance }} $" id="example-datetime-local-input">
-                                            </div>
-                                        </div>
-
                                     </div>
                                 </div>
                             </div>
+                            <div class="card-profile-box-right">
+                                <div class="card-profile-content">
+                                    <div class="card-profile-content-content">
+                                        <p class="text-muted">Ф.И.О</p>
+                                        {% if user.last_name and user.first_name and user.middle_name %}
+                                            <span>{{ user.last_name }} {{ user.first_name }} {{ user.middle_name }}</span>
+                                        {% else %}
+                                            <span>-</span>
+                                        {% endif %}
+                                    </div>
+                                    <div class="card-profile-content-content">
+                                        <p class="text-muted">Почта</p>
+                                        <span>{{ user.email }}</span>
+                                    </div>
+                                    <div class="card-profile-content-content">
+                                        <p class="text-muted">Телефон</p>
+                                        {% if user.phone_number %}
+                                            <span>{{ user.phone_number }}</span>
+                                        {% else %}
+                                            <span>-</span>
+                                        {% endif %}
+                                    </div>
+                                    <div class="card-profile-content-content">
+                                        <p class="text-muted">Телеграм</p>
+                                        {% if user.telegram_username %}
+                                            <span>{{ user.telegram_username }}</span>
+                                        {% else %}
+                                            <span>-</span>
+                                        {% endif %}
+                                    </div>
+                                    <div class="card-profile-content-content">
+                                        <p class="text-muted">Дата регистрации</p>
+                                        <span>{{ user.date_joined }}</span>
+                                    </div>
+                                    <a href="{% url 'settingwallet' %}" class="card-profile-edit">
+                                        <img src="{% static 'personalaccount/assets/images/icon/editdata.svg' %}" alt="">
+                                        <span>Редактировать</span>
+                                    </a>
+                                </div>
+                            </div>
                         </div>
-
                     </div>
-                    <!-- end row -->
-
                 </div>
-                <!-- end container-fluid -->
             </div>
-            <!-- end page-content-wrapper -->
-
         </div>
     </div>
-
 {% endblock %}

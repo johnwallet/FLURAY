@@ -1,5 +1,5 @@
 from django import forms
-from django.forms import Select, TextInput, RadioSelect, ClearableFileInput
+from django.forms import Select, TextInput, RadioSelect, ClearableFileInput, FileInput
 
 from users.models import CustomUser
 from .models import RequestChange, Transfer
@@ -14,6 +14,20 @@ class RequestForm(forms.ModelForm):
             'request_sistemchange': TextInput(attrs={'class': 'input-final', 'id': 'name-fin-request-deposit', 'value': 'СБЕРБАНК', 'readonly': ''}),
             'request_sum': TextInput(attrs={'class': 'input-final', 'id': 'sum-fin-request-deposit', 'value': '0.00', 'readonly': '', 'type': 'number'}),
             'criteri': TextInput(attrs={'class': 'input-final', 'id': 'kriteri-fin-request-deposit', 'value': 'БЫСТРАЯ ЗАЯВКА', 'readonly': ''}),
+        }
+
+# // КОШЕЛЕК // ДАННЫЕ ПРОФИЛЯ
+class ProfileForm(forms.ModelForm):
+    class Meta:
+        model = CustomUser
+        fields = ('avatar', 'first_name', 'last_name', 'middle_name', 'phone_number', 'telegram_username')
+        widgets = {
+            'avatar': FileInput(),
+            'first_name': TextInput(attrs={'spellcheck': 'false'}),
+            'last_name': TextInput(attrs={'spellcheck': 'false'}),
+            'middle_name': TextInput(attrs={'spellcheck': 'false'}),
+            'phone_number': TextInput(attrs={'spellcheck': 'false'}),
+            'telegram_username': TextInput(attrs={'spellcheck': 'false'})
         }
 
 
@@ -48,7 +62,7 @@ class CommissionForm(forms.ModelForm):
 
 
 # // ОБЩАЯ // ФОРМА ДЛЯ РЕКВИЗИТОВ
-class RequisitesForm1(forms.ModelForm):
+class RequisitesForm(forms.ModelForm):
     class Meta:
         model = CustomUser
         fields = (
@@ -59,18 +73,6 @@ class RequisitesForm1(forms.ModelForm):
             'requsites_webmoney_rub', 'requsites_webmoney_usd', 'requsites_webmoney_eur', 'requsites_pm_btc', 'requsites_pm_usd', 'requsites_pm_eur',
             'requsites_skrill_eur', 'requsites_skrill_usd', 'requsites_paypal_rub', 'requsites_paypal_usd', 'requsites_paypal_eur', 'requsites_umoney_rub',
             'requsites_btc', 'requsites_xrp', 'requsites_ltc', 'requsites_bch', 'requsites_xmr', 'requsites_eth', 'requsites_etc', 'requsites_dash')
-
-class RequisitesForm2(forms.ModelForm):
-    class Meta:
-        model = CustomUser
-        fields = (
-            'requsites_width_sberbank_rub', 'requsites_width_psb_rub', 'requsites_width_tinkoff_rub', 'requsites_width_gazprombank_rub',
-            'requsites_width_alfabank_rub', 'requsites_width_russtandart_rub', 'requsites_width_vtb_rub', 'requsites_width_rosselhoz_rub',
-            'requsites_width_raifaizen_rub', 'requsites_width_roketbank_rub', 'requsites_width_otkritie_rub', 'requsites_width_pochtabank_rub', 'requsites_width_rnkb_rub',
-            'requsites_width_rosbank_rub', 'requsites_width_mtsbank_rub', 'requsites_width_qiwi_rub', 'requsites_width_qiwi_usd', 'requsites_width_payeer_rub',
-            'requsites_width_payeer_usd', 'requsites_width_payeer_eur', 'requsites_width_webmoney_rub', 'requsites_width_webmoney_usd', 'requsites_width_webmoney_eur', 'requsites_width_pm_btc',
-            'requsites_width_pm_usd', 'requsites_width_pm_eur', 'requsites_width_skrill_eur', 'requsites_width_skrill_usd', 'requsites_width_paypal_rub', 'requsites_width_paypal_usd',
-            'requsites_width_paypal_eur', 'requsites_width_umoney_rub', 'requsites_width_btc', 'requsites_width_xrp', 'requsites_width_ltc', 'requsites_width_bch', 'requsites_width_xmr', 'requsites_width_eth', 'requsites_width_etc', 'requsites_width_dash')
 
 
 # // ОБМЕННИК // ФОРМА РЕЗЕРВА

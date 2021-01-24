@@ -7,25 +7,25 @@
     <nav class="menu-classic menu-transparent menu-fixed menu-one-page align-right" data-menu-anima="fade-bottom" data-scroll-detect="true">
         <div class="container">
             <div class="menu-brand">
-                <a href="#">
-                    <img class="logo-default" src="{% static 'home/media/logo-dark.png' %}" alt="logo" />
-                    <img class="logo-retina" src="{% static 'home/media/logo-light.png' %}" alt="logo" />
+                <a href="#home">
+                    <img class="logo-default" src="{% static 'home/media/logo-dark.svg' %}" alt="fluray" />
+                    <img class="logo-retina" src="{% static 'home/media/logo-light.svg' %}" alt="fluray" />
                 </a>
             </div>
             <i class="menu-btn"></i>
             <div class="menu-cnt">
                 <ul>
                     <li>
-                        <a href="#home">Возможности</a>
+                        <a href="#opportunities">Возможности</a>
                     </li>
                     <li>
-                        <a href="#pricing">Загрузить</a>
+                        <a href="#advantages">Преимущества</a>
                     </li>
                     <li>
-                        <a href="#features">Приемущества</a>
+                        <a href="#news">Новости</a>
                     </li>
                     <li>
-                        <a href="#reviews">Отзывы</a>
+                        <a href="#">Поддержка</a>
                     </li>
                 </ul>
                 <div class="menu-right">
@@ -44,7 +44,7 @@
         </div>
     </nav>
     <main>
-        <section class="section-base">
+        <section id="home" class="section-base">
             <div class="container">
                 <div class="row align-items-center" data-anima="fade-in" data-time="1000">
                     <div class="col-lg-6">
@@ -55,45 +55,81 @@
                         <p>
                             Отправить или Получить, в два клика.
                         </p>
+                        {% if user.is_authenticated %}
+                        <a href="{% url 'personalaccount' %}" class="btn-text active hidden-lg">Перейти в личный кабинет</a>
+                        {% else %}
                         <a href="{% url 'account_signup' %}" class="btn btn-sm text-bold btn-circle shadow-1 full-width-sm">Создать аккаунт</a><span class="space-sm"></span>
                         <a href="{% url 'account_login' %}" class="btn-text active hidden-lg">Войти в личный кабинет</a>
+                        {% endif %}
                         <hr class="space-xs" />
                     </div>
                     <div class="col-lg-6">
                         <hr class="space" />
-                        <img class="margin-23 margin-md-23" src="{% static 'home/media/iso-3.png' %}" alt="" />
+                        <img class="margin-23 margin-md-23" src="{% static 'home/media/img-4.png' %}" alt="" />
                     </div>
                 </div>
             </div>
         </section>
-        <section id="home" class="section-base section-bottom-layer">
+        <section id="opportunities" class="section-base section-bottom-layer">
             <div class="container">
                 <div class="row align-items-center">
                     <div class="col-lg-8 col-md-6">
-                        <h2>Great experience with a <br />state of art modern application.</h2>
+                        <h2>Современное приложение <br />для современного пользователя.</h2>
                         <p>
-                            Lorem ipsum dolor sit amet no sea takimata sanctus est Lorem ipsum dolor sit amete
-                            sare nostrudente exercitation ullamco sea takiquis nostrud exercitatio.
+                            Удобная и многофункциональная система для совершения электронных денежных операций.
                         </p>
                         <hr class="space" />
-                        <ul class="text-list text-list-image">
-                            <li>
-                                <img src="http://via.placeholder.com/300x300" alt="" />
-                                <div class="content">
-                                    <h3>Slow battery usage and high performance</h3>
-                                    <p>Placeat orci commodo, amet quo rem architecto possimus.</p>
-                                    <div></div>
-                                </div>
-                            </li>
-                            <li>
-                                <img src="http://via.placeholder.com/300x300" alt="" />
-                                <div class="content">
-                                    <h3>Snapchat style filters with a plus</h3>
-                                    <p>Placeat orci commodo, amet quo rem architecto possimuse arte.</p>
-                                    <div></div>
-                                </div>
-                            </li>
-                        </ul>
+                        <table class="table table-grid table-border align-center table-full-sm no-padding-y">
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <div class="counter counter-vertical counter-icon align-center">
+                                            <div>
+                                                <h3>Пользователей</h3>
+                                                <div class="value">
+                                                    <span class="text-md" data-to="129" data-speed="2000">129</span>
+                                                    <span></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <hr class="space-xs" />
+                                        <p>
+                                            Доверили нам свои средства.
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <div class="counter counter-vertical counter-icon align-center">
+                                            <div>
+                                                <h3>Партнеров</h3>
+                                                <div class="value">
+                                                    <span class="text-md" data-to="3" data-speed="2000">3</span>
+                                                    <span></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <hr class="space-xs" />
+                                        <p>
+                                            Выбрали нас в качестве своего бизнеса.
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <div class="counter counter-vertical counter-icon align-center">
+                                            <div>
+                                                <h3>Направлений</h3>
+                                                <div class="value">
+                                                    <span class="text-md" data-to="48" data-speed="2000">48</span>
+                                                    <span></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <hr class="space-xs" />
+                                        <p>
+                                            Активных способов для обмена валюты.
+                                        </p>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                     <div class="col-lg-4 col-md-6 align-center">
                         <hr class="space-sm visible-sm" />
@@ -119,120 +155,99 @@
                         </ul>
                     </div>
                 </div>
-            </div>
-        </section>
-        <section class="section-base section-color section-top-overflow">
-            <div class="container">
-                <div class="cnt-box cnt-call">
-                    <i class="im-download-2"></i>
-                    <div class="caption">
-                        <h2>Загрузите наше приложение FLURAY.</h2>
-                        <p>
-                            Совершать переводы, оплачивать покупки на сайтах партнеров, производить обмены валют, выводить на любые удобные реквизиты - все в одном месте, и в несколько кликов. <br/> *Приложение в разработке, будет доступно после релиза.
-                        </p>
-                        <a href="#" class="btn btn-circle btn-sm">Загрузить приложение</a>
-                    </div>
-                </div>
                 <hr class="space-lg" />
-                <hr class="space-sm" />
-                <div class="row">
-                    <div class="col-lg-6">
-                        <div class="grid-list list-gallery grid-wall-1" data-lightbox-anima="fade-top" data-columns="2">
-                            <div class="grid-box">
-                                <div class="grid-item">
-                                    <a class="img-box" href="http://via.placeholder.com/800x600">
-                                        <img src="http://via.placeholder.com/800x600" alt="">
-                                    </a>
-                                </div>
-                                <div class="grid-item">
-                                    <a class="img-box" href="http://via.placeholder.com/800x600">
-                                        <img src="http://via.placeholder.com/800x600" alt="">
-                                    </a>
-                                </div>
-                                <div class="grid-item">
-                                    <a class="img-box" href="http://via.placeholder.com/800x600">
-                                        <img src="http://via.placeholder.com/800x600" alt="">
-                                    </a>
-                                </div>
-                                <div class="grid-item">
-                                    <a class="img-box" href="http://via.placeholder.com/800x600">
-                                        <img src="http://via.placeholder.com/800x600" alt="">
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-6">
-                        <hr class="space-xs" />
-                        <h2>Множество способов <br />for a pixel perfect editing.</h2>
-                        <p>
-                            Lorem ipsum dolor sit ametno sea takimata sanctus est Lorem ipsum dolor sit amete.
-                            Ut enim ad minim veniam, quis nostrud exercitation ullamco sea takimata sanctus eslaboriso.
-                        </p>
-                        <a href="#" class="btn-text">Подробнее</a>
-                    </div>
-                </div>
+                <ul class="slider" data-options="type:carousel,arrows:false,nav:false,perView:6,perViewMd:3,perViewSm:3,perViewXs:2,autoplay:2000">
+                    <li>
+                        <img src="{% static 'personalaccount/assets/images/logo-ps/sber.png' %}" alt="" />
+                    </li>
+                    <li>
+                        <img src="{% static 'personalaccount/assets/images/logo-ps/tinkoff.png' %}" alt="" />
+                    </li>
+                    <li>
+                        <img src="{% static 'personalaccount/assets/images/logo-ps/alfa.png' %}" alt="" />
+                    </li>
+                    <li>
+                        <img src="{% static 'personalaccount/assets/images/logo-ps/vtb.png' %}" alt="" />
+                    </li>
+                    <li>
+                        <img src="{% static 'personalaccount/assets/images/logo-ps/raif.png' %}" alt="" />
+                    </li>
+                    <li>
+                        <img src="{% static 'personalaccount/assets/images/logo-ps/otkr.png' %}" alt="" />
+                    </li>
+                    <li>
+                        <img src="{% static 'personalaccount/assets/images/logo-ps/psb.png' %}" alt="" />
+                    </li>
+                    <li>
+                        <img src="{% static 'personalaccount/assets/images/logo-ps/gazprom.png' %}" alt="" />
+                    </li>
+                    <li>
+                        <img src="{% static 'personalaccount/assets/images/logo-ps/standart.png' %}" alt="" />
+                    </li>
+                    <li>
+                        <img src="{% static 'personalaccount/assets/images/logo-ps/rsb.png' %}" alt="" />
+                    </li>
+                    <li>
+                        <img src="{% static 'personalaccount/assets/images/logo-ps/pochta.png' %}" alt="" />
+                    </li>
+                    <li>
+                        <img src="{% static 'personalaccount/assets/images/logo-ps/rosbank.png' %}" alt="" />
+                    </li>
+                    <li>
+                        <img src="{% static 'personalaccount/assets/images/logo-ps/rnkb.png' %}" alt="" />
+                    </li>
+                    <li>
+                        <img src="{% static 'personalaccount/assets/images/logo-ps/mts.png' %}" alt="" />
+                    </li>
+                    <li>
+                        <img src="{% static 'personalaccount/assets/images/logo-ps/qiwi.png' %}" alt="" />
+                    </li>
+                    <li>
+                        <img src="{% static 'personalaccount/assets/images/logo-ps/payeer.png' %}" alt="" />
+                    </li>
+                    <li>
+                        <img src="{% static 'personalaccount/assets/images/logo-ps/wm.png' %}" alt="" />
+                    </li>
+                    <li>
+                        <img src="{% static 'personalaccount/assets/images/logo-ps/pm.png' %}" alt="" />
+                    </li>
+                    <li>
+                        <img src="{% static 'personalaccount/assets/images/logo-ps/paypal.png' %}" alt="" />
+                    </li>
+                    <li>
+                        <img src="{% static 'personalaccount/assets/images/logo-ps/skrill.png' %}" alt="" />
+                    </li>
+                    <li>
+                        <img src="{% static 'personalaccount/assets/images/logo-ps/umani.png' %}" alt="" />
+                    </li>
+                    <li>
+                        <img src="{% static 'personalaccount/assets/images/logo-ps/btc.png' %}" alt="" />
+                    </li>
+                    <li>
+                        <img src="{% static 'personalaccount/assets/images/logo-ps/ltc.png' %}" alt="" />
+                    </li>
+                    <li>
+                        <img src="{% static 'personalaccount/assets/images/logo-ps/xmr.png' %}" alt="" />
+                    </li>
+                    <li>
+                        <img src="{% static 'personalaccount/assets/images/logo-ps/etc.png' %}" alt="" />
+                    </li>
+                    <li>
+                        <img src="{% static 'personalaccount/assets/images/logo-ps/dash.png' %}" alt="" />
+                    </li>
+                    <li>
+                        <img src="{% static 'personalaccount/assets/images/logo-ps/xrp.png' %}" alt="" />
+                    </li>
+                    <li>
+                        <img src="{% static 'personalaccount/assets/images/logo-ps/bch.png' %}" alt="" />
+                    </li>
+                    <li>
+                        <img src="{% static 'personalaccount/assets/images/logo-ps/eth.png' %}" alt="" />
+                    </li>
+                </ul>
             </div>
         </section>
-        <section id="pricing" class="section-base section-bottom-layer">
-            <div class="container">
-                <div class="grid-list list-gallery grid-wall-2" data-lightbox-anima="fade-top" data-columns="2">
-                    <div class="grid-box">
-                        <div class="grid-item">
-                            <a class="img-box" href="http://via.placeholder.com/800x600">
-                                <img src="http://via.placeholder.com/800x600" alt="">
-                            </a>
-                        </div>
-                        <div class="grid-item">
-                            <a class="img-box" href="http://via.placeholder.com/800x600">
-                                <img src="http://via.placeholder.com/800x600" alt="">
-                            </a>
-                        </div>
-                        <div class="grid-item">
-                            <a class="img-box" href="http://via.placeholder.com/800x600">
-                                <img src="http://via.placeholder.com/800x600" alt="">
-                            </a>
-                        </div>
-                        <div class="grid-item">
-                            <a class="img-box" href="http://via.placeholder.com/800x600">
-                                <img src="http://via.placeholder.com/800x600" alt="">
-                            </a>
-                        </div>
-                        <div class="grid-item">
-                            <a class="img-box" href="http://via.placeholder.com/800x600">
-                                <img src="http://via.placeholder.com/800x600" alt="">
-                            </a>
-                        </div>
-                        <div class="grid-item">
-                            <a class="img-box" href="http://via.placeholder.com/800x600">
-                                <img src="http://via.placeholder.com/800x600" alt="">
-                            </a>
-                        </div>
-                        <div class="grid-item">
-                            <a class="img-box" href="http://via.placeholder.com/800x600">
-                                <img src="http://via.placeholder.com/800x600" alt="">
-                            </a>
-                        </div>
-                        <div class="grid-item">
-                            <a class="img-box" href="http://via.placeholder.com/800x600">
-                                <img src="http://via.placeholder.com/800x600" alt="">
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                <div class="align-center">
-                    <h2>Приложение FLURAY.</h2>
-                    <p class="width-650">
-                        Совершать переводы, оплачивать покупки на сайтах партнеров, производить обмены валют, выводить на любые удобные реквизиты - все в одном месте, и в несколько кликов.
-                    </p>
-                    <hr class="space-sm" />
-                    <a class="btn-store" href="#"><img src="{% static 'home/media/store-google.png' %}"  alt=""/></a>
-                    <a class="btn-store" href="#"><img src="{% static 'home/media/store-apple.png' %}" alt=""/></a>
-                </div>
-                <hr class="space-sm hidden-md" />
-            </div>
-        </section>
-        <section id="features" class="section-base section-color section-top-overflow">
+        <section id="advantages" class="section-base section-color section-top-overflow">
             <div class="container">
                 <div class="grid-list" data-columns="4" data-columns-md="2" data-columns-xs="1">
                     <div class="grid-box">
@@ -329,135 +344,137 @@
 
             </div>
         </section>
-        <section id="reviews" class="section-base">
-            <div class="container">
-                <ul class="slider" data-options="type:carousel,arrows:true,nav:false,perView:3,perViewMd:2,perViewSm:1,gap:30,controls:out">
-                    <li>
-                        <div class="cnt-box cnt-box-testimonials-bubble rating-5">
-                            <p>
-                                Lorem ipsum dolor sitamet consectetur adipisicing elito sed do eiusmod tempore artisio meto.
-                            </p>
-                            <div class="thumb-bar">
-                                <img src="http://via.placeholder.com/450x450" alt="" />
-                                <p>
-                                    <span>Robert Junior</span>
-                                    <span>Slack</span>
-                                </p>
-                            </div>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="cnt-box cnt-box-testimonials-bubble rating-5">
-                            <p>
-                                Lorem ipsum dolor sitamet consectetur adipisicinge stratone elito sed do eiusmod tempore.
-                            </p>
-                            <div class="thumb-bar">
-                                <img src="http://via.placeholder.com/450x450" alt="" />
-                                <p>
-                                    <span>Brad Manson</span>
-                                    <span>Google</span>
-                                </p>
-                            </div>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="cnt-box cnt-box-testimonials-bubble rating-4">
-                            <p>
-                                Lorem ipsum dolor sitamet consectetur adipisicing elito sed do eiusmod tempore eclessio.
-                            </p>
-                            <div class="thumb-bar">
-                                <img src="http://via.placeholder.com/450x450" alt="" />
-                                <p>
-                                    <span>Jessica Poster</span>
-                                    <span>Facebook</span>
-                                </p>
-                            </div>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="cnt-box cnt-box-testimonials-bubble rating-4">
-                            <p>
-                                Lorem ipsum dolor sitamet consectetur adipisicing elito sed do eiusmod tempore eclessio.
-                            </p>
-                            <div class="thumb-bar">
-                                <img src="http://via.placeholder.com/450x450" alt="" />
-                                <p>
-                                    <span>Richard Oyster</span>
-                                    <span>Microsoft</span>
-                                </p>
-                            </div>
-                        </div>
-                    </li>
-                </ul>
+        <section id="news" class="section-base">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8">
+                    <h2>Узнай больше из новостей.</h2>
+                </div>
+                <div class="col-lg-4 align-right align-left-md">
+                    <a class="btn-text" href="#">Все новости</a><span class="space-sm"></span>
+                </div>
             </div>
-        </section>
+            <hr class="space" />
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="grid-list" data-columns="3" data-columns-sm="1">
+                        <div class="grid-box">
+                            <div class="grid-item">
+                                <div class="cnt-box cnt-box-blog-top boxed">
+                                    <a href="#" class="img-box">
+                                        <div class="blog-date">
+                                            <span>23</span>
+                                            <span>JAN 2018</span>
+                                        </div>
+                                        <img src="http://via.placeholder.com/800x600" alt="" />
+                                    </a>
+                                    <div class="caption">
+                                        <h2>Заголовок новости</h2>
+                                        <p>
+                                            Lorem ipsum dolor sitamet consectetur adipisicing eiusmod tempor incididuno.
+                                        </p>
+                                        <a class="btn-text" href="#">Подробнее</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="grid-item">
+                                <div class="cnt-box cnt-box-blog-top boxed">
+                                    <a href="#" class="img-box">
+                                        <div class="blog-date">
+                                            <span>23</span>
+                                            <span>JAN 2018</span>
+                                        </div>
+                                        <img src="http://via.placeholder.com/800x600" alt="" />
+                                    </a>
+                                    <div class="caption">
+                                        <h2>Заголовок новости</h2>
+                                        <p>
+                                            Lorem ipsum dolor sitamet consectetur adipisicing eiusmod tempor incididuno.
+                                        </p>
+                                        <a class="btn-text" href="#">Подробнее</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="grid-item">
+                                <div class="cnt-box cnt-box-blog-top boxed">
+                                    <a href="#" class="img-box">
+                                        <div class="blog-date">
+                                            <span>23</span>
+                                            <span>JAN 2018</span>
+                                        </div>
+                                        <img src="http://via.placeholder.com/800x600" alt="" />
+                                    </a>
+                                    <div class="caption">
+                                        <h2>Заголовок новости</h2>
+                                        <p>
+                                            Lorem ipsum dolor sitamet consectetur adipisicing eiusmod tempor incididuno.
+                                        </p>
+                                        <a class="btn-text" href="#">Подробнее</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
     </main>
     <i class="scroll-top-btn scroll-top show"></i>
     <footer class="footer-parallax light">
         <div class="container">
             <div class="row">
                 <div class="col-lg-3">
-                    <h4>Company and team</h4>
+                    <h4>Компания</h4>
                     <div class="menu-inner menu-inner-vertical">
                         <ul>
                             <li>
-                                <a href="#">Company details and team</a>
+                                <a href="#">О нас</a>
                             </li>
                             <li>
-                                <a href="#">News and blog</a>
+                                <a href="#">Актуальные курсы</a>
                             </li>
                             <li>
-                                <a href="#">Press area</a>
-                            </li>
-                            <li>
-                                <a href="#">Affiliates and marketing</a>
+                                <a href="#">Новости</a>
                             </li>
                         </ul>
                     </div>
                 </div>
                 <div class="col-lg-3">
-                    <h4>Help and support</h4>
+                    <h4>Поддержка</h4>
                     <div class="menu-inner menu-inner-vertical">
                         <ul>
                             <li>
-                                <a href="#">Help centre</a>
+                                <a href="#">Связаться с нами</a>
                             </li>
                             <li>
-                                <a href="#">Feedbacks</a>
+                                <a href="#">Справочный центр</a>
                             </li>
                             <li>
-                                <a href="#">Request new features</a>
-                            </li>
-                            <li>
-                                <a href="#">Contact us</a>
+                                <a href="#">Оставить пожелание</a>
                             </li>
                         </ul>
                     </div>
                 </div>
                 <div class="col-lg-3">
-                    <h4>Learn more</h4>
+                    <h4>Прочее</h4>
                     <div class="menu-inner menu-inner-vertical">
                         <ul>
                             <li>
-                                <a href="#">Apps stores</a>
+                                <a href="#">Пользователям</a>
                             </li>
                             <li>
-                                <a href="#">Partners</a>
-                            </li>
-                            <li>
-                                <a href="#">Privacy and terms</a>
+                                <a href="#">Партнерам</a>
                             </li>
                         </ul>
                     </div>
                 </div>
                 <div class="col-lg-3">
-                    <h4>Follow us</h4>
+                    <h4>Подпишись</h4>
                     <div class="icon-links icon-social icon-links-grid social-colors">
-                        <a class="facebook"><i class="icon-facebook"></i></a>
-                        <a class="twitter"><i class="icon-twitter"></i></a>
-                        <a class="linkedin"><i class="icon-linkedin"></i></a>
-                        <a class="youtube"><i class="icon-youtube"></i></a>
-                        <a class="instagram"><i class="icon-instagram"></i></a>
+                        <a class="instagram"><i class="fab fa-instagram"></i></a>
+                        <a class="linkedin"><i class="fab fa-telegram-plane"></i></a>
+                        <a class="youtube"><i class="fab fa-youtube"></i></a>
                     </div>
                 </div>
             </div>
@@ -465,7 +482,7 @@
         <div class="footer-bar">
             <div class="container">
                 <span>©2020 FLURAY </span>
-                <span><img src="{% static 'home/media/logo-light.png' %}" alt=""/></span>
+                <span><img src="{% static 'home/media/logo-light.svg' %}" alt=""/></span>
             </div>
         </div>
     </footer>

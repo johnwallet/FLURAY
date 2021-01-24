@@ -24,6 +24,8 @@
     <orderEntry type="library" name="bundle" level="application" />
     <orderEntry type="library" name="bundle" level="application" />
     <orderEntry type="library" name="bundle" level="application" />
+    <orderEntry type="library" name="bundle" level="application" />
+    <orderEntry type="library" name="bundle" level="application" />
   </component>
   <component name="TemplatesService">
     <option name="TEMPLATE_CONFIGURATION" value="Django" />

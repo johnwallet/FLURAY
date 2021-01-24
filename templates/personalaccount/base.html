@@ -25,6 +25,9 @@
 {% block index %}
 {% endblock %}
 
+<script>
+    var datajsonin = {{ datajsontable|safe }};
+</script>
 <script src="{% static 'personalaccount/assets/libs/jquery/jquery.min.js' %}"></script>
 <script src="{% static 'personalaccount/assets/libs/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
 <script src="{% static 'personalaccount/assets/libs/metismenu/metisMenu.min.js' %}"></script>
@@ -54,11 +57,13 @@
 <script src="{% static 'personalaccount/assets/libs/sweetalert2/sweetalert2.min.js' %}"></script>
 <script src="{% static 'personalaccount/assets/js/pages/sweet-alerts.init.js' %}"></script>
 <script src="{% static 'personalaccount/assets/libs/morris.js/morris.min.js' %}"></script>
+<script src="{% static 'personalaccount/assets/js/pages/apex.init.js' %}"></script>
 <script src="{% static 'personalaccount/assets/libs/raphael/raphael.min.js' %}"></script>
 <script src="{% static 'personalaccount/assets/js/pages/morris.init.js' %}"></script>
 <script src="{% static 'personalaccount/assets/js/pages/script-custom.js' %}"></script>
 <script src="{% static 'personalaccount/assets/js/app.js' %}"></script>
 <script src="{% static 'personalaccount/assets/js/cleave.js' %}"></script>
+
 
 </body>
 </html>

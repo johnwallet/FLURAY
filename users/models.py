@@ -1,8 +1,11 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser
 from django.contrib.auth.models import PermissionsMixin
+from django.dispatch import receiver
 from django.utils import timezone
 from .managers import CustomUserManager
+from django.db.models.signals import pre_save
+import os
 
 
 # кастомная модель юзера.
@@ -22,6 +25,9 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     is_superuser = models.BooleanField('Админ', default=False)
     userid = models.ForeignKey('CustomUserId', on_delete=models.PROTECT, default=1, verbose_name='Роль')
     is_active_change = models.BooleanField('Статус активности обработчика', default=False)
+    phone_number = models.CharField('Номер телефона', max_length=100, blank=True)
+    telegram_username = models.CharField('Имя пользователя телеграм', max_length=100, blank=True)
+    verifications_level_one = models.BooleanField('Верификация уровень 1', default=False)
 
 # === АКТИВНОСТЬ ПС ПОПОЛНЕНИЕ ===
 # БАНКИ
@@ -248,7 +254,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     comis_out_etc = models.DecimalField('ЭФИРКЛАССИК', max_digits=4, decimal_places=2, default=0)
     comis_out_dash = models.DecimalField('ДАШ', max_digits=4, decimal_places=2, default=0)
 
-# === РЕКВИЗИТЫ для пополнения ===
+# === РЕКВИЗИТЫ ===
 # БАНКИ
     requsites_sberbank_rub = models.CharField('СБЕРБАНК', max_length=50, blank=True)
     requsites_psb_rub = models.CharField('ПСБ', max_length=50, blank=True)
@@ -293,51 +299,6 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     requsites_etc = models.CharField('ЭФИРКЛАССИК', max_length=50, blank=True)
     requsites_dash = models.CharField('ДАШ', max_length=50, blank=True)
 
-# === РЕКВИЗИТЫ для вывода===
-# БАНКИ
-    requsites_width_sberbank_rub = models.CharField('СБЕРБАНК', max_length=50, blank=True)
-    requsites_width_psb_rub = models.CharField('ПСБ', max_length=50, blank=True)
-    requsites_width_tinkoff_rub = models.CharField('ТИНЬКОФФ', max_length=50, blank=True)
-    requsites_width_gazprombank_rub = models.CharField('ГАЗПРОМБАНК', max_length=50, blank=True)
-    requsites_width_alfabank_rub = models.CharField('АЛЬФАБАНК', max_length=50, blank=True)
-    requsites_width_russtandart_rub = models.CharField('РУССКИЙСТАНДАРТ', max_length=50, blank=True)
-    requsites_width_vtb_rub = models.CharField('ВТБ', max_length=50, blank=True)
-    requsites_width_rosselhoz_rub = models.CharField('РОССЕЛЬХОЗБАНК', max_length=50, blank=True)
-    requsites_width_raifaizen_rub = models.CharField('РАЙФАЙЗЕНБАНК', max_length=50, blank=True)
-    requsites_width_roketbank_rub = models.CharField('РОКЕТБАНК', max_length=50, blank=True)
-    requsites_width_otkritie_rub = models.CharField('ОТКРЫТИЕ', max_length=50, blank=True)
-    requsites_width_pochtabank_rub = models.CharField('ПОЧТАБАНК', max_length=50, blank=True)
-    requsites_width_rnkb_rub = models.CharField('РНКБ', max_length=50, blank=True)
-    requsites_width_rosbank_rub = models.CharField('РОСБАНК', max_length=50, blank=True)
-    requsites_width_mtsbank_rub = models.CharField('МТСБАНК', max_length=50, blank=True)
-# ПС
-    requsites_width_qiwi_rub = models.CharField('КИВИРУБ', max_length=50, blank=True)
-    requsites_width_qiwi_usd = models.CharField('КИВИДОЛЛАР', max_length=50, blank=True)
-    requsites_width_payeer_rub = models.CharField('ПАЕЕРРУБ', max_length=50, blank=True)
-    requsites_width_payeer_usd = models.CharField('ПАЕЕРДОЛЛАР', max_length=50, blank=True)
-    requsites_width_payeer_eur = models.CharField('ПАЕЕРЕВРО', max_length=50, blank=True)
-    requsites_width_webmoney_rub = models.CharField('ВЕБМАНИРУБ', max_length=50, blank=True)
-    requsites_width_webmoney_usd = models.CharField('ВЕБМАНИДОЛЛАР', max_length=50, blank=True)
-    requsites_width_webmoney_eur = models.CharField('ВЕБМАНИЕВРО', max_length=50, blank=True)
-    requsites_width_pm_btc = models.CharField('ПМБИТКОИН', max_length=50, blank=True)
-    requsites_width_pm_usd = models.CharField('ПМДОЛЛАР', max_length=50, blank=True)
-    requsites_width_pm_eur = models.CharField('ПМЕВРО', max_length=50, blank=True)
-    requsites_width_skrill_eur = models.CharField('СКРИЛЛЕВРО', max_length=50, blank=True)
-    requsites_width_skrill_usd = models.CharField('СКРИЛДОЛЛАР', max_length=50, blank=True)
-    requsites_width_paypal_rub = models.CharField('ПАЙПАЛРУБ', max_length=50, blank=True)
-    requsites_width_paypal_usd = models.CharField('ПАЙПАЛДОЛЛАР', max_length=50, blank=True)
-    requsites_width_paypal_eur = models.CharField('ПАЙПАЛЕВРО', max_length=50, blank=True)
-    requsites_width_umoney_rub = models.CharField('ЮМАНИ', max_length=50, blank=True)
-# КРИПТА
-    requsites_width_btc = models.CharField('БИТКОИН', max_length=50, blank=True)
-    requsites_width_xrp = models.CharField('РИПЛ', max_length=50, blank=True)
-    requsites_width_ltc = models.CharField('ЛАЙТКОИН', max_length=50, blank=True)
-    requsites_width_bch = models.CharField('БИТКОИНКЕШ', max_length=50, blank=True)
-    requsites_width_xmr = models.CharField('МОНЕРО', max_length=50, blank=True)
-    requsites_width_eth = models.CharField('ЭФИР', max_length=50, blank=True)
-    requsites_width_etc = models.CharField('ЭФИРКЛАССИК', max_length=50, blank=True)
-    requsites_width_dash = models.CharField('ДАШ', max_length=50, blank=True)
-
     USERNAME_FIELD = 'username'
     REQUIRED_FIELDS = ['email', 'userid']
 
@@ -350,6 +311,23 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
         verbose_name = 'Пользователя'
         verbose_name_plural = 'Пользователи'
 
+
+@receiver(pre_save, sender=CustomUser)
+def delete_old_file(sender, instance, **kwargs):
+    if instance._state.adding and not instance.pk:
+        return False
+
+    try:
+        old_file = sender.objects.get(pk=instance.pk).avatar
+    except sender.DoesNotExist:
+        return False
+
+        # comparing the new file with the old one
+    file = instance.avatar
+    if old_file and not old_file == file:
+        print(os.path.isfile(old_file.path))
+        if os.path.isfile(old_file.path):
+            os.remove(old_file.path)
 
 class CustomUserId(models.Model):
     custuserid = models.CharField('Роль', max_length=150, db_index=True)

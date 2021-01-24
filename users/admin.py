@@ -22,21 +22,14 @@ class CustomUserAdmin(UserAdmin):
     list_filter = ('userid', 'date_joined', 'is_staff', 'is_active')
     # структура карточки пользователя
     fieldsets = (
-        ('Основные настройки', {'fields': ('avatar', 'id', 'username', 'balance', 'email', 'password', 'kompan_name', 'first_name', 'last_name', 'middle_name', ('date_joined', 'last_login'), 'is_active_change')}),
-        ('Реквизиты для пополнения', {'fields': ('requsites_sberbank_rub', 'requsites_psb_rub', 'requsites_tinkoff_rub', 'requsites_gazprombank_rub',
+        ('Основные настройки', {'fields': ('avatar', 'id', 'username', 'balance', 'email', 'password', 'kompan_name', 'first_name', 'last_name', 'middle_name', ('date_joined', 'last_login'), 'is_active_change', 'verifications_level_one')}),
+        ('Реквизиты', {'fields': ('requsites_sberbank_rub', 'requsites_psb_rub', 'requsites_tinkoff_rub', 'requsites_gazprombank_rub',
                                                  'requsites_alfabank_rub', 'requsites_russtandart_rub', 'requsites_vtb_rub', 'requsites_rosselhoz_rub', 'requsites_raifaizen_rub',
                                                  'requsites_roketbank_rub', 'requsites_otkritie_rub', 'requsites_pochtabank_rub', 'requsites_rnkb_rub', 'requsites_rosbank_rub',
                                                  'requsites_mtsbank_rub', 'requsites_qiwi_rub', 'requsites_qiwi_usd', 'requsites_payeer_rub', 'requsites_payeer_usd', 'requsites_payeer_eur',
                                                  'requsites_webmoney_rub', 'requsites_webmoney_usd', 'requsites_webmoney_eur', 'requsites_pm_btc', 'requsites_pm_usd', 'requsites_pm_eur',
                                                  'requsites_skrill_eur', 'requsites_skrill_usd', 'requsites_paypal_rub', 'requsites_paypal_usd', 'requsites_paypal_eur', 'requsites_umoney_rub',
                                                  'requsites_btc', 'requsites_xrp', 'requsites_ltc', 'requsites_bch', 'requsites_xmr', 'requsites_eth', 'requsites_etc', 'requsites_dash')}),
-        ('Реквизиты для вывода', {'fields': ('requsites_width_sberbank_rub', 'requsites_width_psb_rub', 'requsites_width_tinkoff_rub', 'requsites_width_gazprombank_rub',
-                                             'requsites_width_alfabank_rub', 'requsites_width_russtandart_rub', 'requsites_width_vtb_rub', 'requsites_width_rosselhoz_rub',
-                                             'requsites_width_raifaizen_rub', 'requsites_width_roketbank_rub', 'requsites_width_otkritie_rub', 'requsites_width_pochtabank_rub', 'requsites_width_rnkb_rub',
-                                             'requsites_width_rosbank_rub', 'requsites_width_mtsbank_rub', 'requsites_width_qiwi_rub', 'requsites_width_qiwi_usd', 'requsites_width_payeer_rub',
-                                             'requsites_width_payeer_usd', 'requsites_width_payeer_eur', 'requsites_width_webmoney_rub', 'requsites_width_webmoney_usd', 'requsites_width_webmoney_eur', 'requsites_width_pm_btc',
-                                             'requsites_width_pm_usd', 'requsites_width_pm_eur', 'requsites_width_skrill_eur', 'requsites_width_skrill_usd', 'requsites_width_paypal_rub', 'requsites_width_paypal_usd',
-                                             'requsites_width_paypal_eur', 'requsites_width_umoney_rub', 'requsites_width_btc', 'requsites_width_xrp', 'requsites_width_ltc', 'requsites_width_bch', 'requsites_width_xmr', 'requsites_width_eth', 'requsites_width_etc', 'requsites_width_dash')}),
         ('Коммисия для пополнения', {'fields': ('comis_in_sberbank_rub', 'comis_in_psb_rub', 'comis_in_tinkoff_rub', 'comis_in_gazprombank_rub',
                                                  'comis_in_alfabank_rub', 'comis_in_russtandart_rub', 'comis_in_vtb_rub', 'comis_in_rosselhoz_rub', 'comis_in_raifaizen_rub',
                                                  'comis_in_roketbank_rub', 'comis_in_otkritie_rub', 'comis_in_pochtabank_rub', 'comis_in_rnkb_rub', 'comis_in_rosbank_rub',

@@ -130,7 +130,7 @@ body, p, input, textarea, ::placeholder, .tab-box.tab-vertical > .tab-nav li:not
 }
 
 body > nav.light:not(.menu-transparent), nav.light.menu-transparent.scroll-menu, footer {
-    background-color: rgb(0, 22, 143);
+    background-color: rgb(1, 1, 129);
 }
 
 .boxed-area.light {
@@ -144,12 +144,12 @@ body > nav.light:not(.menu-transparent), nav.light.menu-transparent.scroll-menu,
 .tab-icon.tab-vertical > .tab-nav li.active a i, .tab-icon.tab-vertical > .tab-nav li:hover a i, .tab-vertical > .tab-nav li:hover a, .meta-footer, .form-search > div:before, .cnt-box-side .extra-field,
 nav .tab-nav li.active a, nav .tab-nav li:hover a, .menu-inner li:hover > a, .menu-inner li.active > a, a, .mega-menu h5, .search-box-menu > i:hover, .mega-menu .icon-list li a:hover,
 nav.active .menu-btn:before, .text-list-side li div {
-    color: rgb(0, 32, 210);
+    color: rgb(1, 1, 129);
 }
 
 nav.light a.btn-border, .dropdown > ul li:hover > a, .dropdown > ul li.active > a, .menu-cnt > ul > li:hover > a, .menu-cnt > ul > li.active > a, .light .counter h3, .breadcrumb li:last-child a,
 .breadcrumb li:hover a, .menu-side-collapse .dropdown-submenu > a {
-    color: rgb(0, 32, 210) !important;
+    color: rgb(1, 1, 129) !important;
 }
 
 .btn-text.btn-video:before, .icon-circle li:before, .icon-circle span:before, .icon-line li:before, .icon-line span:before, .progress-bar > div > div, .progress-bar > div span, .breadcrumb li a:after,
@@ -159,8 +159,8 @@ nav.light a.btn-border, .dropdown > ul li:hover > a, .dropdown > ul li.active > 
 
 .btn, .tab-nav li.active a, .tab-nav li:hover a, .tab-nav.align-center li.active a, .tab-nav.align-center li:hover a, .icon-links-grid a:hover, .icon-links-button a, nav.light a.btn-border:hover,
 .btn-border:hover, .menu-transparent .btn:not(.btn-border) {
-    background-color: rgb(0, 32, 210);
-    border-color: rgb(40, 72, 255);
+    background-color: rgb(1, 1, 129);
+    border-color: rgb(1, 1, 129);
 }
 
 .light .btn-border {
@@ -751,7 +751,7 @@ i.icon-check-gray {
 .btn-login.btn-border, nav a.btn-login.btn-border:hover {
     background: none;
     border: none;
-    border-left: 1px solid rgba(255, 255, 255, 0.15) !important;
+    border-left: 1px solid rgba(1, 1, 129, 0.15) !important;
     padding-left: 35px;
     border-radius: 0;
     font-weight: 500;
@@ -1198,12 +1198,11 @@ body > nav.menu-icon .menu-brand {
 }
 
 body > nav .menu-brand {
-    height: 70px;
-    padding: 5px 0;
+    padding: 10px 0;
 }
 
 .menu-right {
-    height: 60px;
+    height: 70px;
 }
 
 nav .btn {
@@ -1328,8 +1327,7 @@ footer .menu-inner li > a {
 }
 
 .footer-bar img {
-    height: 20px;
-    margin-top: 5px;
+    height: 30px;
 }
 
 /*

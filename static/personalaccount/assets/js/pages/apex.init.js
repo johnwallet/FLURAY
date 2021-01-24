@@ -150,7 +150,7 @@ if($("#line_chart_dashed").length) {
 if($("#spline_area").length) {
 	options = {
 		chart: {
-			height: 350,
+			height: 300,
 			type: "area"
 		},
 		dataLabels: {
@@ -161,28 +161,21 @@ if($("#spline_area").length) {
 			width: 3
 		},
 		series: [{
-			name: "series1",
-			data: [34, 40, 28, 52, 42, 109, 100]
-		}, {
-			name: "series2",
-			data: [32, 60, 34, 46, 34, 52, 41]
+			name: "Прибыль",
+			data: datajsonin.value
 		}],
-		colors: ["#eff2f7", "#3051d3"],
+		colors: ["#010181"],
 		xaxis: {
-			type: "datetime",
-			categories: ["2018-09-19T00:00:00", "2018-09-19T01:30:00", "2018-09-19T02:30:00", "2018-09-19T03:30:00", "2018-09-19T04:30:00", "2018-09-19T05:30:00", "2018-09-19T06:30:00"]
+			type: 'datetime',
+			categories: datajsonin.data
 		},
 		grid: {
 			borderColor: "#f1f1f1"
 		},
-		tooltip: {
-			x: {
-				format: "dd/MM/yy HH:mm"
-			}
-		}
 	};
 	(chart = new ApexCharts(document.querySelector("#spline_area"), options)).render()
 }
+
 if($("#column_chart").length) {
 	options = {
 		chart: {

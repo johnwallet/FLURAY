@@ -18,6 +18,12 @@
 /* 3. ACTIVE STATUS CHANGE */
 /* 4. ACTIVE PS CHANGE */
 
+/* PROFILE */
+/* 1. PROFILE */
+/* 2. SETTINGS */
+
+/* ERROR */
+
 
 
 /*==========================// ОБНУЛЕНИЕ //==========================*/
@@ -144,7 +150,7 @@ input[type="number"]:focus {
 }
 
 .card-ps:hover {
-    box-shadow: 0 0 10px #010181;
+    box-shadow: 0 0 7px rgba(1, 1, 129, 0.5);
     border-radius: 8px;
 }
 
@@ -155,7 +161,7 @@ input[type="number"]:focus {
     width: 135px;
     height: 71px;
     background: linear-gradient(180deg, #FFFFFF 64.37%, #e2f9ff 100%);
-    box-shadow: 0 0 10px rgba(33, 160, 56, 0.5);
+    box-shadow: 0 0 7px rgba(1, 1, 129, 0.5);
     border-radius: 8px 8px 0 0;
 }
 
@@ -572,6 +578,7 @@ input[type="number"]:focus {
 /*==========================// REKVISITES CARD //==========================*/
 
 .reqisites-card-custom {
+    padding: 10px 20px;
     overflow: hidden;
     border-radius: .25rem;
     user-select: none;
@@ -642,7 +649,6 @@ input[type="number"]:focus {
 }
 
 .requsites-card-content {
-    padding: 20px 50px;
 }
 
 .requsites-box {
@@ -677,6 +683,15 @@ input[type="number"]:focus {
     transition: 0.5s;
 }
 
+.transforx {
+    transform: scale(-1, 1);
+    transition: 0.5s;
+}
+
+.transfortransit {
+    transition: 0.5s;
+}
+
 .requsites-box-content {
     margin-top: 10px;
     display: flex;
@@ -686,43 +701,35 @@ input[type="number"]:focus {
 }
 
 .requsites-content-card {
-    margin: 5px 10px;
+    margin: 10px;
     display: flex;
 }
 
 .requsites-card-logo {
     display: flex;
     width: 130px;
-    height: 60px;
+    height: 75px;
     justify-content: center;
     align-items: center;
-    background: linear-gradient(180deg, #FFFFFF 64.37%, #E2F9FF 100%);
-    border: 1px solid rgba(1, 1, 129, 0.1);
     box-sizing: border-box;
-    border-radius: 8px 0 0 8px;
-}
-
-.requsites-card-logo.lg {
-    height: 113px;
+    border-radius: 8px;
 }
 
 .requsites-card-input {
     position: relative;
-    left: -1px;
     display: flex;
     align-items: center;
-    min-width: 290px;
-    height: 60px;
-    background: linear-gradient(180deg, #FFFFFF 64.37%, #E2F9FF 100%);
-    border: 1px solid rgba(1, 1, 129, 0.1);
+    min-width: 300px;
+    box-shadow: 0 0 5px rgba(1, 1, 129, 0.5);
+    height: 75px;
     box-sizing: border-box;
-    border-radius: 0 8px 8px 0;
+    border-radius: 8px;
 }
 
 .requsites-card-input.lg {
-    display: block;
-    height: 113px;
+    min-width: 445px;
 }
+
 
 .requsites-input-field {
     margin: 10px 0;
@@ -735,36 +742,40 @@ input[type="number"]:focus {
 }
 
 .requsites-input-valute {
-    position: relative;
-    left: -1px;
+    position: absolute;
+    top: -1px;
+    right: -1px;
     width: 45px;
-    height: 24px;
+    height: 20px;
     display: flex;
     justify-content: center;
     align-items: center;
     background: #FFFFFF;
-    border: 1px solid rgba(1, 1, 129, 0.1);
+    border-radius: 1px 6px;
+    box-shadow: 0 0 4px rgba(1, 1, 129, 0.5);
 }
 
 .requsites-valute-content {
-    font-size: 14px;
+    font-size: 13px;
     line-height: 16px;
     color: #010181;
 }
 
 .requsites-input-card {
+    margin-right: 5px;
+    font-weight: bold;
+    font-size: 16px;
     position: relative;
     left: -2px;
 }
 
 .requsites-input-card input {
-    width: 230px;
-    height: 24px;
+    width: 300px;
+    height: 30px;
     background: #FFFFFF;
     box-shadow: inset 0 0 3px rgba(1, 1, 129, 0.25);
-    border-radius: 0 4px 4px 0;
-    font-size: 12px;
-    line-height: 14px;
+    border-radius: 4px;
+    font-size: 14px;
     padding: 0 5px;
     color: #495057;
     background-clip: padding-box;
@@ -780,12 +791,8 @@ input[type="number"]:focus {
     padding: 10px 0;
 }
 
-.form-rekvisites.active {
-    display: block;
-}
-
 .form-rekvisites {
-    display: none;
+    display: block;
 }
 
 /*==========================// ACTIVE CHANGE //==========================*/
@@ -1475,23 +1482,286 @@ input[type="number"]:focus {
 }
 
 
+.btn-dashboard-box {
+    display: flex;
+}
+
+.btn-dashboard-actions {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 150px;
+    height: 40px;
+    margin-right: 10px;
+    border-radius: 5px;
+    border: 1px solid rgba(1, 1, 129, 0.25);
+    font-size: 17px;
+    color: #010181;
+    background-color: #FFF;
+}
+
+.btn-dashboard-actions img {
+    margin-right: 8px;
+}
+
+.btn-dashboard-actions:hover {
+    border: 1px solid rgb(1, 1, 129);
+}
+
+
+/*==========================// PROFILE //==========================*/
+.card-profile-box {
+    display: flex;
+    width: 100%;
+}
+
+.card-profile-box-left {
+    width: 30%;
+    height: 330px;
+    margin: 10px 10px 20px 10px;
+}
+
+.card-profile-content {
+    position: relative;
+    padding: 20px;
+    width: 100%;
+    height: 100%;
+    border-radius: 8px;
+    background-color: #FFF;
+    box-shadow: 0 0 4px rgba(1, 1, 129, 0.5);
+}
+
+.card-profile-content-avatar-box {
+    width: 100%;
+    min-width: 140px;
+    height: 60%;
+    min-height: 140px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.card-profile-content-avatar {
+
+}
+
+.rounded-circle.avatar-xl.roundcolor {
+    box-shadow: 0 0 6px rgba(1, 1, 129, 0.3);
+}
+
+.card-profile-content-username {
+    margin-top: 10px;
+}
+
+.card-profile-content-username span {
+    font-size: 17px;
+    font-weight: bold;
+}
+
+.card-profile-content-content-box {
+    padding-top: 10px;
+}
+
+.card-profile-content-content {
+    margin-bottom: 13px;
+}
+
+.card-profile-content-content p {
+    margin-bottom: 3px;
+    font-size: 12px;
+}
+
+.card-profile-content-content span {
+    font-size: 17px;
+}
+
+.card-profile-box-right {
+    width: 70%;
+    height: 330px;
+    margin: 10px 10px 20px 10px;
+}
+
+.card-profile-edit {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    opacity: 0.7;
+}
+
+.card-profile-edit:hover {
+    opacity: 1;
+}
+
+.card-profile-edit img {
+
+}
+
+.card-profile-edit span {
+    padding-left: 5px;
+    font-size: 16px;
+    color: #010181;
+}
+
+/*==========================// SETTINGS //==========================*/
+.row.center {
+    justify-content: center;
+}
+
+.avatar-box-form-none {
+    display: none;
+}
+
+.avatar-box-form {
+    user-select: none;
+}
+
+.avatar-box-form-block {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.avatar-box-form-block p {
+    font-size: 10px;
+    opacity: 0.7;
+    margin-bottom: 5px;
+}
+
+.form-block-labelblock {
+    display: flex;
+}
+
+.btn-avatar-load {
+    width: 100px;
+    height: 30px;
+    border: 1px solid rgba(1, 1, 129, 0.3);
+    border-radius: 6px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0.7;
+    font-size: 14px;
+}
+
+.btn-avatar-load:hover {
+    opacity: 1;
+    border: 1px solid rgba(1, 1, 129, 0.7);
+    color: rgba(1, 1, 129, 1);
+    cursor: pointer;
+}
+
+
+.form-block-labelblock input {
+    display: none;
+}
+
+.btn-avatar-load {
+
+}
+
+.btn-avatar-checkbox {
+
+}
+
+.btn-avatar-label {
+    display: flex;
+    color: #B90101;
+    opacity: 0.5;
+    line-height: 12px;
+    font-size: 12px;
+}
+
+.btn-avatar-label:hover {
+    opacity: 1;
+    cursor: pointer;
+}
+
+.btn-avatar-label.succes {
+    color: #01B908;
+}
+
+.btn-avatar-label.succes:hover {
+    opacity: 1;
+    cursor: pointer;
+}
+
+.btn-avatar-label:before {
+    content: '';
+    display: block;
+    margin-right: 5px;
+    width: 10px;
+    height: 10px;
+    background: url("../images/icon/del-btn.svg");
+    background-size: cover;
+}
+
+.btn-avatar-label.succes:before {
+    width: 15px;
+    background: url("../images/icon/succes-btn.svg");
+}
+
+.box-center-edit {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.card-edit-content {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+}
+
+.input-edit-box {
+    display: flex;
+    flex-direction: column;
+    margin: 10px 0;
+    width: 70%;
+}
+
+.input-edit-str span {
+    display: inline-block;
+    width: 68px;
+}
+
+.input-edit-str input {
+    width: 70%;
+    margin: 10px 10px;
+    padding: 7px 13px;
+    font-size: 16px;
+    border: 1px solid rgba(1, 1, 129, 0.3);
+    border-radius: 6px;
+    opacity: 0.7;
+}
+
+.input-edit-str input:focus {
+    opacity: 1;
+    border: 1px solid rgba(1, 1, 129, 0.7);
+}
+
+.password-change-a {
+    margin-bottom: 10px;
+}
+
+.password-change-a a {
+    color:  rgba(1, 1, 129, 0.7);
+    font-size: 14px;
+    opacity: 0.7;
+}
+
+.password-change-a a:hover {
+    opacity: 1;
+}
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+/*==========================// ERROR //==========================*/
+.error-collor-red {
+    color: #B90101;
+}
 
 
 
@@ -1590,7 +1860,45 @@ input[type="number"]:focus {
 
 }
 
+@media (max-width: 1090px) {
+    .card-profile-content-content span {
+        font-size: 15px;
+    }
+}
+
 @media (max-width: 992px) {
+
+}
+
+@media (max-width: 860px) {
+
+    .card-profile-box-left {
+        height: 300px;
+        width: 35%;
+    }
+
+    .card-profile-box-right {
+        height: 300px;
+        width: 65%;
+    }
+
+    .card-profile-content-content p {
+        font-size: 11px;
+    }
+
+    .avatar-xl {
+        height: 6.5rem;
+        width: 6.5rem;
+    }
+
+    .card-profile-edit img {
+        height: 15px;
+        width: 15px;
+    }
+
+    .card-profile-edit span {
+        font-size: 15px;
+    }
 
 }
 
@@ -1614,23 +1922,54 @@ input[type="number"]:focus {
     }
 }
 
+@media (max-width: 670px) {
+    .card-profile-box {
+        display: block;
+        width: 100%;
+        padding: 0 10px;
+    }
+
+    .card-profile-box-left {
+        height: 180px;
+        width: 100%;
+        margin: 0 0 20px 0;
+    }
+
+    .card-profile-box-right {
+        height: 320px;
+        width: 100%;
+        margin: 0 0 20px 0;
+    }
+
+    .card-profile-content.left {
+        display: flex;
+    }
+
+    .card-profile-content-avatar-box {
+        width: 180px;
+        min-width: 140px;
+        height: 100%;
+        min-height: 140px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+    }
+
+    .card-profile-content-content span {
+        font-size: 17px;
+    }
+
+    .card-profile-content-content p {
+        font-size: 12px;
+    }
+}
+
 @media (max-width: 575px) {
     .requsites-content-card {
-        display: block;
-        background: linear-gradient(180deg, #FFFFFF 64.37%, #E2F9FF 100%);
-        border: 1px solid rgba(1, 1, 129, 0.1);
-        border-radius: 8px;
     }
 
     .requsites-card-logo {
-        display: flex;
-        width: 100%;
-        height: 60px;
-        justify-content: center;
-        align-items: center;
-        background: none;
-        border: none;
-        border-radius: inherit;
     }
 
     .requsites-input-field.two {
@@ -1642,17 +1981,7 @@ input[type="number"]:focus {
     }
 
     .requsites-card-input {
-        padding: 0 5px;
-        width: 100%;
-        position: relative;
-        left: 0;
-        display: flex;
-        align-items: center;
-        min-width: inherit;
-        height: 37px;
-        background: none;
-        border: none;
-        border-radius: inherit;
+
     }
 
     .requsites-input-card input {
@@ -1661,16 +1990,6 @@ input[type="number"]:focus {
 
     .requsites-input-field {
         margin: 5px;
-    }
-
-    .requsites-card-input.lg.two {
-       height: 73px;
-    }
-
-    .requsites-card-input.lg {
-        display: flex;
-        flex-direction: column;
-        padding: 0;
     }
 
     .requsites-input-card {
@@ -1694,13 +2013,15 @@ input[type="number"]:focus {
     .in-text {
         font-size: 12px;
     }
+
     .requsites-card-content {
-        padding: 10px 10px;
     }
+
     .col-xl-12 {
         padding-right: 0;
         padding-left: 0;
     }
+
     .request-header {
         display: block;
         background-color: #010181;
@@ -1767,6 +2088,40 @@ input[type="number"]:focus {
     }
 }
 
+@media (max-width: 430px) {
+    .card-profile-box-right {
+        height: 340px;
+    }
+
+    .avatar-xl {
+        height: 4.5rem;
+        width: 4.5rem;
+    }
+
+    .card-profile-content-avatar-box {
+        width: 110px;
+        min-width: 110px;
+        height: 100%;
+        min-height: 120px;
+    }
+
+    .card-profile-box-left {
+        height: 160px;
+    }
+
+    .card-profile-content-content span {
+        font-size: 15px;
+    }
+
+    .card-profile-edit {
+        left: 20px;
+    }
+
+    .card-profile-box {
+        padding: 0;
+    }
+}
+
 @media (max-width: 380px) {
 
     .in-img-deposit {
@@ -1825,5 +2180,17 @@ input[type="number"]:focus {
 
     .status-group-right {
         padding: 20px 0 0 5px;
+    }
+
+    .card-profile-content-content p {
+        font-size: 11px;
+    }
+
+    .card-profile-content {
+        padding: 15px;
+    }
+
+    .card-profile-box-right {
+        height: 325px;
     }
 }

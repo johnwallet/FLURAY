@@ -13,15 +13,15 @@
                     <div class="navbar-brand-box">
                         <a href="{% url 'home' %}" class="logo logo-dark">
                             <span class="logo-sm">
-                                <img src="{% static 'personalaccount/assets/images/logo-dark-sm.png' %}" alt="" height="35">
+                                <img src="{% static 'personalaccount/assets/images/logo-dark-sm.svg' %}" alt="" height="35">
                             </span>
                             <span class="logo-lg">
-                                <img src="{% static 'personalaccount/assets/images/logo-dark.png' %}" alt="" height="55">
+                                <img src="{% static 'personalaccount/assets/images/logo-dark.svg' %}" alt="" height="30">
                             </span>
                         </a>
                     </div>
 
-                    <button type="button" class="btn btn-sm px-3 font-size-24 header-item waves-effect" id="vertical-menu-btn">
+                    <button type="button" class="btn btn-sm px-3 font-size-24 header-item waves-effect transfortransit" id="vertical-menu-btn">
                         <i class="mdi mdi-backburger"></i>
                     </button>
                 </div>
@@ -41,7 +41,7 @@
                         </button>
                         <div class="dropdown-menu dropdown-menu-right">
                             <a href="javascript:void(0);" class="dropdown-item notify-item">
-                                <img src="{% static 'personalaccount/assets/images/flags/us.jpg' %}" alt="user-image" class="mr-2" height="12"><span class="align-middle">USA</span>
+                                <img src="{% static 'personalaccount/assets/images/flags/russia.jpg' %}" alt="user-image" class="mr-2" height="12"><span class="align-middle">В разработке</span>
                             </a>
                         </div>
                     </div>
@@ -112,14 +112,17 @@
 
                         <li>
                             <a href="{% url 'requsetwallet' %}" class="waves-effect">
-                                <div class="d-inline-block icons-sm mr-1"><i class="uim uim-window-grid"></i></div>
+                                <div class="d-inline-block icons-sm mr-1"><i class="uim uim-process"></i></div>
+                                {% if requeston.requesttotal > 0 %}
+                                    <span class="badge badge-pill badge-success float-right">{{ requeston.requesttotal }}</span>
+                                {% endif %}
                                 <span>Заявки</span>
                             </a>
                         </li>
 
                         <li>
                             <a href="{% url 'transactionwallet' %}" class="waves-effect">
-                                <div class="d-inline-block icons-sm mr-1"><i class="uim uim-window-grid"></i></div>
+                                <div class="d-inline-block icons-sm mr-1"><i class="uim uim-wrap-text"></i></div>
                                 <span>Транзакции</span>
                             </a>
                         </li>

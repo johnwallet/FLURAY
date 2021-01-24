@@ -228,9 +228,10 @@ h1, h2, h3, h4, h5, h6, .btn.btn-border, .btn-text, .input-text, .input-select, 
     background-color: #379cf4;
 }
 
-.btn, .tab-nav li.active a, .tab-nav li:hover a, .icon-links-grid a:hover, .icon-links-button a {
+.btn, .btn:hover, .tab-nav li.active a, .tab-nav li:hover a, .icon-links-grid a:hover, .icon-links-button a {
     background-color: #379cf4;
     border-color: #379cf4;
+    color: #010181;
 }
 
 .tab-nav li a {
@@ -774,7 +775,7 @@ body > nav .menu-brand img {
     float: left;
     list-style: none;
     padding: 0;
-    margin: 0;
+    margin: 5px;
     display: flex;
     margin-left: 30px;
 }

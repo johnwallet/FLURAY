@@ -33,6 +33,7 @@ class RequestChange(models.Model):
     requisites = models.CharField('Реквизиты', max_length=50)
     request_commission = models.DecimalField('Комиссия общая', max_digits=4, decimal_places=2)
     request_commission_change = models.DecimalField('Комиссия обменника', max_digits=4, decimal_places=2)
+    request_curse = models.DecimalField('Курс', max_digits=10, decimal_places=4)
 
     request_type_valute = models.CharField('Тип валюты', max_length=50)
 
@@ -55,7 +56,7 @@ class RequestChange(models.Model):
 
 class CurrencyCBRF(models.Model):
     name_currency = models.CharField('Название валюты', max_length=50)
-    base_currency = models.DecimalField('Курс  валюты', max_digits=10, decimal_places=4)
+    base_currency = models.DecimalField('Курс валюты', max_digits=10, decimal_places=4)
 
     def __str__(self):
         return self.name_currency
@@ -63,7 +64,6 @@ class CurrencyCBRF(models.Model):
     class Meta:
         verbose_name = 'Курс валюты'
         verbose_name_plural = 'Курсы валют'
-
 
 
 class Transfer(models.Model):
@@ -75,3 +75,19 @@ class Transfer(models.Model):
 
     def __str__(self):
         return self.transfer_name
+
+    class Meta:
+        verbose_name = 'Внутренний перевод'
+        verbose_name_plural = 'Внутренний перевод'
+
+class StaticDailyProfit(models.Model):
+    dailyprofit_user = models.CharField('Пользователь', max_length=50)
+    dailyprofit_value = models.DecimalField('Значение', max_digits=10, decimal_places=2)
+    dailyprofit_date = models.DateField('Дата', default=timezone.now)
+
+    def __str__(self):
+        return self.dailyprofit_user
+
+    class Meta:
+        verbose_name = 'Статистику прибыли'
+        verbose_name_plural = 'Статистика прибыли'

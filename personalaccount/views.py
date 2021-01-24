@@ -7,10 +7,11 @@ from django.utils import timezone
 from personalaccount.apicourse import get_rates
 from personalaccount.apicoursecrypto import get_rates_crypto
 from personalaccount.metodviews import depositsortchangeps, depositsortbalanceps, depositsortcritery, widthsortchangeps, \
-    widthsortbalanceps, widthsortcritery
-from personalaccount.models import Transaction, RequestChange, CurrencyCBRF
-from personalaccount.forms import RequestForm, RequisitesForm2, WithdrawalForm, TransferForm, RequisitesForm1, \
-    CommissionForm, ActivePSForm, ReservChangeForm
+    widthsortbalanceps, widthsortcritery, activepsuser, requestchangeon, dailyprofitcount, totalprofitstatic, \
+    requesttotal, walrequestchangeon
+from personalaccount.models import Transaction, RequestChange, CurrencyCBRF, StaticDailyProfit
+from personalaccount.forms import RequestForm, WithdrawalForm, TransferForm, RequisitesForm, CommissionForm, \
+    ActivePSForm, ReservChangeForm, ProfileForm
 from users.models import CustomUserId, CustomUser
 
 
@@ -18,21 +19,99 @@ from users.models import CustomUserId, CustomUser
 def personalaccount(request):
     if request.user.is_authenticated:
         if request.user.userid == CustomUserId.objects.get(pk=1):
-            dash_tran = Transaction.objects.filter(transaction_user=request.user)
-            dash_cour = CurrencyCBRF.objects.all()
-            context = {
-                'dash_tran': dash_tran,
-                'dash_cour': dash_cour,
-            }
-            return render(request, 'personalaccount/cabinet/dashboard/dashboardwallet.html', context)
+            if request.user.verifications_level_one == False:
+                data_user = CustomUser.objects.get(username=request.user)
+                data_error = False
+                if request.method == 'POST':
+                    form = ProfileForm(request.POST, request.FILES, instance=data_user)
+                    if form.is_valid():
+                        flag_good = True
+                        post = form.save(commit=False)
+                        if not post.first_name:
+                            flag_good = False
+                        if not post.last_name:
+                            flag_good = False
+                        if not post.middle_name:
+                            flag_good = False
+                        if not post.phone_number:
+                            flag_good = False
+                        if not post.telegram_username:
+                            flag_good = False
+
+                        if flag_good == True:
+                            post.verifications_level_one = True
+                            post.save()
+                            return redirect('personalaccount')
+                        else:
+                            data_error = True
+                context = {
+                    'form': ProfileForm(instance=data_user),
+                    'data_error': data_error,
+                }
+                return render(request, 'personalaccount/cabinet/setting/settingwallet_verif_level_one.html', context)
+            else:
+                dash_tran = Transaction.objects.filter(transaction_user=request.user)
+                dash_cour = CurrencyCBRF.objects.all()
+                requeston = walrequestchangeon(usernamereq=request.user)
+                context = {
+                    'dash_tran': dash_tran,
+                    'dash_cour': dash_cour,
+                    'requeston': requeston,
+                }
+                return render(request, 'personalaccount/cabinet/dashboard/dashboardwallet.html', context)
         elif request.user.userid == CustomUserId.objects.get(pk=2):
-            dash_tran = Transaction.objects.filter(transaction_user=request.user)
-            dash_cour = CurrencyCBRF.objects.all()
-            context = {
-                'dash_tran': dash_tran,
-                'dash_cour': dash_cour,
-            }
-            return render(request, 'personalaccount/cabinet/dashboard/dashboardchange.html', context)
+            if request.user.verifications_level_one == False:
+                data_user = CustomUser.objects.get(username=request.user)
+                data_error = False
+                if request.method == 'POST':
+                    form = ProfileForm(request.POST, request.FILES, instance=data_user)
+                    if form.is_valid():
+                        flag_good = True
+                        post = form.save(commit=False)
+                        if not post.first_name:
+                            flag_good = False
+                        if not post.last_name:
+                            flag_good = False
+                        if not post.middle_name:
+                            flag_good = False
+                        if not post.phone_number:
+                            flag_good = False
+                        if not post.telegram_username:
+                            flag_good = False
+
+                        if flag_good == True:
+                            post.verifications_level_one = True
+                            post.save()
+                            return redirect('personalaccount')
+                        else:
+                            data_error = True
+                context = {
+                    'form': ProfileForm(instance=data_user),
+                    'data_error': data_error,
+                }
+                return render(request, 'personalaccount/cabinet/setting/settingchange_verif_level_one.html', context)
+            else:
+                dash_tran = Transaction.objects.filter(transaction_user=request.user)
+                dash_cour = CurrencyCBRF.objects.all()
+                activeps = activepsuser(usernameactiveps=request.user)
+                requeston = requestchangeon(usernamereq=request.user)
+                valuestatic = dailyprofitcount(usernamedailyprofit=request.user)
+                totalprofitstat = totalprofitstatic(usernametotalstatic=request.user)
+                requesttot = requesttotal(usernamerequesttotal=request.user)
+                datajsontable = {
+                    'data': valuestatic['staticdata'],
+                    'value': valuestatic['staticvalue']
+                }
+                context = {
+                    'dash_tran': dash_tran,
+                    'dash_cour': dash_cour,
+                    'activeps': activeps,
+                    'requeston': requeston,
+                    'datajsontable': datajsontable,
+                    'totalprofitstat': totalprofitstat,
+                    'requesttot': requesttot,
+                }
+                return render(request, 'personalaccount/cabinet/dashboard/dashboardchange.html', context)
     else:
         return redirect('account_login')
 
@@ -76,6 +155,7 @@ def depositwalletform(request):
                                 post.request_sum_valute = post.request_sum
                                 post.request_good_sum_valute = post.request_good_sum
                                 post.request_good_sum_change_valute = post.request_good_sum_change
+                                post.request_curse = request_good.base_currency
 
                                 post.save()
                                 return redirect('requsetwallet')
@@ -133,6 +213,7 @@ def withdrawalwallet(request):
                                 post.request_sum_valute = post.request_sum
                                 post.request_good_sum_valute = post.request_good_sum
                                 post.request_good_sum_change_valute = post.request_good_sum_change
+                                post.request_curse = request_good.base_currency
 
                                 # создаем транзакцию для получателя вывода
                                 Transaction.objects.create(transaction_name='Заявка на вывод № ' + str(n),
@@ -212,15 +293,23 @@ def transferwallet(request):
 def requsetwallet(request):
     if request.user.is_authenticated:
         if request.user.userid == CustomUserId.objects.get(pk=1):
-            status_reque = False
+            status_reque_in = False
+            status_reque_out = False
             base_reque = RequestChange.objects.filter(request_user=request.user)
+            base_reque_in = base_reque.filter(request_type='Заявка на пополнение')
+            base_reque_out = base_reque.filter(request_type='Заявка на вывод')
             for i in base_reque:
-                if i.request_status != 'Выполнена':
-                    status_reque = True
+                if i.request_type == 'Заявка на пополнение' and i.request_status != 'Выполнена':
+                    status_reque_in = True
+                    break
+                if i.request_type == 'Заявка на вывод' and i.request_status != 'Выполнена':
+                    status_reque_out = True
                     break
             context = {
-                'status_reque': status_reque,
-                'base_reque': base_reque,
+                'status_reque_in': status_reque_in,
+                'status_reque_out': status_reque_out,
+                'base_reque_in': base_reque_in,
+                'base_reque_out': base_reque_out,
             }
             return render(request, 'personalaccount/cabinet/requset/requsetwallet.html', context)
         else:
@@ -260,13 +349,6 @@ def transactionwallet(request):
 def profilewallet(request):
     if request.user.is_authenticated:
         if request.user.userid == CustomUserId.objects.get(pk=1):
-            if request.method == 'POST' and request.FILES['avatar']:
-                avauser = CustomUser.objects.get(username=request.user)
-                file = request.FILES['avatar']
-                fs = FileSystemStorage()
-                avauser.avatar = fs.save(file.name, file)
-                avauser.save()
-                return redirect('profilewallet')
             return render(request, 'personalaccount/cabinet/profile/profilewallet.html')
         else:
             raise Http404
@@ -278,7 +360,36 @@ def profilewallet(request):
 def settingwallet(request):
     if request.user.is_authenticated:
         if request.user.userid == CustomUserId.objects.get(pk=1):
-            return render(request, 'personalaccount/cabinet/setting/settingwallet.html')
+            data_user = CustomUser.objects.get(username=request.user)
+            data_error = False
+            if request.method == 'POST':
+                form = ProfileForm(request.POST, request.FILES, instance=data_user)
+                if form.is_valid():
+                    flag_good = True
+                    post = form.save(commit=False)
+                    if not post.first_name:
+                        flag_good = False
+                    if not post.last_name:
+                        flag_good = False
+                    if not post.middle_name:
+                        flag_good = False
+                    if not post.phone_number:
+                        flag_good = False
+                    if not post.telegram_username:
+                        flag_good = False
+
+                    if flag_good == True:
+                        if 'avatar-clear-cust' in request.POST:
+                            post.avatar.delete()
+                        post.save()
+                        return redirect('profilewallet')
+                    else:
+                        data_error = True
+            context = {
+                'form': ProfileForm(instance=data_user),
+                'data_error': data_error,
+            }
+            return render(request, 'personalaccount/cabinet/setting/settingwallet.html', context)
         else:
             raise Http404
     else:
@@ -317,8 +428,17 @@ def withdrawalexchangegood(request, pk):
     transactions = Transaction.objects.get(transaction_number=requestchange.request_name)
     userchange.balance += requestchange.request_good_sum_change_valute
     requestchange.request_status = 'Выполнена'
+    requestchange.date_end_change = timezone.now()
     transactions.transaction_status = 'Выполнена'
     transactions.date_end_change = timezone.now()
+
+
+    # Создаем строку прибыли обменника
+    print(requestchange.request_good_sum_change-(requestchange.request_good_sum*requestchange.request_curse))
+    StaticDailyProfit.objects.create(dailyprofit_user=request.user.username,
+                                     dailyprofit_value=requestchange.request_good_sum_change-(requestchange.request_good_sum*requestchange.request_curse)
+                                     )
+
     # создаем транзакцию получателя
     Transaction.objects.create(transaction_name='Обработка заявки на вывод № ' + str(requestchange.request_name),
                                 transaction_number=str(requestchange.request_name),
@@ -378,6 +498,11 @@ def depositexchangerequestupdate(request, pk):
         userwallet.balance += requestchange.request_good_sum
         requestchange.date_end_change = timezone.now()
         requestchange.request_status = 'Выполнена'
+
+        # Создаем строку прибыли обменника
+        StaticDailyProfit.objects.create(dailyprofit_user=request.user.username,
+                                         dailyprofit_value=((requestchange.request_sum / 100) * requestchange.request_commission_change) * requestchange.request_curse
+                                         )
 
         #Создаем транзакцию для пользователя
         Transaction.objects.create(transaction_name='Заявка на пополнение № ' + str(requestchange.request_name),
@@ -460,48 +585,7 @@ def reservchangeedit(request):
             if request.method == "POST":
                 form = ReservChangeForm(request.POST, instance=rekvis)
                 if form.is_valid():
-                    forme = form.save(commit=False)
-                    rekvis.reserv_sberbank_rub = forme.reserv_sberbank_rub
-                    rekvis.reserv_psb_rub = forme.reserv_psb_rub
-                    rekvis.reserv_tinkoff_rub = forme.reserv_tinkoff_rub
-                    rekvis.reserv_gazprombank_rub = forme.reserv_gazprombank_rub
-                    rekvis.reserv_alfabank_rub = forme.reserv_alfabank_rub
-                    rekvis.reserv_russtandart_rub = forme.reserv_russtandart_rub
-                    rekvis.reserv_vtb_rub = forme.reserv_vtb_rub
-                    rekvis.reserv_rosselhoz_rub = forme.reserv_rosselhoz_rub
-                    rekvis.reserv_raifaizen_rub = forme.reserv_raifaizen_rub
-                    rekvis.reserv_roketbank_rub = forme.reserv_roketbank_rub
-                    rekvis.reserv_otkritie_rub = forme.reserv_otkritie_rub
-                    rekvis.reserv_pochtabank_rub = forme.reserv_pochtabank_rub
-                    rekvis.reserv_rnkb_rub = forme.reserv_rnkb_rub
-                    rekvis.reserv_rosbank_rub = forme.reserv_rosbank_rub
-                    rekvis.reserv_mtsbank_rub = forme.reserv_mtsbank_rub
-                    rekvis.reserv_qiwi_rub = forme.reserv_qiwi_rub
-                    rekvis.reserv_qiwi_usd = forme.reserv_qiwi_usd
-                    rekvis.reserv_payeer_rub = forme.reserv_payeer_rub
-                    rekvis.reserv_payeer_usd = forme.reserv_payeer_usd
-                    rekvis.reserv_payeer_eur = forme.reserv_payeer_eur
-                    rekvis.reserv_webmoney_rub = forme.reserv_webmoney_rub
-                    rekvis.reserv_webmoney_usd = forme.reserv_webmoney_usd
-                    rekvis.reserv_webmoney_eur = forme.reserv_webmoney_eur
-                    rekvis.reserv_pm_btc = forme.reserv_pm_btc
-                    rekvis.reserv_pm_usd = forme.reserv_pm_usd
-                    rekvis.reserv_pm_eur = forme.reserv_pm_eur
-                    rekvis.reserv_skrill_eur = forme.reserv_skrill_eur
-                    rekvis.reserv_skrill_usd = forme.reserv_skrill_usd
-                    rekvis.reserv_paypal_rub = forme.reserv_paypal_rub
-                    rekvis.reserv_paypal_usd = forme.reserv_paypal_usd
-                    rekvis.reserv_paypal_eur = forme.reserv_paypal_eur
-                    rekvis.reserv_umoney_rub = forme.reserv_umoney_rub
-                    rekvis.reserv_btc = forme.reserv_btc
-                    rekvis.reserv_xrp = forme.reserv_xrp
-                    rekvis.reserv_ltc = forme.reserv_ltc
-                    rekvis.reserv_bch = forme.reserv_bch
-                    rekvis.reserv_xmr = forme.reserv_xmr
-                    rekvis.reserv_eth = forme.reserv_eth
-                    rekvis.reserv_etc = forme.reserv_etc
-                    rekvis.reserv_dash = forme.reserv_dash
-                    rekvis.save()
+                    form.save()
                     return redirect('reservchange')
             return render(request, 'personalaccount/cabinet/reserv/reservchangeedit.html', context)
         else:
@@ -672,105 +756,27 @@ def rekvisitchange(request):
     if request.user.is_authenticated:
         if request.user.userid == CustomUserId.objects.get(pk=2):
             rekvis = CustomUser.objects.get(username=request.user)
+            return render(request, 'personalaccount/cabinet/rekvisit/rekvisitchange.html', {'rekvis': rekvis})
+        else:
+            raise Http404
+    else:
+        return redirect('account_login')
+
+
+def rekvisitchangeupdate(request):
+    if request.user.is_authenticated:
+        if request.user.userid == CustomUserId.objects.get(pk=2):
+            rekvis = CustomUser.objects.get(username=request.user)
             context = {
                 'rekvis': rekvis,
-                'form1': RequisitesForm1(instance=rekvis),
-                'form2': RequisitesForm2(instance=rekvis),
+                'form1': RequisitesForm(instance=rekvis),
             }
             if request.method == "POST":
-                if 'deposit' in request.POST:
-                    form = RequisitesForm1(request.POST, instance=rekvis)
-                    if form.is_valid():
-                        forme = form.save(commit=False)
-                        rekvis.requsites_sberbank_rub = forme.requsites_sberbank_rub
-                        rekvis.requsites_psb_rub = forme.requsites_psb_rub
-                        rekvis.requsites_tinkoff_rub = forme.requsites_tinkoff_rub
-                        rekvis.requsites_gazprombank_rub = forme.requsites_gazprombank_rub
-                        rekvis.requsites_alfabank_rub = forme.requsites_alfabank_rub
-                        rekvis.requsites_russtandart_rub = forme.requsites_russtandart_rub
-                        rekvis.requsites_vtb_rub = forme.requsites_vtb_rub
-                        rekvis.requsites_rosselhoz_rub = forme.requsites_rosselhoz_rub
-                        rekvis.requsites_raifaizen_rub = forme.requsites_raifaizen_rub
-                        rekvis.requsites_roketbank_rub = forme.requsites_roketbank_rub
-                        rekvis.requsites_otkritie_rub = forme.requsites_otkritie_rub
-                        rekvis.requsites_pochtabank_rub = forme.requsites_pochtabank_rub
-                        rekvis.requsites_rnkb_rub = forme.requsites_rnkb_rub
-                        rekvis.requsites_rosbank_rub = forme.requsites_rosbank_rub
-                        rekvis.requsites_mtsbank_rub = forme.requsites_mtsbank_rub
-                        rekvis.requsites_qiwi_rub = forme.requsites_qiwi_rub
-                        rekvis.requsites_qiwi_usd = forme.requsites_qiwi_usd
-                        rekvis.requsites_payeer_rub = forme.requsites_payeer_rub
-                        rekvis.requsites_payeer_usd = forme.requsites_payeer_usd
-                        rekvis.requsites_payeer_eur = forme.requsites_payeer_eur
-                        rekvis.requsites_webmoney_rub = forme.requsites_webmoney_rub
-                        rekvis.requsites_webmoney_usd = forme.requsites_webmoney_usd
-                        rekvis.requsites_webmoney_eur = forme.requsites_webmoney_eur
-                        rekvis.requsites_pm_btc = forme.requsites_pm_btc
-                        rekvis.requsites_pm_usd = forme.requsites_pm_usd
-                        rekvis.requsites_pm_eur = forme.requsites_pm_eur
-                        rekvis.requsites_skrill_eur = forme.requsites_skrill_eur
-                        rekvis.requsites_skrill_usd = forme.requsites_skrill_usd
-                        rekvis.requsites_paypal_rub = forme.requsites_paypal_rub
-                        rekvis.requsites_paypal_usd = forme.requsites_paypal_usd
-                        rekvis.requsites_paypal_eur = forme.requsites_paypal_eur
-                        rekvis.requsites_umoney_rub = forme.requsites_umoney_rub
-                        rekvis.requsites_btc = forme.requsites_btc
-                        rekvis.requsites_xrp = forme.requsites_xrp
-                        rekvis.requsites_ltc = forme.requsites_ltc
-                        rekvis.requsites_bch = forme.requsites_bch
-                        rekvis.requsites_xmr = forme.requsites_xmr
-                        rekvis.requsites_eth = forme.requsites_eth
-                        rekvis.requsites_etc = forme.requsites_etc
-                        rekvis.requsites_dash = forme.requsites_dash
-                        rekvis.save()
-                        return redirect('rekvisitchange')
-                if 'widthdrawal' in request.POST:
-                    form = RequisitesForm2(request.POST, instance=rekvis)
-                    if form.is_valid():
-                        forme = form.save(commit=False)
-                        rekvis.requsites_width_sberbank_rub = forme.requsites_width_sberbank_rub
-                        rekvis.requsites_width_psb_rub = forme.requsites_width_psb_rub
-                        rekvis.requsites_width_tinkoff_rub = forme.requsites_width_tinkoff_rub
-                        rekvis.requsites_width_gazprombank_rub = forme.requsites_width_gazprombank_rub
-                        rekvis.requsites_width_alfabank_rub = forme.requsites_width_alfabank_rub
-                        rekvis.requsites_width_russtandart_rub = forme.requsites_width_russtandart_rub
-                        rekvis.requsites_width_vtb_rub = forme.requsites_width_vtb_rub
-                        rekvis.requsites_width_rosselhoz_rub = forme.requsites_width_rosselhoz_rub
-                        rekvis.requsites_width_raifaizen_rub = forme.requsites_width_raifaizen_rub
-                        rekvis.requsites_width_roketbank_rub = forme.requsites_width_roketbank_rub
-                        rekvis.requsites_width_otkritie_rub = forme.requsites_width_otkritie_rub
-                        rekvis.requsites_width_pochtabank_rub = forme.requsites_width_pochtabank_rub
-                        rekvis.requsites_width_rnkb_rub = forme.requsites_width_rnkb_rub
-                        rekvis.requsites_width_rosbank_rub = forme.requsites_width_rosbank_rub
-                        rekvis.requsites_width_mtsbank_rub = forme.requsites_width_mtsbank_rub
-                        rekvis.requsites_width_qiwi_rub = forme.requsites_width_qiwi_rub
-                        rekvis.requsites_width_qiwi_usd = forme.requsites_width_qiwi_usd
-                        rekvis.requsites_width_payeer_rub = forme.requsites_width_payeer_rub
-                        rekvis.requsites_width_payeer_usd = forme.requsites_width_payeer_usd
-                        rekvis.requsites_width_payeer_eur = forme.requsites_width_payeer_eur
-                        rekvis.requsites_width_webmoney_rub = forme.requsites_width_webmoney_rub
-                        rekvis.requsites_width_webmoney_usd = forme.requsites_width_webmoney_usd
-                        rekvis.requsites_width_webmoney_eur = forme.requsites_width_webmoney_eur
-                        rekvis.requsites_width_pm_btc = forme.requsites_width_pm_btc
-                        rekvis.requsites_width_pm_usd = forme.requsites_width_pm_usd
-                        rekvis.requsites_width_pm_eur = forme.requsites_width_pm_eur
-                        rekvis.requsites_width_skrill_eur = forme.requsites_width_skrill_eur
-                        rekvis.requsites_width_skrill_usd = forme.requsites_width_skrill_usd
-                        rekvis.requsites_width_paypal_rub = forme.requsites_width_paypal_rub
-                        rekvis.requsites_width_paypal_usd = forme.requsites_width_paypal_usd
-                        rekvis.requsites_width_paypal_eur = forme.requsites_width_paypal_eur
-                        rekvis.requsites_width_umoney_rub = forme.requsites_width_umoney_rub
-                        rekvis.requsites_width_btc = forme.requsites_width_btc
-                        rekvis.requsites_width_xrp = forme.requsites_width_xrp
-                        rekvis.requsites_width_ltc = forme.requsites_width_ltc
-                        rekvis.requsites_width_bch = forme.requsites_width_bch
-                        rekvis.requsites_width_xmr = forme.requsites_width_xmr
-                        rekvis.requsites_width_eth = forme.requsites_width_eth
-                        rekvis.requsites_width_etc = forme.requsites_width_etc
-                        rekvis.requsites_width_dash = forme.requsites_width_dash
-                        rekvis.save()
-                        return redirect('rekvisitchange')
-            return render(request, 'personalaccount/cabinet/rekvisit/rekvisitchange.html', context)
+                form = RequisitesForm(request.POST, instance=rekvis)
+                if form.is_valid():
+                    form.save()
+                    return redirect('rekvisitchange')
+            return render(request, 'personalaccount/cabinet/rekvisit/rekvisitchangeupdate.html', context)
         else:
             raise Http404
     else:
@@ -781,13 +787,6 @@ def rekvisitchange(request):
 def profilechange(request):
     if request.user.is_authenticated:
         if request.user.userid == CustomUserId.objects.get(pk=2):
-            if request.method == 'POST' and request.FILES['avatar']:
-                avauser = CustomUser.objects.get(username=request.user)
-                file = request.FILES['avatar']
-                fs = FileSystemStorage()
-                avauser.avatar = fs.save(file.name, file)
-                avauser.save()
-                return redirect('profilechange')
             return render(request, 'personalaccount/cabinet/profile/profilechange.html')
         else:
             raise Http404
@@ -799,7 +798,36 @@ def profilechange(request):
 def settingchange(request):
     if request.user.is_authenticated:
         if request.user.userid == CustomUserId.objects.get(pk=2):
-            return render(request, 'personalaccount/cabinet/setting/settingchange.html')
+            data_user = CustomUser.objects.get(username=request.user)
+            data_error = False
+            if request.method == 'POST':
+                form = ProfileForm(request.POST, request.FILES, instance=data_user)
+                if form.is_valid():
+                    flag_good = True
+                    post = form.save(commit=False)
+                    if not post.first_name:
+                        flag_good = False
+                    if not post.last_name:
+                        flag_good = False
+                    if not post.middle_name:
+                        flag_good = False
+                    if not post.phone_number:
+                        flag_good = False
+                    if not post.telegram_username:
+                        flag_good = False
+
+                    if flag_good == True:
+                        if 'avatar-clear-cust' in request.POST:
+                            post.avatar.delete()
+                        post.save()
+                        return redirect('profilechange')
+                    else:
+                        data_error = True
+            context = {
+                'form': ProfileForm(instance=data_user),
+                'data_error': data_error,
+            }
+            return render(request, 'personalaccount/cabinet/setting/settingchange.html', context)
         else:
             raise Http404
     else:

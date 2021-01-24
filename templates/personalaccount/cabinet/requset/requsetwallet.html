@@ -36,383 +36,259 @@
                                 <div class="card-body">
 
                                     <div class="card-title">
-                                        <h5 class="text-left">Ваши заявки</h5>
+                                        <h5 class="text-left">Заявки на пополнение</h5>
                                     </div>
 
-                                    {% if base_reque %}
-                                        {% if status_reque %}
-                                            {% for item in base_reque|slice:"::-1" %}
-                                                {% if item.request_type == 'Заявка на пополнение' %}
-                                                    {% if item.request_status == 'Ожидает оплаты' %}
-                                                        <div class="card-request">
+                                    {% if base_reque_in %}
+                                        {% if status_reque_in %}
+                                            {% for item in base_reque_in|slice:"::-1" %}
+                                                {% if item.request_status == 'Ожидает оплаты' %}
+                                                    <div class="card-request">
 
 
-                                                            <div class="request-header">
+                                                        <div class="request-header">
 
-                                                                <div class="request-header-box">
-                                                                    <div class="request-header-number">
-                                                                        <div class="number-content">
-                                                                            Заявка № {{ item.request_name }}
-                                                                        </div>
-                                                                    </div>
-
-                                                                    <div class="request-header-hm">
-                                                                        <div class="hm-content">
-                                                                            Дата создания: {{ item.date_joined_change }}
-                                                                        </div>
+                                                            <div class="request-header-box">
+                                                                <div class="request-header-number">
+                                                                    <div class="number-content">
+                                                                        Заявка № {{ item.request_name }}
                                                                     </div>
                                                                 </div>
 
-                                                                <div class="request-header-status">
-                                                                    <div class="status-box">
-                                                                        <div class="status-content">
-                                                                            {{ item.request_status }}
-                                                                        </div>
+                                                                <div class="request-header-hm">
+                                                                    <div class="hm-content">
+                                                                        Дата создания: {{ item.date_joined_change }}
                                                                     </div>
                                                                 </div>
-
                                                             </div>
 
-
-                                                            <div class="request-content">
-
-                                                                <div class="request-content-left">
-                                                                    <div class="content-left-box">
-                                                                        <div class="content-left-title">
-                                                                            Платежная система
-                                                                        </div>
-                                                                        <div class="content-left-content">
-                                                                            {{ item.request_sistemchange }}
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="content-left-box">
-                                                                        <div class="content-left-title">
-                                                                            Сумма заявки
-                                                                        </div>
-                                                                        <div class="content-left-content">
-                                                                            {% if item.request_type_valute == 'USD' %}
-                                                                                {{ item.request_sum_valute }} $
-                                                                            {% elif item.request_type_valute == 'EUR' %}
-                                                                                {{ item.request_sum_valute }} €
-                                                                            {% elif item.request_type_valute == 'RUB' %}
-                                                                                {{ item.request_sum_valute }} ₽
-                                                                            {% elif item.request_type_valute == 'BTC' %}
-                                                                                {{ item.request_sum }} BTC
-                                                                            {% elif item.request_type_valute == 'LTC' %}
-                                                                                {{ item.request_sum }} LTC
-                                                                            {% elif item.request_type_valute == 'XMR' %}
-                                                                                {{ item.request_sum }} XMR
-                                                                            {% elif item.request_type_valute == 'ETC' %}
-                                                                                {{ item.request_sum }} ETC
-                                                                            {% elif item.request_type_valute == 'DASH' %}
-                                                                                {{ item.request_sum }} DASH
-                                                                            {% elif item.request_type_valute == 'XRP' %}
-                                                                                {{ item.request_sum }} XRP
-                                                                            {% elif item.request_type_valute == 'BCH' %}
-                                                                                {{ item.request_sum }} BCH
-                                                                            {% elif item.request_type_valute == 'ETH' %}
-                                                                                {{ item.request_sum }} ETH
-                                                                            {% endif %}
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="content-left-box">
-                                                                        <div class="content-left-title">
-                                                                            Коммисия
-                                                                        </div>
-                                                                        <div class="content-left-content">
-                                                                            {{ item.request_commission }} %
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="content-left-box">
-                                                                        <div class="content-left-title">
-                                                                            Обработчик заявки
-                                                                        </div>
-                                                                        <div class="content-left-content">
-                                                                            {{ item.request_userchange }}
-                                                                        </div>
+                                                            <div class="request-header-status">
+                                                                <div class="status-box">
+                                                                    <div class="status-content">
+                                                                        {{ item.request_status }}
                                                                     </div>
                                                                 </div>
-
-                                                                <div class="request-content-right">
-                                                                    <div class="content-right-one">
-                                                                        <div class="right-one-title">
-                                                                            Будет начислено
-                                                                        </div>
-                                                                        <div class="right-one-content">
-                                                                            {{ item.request_good_sum_valute }} $
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="content-right-two">
-                                                                        <div class="right-two-title">
-                                                                            Реквизиты
-                                                                        </div>
-                                                                        <div class="right-two-content">
-                                                                            <div class="right-two-content-content">{{ item.requisites }}</div>
-                                                                            <div class="right-two-content-ico">
-                                                                                <img src="{% static 'personalaccount/assets/images/icon/copy.svg' %}" alt="copy">
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="content-right-try">
-                                                                        <a href="{{ item.pk }}/del/" class="right-try-content-del">
-                                                                            <img src="{% static 'personalaccount/assets/images/icon/del-btn.svg' %}" alt="">
-                                                                            <span>Удалить заявку</span>
-                                                                        </a>
-                                                                        <a href="{{ item.pk }}/" class="right-try-content-succes">
-                                                                            <img src="{% static 'personalaccount/assets/images/icon/succes-btn.svg' %}" alt="">
-                                                                            <span>Перевод выполнен</span>
-                                                                        </a>
-                                                                    </div>
-                                                                </div>
-
                                                             </div>
-
 
                                                         </div>
-                                                    {% elif item.request_status == 'Оплачена' %}
-                                                        <div class="card-request succes">
 
-                                                            <div class="request-header succes">
 
-                                                                <div class="request-header-box">
-                                                                    <div class="request-header-number">
-                                                                        <div class="number-content succes">
-                                                                            Заявка № {{ item.request_name }}
-                                                                        </div>
+                                                        <div class="request-content">
+
+                                                            <div class="request-content-left">
+                                                                <div class="content-left-box">
+                                                                    <div class="content-left-title">
+                                                                        Платежная система
                                                                     </div>
-
-                                                                    <div class="request-header-hm">
-                                                                        <div class="hm-content">
-                                                                            Дата создания: {{ item.date_joined_change }}
-                                                                        </div>
+                                                                    <div class="content-left-content">
+                                                                        {{ item.request_sistemchange }}
                                                                     </div>
                                                                 </div>
-
-                                                                <div class="request-header-status">
-                                                                    <div class="status-box succes">
-                                                                        <div class="status-content">
-                                                                            {{ item.request_status }}
-                                                                        </div>
+                                                                <div class="content-left-box">
+                                                                    <div class="content-left-title">
+                                                                        Сумма заявки
                                                                     </div>
-                                                                </div>
-
-                                                            </div>
-
-
-                                                            <div class="request-content">
-
-                                                                <div class="request-content-left">
-                                                                    <div class="content-left-box">
-                                                                        <div class="content-left-title">
-                                                                            Платежная система
-                                                                        </div>
-                                                                        <div class="content-left-content">
-                                                                            {{ item.request_sistemchange }}
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="content-left-box">
-                                                                        <div class="content-left-title">
-                                                                            Сумма заявки
-                                                                        </div>
-                                                                        <div class="content-left-content">
-                                                                            {% if item.request_type_valute == 'USD' %}
-                                                                                {{ item.request_sum_valute }} $
-                                                                            {% elif item.request_type_valute == 'EUR' %}
-                                                                                {{ item.request_sum_valute }} €
-                                                                            {% elif item.request_type_valute == 'RUB' %}
-                                                                                {{ item.request_sum_valute }} ₽
-                                                                            {% elif item.request_type_valute == 'BTC' %}
-                                                                                {{ item.request_sum }} BTC
-                                                                            {% elif item.request_type_valute == 'LTC' %}
-                                                                                {{ item.request_sum }} LTC
-                                                                            {% elif item.request_type_valute == 'XMR' %}
-                                                                                {{ item.request_sum }} XMR
-                                                                            {% elif item.request_type_valute == 'ETC' %}
-                                                                                {{ item.request_sum }} ETC
-                                                                            {% elif item.request_type_valute == 'DASH' %}
-                                                                                {{ item.request_sum }} DASH
-                                                                            {% elif item.request_type_valute == 'XRP' %}
-                                                                                {{ item.request_sum }} XRP
-                                                                            {% elif item.request_type_valute == 'BCH' %}
-                                                                                {{ item.request_sum }} BCH
-                                                                            {% elif item.request_type_valute == 'ETH' %}
-                                                                                {{ item.request_sum }} ETH
-                                                                            {% endif %}
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="content-left-box">
-                                                                        <div class="content-left-title">
-                                                                            Коммисия
-                                                                        </div>
-                                                                        <div class="content-left-content">
-                                                                            {{ item.request_commission }} %
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="content-left-box">
-                                                                        <div class="content-left-title">
-                                                                            Обработчик заявки
-                                                                        </div>
-                                                                        <div class="content-left-content">
-                                                                            {{ item.request_userchange }}
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-
-                                                                <div class="request-content-right">
-                                                                    <div class="content-right-one">
-                                                                        <div class="right-one-title">
-                                                                            Будет начислено
-                                                                        </div>
-                                                                        <div class="right-one-content">
-                                                                            {{ item.request_good_sum_valute }} $
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="content-right-two">
-                                                                        <div class="right-two-title">
-                                                                            Реквизиты
-                                                                        </div>
-                                                                        <div class="right-two-content">
-                                                                            <div class="right-two-content-content">{{ item.requisites }}</div>
-                                                                            <div class="right-two-content-ico">
-                                                                                <img src="{% static 'personalaccount/assets/images/icon/copy.svg' %}" alt="copy">
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="content-right-try">
-                                                                        <div class="right-try-content-succes-request">
-                                                                            <img src="{% static 'personalaccount/assets/images/icon/succes-btn.svg' %}" alt="">
-                                                                            <span>Перевод выполнен</span>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-
-                                                            </div>
-
-
-                                                        </div>
-                                                    {% endif %}
-                                                {% endif %}
-                                                {% if item.request_type == 'Заявка на вывод' %}
-                                                    {% if item.request_status == 'Ожидает оплаты' %}
-                                                        <div class="card-request">
-
-
-                                                            <div class="request-header">
-
-                                                                <div class="request-header-box">
-                                                                    <div class="request-header-number">
-                                                                        <div class="number-content">
-                                                                            Заявка № {{ item.request_name }}
-                                                                        </div>
-                                                                    </div>
-
-                                                                    <div class="request-header-hm">
-                                                                        <div class="hm-content">
-                                                                            Дата создания: {{ item.date_joined_change }}
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-
-                                                                <div class="request-header-status">
-                                                                    <div class="status-box">
-                                                                        <div class="status-content">
-                                                                            {{ item.request_status }}
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-
-                                                            </div>
-
-
-                                                            <div class="request-content">
-
-                                                                <div class="request-content-left">
-                                                                    <div class="content-left-box">
-                                                                        <div class="content-left-title">
-                                                                            Платежная система
-                                                                        </div>
-                                                                        <div class="content-left-content">
-                                                                            {{ item.request_sistemchange }}
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="content-left-box">
-                                                                        <div class="content-left-title">
-                                                                            Сумма заявки
-                                                                        </div>
-                                                                        <div class="content-left-content">
+                                                                    <div class="content-left-content">
+                                                                        {% if item.request_type_valute == 'USD' %}
                                                                             {{ item.request_sum_valute }} $
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="content-left-box">
-                                                                        <div class="content-left-title">
-                                                                            Коммисия
-                                                                        </div>
-                                                                        <div class="content-left-content">
-                                                                            {{ item.request_commission }} %
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="content-left-box">
-                                                                        <div class="content-left-title">
-                                                                            Обработчик заявки
-                                                                        </div>
-                                                                        <div class="content-left-content">
-                                                                            {{ item.request_userchange }}
-                                                                        </div>
+                                                                        {% elif item.request_type_valute == 'EUR' %}
+                                                                            {{ item.request_sum_valute }} €
+                                                                        {% elif item.request_type_valute == 'RUB' %}
+                                                                            {{ item.request_sum_valute }} ₽
+                                                                        {% elif item.request_type_valute == 'BTC' %}
+                                                                            {{ item.request_sum }} BTC
+                                                                        {% elif item.request_type_valute == 'LTC' %}
+                                                                            {{ item.request_sum }} LTC
+                                                                        {% elif item.request_type_valute == 'XMR' %}
+                                                                            {{ item.request_sum }} XMR
+                                                                        {% elif item.request_type_valute == 'ETC' %}
+                                                                            {{ item.request_sum }} ETC
+                                                                        {% elif item.request_type_valute == 'DASH' %}
+                                                                            {{ item.request_sum }} DASH
+                                                                        {% elif item.request_type_valute == 'XRP' %}
+                                                                            {{ item.request_sum }} XRP
+                                                                        {% elif item.request_type_valute == 'BCH' %}
+                                                                            {{ item.request_sum }} BCH
+                                                                        {% elif item.request_type_valute == 'ETH' %}
+                                                                            {{ item.request_sum }} ETH
+                                                                        {% endif %}
                                                                     </div>
                                                                 </div>
-
-                                                                <div class="request-content-right">
-                                                                    <div class="content-right-one">
-                                                                        <div class="right-one-title">
-                                                                            Ожидайте перевод
-                                                                        </div>
-                                                                        <div class="right-one-content">
-                                                                            {% if item.request_type_valute == 'USD' %}
-                                                                                {{ item.request_good_sum_valute }} $
-                                                                            {% elif item.request_type_valute == 'EUR' %}
-                                                                                {{ item.request_good_sum_valute }} €
-                                                                            {% elif item.request_type_valute == 'RUB' %}
-                                                                                {{ item.request_good_sum_valute }} ₽
-                                                                            {% elif item.request_type_valute == 'BTC' %}
-                                                                                {{ item.request_good_sum }} BTC
-                                                                            {% elif item.request_type_valute == 'LTC' %}
-                                                                                {{ item.request_good_sum }} LTC
-                                                                            {% elif item.request_type_valute == 'XMR' %}
-                                                                                {{ item.request_good_sum }} XMR
-                                                                            {% elif item.request_type_valute == 'ETC' %}
-                                                                                {{ item.request_good_sum }} ETC
-                                                                            {% elif item.request_type_valute == 'DASH' %}
-                                                                                {{ item.request_good_sum }} DASH
-                                                                            {% elif item.request_type_valute == 'XRP' %}
-                                                                                {{ item.request_good_sum }} XRP
-                                                                            {% elif item.request_type_valute == 'BCH' %}
-                                                                                {{ item.request_good_sum }} BCH
-                                                                            {% elif item.request_type_valute == 'ETH' %}
-                                                                                {{ item.request_good_sum }} ETH
-                                                                            {% endif %}
-                                                                        </div>
+                                                                <div class="content-left-box">
+                                                                    <div class="content-left-title">
+                                                                        Коммисия
                                                                     </div>
-                                                                    <div class="content-right-two">
-                                                                        <div class="right-two-title">
-                                                                            На реквизиты
-                                                                        </div>
-                                                                        <div class="right-two-content">
-                                                                            <div class="right-two-content-content">{{ item.requisites }}</div>
-                                                                            <div class="right-two-content-ico">
-                                                                                <img src="{% static 'personalaccount/assets/images/icon/copy.svg' %}" alt="copy">
-                                                                            </div>
-                                                                        </div>
+                                                                    <div class="content-left-content">
+                                                                        {{ item.request_commission }} %
                                                                     </div>
-                                                                    <div class="content-right-try">
-                                                                        <div class="right-try-content-succes-request">
-                                                                            <img src="{% static 'personalaccount/assets/images/icon/succes-time.svg' %}" alt="">
-                                                                            <span>В обработке</span>
-                                                                        </div>
+                                                                </div>
+                                                                <div class="content-left-box">
+                                                                    <div class="content-left-title">
+                                                                        Обработчик заявки
+                                                                    </div>
+                                                                    <div class="content-left-content">
+                                                                        {{ item.request_userchange }}
                                                                     </div>
                                                                 </div>
                                                             </div>
+
+                                                            <div class="request-content-right">
+                                                                <div class="content-right-one">
+                                                                    <div class="right-one-title">
+                                                                        Будет начислено
+                                                                    </div>
+                                                                    <div class="right-one-content">
+                                                                        {{ item.request_good_sum_valute }} $
+                                                                    </div>
+                                                                </div>
+                                                                <div class="content-right-two">
+                                                                    <div class="right-two-title">
+                                                                        Реквизиты
+                                                                    </div>
+                                                                    <div class="right-two-content">
+                                                                        <div class="right-two-content-content">{{ item.requisites }}</div>
+                                                                        <div class="right-two-content-ico">
+                                                                            <img src="{% static 'personalaccount/assets/images/icon/copy.svg' %}" alt="copy">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="content-right-try">
+                                                                    <a href="{{ item.pk }}/del/" class="right-try-content-del">
+                                                                        <img src="{% static 'personalaccount/assets/images/icon/del-btn.svg' %}" alt="">
+                                                                        <span>Удалить заявку</span>
+                                                                    </a>
+                                                                    <a href="{{ item.pk }}/" class="right-try-content-succes">
+                                                                        <img src="{% static 'personalaccount/assets/images/icon/succes-btn.svg' %}" alt="">
+                                                                        <span>Перевод выполнен</span>
+                                                                    </a>
+                                                                </div>
+                                                            </div>
+
                                                         </div>
-                                                    {% endif %}
+
+
+                                                    </div>
+                                                {% elif item.request_status == 'Оплачена' %}
+                                                    <div class="card-request succes">
+
+                                                        <div class="request-header succes">
+
+                                                            <div class="request-header-box">
+                                                                <div class="request-header-number">
+                                                                    <div class="number-content succes">
+                                                                        Заявка № {{ item.request_name }}
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="request-header-hm">
+                                                                    <div class="hm-content">
+                                                                        Дата создания: {{ item.date_joined_change }}
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="request-header-status">
+                                                                <div class="status-box succes">
+                                                                    <div class="status-content">
+                                                                        {{ item.request_status }}
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+
+
+                                                        <div class="request-content">
+
+                                                            <div class="request-content-left">
+                                                                <div class="content-left-box">
+                                                                    <div class="content-left-title">
+                                                                        Платежная система
+                                                                    </div>
+                                                                    <div class="content-left-content">
+                                                                        {{ item.request_sistemchange }}
+                                                                    </div>
+                                                                </div>
+                                                                <div class="content-left-box">
+                                                                    <div class="content-left-title">
+                                                                        Сумма заявки
+                                                                    </div>
+                                                                    <div class="content-left-content">
+                                                                        {% if item.request_type_valute == 'USD' %}
+                                                                            {{ item.request_sum_valute }} $
+                                                                        {% elif item.request_type_valute == 'EUR' %}
+                                                                            {{ item.request_sum_valute }} €
+                                                                        {% elif item.request_type_valute == 'RUB' %}
+                                                                            {{ item.request_sum_valute }} ₽
+                                                                        {% elif item.request_type_valute == 'BTC' %}
+                                                                            {{ item.request_sum }} BTC
+                                                                        {% elif item.request_type_valute == 'LTC' %}
+                                                                            {{ item.request_sum }} LTC
+                                                                        {% elif item.request_type_valute == 'XMR' %}
+                                                                            {{ item.request_sum }} XMR
+                                                                        {% elif item.request_type_valute == 'ETC' %}
+                                                                            {{ item.request_sum }} ETC
+                                                                        {% elif item.request_type_valute == 'DASH' %}
+                                                                            {{ item.request_sum }} DASH
+                                                                        {% elif item.request_type_valute == 'XRP' %}
+                                                                            {{ item.request_sum }} XRP
+                                                                        {% elif item.request_type_valute == 'BCH' %}
+                                                                            {{ item.request_sum }} BCH
+                                                                        {% elif item.request_type_valute == 'ETH' %}
+                                                                            {{ item.request_sum }} ETH
+                                                                        {% endif %}
+                                                                    </div>
+                                                                </div>
+                                                                <div class="content-left-box">
+                                                                    <div class="content-left-title">
+                                                                        Коммисия
+                                                                    </div>
+                                                                    <div class="content-left-content">
+                                                                        {{ item.request_commission }} %
+                                                                    </div>
+                                                                </div>
+                                                                <div class="content-left-box">
+                                                                    <div class="content-left-title">
+                                                                        Обработчик заявки
+                                                                    </div>
+                                                                    <div class="content-left-content">
+                                                                        {{ item.request_userchange }}
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="request-content-right">
+                                                                <div class="content-right-one">
+                                                                    <div class="right-one-title">
+                                                                        Будет начислено
+                                                                    </div>
+                                                                    <div class="right-one-content">
+                                                                        {{ item.request_good_sum_valute }} $
+                                                                    </div>
+                                                                </div>
+                                                                <div class="content-right-two">
+                                                                    <div class="right-two-title">
+                                                                        Реквизиты
+                                                                    </div>
+                                                                    <div class="right-two-content">
+                                                                        <div class="right-two-content-content">{{ item.requisites }}</div>
+                                                                        <div class="right-two-content-ico">
+                                                                            <img src="{% static 'personalaccount/assets/images/icon/copy.svg' %}" alt="copy">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="content-right-try">
+                                                                    <div class="right-try-content-succes-request">
+                                                                        <img src="{% static 'personalaccount/assets/images/icon/succes-btn.svg' %}" alt="">
+                                                                        <span>Перевод выполнен</span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+
+
+                                                    </div>
                                                 {% endif %}
                                             {% endfor %}
                                         {% else %}
@@ -420,6 +296,146 @@
                                         {% endif %}
                                     {% else %}
                                         <h6 class="card-title">У Вас пока еще не было заявок, но вы можете создать свою первую<a href="{% url 'depositwallet' %}"><button type="button" class="btn btn-link">заявку!</button></a></h6>
+                                    {% endif %}
+                                </div>
+                            </div>
+
+                            <div class="card">
+                                <div class="card-body">
+
+                                    <div class="card-title">
+                                        <h5 class="text-left">Заявки на вывод</h5>
+                                    </div>
+
+                                    {% if base_reque_out %}
+                                        {% if status_reque_out %}
+                                            {% for item in base_reque_out|slice:"::-1" %}
+                                                {% if item.request_status == 'Ожидает оплаты' %}
+                                                    <div class="card-request">
+
+
+                                                        <div class="request-header">
+
+                                                            <div class="request-header-box">
+                                                                <div class="request-header-number">
+                                                                    <div class="number-content">
+                                                                        Заявка № {{ item.request_name }}
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="request-header-hm">
+                                                                    <div class="hm-content">
+                                                                        Дата создания: {{ item.date_joined_change }}
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="request-header-status">
+                                                                <div class="status-box">
+                                                                    <div class="status-content">
+                                                                        {{ item.request_status }}
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+
+
+                                                        <div class="request-content">
+
+                                                            <div class="request-content-left">
+                                                                <div class="content-left-box">
+                                                                    <div class="content-left-title">
+                                                                        Платежная система
+                                                                    </div>
+                                                                    <div class="content-left-content">
+                                                                        {{ item.request_sistemchange }}
+                                                                    </div>
+                                                                </div>
+                                                                <div class="content-left-box">
+                                                                    <div class="content-left-title">
+                                                                        Сумма заявки
+                                                                    </div>
+                                                                    <div class="content-left-content">
+                                                                        {{ item.request_sum_valute }} $
+                                                                    </div>
+                                                                </div>
+                                                                <div class="content-left-box">
+                                                                    <div class="content-left-title">
+                                                                        Коммисия
+                                                                    </div>
+                                                                    <div class="content-left-content">
+                                                                        {{ item.request_commission }} %
+                                                                    </div>
+                                                                </div>
+                                                                <div class="content-left-box">
+                                                                    <div class="content-left-title">
+                                                                        Обработчик заявки
+                                                                    </div>
+                                                                    <div class="content-left-content">
+                                                                        {{ item.request_userchange }}
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="request-content-right">
+                                                                <div class="content-right-one">
+                                                                    <div class="right-one-title">
+                                                                        Ожидайте перевод
+                                                                    </div>
+                                                                    <div class="right-one-content">
+                                                                        {% if item.request_type_valute == 'USD' %}
+                                                                            {{ item.request_good_sum_valute }} $
+                                                                        {% elif item.request_type_valute == 'EUR' %}
+                                                                            {{ item.request_good_sum_valute }} €
+                                                                        {% elif item.request_type_valute == 'RUB' %}
+                                                                            {{ item.request_good_sum_valute }} ₽
+                                                                        {% elif item.request_type_valute == 'BTC' %}
+                                                                            {{ item.request_good_sum }} BTC
+                                                                        {% elif item.request_type_valute == 'LTC' %}
+                                                                            {{ item.request_good_sum }} LTC
+                                                                        {% elif item.request_type_valute == 'XMR' %}
+                                                                            {{ item.request_good_sum }} XMR
+                                                                        {% elif item.request_type_valute == 'ETC' %}
+                                                                            {{ item.request_good_sum }} ETC
+                                                                        {% elif item.request_type_valute == 'DASH' %}
+                                                                            {{ item.request_good_sum }} DASH
+                                                                        {% elif item.request_type_valute == 'XRP' %}
+                                                                            {{ item.request_good_sum }} XRP
+                                                                        {% elif item.request_type_valute == 'BCH' %}
+                                                                            {{ item.request_good_sum }} BCH
+                                                                        {% elif item.request_type_valute == 'ETH' %}
+                                                                            {{ item.request_good_sum }} ETH
+                                                                        {% endif %}
+                                                                    </div>
+                                                                </div>
+                                                                <div class="content-right-two">
+                                                                    <div class="right-two-title">
+                                                                        На реквизиты
+                                                                    </div>
+                                                                    <div class="right-two-content">
+                                                                        <div class="right-two-content-content">{{ item.requisites }}</div>
+                                                                        <div class="right-two-content-ico">
+                                                                            <img src="{% static 'personalaccount/assets/images/icon/copy.svg' %}" alt="copy">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="content-right-try">
+                                                                    <div class="right-try-content-succes-request">
+                                                                        <img src="{% static 'personalaccount/assets/images/icon/succes-time.svg' %}" alt="">
+                                                                        <span>В обработке</span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                {% endif %}
+                                            {% endfor %}
+                                        {% else %}
+                                            <h6 class="card-title">У вас нет активных заявок, вы можете создать свою<a href="{% url 'withdrawalwallet' %}"><button type="button" class="btn btn-link">заявку!</button></a></h6>
+                                        {% endif %}
+                                    {% else %}
+                                        <h6 class="card-title">У Вас пока еще не было заявок, но вы можете создать свою первую<a href="{% url 'withdrawalwallet' %}"><button type="button" class="btn btn-link">заявку!</button></a></h6>
                                     {% endif %}
                                 </div>
                             </div>

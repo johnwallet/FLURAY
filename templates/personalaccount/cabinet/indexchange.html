@@ -13,15 +13,15 @@
                     <div class="navbar-brand-box">
                         <a href="{% url 'home' %}" class="logo logo-dark">
                             <span class="logo-sm">
-                                <img src="{% static 'personalaccount/assets/images/logo-dark-sm.png' %}" alt="" height="35">
+                                <img src="{% static 'personalaccount/assets/images/logo-dark-sm.svg' %}" alt="" height="35">
                             </span>
                             <span class="logo-lg">
-                                <img src="{% static 'personalaccount/assets/images/logo-dark.png' %}" alt="" height="55">
+                                <img src="{% static 'personalaccount/assets/images/logo-dark.svg' %}" alt="" height="30">
                             </span>
                         </a>
                     </div>
 
-                    <button type="button" class="btn btn-sm px-3 font-size-24 header-item waves-effect" id="vertical-menu-btn">
+                    <button type="button" class="btn btn-sm px-3 font-size-24 header-item waves-effect transfortransit" id="vertical-menu-btn">
                         <i class="mdi mdi-backburger"></i>
                     </button>
                 </div>
@@ -41,7 +41,7 @@
                         </button>
                         <div class="dropdown-menu dropdown-menu-right">
                             <a href="javascript:void(0);" class="dropdown-item notify-item">
-                                <img src="{% static 'personalaccount/assets/images/flags/us.jpg' %}" alt="user-image" class="mr-2" height="12"><span class="align-middle">USA</span>
+                                <img src="{% static 'personalaccount/assets/images/flags/russia.jpg' %}" alt="user-image" class="mr-2" height="12"><span class="align-middle">В разработке</span>
                             </a>
                         </div>
                     </div>
@@ -90,67 +90,63 @@
                         </li>
 
                         <li>
-                            <a href="{% url 'depositexchange' %}" class="waves-effect">
-                                <div class="d-inline-block icons-sm mr-1 "><i class="uim uim-download-alt"></i></div>
-                                <span>Заявки на пополнение</span>
+                            <a href="javascript: void(0);" class="has-arrow waves-effect">
+                                <div class="d-inline-block icons-sm mr-1"><i class="uim uim-briefcase"></i></div>
+                                <span>Баланс</span>
                             </a>
-                        </li>
-
-                        <li>
-                            <a href="{% url 'withdrawalexchange' %}" class="waves-effect">
-                                <div class="d-inline-block icons-sm mr-1"><i class="uim uim-upload-alt"></i></div>
-                                <span>Заявки на вывод</span>
-                            </a>
-                        </li>
-
-                        <li>
-                            <a href="{% url 'depositreservchange' %}" class="waves-effect">
-                                <div class="d-inline-block icons-sm mr-1"><i class="uim uim-plus-square"></i></div>
-                                <span>Пополнение баланса</span>
-                            </a>
-                        </li>
-
-
-                        <li>
-                            <a href="{% url 'withdrawalreservchange' %}" class="waves-effect">
-                                <div class="d-inline-block icons-sm mr-1"><i class="uim uim-minus-square-full"></i></div>
-                                <span>Вывод баланса</span>
-                            </a>
+                            <ul class="sub-menu" aria-expanded="false">
+                                <li><a href="{% url 'depositreservchange' %}">Пополнение</a></li>
+                                <li><a href="{% url 'withdrawalreservchange' %}">Вывод</a></li>
+                            </ul>
                         </li>
 
                         <li>
                             <a href="{% url 'transactionchange' %}" class="waves-effect">
-                                <div class="d-inline-block icons-sm mr-1"><i class="uim uim-repeat"></i></div>
+                                <div class="d-inline-block icons-sm mr-1"><i class="uim uim-wrap-text"></i></div>
                                 <span>Транзакции</span>
                             </a>
+                        </li>
+
+                        <li>
+                            <a href="javascript: void(0);" class="has-arrow waves-effect">
+                                <div class="d-inline-block icons-sm mr-1"><i class="uim uim-process"></i></div>
+                                {% if requeston.requesttotal > 0 %}
+                                    <span class="badge badge-pill badge-success float-right">{{ requeston.requesttotal }}</span>
+                                {% endif %}
+                                <span>Заявки</span>
+                            </a>
+                            <ul class="sub-menu" aria-expanded="false">
+                                <li><a href="{% url 'depositexchange' %}">Пополнение</a></li>
+                                <li><a href="{% url 'withdrawalexchange' %}">Вывод</a></li>
+                            </ul>
                         </li>
 
                         <li class="menu-title">Настройки</li>
 
                         <li>
                             <a href="{% url 'coursechange' %}" class="waves-effect">
-                                <div class="d-inline-block icons-sm mr-1"><i class="uim uim-refresh"></i></div>
+                                <div class="d-inline-block icons-sm mr-1"><i class="uim uim-chart-pie"></i></div>
                                 <span>Комиссия</span>
                             </a>
                         </li>
 
                         <li>
                             <a href="{% url 'rekvisitchange' %}" class="waves-effect">
-                                <div class="d-inline-block icons-sm mr-1"><i class="uim uim-horizontal-align-left"></i></div>
+                                <div class="d-inline-block icons-sm mr-1"><i class="uim uim-document-layout-left"></i></div>
                                 <span>Реквизиты</span>
                             </a>
                         </li>
 
                         <li>
                             <a href="{% url 'activechange' %}" class="waves-effect">
-                                <div class="d-inline-block icons-sm mr-1"><i class="uim uim-horizontal-align-left"></i></div>
+                                <div class="d-inline-block icons-sm mr-1"><i class="uim uim-dialpad-alt"></i></div>
                                 <span>Активность</span>
                             </a>
                         </li>
 
                         <li>
                             <a href="{% url 'reservchange' %}" class="waves-effect">
-                                <div class="d-inline-block icons-sm mr-1"><i class="uim uim-horizontal-align-left"></i></div>
+                                <div class="d-inline-block icons-sm mr-1"><i class="uim uim-bag"></i></div>
                                 <span>Резерв</span>
                             </a>
                         </li>

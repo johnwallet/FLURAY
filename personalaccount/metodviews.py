@@ -1,12 +1,12 @@
 import random
 
-import requests
-
-from personalaccount.models import CurrencyCBRF, RequestChange
+from personalaccount.models import CurrencyCBRF, RequestChange, StaticDailyProfit
 from users.models import CustomUser
 
+from datetime import timedelta, datetime, date
 
 
+# активность обменника и направлений для пополнения
 def depositsortchangeps(nameps):
     itemchange = CustomUser.objects.filter(userid__custuserid='Владелец Обменника', is_active_change=1)
     changeq = []
@@ -212,6 +212,7 @@ def depositsortchangeps(nameps):
         return {'changeq': changeq, 'valute': 'ETH'}
 
 
+# активность обменника и направлений для вывода
 def widthsortchangeps(nameps):
     itemchange = CustomUser.objects.filter(userid__custuserid='Владелец Обменника', is_active_change=1)
     changeq = []
@@ -417,6 +418,7 @@ def widthsortchangeps(nameps):
         return {'changeq': changeq, 'valute': 'ETH'}
 
 
+# проверка баланса для пополнений
 def depositsortbalanceps(userps, balanceps, valuteps):
     userlist = []
     currencysort = CurrencyCBRF.objects.get(name_currency=valuteps)
@@ -432,6 +434,7 @@ def depositsortbalanceps(userps, balanceps, valuteps):
     return userlist
 
 
+# проверка баланса для вывода
 def widthsortbalanceps(userps, balanceps, nameps, valuteps):
     userlist = []
     currencysort = CurrencyCBRF.objects.get(name_currency=valuteps)
@@ -598,6 +601,7 @@ def widthsortbalanceps(userps, balanceps, nameps, valuteps):
     return userlist
 
 
+# выбор победителя для пополнений
 def depositsortcritery(userps, critery, nameps):
     rekvesites = ''
     usernameps = []
@@ -1002,6 +1006,7 @@ def depositsortcritery(userps, critery, nameps):
     return {'usernameps': usernameps, 'base_comis': base_comis, 'rekvesites': rekvesites}
 
 
+# выбор победителя для вывода
 def widthsortcritery(userps, critery, nameps, valuteps, balanceps):
     usernameps = []
     userrandom = []
@@ -1063,7 +1068,7 @@ def widthsortcritery(userps, critery, nameps, valuteps, balanceps):
             usernameps.reserv_psb_rub -= balanceps / currencysort.base_currency
             base_comis = usernameps.comis_out_psb_rub
         elif nameps == 'ГАЗПРОМБАНК':
-            usernameps.reserv_gazprombank_rub-= balanceps / currencysort.base_currency
+            usernameps.reserv_gazprombank_rub -= balanceps / currencysort.base_currency
             base_comis = usernameps.comis_out_gazprombank_rub
         elif nameps == 'РУССКИЙ СТАНДАРТ':
             usernameps.reserv_russtandart_rub -= balanceps / currencysort.base_currency
@@ -1447,5 +1452,477 @@ def widthsortcritery(userps, critery, nameps, valuteps, balanceps):
     return {'usernameps': usernameps, 'base_comis': base_comis}
 
 
+# вывод активности пс. Количество
+def activepsuser(usernameactiveps):
+    userps = CustomUser.objects.get(username=usernameactiveps)
+    activepsin = 0
+    noactivepsin = 0
+    activepsout = 0
+    noactivepsout = 0
+    if userps.active_in_sberbank_rub == 1:
+        activepsin += 1
+    else:
+        noactivepsin += 1
+    if userps.active_in_psb_rub == 1:
+        activepsin += 1
+    else:
+        noactivepsin += 1
+    if userps.active_in_tinkoff_rub == 1:
+        activepsin += 1
+    else:
+        noactivepsin += 1
+    if userps.active_in_gazprombank_rub == 1:
+        activepsin += 1
+    else:
+        noactivepsin += 1
+    if userps.active_in_alfabank_rub == 1:
+        activepsin += 1
+    else:
+        noactivepsin += 1
+    if userps.active_in_russtandart_rub == 1:
+        activepsin += 1
+    else:
+        noactivepsin += 1
+    if userps.active_in_vtb_rub == 1:
+        activepsin += 1
+    else:
+        noactivepsin += 1
+    if userps.active_in_rosselhoz_rub == 1:
+        activepsin += 1
+    else:
+        noactivepsin += 1
+    if userps.active_in_raifaizen_rub == 1:
+        activepsin += 1
+    else:
+        noactivepsin += 1
+    if userps.active_in_roketbank_rub == 1:
+        activepsin += 1
+    else:
+        noactivepsin += 1
+    if userps.active_in_otkritie_rub == 1:
+        activepsin += 1
+    else:
+        noactivepsin += 1
+    if userps.active_in_pochtabank_rub == 1:
+        activepsin += 1
+    else:
+        noactivepsin += 1
+    if userps.active_in_rnkb_rub == 1:
+        activepsin += 1
+    else:
+        noactivepsin += 1
+    if userps.active_in_rosbank_rub == 1:
+        activepsin += 1
+    else:
+        noactivepsin += 1
+    if userps.active_in_mtsbank_rub == 1:
+        activepsin += 1
+    else:
+        noactivepsin += 1
+    if userps.active_in_qiwi_rub == 1:
+        activepsin += 1
+    else:
+        noactivepsin += 1
+    if userps.active_in_qiwi_usd == 1:
+        activepsin += 1
+    else:
+        noactivepsin += 1
+    if userps.active_in_payeer_rub == 1:
+        activepsin += 1
+    else:
+        noactivepsin += 1
+    if userps.active_in_payeer_usd == 1:
+        activepsin += 1
+    else:
+        noactivepsin += 1
+    if userps.active_in_payeer_eur == 1:
+        activepsin += 1
+    else:
+        noactivepsin += 1
+    if userps.active_in_webmoney_rub == 1:
+        activepsin += 1
+    else:
+        noactivepsin += 1
+    if userps.active_in_webmoney_usd == 1:
+        activepsin += 1
+    else:
+        noactivepsin += 1
+    if userps.active_in_webmoney_eur == 1:
+        activepsin += 1
+    else:
+        noactivepsin += 1
+    if userps.active_in_pm_btc == 1:
+        activepsin += 1
+    else:
+        noactivepsin += 1
+    if userps.active_in_pm_usd == 1:
+        activepsin += 1
+    else:
+        noactivepsin += 1
+    if userps.active_in_pm_eur == 1:
+        activepsin += 1
+    else:
+        noactivepsin += 1
+    if userps.active_in_skrill_eur == 1:
+        activepsin += 1
+    else:
+        noactivepsin += 1
+    if userps.active_in_skrill_usd == 1:
+        activepsin += 1
+    else:
+        noactivepsin += 1
+    if userps.active_in_paypal_rub == 1:
+        activepsin += 1
+    else:
+        noactivepsin += 1
+    if userps.active_in_paypal_usd == 1:
+        activepsin += 1
+    else:
+        noactivepsin += 1
+    if userps.active_in_paypal_eur == 1:
+        activepsin += 1
+    else:
+        noactivepsin += 1
+    if userps.active_in_umoney_rub == 1:
+        activepsin += 1
+    else:
+        noactivepsin += 1
+    if userps.active_in_btc == 1:
+        activepsin += 1
+    else:
+        noactivepsin += 1
+    if userps.active_in_xrp == 1:
+        activepsin += 1
+    else:
+        noactivepsin += 1
+    if userps.active_in_ltc == 1:
+        activepsin += 1
+    else:
+        noactivepsin += 1
+    if userps.active_in_bch == 1:
+        activepsin += 1
+    else:
+        noactivepsin += 1
+    if userps.active_in_xmr == 1:
+        activepsin += 1
+    else:
+        noactivepsin += 1
+    if userps.active_in_eth == 1:
+        activepsin += 1
+    else:
+        noactivepsin += 1
+    if userps.active_in_etc == 1:
+        activepsin += 1
+    else:
+        noactivepsin += 1
+    if userps.active_in_dash == 1:
+        activepsin += 1
+    else:
+        noactivepsin += 1
+    if userps.active_out_sberbank_rub == 1:
+        activepsout += 1
+    else:
+        noactivepsout += 1
+    if userps.active_out_psb_rub == 1:
+        activepsout += 1
+    else:
+        noactivepsout += 1
+    if userps.active_out_tinkoff_rub == 1:
+        activepsout += 1
+    else:
+        noactivepsout += 1
+    if userps.active_out_gazprombank_rub == 1:
+        activepsout += 1
+    else:
+        noactivepsout += 1
+    if userps.active_out_alfabank_rub == 1:
+        activepsout += 1
+    else:
+        noactivepsout += 1
+    if userps.active_out_russtandart_rub == 1:
+        activepsout += 1
+    else:
+        noactivepsout += 1
+    if userps.active_out_vtb_rub == 1:
+        activepsout += 1
+    else:
+        noactivepsout += 1
+    if userps.active_out_rosselhoz_rub == 1:
+        activepsout += 1
+    else:
+        noactivepsout += 1
+    if userps.active_out_raifaizen_rub == 1:
+        activepsout += 1
+    else:
+        noactivepsout += 1
+    if userps.active_out_roketbank_rub == 1:
+        activepsout += 1
+    else:
+        noactivepsout += 1
+    if userps.active_out_otkritie_rub == 1:
+        activepsout += 1
+    else:
+        noactivepsout += 1
+    if userps.active_out_pochtabank_rub == 1:
+        activepsout += 1
+    else:
+        noactivepsout += 1
+    if userps.active_out_rnkb_rub == 1:
+        activepsout += 1
+    else:
+        noactivepsout += 1
+    if userps.active_out_rosbank_rub == 1:
+        activepsout += 1
+    else:
+        noactivepsout += 1
+    if userps.active_out_mtsbank_rub == 1:
+        activepsout += 1
+    else:
+        noactivepsout += 1
+    if userps.active_out_qiwi_rub == 1:
+        activepsout += 1
+    else:
+        noactivepsout += 1
+    if userps.active_out_qiwi_usd == 1:
+        activepsout += 1
+    else:
+        noactivepsout += 1
+    if userps.active_out_payeer_rub == 1:
+        activepsout += 1
+    else:
+        noactivepsout += 1
+    if userps.active_out_payeer_usd == 1:
+        activepsout += 1
+    else:
+        noactivepsout += 1
+    if userps.active_out_payeer_eur == 1:
+        activepsout += 1
+    else:
+        noactivepsout += 1
+    if userps.active_out_webmoney_rub == 1:
+        activepsout += 1
+    else:
+        noactivepsout += 1
+    if userps.active_out_webmoney_usd == 1:
+        activepsout += 1
+    else:
+        noactivepsout += 1
+    if userps.active_out_webmoney_eur == 1:
+        activepsout += 1
+    else:
+        noactivepsout += 1
+    if userps.active_out_pm_btc == 1:
+        activepsout += 1
+    else:
+        noactivepsout += 1
+    if userps.active_out_pm_usd == 1:
+        activepsout += 1
+    else:
+        noactivepsout += 1
+    if userps.active_out_pm_eur == 1:
+        activepsout += 1
+    else:
+        noactivepsout += 1
+    if userps.active_out_skrill_eur == 1:
+        activepsout += 1
+    else:
+        noactivepsout += 1
+    if userps.active_out_skrill_usd == 1:
+        activepsout += 1
+    else:
+        noactivepsout += 1
+    if userps.active_out_paypal_rub == 1:
+        activepsout += 1
+    else:
+        noactivepsout += 1
+    if userps.active_out_paypal_usd == 1:
+        activepsout += 1
+    else:
+        noactivepsout += 1
+    if userps.active_out_paypal_eur == 1:
+        activepsout += 1
+    else:
+        noactivepsout += 1
+    if userps.active_out_umoney_rub == 1:
+        activepsout += 1
+    else:
+        noactivepsout += 1
+    if userps.active_out_btc == 1:
+        activepsout += 1
+    else:
+        noactivepsout += 1
+    if userps.active_out_xrp == 1:
+        activepsout += 1
+    else:
+        noactivepsout += 1
+    if userps.active_out_ltc == 1:
+        activepsout += 1
+    else:
+        noactivepsout += 1
+    if userps.active_out_bch == 1:
+        activepsout += 1
+    else:
+        noactivepsout += 1
+    if userps.active_out_xmr == 1:
+        activepsout += 1
+    else:
+        noactivepsout += 1
+    if userps.active_out_eth == 1:
+        activepsout += 1
+    else:
+        noactivepsout += 1
+    if userps.active_out_etc == 1:
+        activepsout += 1
+    else:
+        noactivepsout += 1
+    if userps.active_out_dash == 1:
+        activepsout += 1
+    else:
+        noactivepsout += 1
+
+    return {'activepsin': activepsin, 'activepsout': activepsout, 'noactivepsin': noactivepsin, 'noactivepsout': noactivepsout}
+
+
+# вывод активных заявок обработчика
+def requestchangeon(usernamereq):
+    requesttargetin = 0
+    requesttargetout = 0
+    requesttotal = 0
+    change = RequestChange.objects.filter(request_userchange=usernamereq)
+    for i in change:
+        if i.request_type == 'Заявка на пополнение' and i.request_status == 'Оплачена':
+            requesttargetin += 1
+        elif i.request_type == 'Заявка на вывод' and i.request_status == 'Ожидает оплаты':
+            requesttargetout += 1
+    requesttotal = requesttargetin + requesttargetout
+    return {'requesttargetin': requesttargetin, 'requesttargetout': requesttargetout, 'requesttotal': requesttotal}
+
+
+# вывод активных заявок кошелька
+def walrequestchangeon(usernamereq):
+    requesttargetin = 0
+    requesttargetout = 0
+    requesttotal = 0
+    change = RequestChange.objects.filter(request_user=usernamereq)
+    for i in change:
+        if i.request_type == 'Заявка на пополнение' and (i.request_status == 'Ожидает оплаты' or i.request_status == 'Оплачена'):
+            requesttargetin += 1
+        elif i.request_type == 'Заявка на вывод' and i.request_status == 'Ожидает оплаты':
+            requesttargetout += 1
+    requesttotal = requesttargetin + requesttargetout
+    return {'requesttargetin': requesttargetin, 'requesttargetout': requesttargetout, 'requesttotal': requesttotal}
+
+
+# вывод дневной прибыли
+def dailyprofitcount(usernamedailyprofit):
+    staticdailypriftlist = StaticDailyProfit.objects.filter(dailyprofit_user=usernamedailyprofit.username)
+    staticlist = staticdailypriftlist.order_by('dailyprofit_date')
+    staticdata = []
+    staticvalue = []
+    staticvaluereset = float(0)
+    valuedate = None
+    valuedatereset = None
+    datenow = date.today()
+    lenstaticlistreset = 1
+    if len(staticlist) > 1:
+        for staticone in staticlist:
+            if not valuedate:
+                valuedate = staticone.dailyprofit_date
+                valuedatereset = staticone.dailyprofit_date + timedelta(1)
+                staticvaluereset += float(staticone.dailyprofit_value)
+                lenstaticlistreset += 1
+            else:
+                if staticone.dailyprofit_date == valuedate:
+                    if lenstaticlistreset < len(staticlist):
+                        staticvaluereset += float(staticone.dailyprofit_value)
+                        lenstaticlistreset += 1
+                    else:
+                        staticvaluereset += float(staticone.dailyprofit_value)
+                        staticdata.append(str(valuedate))
+                        staticvalue.append(round(staticvaluereset, 2))
+                        valuedatereset = staticone.dailyprofit_date + timedelta(1)
+                else:
+                    if staticone.dailyprofit_date == valuedatereset:
+                        staticdata.append(str(valuedate))
+                        staticvalue.append(round(staticvaluereset, 2))
+                        if lenstaticlistreset < len(staticlist):
+                            staticvaluereset = float(staticone.dailyprofit_value)
+                            valuedate = staticone.dailyprofit_date
+                            valuedatereset = staticone.dailyprofit_date + timedelta(1)
+                            lenstaticlistreset += 1
+                        else:
+                            staticdata.append(str(staticone.dailyprofit_date))
+                            staticvalue.append(float(round(staticone.dailyprofit_value, 2)))
+                            valuedatereset = staticone.dailyprofit_date + timedelta(1)
+                    elif staticone.dailyprofit_date > valuedatereset:
+                        staticdata.append(str(valuedate))
+                        staticvalue.append(round(staticvaluereset, 2))
+                        while staticone.dailyprofit_date != valuedatereset:
+                            staticdata.append(str(valuedatereset))
+                            staticvalue.append(float(0))
+                            valuedatereset += timedelta(1)
+                        if lenstaticlistreset < len(staticlist):
+                            staticvaluereset = float(staticone.dailyprofit_value)
+                            valuedate = staticone.dailyprofit_date
+                            valuedatereset = staticone.dailyprofit_date + timedelta(1)
+                            lenstaticlistreset += 1
+                        else:
+                            staticdata.append(str(staticone.dailyprofit_date))
+                            staticvalue.append(float(round(staticone.dailyprofit_value, 2)))
+                            valuedatereset = staticone.dailyprofit_date + timedelta(1)
+        if valuedatereset <= datenow:
+            while valuedatereset <= datenow:
+                staticdata.append(str(valuedatereset))
+                staticvalue.append(float(0))
+                valuedatereset += timedelta(1)
+    if len(staticlist) == 1:
+        for staticone in staticlist:
+            staticdata.append(str(staticone.dailyprofit_date))
+            staticvalue.append(float(staticone.dailyprofit_value))
+            valuedatereset = staticone.dailyprofit_date + timedelta(1)
+        if valuedatereset <= datenow:
+            while valuedatereset <= datenow:
+                staticdata.append(str(valuedatereset))
+                staticvalue.append(float(0))
+                valuedatereset += timedelta(1)
+    return {'staticdata': staticdata, 'staticvalue': staticvalue}
+
+
+# вывод статистики прибыли, ежедневно, общая
+def totalprofitstatic(usernametotalstatic):
+    totalprofitstaticlist = StaticDailyProfit.objects.filter(dailyprofit_user=usernametotalstatic.username)
+    inrequestl = totalprofitstaticlist.filter(dailyprofit_date=date.today())
+    dailyprofit = 0
+    totalprofit = 0
+    if inrequestl:
+        for iteml in inrequestl:
+            dailyprofit += iteml.dailyprofit_value
+    if totalprofitstaticlist:
+        for item in totalprofitstaticlist:
+            totalprofit += item.dailyprofit_value
+    return {'dailyprofit': float(round(dailyprofit, 2)), 'totalprofit': float(round(totalprofit, 2))}
+
+
+# вывод исполненых заявок
+def requesttotal(usernamerequesttotal):
+    requestuserlist = RequestChange.objects.filter(request_userchange=usernamerequesttotal.username)
+    inrequestl = requestuserlist.filter(date_end_change__date=date.today())
+    inrequest = 0
+    inrequesttotal = 0
+    widthrequest = 0
+    widthrequesttotal = 0
+    if inrequestl:
+        for iteml in inrequestl:
+            if iteml.request_type == 'Заявка на пополнение':
+                inrequest += 1
+            if iteml.request_type == 'Заявка на вывод':
+                widthrequest += 1
+    if requestuserlist:
+        for item in requestuserlist:
+            if item.request_type == 'Заявка на пополнение' and item.date_end_change:
+                inrequesttotal += 1
+            if item.request_type == 'Заявка на вывод' and item.date_end_change:
+                widthrequesttotal += 1
+    return {'inrequest': inrequest, 'inrequesttotal': inrequesttotal, 'widthrequest': widthrequest, 'widthrequesttotal': widthrequesttotal}
 
 

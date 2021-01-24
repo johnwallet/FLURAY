@@ -4,6 +4,24 @@ $(document).ready(function () {
             $(this).val('0.00');
         }
     });
+
+    function readURL(input) {
+
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                $('#avatar-img').attr('src', e.target.result);
+            };
+
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+    $("#id_avatar").change(function(){
+        readURL(this);
+    });
+
     //ЧЕКБОКСЫ
     $.each($('.radiochekbox'), function (index, val) {
         if($(this).find('input').prop('checked')===true){
@@ -16,6 +34,9 @@ $(document).ready(function () {
         $(this).toggleClass('active');
         $(this).find('input').prop('checked', true);
         return false;
+    });
+    $(document).on('click', '.btn-avatar-label', function (event) {
+        $(this).toggleClass('succes');
     });
     $(document).on('click', '#chekbox-quickaplication', function () {
         $('#kriteri-fin-request-deposit').val('БЫСТРАЯ ЗАЯВКА');
@@ -40,42 +61,17 @@ $(document).ready(function () {
         $(this).toggleClass('active')
     });
 
-    //КНОПКИ ПЕРЕКЛЮЧЕНИЕ РЕКВИЗИТЫ
-    $(document).on('click', '.categories-in', function (){
-        $('.categories-in--active').addClass('categories-in').removeClass('categories-in--active');
-        $(this).addClass('categories-in--active').removeClass('categories-in');
-
-        $('.form-rekvisites').toggleClass('active');
-        $('.in-text').toggleClass('active');
-        $('.in-box').toggleClass('active');
-        $('.in-img-deposit').toggleClass('active');
-        $('.in-img-withdrawal').toggleClass('active');
-    });
-    //КНОПКИ СКРЫВАЮЩИЕ БЛОКИ С ПС РЕКВИЗИТЫ
-    $(document).on('click', '#requsites-box-header1', function (){
-        $('#requsites-box-content1').fadeToggle();
-        $('#requsites-box-img1').toggleClass('transfor');
-    });
-    $(document).on('click', '#requsites-box-header2', function (){
-        $('#requsites-box-content2').fadeToggle();
-        $('#requsites-box-img2').toggleClass('transfor');
-    });
-    $(document).on('click', '#requsites-box-header3', function (){
-        $('#requsites-box-content3').fadeToggle();
-        $('#requsites-box-img3').toggleClass('transfor');
-    });
-    $(document).on('click', '#requsites-box-header4', function (){
-        $('#requsites-box-content4').fadeToggle();
-        $('#requsites-box-img4').toggleClass('transfor');
-    });
-    $(document).on('click', '#requsites-box-header5', function (){
-        $('#requsites-box-content5').fadeToggle();
-        $('#requsites-box-img5').toggleClass('transfor');
-    });
-    $(document).on('click', '#requsites-box-header6', function (){
-        $('#requsites-box-content6').fadeToggle();
-        $('#requsites-box-img6').toggleClass('transfor');
-    });
+    // //КНОПКИ ПЕРЕКЛЮЧЕНИЕ РЕКВИЗИТЫ
+    // $(document).on('click', '.categories-in', function (){
+    //     $('.categories-in--active').addClass('categories-in').removeClass('categories-in--active');
+    //     $(this).addClass('categories-in--active').removeClass('categories-in');
+    //
+    //     $('.form-rekvisites').toggleClass('active');
+    //     $('.in-text').toggleClass('active');
+    //     $('.in-box').toggleClass('active');
+    //     $('.in-img-deposit').toggleClass('active');
+    //     $('.in-img-withdrawal').toggleClass('active');
+    // });
     //КНОПКИ СКРЫВАЮЩИЕ БЛОКИ С ПС ПОПОЛНЕНИЕ
     $(document).on('click', '#name-ps-1', function (){
         $('#card-ps-list-1').fadeToggle();
