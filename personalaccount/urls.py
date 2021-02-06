@@ -42,4 +42,9 @@ urlpatterns = [
 
     path('profilechange/', views.profilechange, name='profilechange'),
     path('settingchange/', views.settingchange, name='settingchange'),
+
+    path('rangechangedeposit/', views.rangechangedeposit, name='rangechangedeposit'),
+    path('rangechangedeposit/edit/', views.rangechangedepositedit, name='rangechangedepositedit'),
+    path('rangechangewidth/', views.rangechangewidth, name='rangechangewidth'),
+    path('rangechangewidth/edit/', views.rangechangewidthedit, name='rangechangewidthedit'),
 ]

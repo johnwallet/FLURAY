@@ -2,6 +2,15 @@
 
 {% load static %}
 
+{% block script %}
+{% if status_data %}
+    <script>
+        var status_data = true;
+        var datajsonin = {{ datajsontable|safe }};
+    </script>
+{% endif %}
+{% endblock %}
+
 {% block content %}
     <div class="main-content">
 
@@ -29,16 +38,16 @@
                     <div class="row">
                         <div class="col-xl-9">
                             <div class="row">
-                                <div class="col-xl-6">
+                                <div class="col-md-7">
                                     <div class="card">
                                         <div class="card-body">
                                             <h5 class="header-title mb-3">Информация о балансе</h5>
-                                            <div class="media">
-                                                <div class="media-body mr-4 mb-3">
+                                            <div class="row">
+                                                <div class="col-sm-6 mb-3">
                                                     <p class="text-muted mb-3">Ваш баланс</p>
                                                     <h2 class="mdi"> {{ user.balance }} $</h2>
                                                 </div>
-                                                <div class="media-body">
+                                                <div class="col-sm-6 mb-3">
                                                     <p class="text-muted mb-3">Активность</p>
                                                     {% if user.is_active_change == False %}
                                                         <div class="group-left-statusbox red">
@@ -57,34 +66,79 @@
                                                     {% endif %}
                                                 </div>
                                             </div>
-                                            <div class="media mt-0">
+                                            <div class="media mt-2">
                                                 <div class="media-body">
                                                     <p class="text-muted mb-2">Действия</p>
-                                                    <div class="btn-dashboard-box">
-                                                        <a href="{% url 'depositreservchange' %}" class="btn-dashboard-actions"><img src="{% static 'personalaccount/assets/images/icon/walletin.svg' %}" alt="">Пополнить</a>
-                                                        <a href="{% url 'withdrawalreservchange' %}" class="btn-dashboard-actions"><img src="{% static 'personalaccount/assets/images/icon/walletout.svg' %}" alt="">Вывести</a>
+                                                    <div class="btn-dashboard-box two">
+                                                        <a href="{% url 'depositreservchange' %}" class="btn-dashboard-actions two"><img src="{% static 'personalaccount/assets/images/icon/walletin.svg' %}" alt="">Пополнить</a>
+                                                        <a href="{% url 'withdrawalreservchange' %}" class="btn-dashboard-actions two"><img src="{% static 'personalaccount/assets/images/icon/walletout.svg' %}" alt="">Вывести</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="media mt-4">
+                                                <div class="media-body">
+                                                    <p class="text-muted mb-2">Транзации</p>
+                                                    <div class="table-responsive">
+                                                        <table class="table table-borderless table-sm m-0">
+                                                            <tbody>
+                                                            {% if dash_tran %}
+                                                                {% for i in dash_tran|slice:"::-1"|slice:":3" %}
+                                                                    <tr>
+                                                                        <td>{{ i.transaction_sistemchange }}</td>
+                                                                        <td>{{ i.transaction_sum }}</td>
+                                                                        {% if i.transaction_status == 'В обработке' %}
+                                                                            <td><div class="badge badge-soft-warning">{{ i.transaction_status }}</div></td>
+                                                                        {% elif i.transaction_status == 'Оплачена' or i.transaction_status == 'Выполнена' or i.transaction_status == 'Выполнен'%}
+                                                                            <td><div class="badge badge-soft-success">{{ i.transaction_status }}</div></td>
+                                                                        {% else %}
+                                                                            <td><div class="badge badge-soft-secondary">{{ i.transaction_status }}</div></td>
+                                                                        {% endif %}
+                                                                    </tr>
+                                                                {% endfor %}
+                                                            {% else %}
+                                                                <tr>
+                                                                    <td>Транзакции отсутсвуют</td>
+                                                                </tr>
+                                                            {% endif %}
+                                                            </tbody>
+                                                        </table>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-xl-6">
+                                <div class="col-md-5">
                                     <div class="card">
                                         <div class="card-body">
                                             <h5 class="header-title mb-3">Активность ПС</h5>
                                             <div class="media">
                                                 <div class="media-body">
                                                     <p class="text-muted mb-3">Пополнение</p>
-                                                    <input data-plugin="knob" data-width="120" data-height="120" data-max="40"
+                                                    <input data-plugin="knob" data-width="100" data-height="100" data-max="39"
                                                         data-fgColor="#010181" data-displayPrevious=true data-angleOffset=240
                                                         data-angleArc=240 value="{{ activeps.activepsin }}" data-readOnly=true />
                                                 </div>
-                                                <div class="media-body">
+                                                <div class="media-body ml-1 mr-1">
                                                     <p class="text-muted mb-3">Вывод</p>
-                                                    <input data-plugin="knob" data-width="120" data-height="120" data-max="40"
+                                                    <input data-plugin="knob" data-width="100" data-height="100" data-max="39"
                                                         data-fgColor="#010181" data-displayPrevious=true data-angleOffset=240
                                                         data-angleArc=240 value="{{ activeps.activepsout }}" data-readOnly=true />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <h5 class="header-title mb-3">Прибыль общая</h5>
+                                            <div class="media">
+                                                <div class="media-body">
+                                                    <p class="text-muted mb-1">День</p>
+                                                    <h4 class="mdi">{{ totalprofitstat.dailyprofit }} $</h4>
+                                                </div>
+                                                <div class="media-body">
+                                                    <p class="text-muted mb-1">Все время</p>
+                                                    <h4 class="mdi">{{ totalprofitstat.totalprofit }} $</h4>
                                                 </div>
                                             </div>
                                         </div>
@@ -92,7 +146,7 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-xl-12">
+                                <div class="col-12">
                                     <div class="card">
                                         <div class="card-body">
                                             <h5 class="header-title mb-3">Ежедневная прибыль</h5>
@@ -102,55 +156,30 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-xl-12">
+                                <div class="col-12">
                                     <div class="card">
                                         <div class="card-body">
-                                            <div class="float-right ml-2">
-                                                <a href="{% url 'transactionchange' %}">Все транзакции</a>
+                                            <div class="float-right ml-2 password-change-a">
+                                                <a href="{% url 'news' %}">Все новости</a>
                                             </div>
-                                            <h5 class="header-title mb-4">Последние транзакции</h5>
-
-                                            <div class="table-responsive">
-                                                <table class="table table-centered table-hover mb-0">
-                                                    <thead>
-                                                    <tr>
-                                                        <th scope="col">Название</th>
-                                                        <th scope="col">Плат.система</th>
-                                                        <th scope="col">Сумма</th>
-                                                        <th scope="col">Статус</th>
-                                                    </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                    {% if dash_tran %}
-                                                        {% for i in dash_tran|slice:"::-1"|slice:":5" %}
-                                                        <tr>
-                                                            <td>{{ i.transaction_name }}</td>
-                                                            <td>{{ i.transaction_sistemchange }}</td>
-                                                            <td>{{ i.transaction_sum }}</td>
-                                                            {% if i.transaction_status == 'В обработке' %}
-                                                                <td>
-                                                                    <div class="badge badge-soft-warning">{{ i.transaction_status }}</div>
-                                                                </td>
-                                                            {% elif i.transaction_status == 'Оплачена' or i.transaction_status == 'Выполнена' or i.transaction_status == 'Выполнен'%}
-                                                                <td>
-                                                                    <div class="badge badge-soft-success">{{ i.transaction_status }}</div>
-                                                                </td>
-                                                            {% else %}
-                                                                <td>
-                                                                    <div class="badge badge-soft-secondary">{{ i.transaction_status }}</div>
-                                                                </td>
-                                                            {% endif %}
-                                                        </tr>
+                                            <h5 class="header-title mb-4">Новости</h5>
+                                            <div class="box-news">
+                                                <div class="row">
+                                                    {% for news in list_news|slice:"::-1"|slice:":3" %}
+                                                        <div class="col-sm-4 customlg">
+                                                            <a href="{% url 'news' %}{{ news.pk }}" class="media-box media-box-reveal">
+                                                                <img alt="" src="{{ news.news_img.url }}">
+                                                                <div class="caption">
+                                                                    <h3>{{ news.news_header|truncatechars:12 }}</h3>
+                                                                    <h4>{{ news.news_date_joined|date:"d N" }}</h4>
+                                                                    <p>
+                                                                        {{ news.news_content|truncatechars:30 }}
+                                                                    </p>
+                                                                </div>
+                                                            </a>
+                                                        </div>
                                                     {% endfor %}
-                                                    {% else %}
-                                                        <tr>
-                                                            <td>Транзакции отсутсвуют</td>
-                                                        </tr>
-                                                    {% endif %}
-                                                    </tbody>
-                                                </table>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -175,42 +204,27 @@
                             </div>
                             <div class="card">
                                 <div class="card-body">
-                                    <h5 class="header-title mb-3">Прибыль общая</h5>
-                                    <div class="media">
-                                        <div class="media-body">
-                                            <p class="text-muted mb-1">День</p>
-                                            <h5 class="mdi">{{ totalprofitstat.dailyprofit }} $</h5>
-                                        </div>
-                                        <div class="media-body">
-                                            <p class="text-muted mb-1">Все время</p>
-                                            <h5 class="mdi">{{ totalprofitstat.totalprofit }} $</h5>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card">
-                                <div class="card-body">
                                     <h5 class="header-title mb-3">Заявок выполнено</h5>
-                                    <div class="font-size-17 mb-2 mt-3">Пополнение</div>
+                                    <div class="font-size-17 mb-3 mt-4">Пополнение</div>
                                     <div class="media">
                                         <div class="media-body">
                                             <p class="text-muted mb-1">День</p>
-                                            <h5 class="mdi">{{ requesttot.inrequest }}</h5>
+                                            <h4 class="mdi">{{ requesttot.inrequest }}</h4>
                                         </div>
                                         <div class="media-body">
                                             <p class="text-muted mb-1">Все время</p>
-                                            <h5 class="mdi">{{ requesttot.inrequesttotal }}</h5>
+                                            <h4 class="mdi">{{ requesttot.inrequesttotal }}</h4>
                                         </div>
                                     </div>
-                                    <div class="font-size-17 mb-2 mt-2">Вывод</div>
+                                    <div class="font-size-17 mb-3 mt-3">Вывод</div>
                                     <div class="media">
                                         <div class="media-body">
                                             <p class="text-muted mb-1">День</p>
-                                            <h5 class="mdi">{{ requesttot.widthrequest }}</h5>
+                                            <h4 class="mdi">{{ requesttot.widthrequest }}</h4>
                                         </div>
                                         <div class="media-body">
                                             <p class="text-muted mb-1">Все время</p>
-                                            <h5 class="mdi">{{ requesttot.widthrequesttotal }}</h5>
+                                            <h4 class="mdi">{{ requesttot.widthrequesttotal }}</h4>
                                         </div>
                                     </div>
                                 </div>
@@ -220,7 +234,6 @@
                 </div>
             </div>
             <!-- end page-content-wrapper -->
-
         </div>
     </div>
 

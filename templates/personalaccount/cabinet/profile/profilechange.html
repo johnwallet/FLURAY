@@ -6,6 +6,15 @@
     Профиль
 {% endblock %}
 
+{% block script %}
+{% if message_status %}
+    <script>
+        var status_message = true;
+        var data_message = {{ data_message|safe }};
+    </script>
+{% endif %}
+{% endblock %}
+
 {% block content %}
     <div class="main-content">
         <div class="page-content">

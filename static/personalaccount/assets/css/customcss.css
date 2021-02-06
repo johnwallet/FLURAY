@@ -160,8 +160,7 @@ input[type="number"]:focus {
     align-items: center;
     width: 135px;
     height: 71px;
-    background: linear-gradient(180deg, #FFFFFF 64.37%, #e2f9ff 100%);
-    box-shadow: 0 0 7px rgba(1, 1, 129, 0.5);
+    box-shadow: 0 0 7px rgba(1, 1, 129, 0.2);
     border-radius: 8px 8px 0 0;
 }
 
@@ -1369,11 +1368,20 @@ input[type="number"]:focus {
 }
 
 .contentblocktwo{
+
+}
+
+.contentblocktwo.range{
+    margin-left: 20px;
 }
 
 .contentblocktwo span {
     font-size: 12px;
     margin-left: 20px;
+}
+
+.contentblocktwo.range span {
+    margin-left: 0;
 }
 
 .block-checkbox {
@@ -1386,7 +1394,7 @@ input[type="number"]:focus {
 
 .block-checkbox:before {
     content: '';
-    width: 45px;
+    width: 35px;
     height: 18px;
     border-radius: 20px;
     background-color: #EE7A7A;
@@ -1400,10 +1408,10 @@ input[type="number"]:focus {
 .block-checkbox:after {
     content: '';
     position: absolute;
-    width: 25px;
-    height: 25px;
+    width: 22px;
+    height: 22px;
     left: 0;
-    top: -4px;
+    top: -2px;
     background-color: #B90101;
     border-radius: 50%;
     box-shadow: 0 0 3px rgba(0, 0, 0, 0.3);
@@ -1416,7 +1424,7 @@ input[type="number"]:focus {
 
 .block-checkbox.active:after {
     background-color: #01B908;
-    left: 22px;
+    left: 15px;
 }
 
 .block-checkbox input {
@@ -1429,6 +1437,10 @@ input[type="number"]:focus {
     margin: 5px 0 0 20px;
 }
 
+.block-comis.range {
+    margin: 5px 0 0 0;
+}
+
 .box-info-right-onebtn {
     padding-right: 20px;
 }
@@ -1436,6 +1448,10 @@ input[type="number"]:focus {
 .block-input-comis {
     margin: 5px 0 0 20px;
     display: flex;
+}
+
+.block-input-comis.range {
+    margin: 5px 0 0 0;
 }
 
 .block-input-comis input {
@@ -1447,9 +1463,25 @@ input[type="number"]:focus {
     border: 1px solid rgba(1, 1, 129, 0.25);
 }
 
+.block-input-comis.range input {
+    width: 70px;
+}
+
+.block-input-comis.range.crypto input {
+    width: 110px;
+}
+
 .card-change-box.reserv {
     width: 140px;
     height: 130px;
+}
+
+.card-change-box.range {
+    width: 185px;
+}
+
+.card-change-box.range.crypto {
+    width: 250px;
 }
 
 .block-reserv {
@@ -1762,6 +1794,28 @@ input[type="number"]:focus {
 .error-collor-red {
     color: #B90101;
 }
+
+
+
+
+
+
+/*==========================// dashboard //==========================*/
+.box-news {
+    max-height: 173px;
+}
+
+.customlg {
+    max-height: 173px;
+}
+
+.card-content-ps-a.twobtn.no-active, .card-content-ps-a.trybtn.no-active {
+    background: #dadada;
+    cursor: default;
+    box-shadow: None;
+}
+
+
 
 
 
@@ -2086,6 +2140,17 @@ input[type="number"]:focus {
     .right-btn {
         margin: 0 auto;
     }
+    .customlg {
+        margin-bottom: 20px;
+    }
+    .btn-dashboard-box.try {
+        display: block;
+    }
+
+    .btn-dashboard-actions.try {
+        margin: 10px 0;
+        width: 100%;
+    }
 }
 
 @media (max-width: 430px) {
@@ -2119,6 +2184,31 @@ input[type="number"]:focus {
 
     .card-profile-box {
         padding: 0;
+    }
+
+    .group-left-statusbox {
+        width: 105px;
+        height: 37px;
+    }
+
+    .statusbox-signal-green {
+        min-width: 15px;
+        min-height: 15px;
+    }
+
+    .statusbox-title span {
+        margin-left: 7px;
+        font-size: 15px;
+    }
+
+    .btn-dashboard-actions.two {
+        width: 117px;
+        height: 35px;
+        font-size: 14px;
+    }
+
+    .btn-dashboard-actions img {
+        width: 21px;
     }
 }
 

@@ -210,7 +210,7 @@ COLOR 1
 */
 
 body, header h2, ::placeholder {
-    color: #6fa6d7;
+    color: #010181;
 }
 
 /*
@@ -5621,9 +5621,7 @@ Extra small devices (portrait phones, less than 576px)
     }
 
     .list-nav a:not(.list-archive) {
-        text-indent: 9995px;
         overflow: hidden;
-        width: 33.333%;
     }
 
     .list-nav {
@@ -5750,4 +5748,8 @@ Inverted responsive classes
     .visible-xs {
         display: none;
     }
+}
+
+.width-50 {
+    width: 50px;
 }

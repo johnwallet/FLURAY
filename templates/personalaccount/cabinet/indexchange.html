@@ -2,7 +2,6 @@
 
 {% load static %}
 
-<!-- Здесь вся структура страницы (Стили и скрипты в base) -->
 {% block index %}
     <div id="layout-wrapper">
         <!-- ========== Top Bar ========== -->
@@ -149,6 +148,17 @@
                                 <div class="d-inline-block icons-sm mr-1"><i class="uim uim-bag"></i></div>
                                 <span>Резерв</span>
                             </a>
+                        </li>
+
+                        <li>
+                            <a href="javascript: void(0);" class="has-arrow waves-effect">
+                                <div class="d-inline-block icons-sm mr-1"><i class="uim uim-graph-bar"></i></div>
+                                <span>Лимиты</span>
+                            </a>
+                            <ul class="sub-menu" aria-expanded="false">
+                                <li><a href="{% url 'rangechangedeposit' %}">Пополнение</a></li>
+                                <li><a href="{% url 'rangechangewidth' %}">Вывод</a></li>
+                            </ul>
                         </li>
 
                     </ul>

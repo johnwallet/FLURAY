@@ -3,6 +3,8 @@ from django.contrib.auth.models import AbstractBaseUser
 from django.contrib.auth.models import PermissionsMixin
 from django.dispatch import receiver
 from django.utils import timezone
+
+from MyWallets import settings
 from .managers import CustomUserManager
 from django.db.models.signals import pre_save
 import os
@@ -13,7 +15,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
 # ОСНОВА
     avatar = models.ImageField('Аватар', upload_to='user/', blank=True)
     email = models.EmailField('Почта', blank=False)
-    username = models.CharField('Логин пользователя', max_length=50, unique=True)
+    username = models.CharField('Логин пользователя', max_length=50, unique=True, db_index=True)
     date_joined = models.DateTimeField('Дата регистрации', default=timezone.now)
     kompan_name = models.CharField('Наименование компании', max_length=100, blank=True)
     first_name = models.CharField('Имя', max_length=100, blank=True)
@@ -40,7 +42,6 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     active_in_vtb_rub = models.BooleanField('ВТБ', default=False)
     active_in_rosselhoz_rub = models.BooleanField('РОССЕЛЬХОЗБАНК', default=False)
     active_in_raifaizen_rub = models.BooleanField('РАЙФАЙЗЕНБАНК', default=False)
-    active_in_roketbank_rub = models.BooleanField('РОКЕТБАНК', default=False)
     active_in_otkritie_rub = models.BooleanField('ОТКРЫТИЕ', default=False)
     active_in_pochtabank_rub = models.BooleanField('ПОЧТАБАНК', default=False)
     active_in_rnkb_rub = models.BooleanField('РНКБ', default=False)
@@ -85,7 +86,6 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     active_out_vtb_rub = models.BooleanField('ВТБ', default=False)
     active_out_rosselhoz_rub = models.BooleanField('РОССЕЛЬХОЗБАНК', default=False)
     active_out_raifaizen_rub = models.BooleanField('РАЙФАЙЗЕНБАНК', default=False)
-    active_out_roketbank_rub = models.BooleanField('РОКЕТБАНК', default=False)
     active_out_otkritie_rub = models.BooleanField('ОТКРЫТИЕ', default=False)
     active_out_pochtabank_rub = models.BooleanField('ПОЧТАБАНК', default=False)
     active_out_rnkb_rub = models.BooleanField('РНКБ', default=False)
@@ -130,7 +130,6 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     reserv_vtb_rub = models.DecimalField('ВТБ', max_digits=10, decimal_places=2, default=0)
     reserv_rosselhoz_rub = models.DecimalField('РОССЕЛЬХОЗБАНК', max_digits=10, decimal_places=2, default=0)
     reserv_raifaizen_rub = models.DecimalField('РАЙФАЙЗЕНБАНК', max_digits=10, decimal_places=2, default=0)
-    reserv_roketbank_rub = models.DecimalField('РОКЕТБАНК', max_digits=10, decimal_places=2, default=0)
     reserv_otkritie_rub = models.DecimalField('ОТКРЫТИЕ', max_digits=10, decimal_places=2, default=0)
     reserv_pochtabank_rub = models.DecimalField('ПОЧТАБАНК', max_digits=10, decimal_places=2, default=0)
     reserv_rnkb_rub = models.DecimalField('РНКБ', max_digits=10, decimal_places=2, default=0)
@@ -175,7 +174,6 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     comis_in_vtb_rub = models.DecimalField('ВТБ', max_length=50, max_digits=4, decimal_places=2, default=0)
     comis_in_rosselhoz_rub = models.DecimalField('РОССЕЛЬХОЗБАНК', max_digits=4, decimal_places=2, default=0)
     comis_in_raifaizen_rub = models.DecimalField('РАЙФАЙЗЕНБАНК', max_digits=4, decimal_places=2, default=0)
-    comis_in_roketbank_rub = models.DecimalField('РОКЕТБАНК', max_digits=4, decimal_places=2, default=0)
     comis_in_otkritie_rub = models.DecimalField('ОТКРЫТИЕ', max_digits=4, decimal_places=2, default=0)
     comis_in_pochtabank_rub = models.DecimalField('ПОЧТАБАНК', max_digits=4, decimal_places=2, default=0)
     comis_in_rnkb_rub = models.DecimalField('РНКБ', max_digits=4, decimal_places=2, default=0)
@@ -220,7 +218,6 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     comis_out_vtb_rub = models.DecimalField('ВТБ', max_digits=4, decimal_places=2, default=0)
     comis_out_rosselhoz_rub = models.DecimalField('РОССЕЛЬХОЗБАНК', max_digits=4, decimal_places=2, default=0)
     comis_out_raifaizen_rub = models.DecimalField('РАЙФАЙЗЕНБАНК', max_digits=4, decimal_places=2, default=0)
-    comis_out_roketbank_rub = models.DecimalField('РОКЕТБАНК', max_digits=4, decimal_places=2, default=0)
     comis_out_otkritie_rub = models.DecimalField('ОТКРЫТИЕ', max_digits=4, decimal_places=2, default=0)
     comis_out_pochtabank_rub = models.DecimalField('ПОЧТАБАНК', max_digits=4, decimal_places=2, default=0)
     comis_out_rnkb_rub = models.DecimalField('РНКБ', max_digits=4, decimal_places=2, default=0)
@@ -265,7 +262,6 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     requsites_vtb_rub = models.CharField('ВТБ', max_length=50, blank=True)
     requsites_rosselhoz_rub = models.CharField('РОССЕЛЬХОЗБАНК', max_length=50, blank=True)
     requsites_raifaizen_rub = models.CharField('РАЙФАЙЗЕНБАНК', max_length=50, blank=True)
-    requsites_roketbank_rub = models.CharField('РОКЕТБАНК', max_length=50, blank=True)
     requsites_otkritie_rub = models.CharField('ОТКРЫТИЕ', max_length=50, blank=True)
     requsites_pochtabank_rub = models.CharField('ПОЧТАБАНК', max_length=50, blank=True)
     requsites_rnkb_rub = models.CharField('РНКБ', max_length=50, blank=True)
@@ -322,12 +318,12 @@ def delete_old_file(sender, instance, **kwargs):
     except sender.DoesNotExist:
         return False
 
-        # comparing the new file with the old one
     file = instance.avatar
     if old_file and not old_file == file:
         print(os.path.isfile(old_file.path))
         if os.path.isfile(old_file.path):
             os.remove(old_file.path)
+
 
 class CustomUserId(models.Model):
     custuserid = models.CharField('Роль', max_length=150, db_index=True)
@@ -340,3 +336,193 @@ class CustomUserId(models.Model):
         verbose_name_plural = 'Роли'
 
 
+# === ДИАПАЗОН СУММЫ ДЛЯ ПОПОЛНЕНИЯ ===
+class RangeSumDeposit(models.Model):
+    deposit_range_username = models.ForeignKey('CustomUser', on_delete=models.CASCADE, verbose_name='Пользователь')
+    # БАНКИ
+    deposit_min_sberbank_rub = models.IntegerField('СБЕРБАНК')
+    deposit_min_psb_rub = models.IntegerField('ПСБ')
+    deposit_min_tinkoff_rub = models.IntegerField('ТИНЬКОФФ')
+    deposit_min_gazprombank_rub = models.IntegerField('ГАЗПРОМБАНК')
+    deposit_min_alfabank_rub = models.IntegerField('АЛЬФАБАНК')
+    deposit_min_russtandart_rub = models.IntegerField('РУССКИЙСТАНДАРТ')
+    deposit_min_vtb_rub = models.IntegerField('ВТБ')
+    deposit_min_rosselhoz_rub = models.IntegerField('РОССЕЛЬХОЗБАНК')
+    deposit_min_raifaizen_rub = models.IntegerField('РАЙФАЙЗЕНБАНК')
+    deposit_min_otkritie_rub = models.IntegerField('ОТКРЫТИЕ')
+    deposit_min_pochtabank_rub = models.IntegerField('ПОЧТАБАНК')
+    deposit_min_rnkb_rub = models.IntegerField('РНКБ')
+    deposit_min_rosbank_rub = models.IntegerField('РОСБАНК')
+    deposit_min_mtsbank_rub = models.IntegerField('МТСБАНК')
+    # ПС
+    deposit_min_qiwi_rub = models.IntegerField('КИВИРУБ')
+    deposit_min_qiwi_usd = models.IntegerField('КИВИДОЛЛАР')
+    deposit_min_payeer_rub = models.IntegerField('ПАЕЕРРУБ')
+    deposit_min_payeer_usd = models.IntegerField('ПАЕЕРДОЛЛАР')
+    deposit_min_payeer_eur = models.IntegerField('ПАЕЕРЕВРО')
+    deposit_min_webmoney_rub = models.IntegerField('ВЕБМАНИРУБ')
+    deposit_min_webmoney_usd = models.IntegerField('ВЕБМАНИДОЛЛАР')
+    deposit_min_webmoney_eur = models.IntegerField('ВЕБМАНИЕВРО')
+    deposit_min_pm_btc = models.DecimalField('ПМБИТКОИН', max_digits=16, decimal_places=8, default=0)
+    deposit_min_pm_usd = models.IntegerField('ПМДОЛЛАР')
+    deposit_min_pm_eur = models.IntegerField('ПМЕВРО')
+    deposit_min_skrill_eur = models.IntegerField('СКРИЛЛЕВРО')
+    deposit_min_skrill_usd = models.IntegerField('СКРИЛДОЛЛАР')
+    deposit_min_paypal_rub = models.IntegerField('ПАЙПАЛРУБ')
+    deposit_min_paypal_usd = models.IntegerField('ПАЙПАЛДОЛЛАР')
+    deposit_min_paypal_eur = models.IntegerField('ПАЙПАЛЕВРО')
+    deposit_min_umoney_rub = models.IntegerField('ЮМАНИ')
+    # КРИПТА
+    deposit_min_btc = models.DecimalField('БИТКОИН', max_digits=16, decimal_places=8, default=0)
+    deposit_min_xrp = models.DecimalField('РИПЛ', max_digits=16, decimal_places=8, default=0)
+    deposit_min_ltc = models.DecimalField('ЛАЙТКОИН', max_digits=16, decimal_places=8, default=0)
+    deposit_min_bch = models.DecimalField('БИТКОИНКЕШ', max_digits=16, decimal_places=8, default=0)
+    deposit_min_xmr = models.DecimalField('МОНЕРО', max_digits=16, decimal_places=8, default=0)
+    deposit_min_eth = models.DecimalField('ЭФИР', max_digits=16, decimal_places=8, default=0)
+    deposit_min_etc = models.DecimalField('ЭФИРКЛАССИК', max_digits=16, decimal_places=8, default=0)
+    deposit_min_dash = models.DecimalField('ДАШ', max_digits=16, decimal_places=8, default=0)
+    # БАНКИ
+    deposit_max_sberbank_rub = models.IntegerField('СБЕРБАНК')
+    deposit_max_psb_rub = models.IntegerField('ПСБ')
+    deposit_max_tinkoff_rub = models.IntegerField('ТИНЬКОФФ')
+    deposit_max_gazprombank_rub = models.IntegerField('ГАЗПРОМБАНК')
+    deposit_max_alfabank_rub = models.IntegerField('АЛЬФАБАНК')
+    deposit_max_russtandart_rub = models.IntegerField('РУССКИЙСТАНДАРТ')
+    deposit_max_vtb_rub = models.IntegerField('ВТБ')
+    deposit_max_rosselhoz_rub = models.IntegerField('РОССЕЛЬХОЗБАНК')
+    deposit_max_raifaizen_rub = models.IntegerField('РАЙФАЙЗЕНБАНК')
+    deposit_max_otkritie_rub = models.IntegerField('ОТКРЫТИЕ')
+    deposit_max_pochtabank_rub = models.IntegerField('ПОЧТАБАНК')
+    deposit_max_rnkb_rub = models.IntegerField('РНКБ')
+    deposit_max_rosbank_rub = models.IntegerField('РОСБАНК')
+    deposit_max_mtsbank_rub = models.IntegerField('МТСБАНК')
+    # ПС
+    deposit_max_qiwi_rub = models.IntegerField('КИВИРУБ')
+    deposit_max_qiwi_usd = models.IntegerField('КИВИДОЛЛАР')
+    deposit_max_payeer_rub = models.IntegerField('ПАЕЕРРУБ')
+    deposit_max_payeer_usd = models.IntegerField('ПАЕЕРДОЛЛАР')
+    deposit_max_payeer_eur = models.IntegerField('ПАЕЕРЕВРО')
+    deposit_max_webmoney_rub = models.IntegerField('ВЕБМАНИРУБ')
+    deposit_max_webmoney_usd = models.IntegerField('ВЕБМАНИДОЛЛАР')
+    deposit_max_webmoney_eur = models.IntegerField('ВЕБМАНИЕВРО')
+    deposit_max_pm_btc = models.DecimalField('ПМБИТКОИН', max_digits=16, decimal_places=8, default=0)
+    deposit_max_pm_usd = models.IntegerField('ПМДОЛЛАР')
+    deposit_max_pm_eur = models.IntegerField('ПМЕВРО')
+    deposit_max_skrill_eur = models.IntegerField('СКРИЛЛЕВРО')
+    deposit_max_skrill_usd = models.IntegerField('СКРИЛДОЛЛАР')
+    deposit_max_paypal_rub = models.IntegerField('ПАЙПАЛРУБ')
+    deposit_max_paypal_usd = models.IntegerField('ПАЙПАЛДОЛЛАР')
+    deposit_max_paypal_eur = models.IntegerField('ПАЙПАЛЕВРО')
+    deposit_max_umoney_rub = models.IntegerField('ЮМАНИ')
+    # КРИПТА
+    deposit_max_btc = models.DecimalField('БИТКОИН', max_digits=16, decimal_places=8, default=0)
+    deposit_max_xrp = models.DecimalField('РИПЛ', max_digits=16, decimal_places=8, default=0)
+    deposit_max_ltc = models.DecimalField('ЛАЙТКОИН', max_digits=16, decimal_places=8, default=0)
+    deposit_max_bch = models.DecimalField('БИТКОИНКЕШ', max_digits=16, decimal_places=8, default=0)
+    deposit_max_xmr = models.DecimalField('МОНЕРО', max_digits=16, decimal_places=8, default=0)
+    deposit_max_eth = models.DecimalField('ЭФИР', max_digits=16, decimal_places=8, default=0)
+    deposit_max_etc = models.DecimalField('ЭФИРКЛАССИК', max_digits=16, decimal_places=8, default=0)
+    deposit_max_dash = models.DecimalField('ДАШ', max_digits=16, decimal_places=8, default=0)
+
+    def __str__(self):
+        return self.deposit_range_username.username
+
+    class Meta:
+        verbose_name = 'Диапазон для пополнений'
+        verbose_name_plural = 'Диапазон для пополнений'
+
+
+# === ДИАПАЗОН СУММЫ ДЛЯ ВЫВОДА ===
+class RangeSumWidth(models.Model):
+    width_range_username = models.ForeignKey('CustomUser', on_delete=models.CASCADE, verbose_name='Пользователь')
+    # БАНКИ
+    width_min_sberbank_rub = models.IntegerField('СБЕРБАНК')
+    width_min_psb_rub = models.IntegerField('ПСБ')
+    width_min_tinkoff_rub = models.IntegerField('ТИНЬКОФФ')
+    width_min_gazprombank_rub = models.IntegerField('ГАЗПРОМБАНК')
+    width_min_alfabank_rub = models.IntegerField('АЛЬФАБАНК')
+    width_min_russtandart_rub = models.IntegerField('РУССКИЙСТАНДАРТ')
+    width_min_vtb_rub = models.IntegerField('ВТБ')
+    width_min_rosselhoz_rub = models.IntegerField('РОССЕЛЬХОЗБАНК')
+    width_min_raifaizen_rub = models.IntegerField('РАЙФАЙЗЕНБАНК')
+    width_min_otkritie_rub = models.IntegerField('ОТКРЫТИЕ')
+    width_min_pochtabank_rub = models.IntegerField('ПОЧТАБАНК')
+    width_min_rnkb_rub = models.IntegerField('РНКБ')
+    width_min_rosbank_rub = models.IntegerField('РОСБАНК')
+    width_min_mtsbank_rub = models.IntegerField('МТСБАНК')
+    # ПС
+    width_min_qiwi_rub = models.IntegerField('КИВИРУБ')
+    width_min_qiwi_usd = models.IntegerField('КИВИДОЛЛАР')
+    width_min_payeer_rub = models.IntegerField('ПАЕЕРРУБ')
+    width_min_payeer_usd = models.IntegerField('ПАЕЕРДОЛЛАР')
+    width_min_payeer_eur = models.IntegerField('ПАЕЕРЕВРО')
+    width_min_webmoney_rub = models.IntegerField('ВЕБМАНИРУБ')
+    width_min_webmoney_usd = models.IntegerField('ВЕБМАНИДОЛЛАР')
+    width_min_webmoney_eur = models.IntegerField('ВЕБМАНИЕВРО')
+    width_min_pm_btc = models.DecimalField('ПМБИТКОИН', max_digits=16, decimal_places=8, default=0)
+    width_min_pm_usd = models.IntegerField('ПМДОЛЛАР')
+    width_min_pm_eur = models.IntegerField('ПМЕВРО')
+    width_min_skrill_eur = models.IntegerField('СКРИЛЛЕВРО')
+    width_min_skrill_usd = models.IntegerField('СКРИЛДОЛЛАР')
+    width_min_paypal_rub = models.IntegerField('ПАЙПАЛРУБ')
+    width_min_paypal_usd = models.IntegerField('ПАЙПАЛДОЛЛАР')
+    width_min_paypal_eur = models.IntegerField('ПАЙПАЛЕВРО')
+    width_min_umoney_rub = models.IntegerField('ЮМАНИ')
+    # КРИПТА
+    width_min_btc = models.DecimalField('БИТКОИН', max_digits=16, decimal_places=8, default=0)
+    width_min_xrp = models.DecimalField('РИПЛ', max_digits=16, decimal_places=8, default=0)
+    width_min_ltc = models.DecimalField('ЛАЙТКОИН', max_digits=16, decimal_places=8, default=0)
+    width_min_bch = models.DecimalField('БИТКОИНКЕШ', max_digits=16, decimal_places=8, default=0)
+    width_min_xmr = models.DecimalField('МОНЕРО', max_digits=16, decimal_places=8, default=0)
+    width_min_eth = models.DecimalField('ЭФИР', max_digits=16, decimal_places=8, default=0)
+    width_min_etc = models.DecimalField('ЭФИРКЛАССИК', max_digits=16, decimal_places=8, default=0)
+    width_min_dash = models.DecimalField('ДАШ', max_digits=16, decimal_places=8, default=0)
+    # БАНКИ
+    width_max_sberbank_rub = models.IntegerField('СБЕРБАНК')
+    width_max_psb_rub = models.IntegerField('ПСБ')
+    width_max_tinkoff_rub = models.IntegerField('ТИНЬКОФФ')
+    width_max_gazprombank_rub = models.IntegerField('ГАЗПРОМБАНК')
+    width_max_alfabank_rub = models.IntegerField('АЛЬФАБАНК')
+    width_max_russtandart_rub = models.IntegerField('РУССКИЙСТАНДАРТ')
+    width_max_vtb_rub = models.IntegerField('ВТБ')
+    width_max_rosselhoz_rub = models.IntegerField('РОССЕЛЬХОЗБАНК')
+    width_max_raifaizen_rub = models.IntegerField('РАЙФАЙЗЕНБАНК')
+    width_max_otkritie_rub = models.IntegerField('ОТКРЫТИЕ')
+    width_max_pochtabank_rub = models.IntegerField('ПОЧТАБАНК')
+    width_max_rnkb_rub = models.IntegerField('РНКБ')
+    width_max_rosbank_rub = models.IntegerField('РОСБАНК')
+    width_max_mtsbank_rub = models.IntegerField('МТСБАНК')
+    # ПС
+    width_max_qiwi_rub = models.IntegerField('КИВИРУБ')
+    width_max_qiwi_usd = models.IntegerField('КИВИДОЛЛАР')
+    width_max_payeer_rub = models.IntegerField('ПАЕЕРРУБ')
+    width_max_payeer_usd = models.IntegerField('ПАЕЕРДОЛЛАР')
+    width_max_payeer_eur = models.IntegerField('ПАЕЕРЕВРО')
+    width_max_webmoney_rub = models.IntegerField('ВЕБМАНИРУБ')
+    width_max_webmoney_usd = models.IntegerField('ВЕБМАНИДОЛЛАР')
+    width_max_webmoney_eur = models.IntegerField('ВЕБМАНИЕВРО')
+    width_max_pm_btc = models.DecimalField('ПМБИТКОИН', max_digits=16, decimal_places=8, default=0)
+    width_max_pm_usd = models.IntegerField('ПМДОЛЛАР')
+    width_max_pm_eur = models.IntegerField('ПМЕВРО')
+    width_max_skrill_eur = models.IntegerField('СКРИЛЛЕВРО')
+    width_max_skrill_usd = models.IntegerField('СКРИЛДОЛЛАР')
+    width_max_paypal_rub = models.IntegerField('ПАЙПАЛРУБ')
+    width_max_paypal_usd = models.IntegerField('ПАЙПАЛДОЛЛАР')
+    width_max_paypal_eur = models.IntegerField('ПАЙПАЛЕВРО')
+    width_max_umoney_rub = models.IntegerField('ЮМАНИ')
+    # КРИПТА
+    width_max_btc = models.DecimalField('БИТКОИН', max_digits=16, decimal_places=8, default=0)
+    width_max_xrp = models.DecimalField('РИПЛ', max_digits=16, decimal_places=8, default=0)
+    width_max_ltc = models.DecimalField('ЛАЙТКОИН', max_digits=16, decimal_places=8, default=0)
+    width_max_bch = models.DecimalField('БИТКОИНКЕШ', max_digits=16, decimal_places=8, default=0)
+    width_max_xmr = models.DecimalField('МОНЕРО', max_digits=16, decimal_places=8, default=0)
+    width_max_eth = models.DecimalField('ЭФИР', max_digits=16, decimal_places=8, default=0)
+    width_max_etc = models.DecimalField('ЭФИРКЛАССИК', max_digits=16, decimal_places=8, default=0)
+    width_max_dash = models.DecimalField('ДАШ', max_digits=16, decimal_places=8, default=0)
+
+    def __str__(self):
+        return self.width_range_username.username
+
+    class Meta:
+        verbose_name = 'Диапазон для вывода'
+        verbose_name_plural = 'Диапазон для вывода'

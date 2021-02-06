@@ -6,6 +6,21 @@
 Вывод средств
 {% endblock %}
 
+
+{% block script %}
+{% if message_status %}
+    <script>
+        var status_message = true;
+        var data_message = {{ data_message|safe }};
+    </script>
+{% endif %}
+<script>
+    var list_min_range = {{ range_min_list|safe }};
+    var list_max_range = {{ range_max_list|safe }};
+</script>
+{% endblock %}
+
+
 {% block content %}
     <div class="main-content">
 
@@ -76,7 +91,7 @@
                                         <h5 class="mb-4 text-left">Выберите платежную систему</h5>
                                         <a href="#">Платежной системы нет в списке?</a>
                                     </div>
-
+                                    {% if list_active_ps.sberbank_rub or list_active_ps.tinkoff_rub or list_active_ps.alfabank_rub or list_active_ps.vtb_rub or list_active_ps.raifaizen_rub or list_active_ps.otkritie_rub or list_active_ps.psb_rub or list_active_ps.gazprombank_rub or list_active_ps.russtandart_rub or list_active_ps.rosselhoz_rub or list_active_ps.pochtabank_rub or list_active_ps.rosbank_rub or list_active_ps.rnkb_rub or list_active_ps.mtsbank_rub %}
                                     <div class="list-card">
                                         <div id="name-ps-1" class="name-ps">
                                             <span>Коммерческие банки</span>
@@ -84,6 +99,7 @@
                                                  alt="arrow">
                                         </div>
                                         <div id="card-ps-list-1" class="card-ps-list">
+                                            {% if list_active_ps.sberbank_rub %}
                                             <div class="card-ps">
                                                 <div class="card-content-ps">
                                                     <img src="{% static 'personalaccount/assets/images/logo-ps/sber.png' %}"
@@ -91,10 +107,12 @@
                                                 </div>
                                                 <div class="card-content-ps-a-list">
                                                     <div class="card-content-ps-a">
-                                                        <span id="sber-rub-deposit">RUB</span>
+                                                        <span id="sber-rub-deposit" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="Резерв {{ list_reserve_ps.sberbank_rub }} USD">RUB</span>
                                                     </div>
                                                 </div>
                                             </div>
+                                            {% endif %}
+                                            {% if list_active_ps.tinkoff_rub %}
                                             <div class="card-ps">
                                                 <div class="card-content-ps">
                                                     <img src="{% static 'personalaccount/assets/images/logo-ps/tinkoff.png' %}"
@@ -102,10 +120,12 @@
                                                 </div>
                                                 <div class="card-content-ps-a-list">
                                                     <div class="card-content-ps-a">
-                                                        <span id="tinkoff-rub-deposit">RUB</span>
+                                                        <span id="tinkoff-rub-deposit" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="Резерв {{ list_reserve_ps.tinkoff_rub }} USD">RUB</span>
                                                     </div>
                                                 </div>
                                             </div>
+                                            {% endif %}
+                                            {% if list_active_ps.alfabank_rub %}
                                             <div class="card-ps">
                                                 <div class="card-content-ps">
                                                     <img src="{% static 'personalaccount/assets/images/logo-ps/alfa.png' %}"
@@ -113,10 +133,12 @@
                                                 </div>
                                                 <div class="card-content-ps-a-list">
                                                     <div class="card-content-ps-a">
-                                                        <span id="alfabank-rub-deposit">RUB</span>
+                                                        <span id="alfabank-rub-deposit" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="Резерв {{ list_reserve_ps.alfabank_rub }} USD">RUB</span>
                                                     </div>
                                                 </div>
                                             </div>
+                                            {% endif %}
+                                            {% if list_active_ps.vtb_rub %}
                                             <div class="card-ps">
                                                 <div class="card-content-ps">
                                                     <img src="{% static 'personalaccount/assets/images/logo-ps/vtb.png' %}"
@@ -124,10 +146,12 @@
                                                 </div>
                                                 <div class="card-content-ps-a-list">
                                                     <div class="card-content-ps-a">
-                                                        <span id="vtb-rub-deposit">RUB</span>
+                                                        <span id="vtb-rub-deposit" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="Резерв {{ list_reserve_ps.vtb_rub }} USD">RUB</span>
                                                     </div>
                                                 </div>
                                             </div>
+                                            {% endif %}
+                                            {% if list_active_ps.raifaizen_rub %}
                                             <div class="card-ps">
                                                 <div class="card-content-ps">
                                                     <img src="{% static 'personalaccount/assets/images/logo-ps/raif.png' %}"
@@ -135,10 +159,12 @@
                                                 </div>
                                                 <div class="card-content-ps-a-list">
                                                     <div class="card-content-ps-a">
-                                                        <span id="raif-rub-deposit">RUB</span>
+                                                        <span id="raif-rub-deposit" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="Резерв {{ list_reserve_ps.raifaizen_rub }} USD">RUB</span>
                                                     </div>
                                                 </div>
                                             </div>
+                                            {% endif %}
+                                            {% if list_active_ps.otkritie_rub %}
                                             <div class="card-ps">
                                                 <div class="card-content-ps">
                                                     <img src="{% static 'personalaccount/assets/images/logo-ps/otkr.png' %}"
@@ -146,10 +172,12 @@
                                                 </div>
                                                 <div class="card-content-ps-a-list">
                                                     <div class="card-content-ps-a">
-                                                        <span id="otkr-rub-deposit">RUB</span>
+                                                        <span id="otkr-rub-deposit" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="Резерв {{ list_reserve_ps.otkritie_rub }} USD">RUB</span>
                                                     </div>
                                                 </div>
                                             </div>
+                                            {% endif %}
+                                            {% if list_active_ps.psb_rub %}
                                             <div class="card-ps">
                                                 <div class="card-content-ps">
                                                     <img src="{% static 'personalaccount/assets/images/logo-ps/psb.png' %}"
@@ -157,10 +185,12 @@
                                                 </div>
                                                 <div class="card-content-ps-a-list">
                                                     <div class="card-content-ps-a">
-                                                        <span id="psb-rub-deposit">RUB</span>
+                                                        <span id="psb-rub-deposit" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="Резерв {{ list_reserve_ps.psb_rub }} USD">RUB</span>
                                                     </div>
                                                 </div>
                                             </div>
+                                            {% endif %}
+                                            {% if list_active_ps.gazprombank_rub %}
                                             <div class="card-ps">
                                                 <div class="card-content-ps">
                                                     <img src="{% static 'personalaccount/assets/images/logo-ps/gazprom.png' %}"
@@ -168,10 +198,12 @@
                                                 </div>
                                                 <div class="card-content-ps-a-list">
                                                     <div class="card-content-ps-a">
-                                                        <span id="gazprom-rub-deposit">RUB</span>
+                                                        <span id="gazprom-rub-deposit" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="Резерв {{ list_reserve_ps.gazprombank_rub }} USD">RUB</span>
                                                     </div>
                                                 </div>
                                             </div>
+                                            {% endif %}
+                                            {% if list_active_ps.russtandart_rub %}
                                             <div class="card-ps">
                                                 <div class="card-content-ps">
                                                     <img src="{% static 'personalaccount/assets/images/logo-ps/standart.png' %}"
@@ -179,10 +211,12 @@
                                                 </div>
                                                 <div class="card-content-ps-a-list">
                                                     <div class="card-content-ps-a">
-                                                        <span id="standart-rub-deposit">RUB</span>
+                                                        <span id="standart-rub-deposit" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="Резерв {{ list_reserve_ps.russtandart_rub }} USD">RUB</span>
                                                     </div>
                                                 </div>
                                             </div>
+                                            {% endif %}
+                                            {% if list_active_ps.rosselhoz_rub %}
                                             <div class="card-ps">
                                                 <div class="card-content-ps">
                                                     <img src="{% static 'personalaccount/assets/images/logo-ps/rsb.png' %}"
@@ -190,21 +224,12 @@
                                                 </div>
                                                 <div class="card-content-ps-a-list">
                                                     <div class="card-content-ps-a">
-                                                        <span id="rsb-rub-deposit">RUB</span>
+                                                        <span id="rsb-rub-deposit" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="Резерв {{ list_reserve_ps.rosselhoz_rub }} USD">RUB</span>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="card-ps">
-                                                <div class="card-content-ps">
-                                                    <img src="{% static 'personalaccount/assets/images/logo-ps/roket.png' %}"
-                                                         alt="roket">
-                                                </div>
-                                                <div class="card-content-ps-a-list">
-                                                    <div class="card-content-ps-a">
-                                                        <span id="roket-rub-deposit">RUB</span>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                            {% endif %}
+                                            {% if list_active_ps.pochtabank_rub %}
                                             <div class="card-ps">
                                                 <div class="card-content-ps">
                                                     <img src="{% static 'personalaccount/assets/images/logo-ps/pochta.png' %}"
@@ -212,10 +237,12 @@
                                                 </div>
                                                 <div class="card-content-ps-a-list">
                                                     <div class="card-content-ps-a">
-                                                        <span id="pochta-rub-deposit">RUB</span>
+                                                        <span id="pochta-rub-deposit" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="Резерв {{ list_reserve_ps.pochtabank_rub }} USD">RUB</span>
                                                     </div>
                                                 </div>
                                             </div>
+                                            {% endif %}
+                                            {% if list_active_ps.rosbank_rub %}
                                             <div class="card-ps">
                                                 <div class="card-content-ps">
                                                     <img src="{% static 'personalaccount/assets/images/logo-ps/rosbank.png' %}"
@@ -223,10 +250,12 @@
                                                 </div>
                                                 <div class="card-content-ps-a-list">
                                                     <div class="card-content-ps-a">
-                                                        <span id="rosbank-rub-deposit">RUB</span>
+                                                        <span id="rosbank-rub-deposit" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="Резерв {{ list_reserve_ps.rosbank_rub }} USD">RUB</span>
                                                     </div>
                                                 </div>
                                             </div>
+                                            {% endif %}
+                                            {% if list_active_ps.rnkb_rub %}
                                             <div class="card-ps">
                                                 <div class="card-content-ps">
                                                     <img src="{% static 'personalaccount/assets/images/logo-ps/rnkb.png' %}"
@@ -234,10 +263,12 @@
                                                 </div>
                                                 <div class="card-content-ps-a-list">
                                                     <div class="card-content-ps-a">
-                                                        <span id="rnkb-rub-deposit">RUB</span>
+                                                        <span id="rnkb-rub-deposit" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="Резерв {{ list_reserve_ps.rnkb_rub }} USD">RUB</span>
                                                     </div>
                                                 </div>
                                             </div>
+                                            {% endif %}
+                                            {% if list_active_ps.mtsbank_rub %}
                                             <div class="card-ps">
                                                 <div class="card-content-ps">
                                                     <img src="{% static 'personalaccount/assets/images/logo-ps/mts.png' %}"
@@ -245,12 +276,15 @@
                                                 </div>
                                                 <div class="card-content-ps-a-list">
                                                     <div class="card-content-ps-a">
-                                                        <span id="mts-rub-deposit">RUB</span>
+                                                        <span id="mts-rub-deposit" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="Резерв {{ list_reserve_ps.mtsbank_rub }} USD">RUB</span>
                                                     </div>
                                                 </div>
                                             </div>
+                                            {% endif %}
                                         </div>
                                     </div>
+                                    {% endif %}
+                                    {% if list_active_ps.qiwi_rub or list_active_ps.qiwi_usd or list_active_ps.payeer_rub or list_active_ps.payeer_usd or list_active_ps.payeer_eur or list_active_ps.webmoney_rub or list_active_ps.webmoney_usd or list_active_ps.webmoney_eur or list_active_ps.pm_btc or list_active_ps.pm_usd or list_active_ps.pm_eur or list_active_ps.paypal_rub or list_active_ps.paypal_usd or list_active_ps.paypal_eur or list_active_ps.skrill_eur or list_active_ps.skrill_usd or list_active_ps.umoney_rub %}
                                     <div class="list-card">
                                         <div id="name-ps-2" class="name-ps">
                                             <span>Электронные кошельки</span>
@@ -258,102 +292,211 @@
                                                  alt="arrow">
                                         </div>
                                         <div id="card-ps-list-2" class="card-ps-list">
+                                            {% if list_active_ps.qiwi_rub or list_active_ps.qiwi_usd %}
                                             <div class="card-ps">
                                                 <div class="card-content-ps">
                                                     <img src="{% static 'personalaccount/assets/images/logo-ps/qiwi.png' %}"
                                                          alt="qiwi">
                                                 </div>
                                                 <div class="card-content-ps-a-list">
+                                                    {% if list_active_ps.qiwi_rub %}
                                                     <div class="card-content-ps-a twobtn">
-                                                        <span id="qiwi-rub-deposit">RUB</span>
+                                                        <span id="qiwi-rub-deposit" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="Резерв {{ list_reserve_ps.qiwi_rub }} USD">RUB</span>
                                                     </div>
+                                                    {% else %}
+                                                    <div class="card-content-ps-a twobtn no-active">
+                                                        <span data-toggle="tooltip" data-placement="top" title="Неактивно">RUB</span>
+                                                    </div>
+                                                    {% endif %}
+                                                    {% if list_active_ps.qiwi_usd %}
                                                     <div class="card-content-ps-a twobtn">
-                                                        <span id="qiwi-usd-deposit">USD</span>
+                                                        <span id="qiwi-usd-deposit" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="Резерв {{ list_reserve_ps.qiwi_usd }} USD">USD</span>
                                                     </div>
+                                                    {% else %}
+                                                    <div class="card-content-ps-a twobtn no-active">
+                                                        <span data-toggle="tooltip" data-placement="top" title="Неактивно">USD</span>
+                                                    </div>
+                                                    {% endif %}
                                                 </div>
                                             </div>
+                                            {% endif %}
+                                            {% if list_active_ps.payeer_rub or list_active_ps.payeer_usd or list_active_ps.payeer_eur  %}
                                             <div class="card-ps">
                                                 <div class="card-content-ps">
                                                     <img src="{% static 'personalaccount/assets/images/logo-ps/payeer.png' %}"
                                                          alt="payeer">
                                                 </div>
                                                 <div class="card-content-ps-a-list">
+                                                    {% if list_active_ps.payeer_rub %}
                                                     <div class="card-content-ps-a trybtn">
-                                                        <span id="payeer-rub-deposit">RUB</span>
+                                                        <span id="payeer-rub-deposit" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="Резерв {{ list_reserve_ps.payeer_rub }} USD">RUB</span>
                                                     </div>
+                                                    {% else %}
+                                                    <div class="card-content-ps-a trybtn no-active">
+                                                        <span data-toggle="tooltip" data-placement="top" title="Неактивно">RUB</span>
+                                                    </div>
+                                                    {% endif %}
+                                                    {% if list_active_ps.payeer_eur %}
                                                     <div class="card-content-ps-a trybtn">
-                                                        <span id="payeer-eur-deposit">EUR</span>
+                                                        <span id="payeer-eur-deposit" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="Резерв {{ list_reserve_ps.payeer_eur }} USD">EUR</span>
                                                     </div>
+                                                    {% else %}
+                                                    <div class="card-content-ps-a trybtn no-active">
+                                                        <span data-toggle="tooltip" data-placement="top" title="Неактивно">EUR</span>
+                                                    </div>
+                                                    {% endif %}
+                                                    {% if list_active_ps.payeer_usd %}
                                                     <div class="card-content-ps-a trybtn">
-                                                        <span id="payeer-usd-deposit">USD</span>
+                                                        <span id="payeer-usd-deposit" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="Резерв {{ list_reserve_ps.payeer_usd }} USD">USD</span>
                                                     </div>
+                                                    {% else %}
+                                                    <div class="card-content-ps-a trybtn no-active">
+                                                        <span data-toggle="tooltip" data-placement="top" title="Неактивно">USD</span>
+                                                    </div>
+                                                    {% endif %}
                                                 </div>
                                             </div>
+                                            {% endif %}
+                                            {% if list_active_ps.webmoney_rub or list_active_ps.webmoney_usd or list_active_ps.webmoney_eur %}
                                             <div class="card-ps">
                                                 <div class="card-content-ps">
                                                     <img src="{% static 'personalaccount/assets/images/logo-ps/wm.png' %}"
                                                          alt="wm">
                                                 </div>
                                                 <div class="card-content-ps-a-list">
+                                                    {% if list_active_ps.webmoney_rub %}
                                                     <div class="card-content-ps-a trybtn">
-                                                        <span id="wm-rub-deposit">RUB</span>
+                                                        <span id="wm-rub-deposit" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="Резерв {{ list_reserve_ps.webmoney_rub }} USD">RUB</span>
                                                     </div>
+                                                    {% else %}
+                                                    <div class="card-content-ps-a trybtn no-active">
+                                                        <span data-toggle="tooltip" data-placement="top" title="Неактивно">RUB</span>
+                                                    </div>
+                                                    {% endif %}
+                                                    {% if list_active_ps.webmoney_eur %}
                                                     <div class="card-content-ps-a trybtn">
-                                                        <span id="wm-eur-deposit">EUR</span>
+                                                        <span id="wm-eur-deposit" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="Резерв {{ list_reserve_ps.webmoney_eur }} USD">EUR</span>
                                                     </div>
+                                                    {% else %}
+                                                    <div class="card-content-ps-a trybtn no-active">
+                                                        <span data-toggle="tooltip" data-placement="top" title="Неактивно">EUR</span>
+                                                    </div>
+                                                    {% endif %}
+                                                    {% if list_active_ps.webmoney_usd %}
                                                     <div class="card-content-ps-a trybtn">
-                                                        <span id="wm-usd-deposit">USD</span>
+                                                        <span id="wm-usd-deposit" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="Резерв {{ list_reserve_ps.webmoney_usd }} USD">USD</span>
                                                     </div>
+                                                    {% else %}
+                                                    <div class="card-content-ps-a trybtn no-active">
+                                                        <span data-toggle="tooltip" data-placement="top" title="Неактивно">USD</span>
+                                                    </div>
+                                                    {% endif %}
                                                 </div>
                                             </div>
+                                            {% endif %}
+                                            {% if list_active_ps.pm_btc or list_active_ps.pm_usd or list_active_ps.pm_eur %}
                                             <div class="card-ps">
                                                 <div class="card-content-ps">
                                                     <img src="{% static 'personalaccount/assets/images/logo-ps/pm.png' %}"
                                                          alt="pm">
                                                 </div>
                                                 <div class="card-content-ps-a-list">
+                                                    {% if list_active_ps.pm_btc %}
                                                     <div class="card-content-ps-a trybtn">
-                                                        <span id="pm-btc-deposit">BTC</span>
+                                                        <span id="pm-btc-deposit" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="Резерв {{ list_reserve_ps.pm_btc }} USD">BTC</span>
                                                     </div>
+                                                    {% else %}
+                                                    <div class="card-content-ps-a trybtn no-active">
+                                                        <span data-toggle="tooltip" data-placement="top" title="Неактивно">BTC</span>
+                                                    </div>
+                                                    {% endif %}
+                                                    {% if list_active_ps.pm_eur %}
                                                     <div class="card-content-ps-a trybtn">
-                                                        <span id="pm-eur-deposit">EUR</span>
+                                                        <span id="pm-eur-deposit" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="Резерв {{ list_reserve_ps.pm_eur }} USD">EUR</span>
                                                     </div>
+                                                    {% else %}
+                                                    <div class="card-content-ps-a trybtn no-active">
+                                                        <span data-toggle="tooltip" data-placement="top" title="Неактивно">EUR</span>
+                                                    </div>
+                                                    {% endif %}
+                                                    {% if list_active_ps.pm_usd %}
                                                     <div class="card-content-ps-a trybtn">
-                                                        <span id="pm-usd-deposit">USD</span>
+                                                        <span id="pm-usd-deposit" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="Резерв {{ list_reserve_ps.pm_usd }} USD">USD</span>
                                                     </div>
+                                                    {% else %}
+                                                    <div class="card-content-ps-a trybtn no-active">
+                                                        <span data-toggle="tooltip" data-placement="top" title="Неактивно">USD</span>
+                                                    </div>
+                                                    {% endif %}
                                                 </div>
                                             </div>
+                                            {% endif %}
+                                            {% if list_active_ps.paypal_rub or list_active_ps.paypal_usd or list_active_ps.paypal_eur %}
                                             <div class="card-ps">
                                                 <div class="card-content-ps">
                                                     <img src="{% static 'personalaccount/assets/images/logo-ps/paypal.png' %}"
                                                          alt="paypal">
                                                 </div>
                                                 <div class="card-content-ps-a-list">
+                                                    {% if list_active_ps.paypal_rub %}
                                                     <div class="card-content-ps-a trybtn">
-                                                        <span id="paypal-rub-deposit">RUB</span>
+                                                        <span id="paypal-rub-deposit" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="Резерв {{ list_reserve_ps.paypal_rub }} USD">RUB</span>
                                                     </div>
+                                                    {% else %}
+                                                    <div class="card-content-ps-a trybtn no-active">
+                                                        <span data-toggle="tooltip" data-placement="top" title="Неактивно">RUB</span>
+                                                    </div>
+                                                    {% endif %}
+                                                    {% if list_active_ps.paypal_eur %}
                                                     <div class="card-content-ps-a trybtn">
-                                                        <span id="paypal-eur-deposit">EUR</span>
+                                                        <span id="paypal-eur-deposit" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="Резерв {{ list_reserve_ps.paypal_eur }} USD">EUR</span>
                                                     </div>
+                                                    {% else %}
+                                                    <div class="card-content-ps-a trybtn no-active">
+                                                        <span data-toggle="tooltip" data-placement="top" title="Неактивно">EUR</span>
+                                                    </div>
+                                                    {% endif %}
+                                                    {% if list_active_ps.paypal_usd %}
                                                     <div class="card-content-ps-a trybtn">
-                                                        <span id="paypal-usd-deposit">USD</span>
+                                                        <span id="paypal-usd-deposit" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="Резерв {{ list_reserve_ps.paypal_usd }} USD">USD</span>
                                                     </div>
+                                                    {% else %}
+                                                    <div class="card-content-ps-a trybtn no-active">
+                                                        <span data-toggle="tooltip" data-placement="top" title="Неактивно">USD</span>
+                                                    </div>
+                                                    {% endif %}
                                                 </div>
                                             </div>
+                                            {% endif %}
+                                            {% if list_active_ps.skrill_eur or list_active_ps.skrill_usd %}
                                             <div class="card-ps">
                                                 <div class="card-content-ps">
                                                     <img src="{% static 'personalaccount/assets/images/logo-ps/skrill.png' %}"
                                                          alt="skrill">
                                                 </div>
                                                 <div class="card-content-ps-a-list">
+                                                    {% if list_active_ps.skrill_eur %}
                                                     <div class="card-content-ps-a twobtn">
-                                                        <span id="skrill-eur-deposit">EUR</span>
+                                                        <span id="skrill-eur-deposit" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="Резерв {{ list_reserve_ps.skrill_eur }} USD">EUR</span>
                                                     </div>
+                                                    {% else %}
+                                                    <div class="card-content-ps-a twobtn no-active">
+                                                        <span data-toggle="tooltip" data-placement="top" title="Неактивно">EUR</span>
+                                                    </div>
+                                                    {% endif %}
+                                                    {% if list_active_ps.skrill_usd %}
                                                     <div class="card-content-ps-a twobtn">
-                                                        <span id="skrill-usd-deposit">USD</span>
+                                                        <span id="skrill-usd-deposit" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="Резерв {{ list_reserve_ps.skrill_usd }} USD">USD</span>
                                                     </div>
+                                                    {% else %}
+                                                    <div class="card-content-ps-a twobtn no-active">
+                                                        <span data-toggle="tooltip" data-placement="top" title="Неактивно">USD</span>
+                                                    </div>
+                                                    {% endif %}
                                                 </div>
                                             </div>
+                                            {% endif %}
+                                            {% if list_active_ps.umoney_rub %}
                                             <div class="card-ps">
                                                 <div class="card-content-ps">
                                                     <img src="{% static 'personalaccount/assets/images/logo-ps/umani.png' %}"
@@ -361,12 +504,15 @@
                                                 </div>
                                                 <div class="card-content-ps-a-list">
                                                     <div class="card-content-ps-a">
-                                                        <span id="umoney-rub-deposit">RUB</span>
+                                                        <span id="umoney-rub-deposit" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="Резерв {{ list_reserve_ps.umoney_rub }} USD">RUB</span>
                                                     </div>
                                                 </div>
                                             </div>
+                                            {% endif %}
                                         </div>
                                     </div>
+                                    {% endif %}
+                                    {% if list_active_ps.btc or list_active_ps.ltc or list_active_ps.xmr or list_active_ps.etc or list_active_ps.dash or list_active_ps.xrp or list_active_ps.bch or list_active_ps.etc %}
                                     <div class="list-card">
                                         <div id="name-ps-3" class="name-ps">
                                             <span>Криптовалюты</span>
@@ -374,6 +520,7 @@
                                                  alt="arrow">
                                         </div>
                                         <div id="card-ps-list-3" class="card-ps-list">
+                                            {% if list_active_ps.btc %}
                                             <div class="card-ps">
                                                 <div class="card-content-ps">
                                                     <img src="{% static 'personalaccount/assets/images/logo-ps/btc.png' %}"
@@ -381,10 +528,12 @@
                                                 </div>
                                                 <div class="card-content-ps-a-list">
                                                     <div class="card-content-ps-a">
-                                                        <span id="btc-deposit">BTC</span>
+                                                        <span id="btc-deposit" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="Резерв {{ list_reserve_ps.btc }} USD">BTC</span>
                                                     </div>
                                                 </div>
                                             </div>
+                                            {% endif %}
+                                            {% if list_active_ps.ltc %}
                                             <div class="card-ps">
                                                 <div class="card-content-ps">
                                                     <img src="{% static 'personalaccount/assets/images/logo-ps/ltc.png' %}"
@@ -392,10 +541,12 @@
                                                 </div>
                                                 <div class="card-content-ps-a-list">
                                                     <div class="card-content-ps-a">
-                                                        <span id="ltc-deposit">LTC</span>
+                                                        <span id="ltc-deposit" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="Резерв {{ list_reserve_ps.ltc }} USD">LTC</span>
                                                     </div>
                                                 </div>
                                             </div>
+                                            {% endif %}
+                                            {% if list_active_ps.xmr %}
                                             <div class="card-ps">
                                                 <div class="card-content-ps">
                                                     <img src="{% static 'personalaccount/assets/images/logo-ps/xmr.png' %}"
@@ -403,10 +554,12 @@
                                                 </div>
                                                 <div class="card-content-ps-a-list">
                                                     <div class="card-content-ps-a">
-                                                        <span id="xmr-deposit">XMR</span>
+                                                        <span id="xmr-deposit" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="Резерв {{ list_reserve_ps.xmr }} USD">XMR</span>
                                                     </div>
                                                 </div>
                                             </div>
+                                            {% endif %}
+                                            {% if list_active_ps.etc %}
                                             <div class="card-ps">
                                                 <div class="card-content-ps">
                                                     <img src="{% static 'personalaccount/assets/images/logo-ps/etc.png' %}"
@@ -414,10 +567,12 @@
                                                 </div>
                                                 <div class="card-content-ps-a-list">
                                                     <div class="card-content-ps-a">
-                                                        <span id="etc-deposit">ETC</span>
+                                                        <span id="etc-deposit" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="Резерв {{ list_reserve_ps.etc }} USD">ETC</span>
                                                     </div>
                                                 </div>
                                             </div>
+                                            {% endif %}
+                                            {% if list_active_ps.dash %}
                                             <div class="card-ps">
                                                 <div class="card-content-ps">
                                                     <img src="{% static 'personalaccount/assets/images/logo-ps/dash.png' %}"
@@ -425,10 +580,12 @@
                                                 </div>
                                                 <div class="card-content-ps-a-list">
                                                     <div class="card-content-ps-a">
-                                                        <span id="dash-deposit">DASH</span>
+                                                        <span id="dash-deposit" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="Резерв {{ list_reserve_ps.dash }} USD">DASH</span>
                                                     </div>
                                                 </div>
                                             </div>
+                                            {% endif %}
+                                            {% if list_active_ps.xrp %}
                                             <div class="card-ps">
                                                 <div class="card-content-ps">
                                                     <img src="{% static 'personalaccount/assets/images/logo-ps/xrp.png' %}"
@@ -436,10 +593,12 @@
                                                 </div>
                                                 <div class="card-content-ps-a-list">
                                                     <div class="card-content-ps-a">
-                                                        <span id="xrp-deposit">XRP</span>
+                                                        <span id="xrp-deposit" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="Резерв {{ list_reserve_ps.xrp }} USD">XRP</span>
                                                     </div>
                                                 </div>
                                             </div>
+                                            {% endif %}
+                                            {% if list_active_ps.bch %}
                                             <div class="card-ps">
                                                 <div class="card-content-ps">
                                                     <img src="{% static 'personalaccount/assets/images/logo-ps/bch.png' %}"
@@ -447,10 +606,12 @@
                                                 </div>
                                                 <div class="card-content-ps-a-list">
                                                     <div class="card-content-ps-a">
-                                                        <span id="bch-deposit">BCH</span>
+                                                        <span id="bch-deposit" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="Резерв {{ list_reserve_ps.bch }} USD">BCH</span>
                                                     </div>
                                                 </div>
                                             </div>
+                                            {% endif %}
+                                            {% if list_active_ps.eth %}
                                             <div class="card-ps">
                                                 <div class="card-content-ps">
                                                     <img src="{% static 'personalaccount/assets/images/logo-ps/eth.png' %}"
@@ -458,12 +619,14 @@
                                                 </div>
                                                 <div class="card-content-ps-a-list">
                                                     <div class="card-content-ps-a">
-                                                        <span id="eth-deposit">ETH</span>
+                                                        <span id="eth-deposit" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="Резерв {{ list_reserve_ps.eth }} USD">ETH</span>
                                                     </div>
                                                 </div>
                                             </div>
+                                            {% endif %}
                                         </div>
                                     </div>
+                                    {% endif %}
                                 </div>
                             </div>
                         </div>
@@ -480,7 +643,7 @@
                                         <input id="requisites-ps-input" type="text" class="form-control" placeholder="Введите свои реквизиты для получения средств"
                                                aria-label="Имя получателя" aria-describedby="basic-addon2">
                                         <div class="input-group-append">
-                                            <span class="input-group-text" id="requisites-ps-name">СБЕРБАНК</span>
+                                            <span class="input-group-text" id="requisites-ps-name">-</span>
                                         </div>
                                     </div>
                                 </div>
@@ -497,13 +660,14 @@
                                             <div class="card-title">
                                                 <h5 class="mb-3 text-left">Сумма вывода</h5>
                                             </div>
-                                            <div class="input-group mb-3">
-                                                <input id="input-change" type="number" class="form-control" placeholder="Введите сумму"
-                                                       aria-label="Имя получателя">
+                                            <div class="input-group">
+                                                <input id="input-change" class="form-control input-mask text-left" placeholder="Введите сумму"
+                                                       aria-label="Имя получателя" data-inputmask="'alias': 'numeric', 'groupSeparator': ',', 'digits': 2, 'digitsOptional': false, 'placeholder': '0'">
                                                 <div class="input-group-append">
                                                     <span class="input-group-text">USD</span>
                                                 </div>
                                             </div>
+                                            <span id="span-range-usd" class="text-muted font-size-12"></span>
                                         </div>
                                         <div class="card-2step">
                                             <div class="card-title">

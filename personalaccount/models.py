@@ -80,6 +80,7 @@ class Transfer(models.Model):
         verbose_name = 'Внутренний перевод'
         verbose_name_plural = 'Внутренний перевод'
 
+
 class StaticDailyProfit(models.Model):
     dailyprofit_user = models.CharField('Пользователь', max_length=50)
     dailyprofit_value = models.DecimalField('Значение', max_digits=10, decimal_places=2)
@@ -91,3 +92,20 @@ class StaticDailyProfit(models.Model):
     class Meta:
         verbose_name = 'Статистику прибыли'
         verbose_name_plural = 'Статистика прибыли'
+
+
+class News(models.Model):
+    news_date_joined = models.DateTimeField('Дата публикации', default=timezone.now)
+    news_is_publish = models.BooleanField('Опубликовано', default=False)
+    news_header = models.CharField('Заголовок', max_length=50)
+    news_content = models.TextField('Контент', max_length=800)
+    news_img = models.ImageField('Изображение', upload_to='news/')
+    news_instagram = models.URLField('Пост в инстаграме', default='https://www.instagram.com/')
+    news_telegram = models.URLField('Пост в инстаграме', default='https://www.telegram.org/')
+
+    def __str__(self):
+        return self.news_header
+
+    class Meta:
+        verbose_name = 'Новость'
+        verbose_name_plural = 'Новости'

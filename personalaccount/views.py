@@ -1,18 +1,21 @@
 import random
 
+from django.core.cache import cache
 from django.core.files.storage import FileSystemStorage
 from django.http import Http404
 from django.shortcuts import render, redirect
 from django.utils import timezone
 from personalaccount.apicourse import get_rates
 from personalaccount.apicoursecrypto import get_rates_crypto
+from personalaccount.message import message_success
 from personalaccount.metodviews import depositsortchangeps, depositsortbalanceps, depositsortcritery, widthsortchangeps, \
     widthsortbalanceps, widthsortcritery, activepsuser, requestchangeon, dailyprofitcount, totalprofitstatic, \
-    requesttotal, walrequestchangeon
-from personalaccount.models import Transaction, RequestChange, CurrencyCBRF, StaticDailyProfit
+    requesttotal, walrequestchangeon, active_deposit_ps_global, active_width_ps_global, range_deposit_ps_global, \
+    min_and_max_sum_request, range_width_ps_global
+from personalaccount.models import Transaction, RequestChange, CurrencyCBRF, StaticDailyProfit, News
 from personalaccount.forms import RequestForm, WithdrawalForm, TransferForm, RequisitesForm, CommissionForm, \
-    ActivePSForm, ReservChangeForm, ProfileForm
-from users.models import CustomUserId, CustomUser
+    ActivePSForm, ReservChangeForm, ProfileForm, RangeDepositForm, RangeWidthForm
+from users.models import CustomUserId, CustomUser, RangeSumDeposit, RangeSumWidth
 
 
 # РЕНДЕРИМ НУЖНЫЙ ШАБЛОН, КАБИНЕТ ПОЛЬЗОВАТЕЛЯ (ДАШБОРД)
@@ -50,6 +53,7 @@ def personalaccount(request):
                 }
                 return render(request, 'personalaccount/cabinet/setting/settingwallet_verif_level_one.html', context)
             else:
+                list_news = News.objects.filter(news_is_publish=True)
                 dash_tran = Transaction.objects.filter(transaction_user=request.user)
                 dash_cour = CurrencyCBRF.objects.all()
                 requeston = walrequestchangeon(usernamereq=request.user)
@@ -57,6 +61,7 @@ def personalaccount(request):
                     'dash_tran': dash_tran,
                     'dash_cour': dash_cour,
                     'requeston': requeston,
+                    'list_news': list_news,
                 }
                 return render(request, 'personalaccount/cabinet/dashboard/dashboardwallet.html', context)
         elif request.user.userid == CustomUserId.objects.get(pk=2):
@@ -91,6 +96,7 @@ def personalaccount(request):
                 }
                 return render(request, 'personalaccount/cabinet/setting/settingchange_verif_level_one.html', context)
             else:
+                list_news = News.objects.filter(news_is_publish=True)
                 dash_tran = Transaction.objects.filter(transaction_user=request.user)
                 dash_cour = CurrencyCBRF.objects.all()
                 activeps = activepsuser(usernameactiveps=request.user)
@@ -98,6 +104,7 @@ def personalaccount(request):
                 valuestatic = dailyprofitcount(usernamedailyprofit=request.user)
                 totalprofitstat = totalprofitstatic(usernametotalstatic=request.user)
                 requesttot = requesttotal(usernamerequesttotal=request.user)
+                status_data = True
                 datajsontable = {
                     'data': valuestatic['staticdata'],
                     'value': valuestatic['staticvalue']
@@ -110,23 +117,40 @@ def personalaccount(request):
                     'datajsontable': datajsontable,
                     'totalprofitstat': totalprofitstat,
                     'requesttot': requesttot,
+                    'status_data': status_data,
+                    'list_news': list_news,
                 }
                 return render(request, 'personalaccount/cabinet/dashboard/dashboardchange.html', context)
     else:
         return redirect('account_login')
 
 
+# data_message = None
+# message_status = False
+# if cache.get('info_message'):
+#     data_message = cache.get('info_message')
+#     message_status = True
+# context = {
+#     'data_message': data_message,
+#     'message_status': message_status,
+# }
+# cache.delete('info_message')
 # /КОШЕЛЕК/ ПОПОЛНЕНИЕ
 def depositwalletform(request):
     if request.user.is_authenticated:
         if request.user.userid == CustomUserId.objects.get(pk=1):
+            message_status = False
+            data_message = None
+            active_ps = active_deposit_ps_global()
+            range_ps = range_deposit_ps_global(list_active=active_ps['list_active_reserve_ps'], active_list_ps=active_ps['list_active_change_ps'])
             if request.method == "POST":
                 form = RequestForm(request.POST)
                 if form.is_valid():
                     # получаем номер завки
                     n = random.randint(1000000, 9999999)
                     post = form.save(commit=False)
-                    if post.request_sum > 0:
+                    range_list = min_and_max_sum_request(ps_request=post.request_sistemchange, range_ps=range_ps)
+                    if range_list['min_sum'] <= post.request_sum <= range_list['max_sum']:
                         post.request_user = request.user
                         post.request_name = str(n)
                         post.request_type = 'Заявка на пополнение'
@@ -164,10 +188,28 @@ def depositwalletform(request):
                         else:
                             return redirect('depositwallet')
                     else:
-                        return redirect('depositwallet')
-            else:
-                form = RequestForm()
-            return render(request, 'personalaccount/cabinet/deposit/depositwallet.html', {'form': form})
+                        if range_list['min_sum'] > post.request_sum < range_list['max_sum']:
+                            data_message = {
+                                'message': 'Введеная сумма меньше минимальной',
+                                'message_type': 'Error'
+                            }
+                            message_status = True
+                        elif range_list['min_sum'] < post.request_sum > range_list['max_sum']:
+                            data_message = {
+                                'message': 'Введеная сумма больше максимальной',
+                                'message_type': 'Error'
+                            }
+                            message_status = True
+            context = {
+                'form': RequestForm(),
+                'list_active_ps': range_ps['active_list_ps'],
+                'list_reserve_ps': active_ps['list_active_reserve_ps'],
+                'range_min_list': range_ps['list_range_min_reserve_ps'],
+                'range_max_list': range_ps['list_range_max_reserve_ps'],
+                'message_status': message_status,
+                'data_message': data_message,
+            }
+            return render(request, 'personalaccount/cabinet/deposit/depositwallet.html', context)
         else:
             raise Http404
     else:
@@ -178,14 +220,19 @@ def depositwalletform(request):
 def withdrawalwallet(request):
     if request.user.is_authenticated:
         if request.user.userid == CustomUserId.objects.get(pk=1):
+            message_status = False
+            data_message = None
+            userwidth = CustomUser.objects.get(username=request.user)
+            active_ps = active_width_ps_global()
+            range_ps = range_width_ps_global(list_active=active_ps['list_active_reserve_ps'], active_list_ps=active_ps['list_active_change_ps'], balance=userwidth.balance)
             if request.method == "POST":
                 form = WithdrawalForm(request.POST)
                 if form.is_valid():
                     # получаем номер завки
                     n = random.randint(1000000, 9999999)
                     post = form.save(commit=False)
-                    userwidth = CustomUser.objects.get(username=request.user)
-                    if userwidth.balance > post.request_sum > 0:
+                    range_list = min_and_max_sum_request(ps_request=post.request_sistemchange, range_ps=range_ps)
+                    if range_list['min_sum'] <= post.request_sum <= range_list['max_sum']:
                         post.request_user = request.user
                         post.request_name = str(n)
                         post.request_type = 'Заявка на вывод'
@@ -230,10 +277,28 @@ def withdrawalwallet(request):
                         else:
                             return redirect('withdrawalwallet')
                     else:
-                        return redirect('withdrawalwallet')
-            else:
-                form = WithdrawalForm()
-            return render(request, 'personalaccount/cabinet/withdrawal/withdrawalwallet.html', {'form': form})
+                        if range_list['min_sum'] > post.request_sum < range_list['max_sum']:
+                            data_message = {
+                                'message': 'Введеная сумма меньше минимальной',
+                                'message_type': 'Error'
+                            }
+                            message_status = True
+                        elif range_list['min_sum'] < post.request_sum > range_list['max_sum']:
+                            data_message = {
+                                'message': 'Введеная сумма больше максимальной',
+                                'message_type': 'Error'
+                            }
+                            message_status = True
+            context = {
+                'form': WithdrawalForm(),
+                'list_active_ps': range_ps['active_list_ps'],
+                'list_reserve_ps': active_ps['list_active_reserve_ps'],
+                'range_min_list': range_ps['list_range_min_reserve_ps'],
+                'range_max_list': range_ps['list_range_max_reserve_ps'],
+                'message_status': message_status,
+                'data_message': data_message,
+            }
+            return render(request, 'personalaccount/cabinet/withdrawal/withdrawalwallet.html', context)
         else:
             raise Http404
     else:
@@ -301,10 +366,8 @@ def requsetwallet(request):
             for i in base_reque:
                 if i.request_type == 'Заявка на пополнение' and i.request_status != 'Выполнена':
                     status_reque_in = True
-                    break
                 if i.request_type == 'Заявка на вывод' and i.request_status != 'Выполнена':
                     status_reque_out = True
-                    break
             context = {
                 'status_reque_in': status_reque_in,
                 'status_reque_out': status_reque_out,
@@ -349,7 +412,17 @@ def transactionwallet(request):
 def profilewallet(request):
     if request.user.is_authenticated:
         if request.user.userid == CustomUserId.objects.get(pk=1):
-            return render(request, 'personalaccount/cabinet/profile/profilewallet.html')
+            data_message = None
+            message_status = False
+            if cache.get('info_message'):
+                data_message = cache.get('info_message')
+                message_status = True
+            context = {
+                'data_message': data_message,
+                'message_status': message_status,
+            }
+            cache.delete('info_message')
+            return render(request, 'personalaccount/cabinet/profile/profilewallet.html', context)
         else:
             raise Http404
     else:
@@ -382,6 +455,7 @@ def settingwallet(request):
                         if 'avatar-clear-cust' in request.POST:
                             post.avatar.delete()
                         post.save()
+                        message_success()
                         return redirect('profilewallet')
                     else:
                         data_error = True
@@ -647,88 +721,7 @@ def activechangestps(request):
             if request.method == "POST":
                 form = ActivePSForm(request.POST, instance=rekvis)
                 if form.is_valid():
-                    forme = form.save(commit=False)
-                    rekvis.active_in_sberbank_rub = forme.active_in_sberbank_rub
-                    rekvis.active_in_psb_rub = forme.active_in_psb_rub
-                    rekvis.active_in_tinkoff_rub = forme.active_in_tinkoff_rub
-                    rekvis.active_in_gazprombank_rub = forme.active_in_gazprombank_rub
-                    rekvis.active_in_alfabank_rub = forme.active_in_alfabank_rub
-                    rekvis.active_in_russtandart_rub = forme.active_in_russtandart_rub
-                    rekvis.active_in_vtb_rub = forme.active_in_vtb_rub
-                    rekvis.active_in_rosselhoz_rub = forme.active_in_rosselhoz_rub
-                    rekvis.active_in_raifaizen_rub = forme.active_in_raifaizen_rub
-                    rekvis.active_in_roketbank_rub = forme.active_in_roketbank_rub
-                    rekvis.active_in_otkritie_rub = forme.active_in_otkritie_rub
-                    rekvis.active_in_pochtabank_rub = forme.active_in_pochtabank_rub
-                    rekvis.active_in_rnkb_rub = forme.active_in_rnkb_rub
-                    rekvis.active_in_rosbank_rub = forme.active_in_rosbank_rub
-                    rekvis.active_in_mtsbank_rub = forme.active_in_mtsbank_rub
-                    rekvis.active_in_qiwi_rub = forme.active_in_qiwi_rub
-                    rekvis.active_in_qiwi_usd = forme.active_in_qiwi_usd
-                    rekvis.active_in_payeer_rub = forme.active_in_payeer_rub
-                    rekvis.active_in_payeer_usd = forme.active_in_payeer_usd
-                    rekvis.active_in_payeer_eur = forme.active_in_payeer_eur
-                    rekvis.active_in_webmoney_rub = forme.active_in_webmoney_rub
-                    rekvis.active_in_webmoney_usd = forme.active_in_webmoney_usd
-                    rekvis.active_in_webmoney_eur = forme.active_in_webmoney_eur
-                    rekvis.active_in_pm_btc = forme.active_in_pm_btc
-                    rekvis.active_in_pm_usd = forme.active_in_pm_usd
-                    rekvis.active_in_pm_eur = forme.active_in_pm_eur
-                    rekvis.active_in_skrill_eur = forme.active_in_skrill_eur
-                    rekvis.active_in_skrill_usd = forme.active_in_skrill_usd
-                    rekvis.active_in_paypal_rub = forme.active_in_paypal_rub
-                    rekvis.active_in_paypal_usd = forme.active_in_paypal_usd
-                    rekvis.active_in_paypal_eur = forme.active_in_paypal_eur
-                    rekvis.active_in_umoney_rub = forme.active_in_umoney_rub
-                    rekvis.active_in_btc = forme.active_in_btc
-                    rekvis.active_in_xrp = forme.active_in_xrp
-                    rekvis.active_in_ltc = forme.active_in_ltc
-                    rekvis.active_in_bch = forme.active_in_bch
-                    rekvis.active_in_xmr = forme.active_in_xmr
-                    rekvis.active_in_eth = forme.active_in_eth
-                    rekvis.active_in_etc = forme.active_in_etc
-                    rekvis.active_in_dash = forme.active_in_dash
-                    rekvis.active_out_sberbank_rub = forme.active_out_sberbank_rub
-                    rekvis.active_out_psb_rub = forme.active_out_psb_rub
-                    rekvis.active_out_tinkoff_rub = forme.active_out_tinkoff_rub
-                    rekvis.active_out_gazprombank_rub = forme.active_out_gazprombank_rub
-                    rekvis.active_out_alfabank_rub = forme.active_out_alfabank_rub
-                    rekvis.active_out_russtandart_rub = forme.active_out_russtandart_rub
-                    rekvis.active_out_vtb_rub = forme.active_out_vtb_rub
-                    rekvis.active_out_rosselhoz_rub = forme.active_out_rosselhoz_rub
-                    rekvis.active_out_raifaizen_rub = forme.active_out_raifaizen_rub
-                    rekvis.active_out_roketbank_rub = forme.active_out_roketbank_rub
-                    rekvis.active_out_otkritie_rub = forme.active_out_otkritie_rub
-                    rekvis.active_out_pochtabank_rub = forme.active_out_pochtabank_rub
-                    rekvis.active_out_rnkb_rub = forme.active_out_rnkb_rub
-                    rekvis.active_out_rosbank_rub = forme.active_out_rosbank_rub
-                    rekvis.active_out_mtsbank_rub = forme.active_out_mtsbank_rub
-                    rekvis.active_out_qiwi_rub = forme.active_out_qiwi_rub
-                    rekvis.active_out_qiwi_usd = forme.active_out_qiwi_usd
-                    rekvis.active_out_payeer_rub = forme.active_out_payeer_rub
-                    rekvis.active_out_payeer_usd = forme.active_out_payeer_usd
-                    rekvis.active_out_payeer_eur = forme.active_out_payeer_eur
-                    rekvis.active_out_webmoney_rub = forme.active_out_webmoney_rub
-                    rekvis.active_out_webmoney_usd = forme.active_out_webmoney_usd
-                    rekvis.active_out_webmoney_eur = forme.active_out_webmoney_eur
-                    rekvis.active_out_pm_btc = forme.active_out_pm_btc
-                    rekvis.active_out_pm_usd = forme.active_out_pm_usd
-                    rekvis.active_out_pm_eur = forme.active_out_pm_eur
-                    rekvis.active_out_skrill_eur = forme.active_out_skrill_eur
-                    rekvis.active_out_skrill_usd = forme.active_out_skrill_usd
-                    rekvis.active_out_paypal_rub = forme.active_out_paypal_rub
-                    rekvis.active_out_paypal_usd = forme.active_out_paypal_usd
-                    rekvis.active_out_paypal_eur = forme.active_out_paypal_eur
-                    rekvis.active_out_umoney_rub = forme.active_out_umoney_rub
-                    rekvis.active_out_btc = forme.active_out_btc
-                    rekvis.active_out_xrp = forme.active_out_xrp
-                    rekvis.active_out_ltc = forme.active_out_ltc
-                    rekvis.active_out_bch = forme.active_out_bch
-                    rekvis.active_out_xmr = forme.active_out_xmr
-                    rekvis.active_out_eth = forme.active_out_eth
-                    rekvis.active_out_etc = forme.active_out_etc
-                    rekvis.active_out_dash = forme.active_out_dash
-                    rekvis.save()
+                    form.save()
                     return redirect('activechange')
             return render(request, 'personalaccount/cabinet/active/activechangestps.html', context)
         else:
@@ -787,7 +780,17 @@ def rekvisitchangeupdate(request):
 def profilechange(request):
     if request.user.is_authenticated:
         if request.user.userid == CustomUserId.objects.get(pk=2):
-            return render(request, 'personalaccount/cabinet/profile/profilechange.html')
+            data_message = None
+            message_status = False
+            if cache.get('info_message'):
+                data_message = cache.get('info_message')
+                message_status = True
+            context = {
+                'data_message': data_message,
+                'message_status': message_status,
+            }
+            cache.delete('info_message')
+            return render(request, 'personalaccount/cabinet/profile/profilechange.html', context)
         else:
             raise Http404
     else:
@@ -820,6 +823,7 @@ def settingchange(request):
                         if 'avatar-clear-cust' in request.POST:
                             post.avatar.delete()
                         post.save()
+                        message_success()
                         return redirect('profilechange')
                     else:
                         data_error = True
@@ -828,6 +832,100 @@ def settingchange(request):
                 'data_error': data_error,
             }
             return render(request, 'personalaccount/cabinet/setting/settingchange.html', context)
+        else:
+            raise Http404
+    else:
+        return redirect('account_login')
+
+# /ОБМЕННИК/ ЛИМИТЫ ДЛЯ ЗАЯВОК НА ПОПОЛНЕНИЕ
+def rangechangedeposit(request):
+    if request.user.is_authenticated:
+        if request.user.userid == CustomUserId.objects.get(pk=2):
+            if RangeSumDeposit.objects.filter(deposit_range_username=request.user).exists():
+                range_list = RangeSumDeposit.objects.get(deposit_range_username=request.user)
+                return render(request, 'personalaccount/cabinet/range/rangechangedeposit.html', {'range_list': range_list})
+            else:
+                return redirect('rangechangedepositedit')
+        else:
+            raise Http404
+    else:
+        return redirect('account_login')
+
+
+# /ОБМЕННИК/ ЛИМИТЫ ДЛЯ ЗАЯВОК НА ВЫВОД
+def rangechangewidth(request):
+    if request.user.is_authenticated:
+        if request.user.userid == CustomUserId.objects.get(pk=2):
+            if RangeSumWidth.objects.filter(width_range_username=request.user).exists():
+                range_list = RangeSumWidth.objects.get(width_range_username=request.user)
+                return render(request, 'personalaccount/cabinet/range/rangechangewidth.html', {'range_list': range_list})
+            else:
+                return redirect('rangechangewidthedit')
+        else:
+            raise Http404
+    else:
+        return redirect('account_login')
+
+# /ОБМЕННИК/ ИЗМЕНЕНИЕ ЛИМИТОВ НА ПОПОЛНЕНИЕ
+def rangechangedepositedit(request):
+    if request.user.is_authenticated:
+        if request.user.userid == CustomUserId.objects.get(pk=2):
+            if RangeSumDeposit.objects.filter(deposit_range_username=request.user).exists():
+                range_list = RangeSumDeposit.objects.get(deposit_range_username=request.user)
+                if request.method == "POST":
+                    form = RangeDepositForm(request.POST, instance=range_list)
+                    if form.is_valid():
+                        post = form.save(commit=False)
+                        post.deposit_range_username = request.user
+                        post.save()
+                        return redirect('rangechangedeposit')
+                else:
+                    form = RangeDepositForm(instance=range_list)
+                    return render(request, 'personalaccount/cabinet/range/editrangechangedeposit.html', {'form': form})
+            else:
+                if request.method == "POST":
+                    form = RangeDepositForm(request.POST)
+                    if form.is_valid():
+                        post = form.save(commit=False)
+                        post.deposit_range_username = request.user
+                        post.save()
+                        return redirect('rangechangedeposit')
+                else:
+                    form = RangeDepositForm()
+                    return render(request, 'personalaccount/cabinet/range/editrangechangedeposit.html', {'form': form})
+        else:
+            raise Http404
+    else:
+        return redirect('account_login')
+
+
+# /ОБМЕННИК/ ИЗМЕНЕНИЕ ЛИМИТОВ НА ВЫВОД
+def rangechangewidthedit(request):
+    if request.user.is_authenticated:
+        if request.user.userid == CustomUserId.objects.get(pk=2):
+            if RangeSumWidth.objects.filter(width_range_username=request.user).exists():
+                range_list = RangeSumWidth.objects.get(width_range_username=request.user)
+                if request.method == "POST":
+                    form = RangeWidthForm(request.POST, instance=range_list)
+                    if form.is_valid():
+                        post = form.save(commit=False)
+                        post.width_range_username = request.user
+                        post.save()
+                        return redirect('rangechangewidth')
+                else:
+                    form = RangeWidthForm(instance=range_list)
+                    return render(request, 'personalaccount/cabinet/range/editrangechangewidth.html', {'form': form})
+            else:
+                if request.method == "POST":
+                    form = RangeWidthForm(request.POST)
+                    if form.is_valid():
+                        post = form.save(commit=False)
+                        post.width_range_username = request.user
+                        post.save()
+                        return redirect('rangechangewidth')
+                else:
+                    form = RangeWidthForm()
+                    return render(request, 'personalaccount/cabinet/range/editrangechangewidth.html', {'form': form})
         else:
             raise Http404
     else:
@@ -847,90 +945,7 @@ def coursechangecommission(request):
     if request.method == "POST":
         form = CommissionForm(request.POST, instance=comis)
         if form.is_valid():
-            forme = form.save(commit=False)
-            comis.comis_in_sberbank_rub = forme.comis_in_sberbank_rub
-            comis.comis_in_psb_rub = forme.comis_in_psb_rub
-            comis.comis_in_tinkoff_rub = forme.comis_in_tinkoff_rub
-            comis.comis_in_gazprombank_rub = forme.comis_in_gazprombank_rub
-            comis.comis_in_alfabank_rub = forme.comis_in_alfabank_rub
-            comis.comis_in_russtandart_rub = forme.comis_in_russtandart_rub
-            comis.comis_in_vtb_rub = forme.comis_in_vtb_rub
-            comis.comis_in_rosselhoz_rub = forme.comis_in_rosselhoz_rub
-            comis.comis_in_raifaizen_rub = forme.comis_in_raifaizen_rub
-            comis.comis_in_roketbank_rub = forme.comis_in_roketbank_rub
-            comis.comis_in_otkritie_rub = forme.comis_in_otkritie_rub
-            comis.comis_in_pochtabank_rub = forme.comis_in_pochtabank_rub
-            comis.comis_in_rnkb_rub = forme.comis_in_rnkb_rub
-            comis.comis_in_rosbank_rub = forme.comis_in_rosbank_rub
-            comis.comis_in_mtsbank_rub = forme.comis_in_mtsbank_rub
-            comis.comis_in_qiwi_rub = forme.comis_in_qiwi_rub
-            comis.comis_in_qiwi_usd = forme.comis_in_qiwi_usd
-            comis.comis_in_payeer_rub = forme.comis_in_payeer_rub
-            comis.comis_in_payeer_usd = forme.comis_in_payeer_usd
-            comis.comis_in_payeer_eur = forme.comis_in_payeer_eur
-            comis.comis_in_webmoney_rub = forme.comis_in_webmoney_rub
-            comis.comis_in_webmoney_usd = forme.comis_in_webmoney_usd
-            comis.comis_in_webmoney_eur = forme.comis_in_webmoney_eur
-            comis.comis_in_pm_btc = forme.comis_in_pm_btc
-            comis.comis_in_pm_usd = forme.comis_in_pm_usd
-            comis.comis_in_pm_eur = forme.comis_in_pm_eur
-            comis.comis_in_skrill_eur = forme.comis_in_skrill_eur
-            comis.comis_in_skrill_usd = forme.comis_in_skrill_usd
-            comis.comis_in_paypal_rub = forme.comis_in_paypal_rub
-            comis.comis_in_paypal_usd = forme.comis_in_paypal_usd
-            comis.comis_in_paypal_eur = forme.comis_in_paypal_eur
-            comis.comis_in_umoney_rub = forme.comis_in_umoney_rub
-            comis.comis_in_btc = forme.comis_in_btc
-            comis.comis_in_xrp = forme.comis_in_xrp
-            comis.comis_in_ltc = forme.comis_in_ltc
-            comis.comis_in_bch = forme.comis_in_bch
-            comis.comis_in_xmr = forme.comis_in_xmr
-            comis.comis_in_eth = forme.comis_in_eth
-            comis.comis_in_etc = forme.comis_in_etc
-            comis.comis_in_dash = forme.comis_in_dash
-
-            comis.comis_out_sberbank_rub = forme.comis_out_sberbank_rub
-            comis.comis_out_psb_rub = forme.comis_out_psb_rub
-            comis.comis_out_tinkoff_rub = forme.comis_out_tinkoff_rub
-            comis.comis_out_gazprombank_rub = forme.comis_out_gazprombank_rub
-            comis.comis_out_alfabank_rub = forme.comis_out_alfabank_rub
-            comis.comis_out_russtandart_rub = forme.comis_out_russtandart_rub
-            comis.comis_out_vtb_rub = forme.comis_out_vtb_rub
-            comis.comis_out_rosselhoz_rub = forme.comis_out_rosselhoz_rub
-            comis.comis_out_raifaizen_rub = forme.comis_out_raifaizen_rub
-            comis.comis_out_roketbank_rub = forme.comis_out_roketbank_rub
-            comis.comis_out_otkritie_rub = forme.comis_out_otkritie_rub
-            comis.comis_out_pochtabank_rub = forme.comis_out_pochtabank_rub
-            comis.comis_out_rnkb_rub = forme.comis_out_rnkb_rub
-            comis.comis_out_rosbank_rub = forme.comis_out_rosbank_rub
-            comis.comis_out_mtsbank_rub = forme.comis_out_mtsbank_rub
-            comis.comis_out_qiwi_rub = forme.comis_out_qiwi_rub
-            comis.comis_out_qiwi_usd = forme.comis_out_qiwi_usd
-            comis.comis_out_payeer_rub = forme.comis_out_payeer_rub
-            comis.comis_out_payeer_usd = forme.comis_out_payeer_usd
-            comis.comis_out_payeer_eur = forme.comis_out_payeer_eur
-            comis.comis_out_webmoney_rub = forme.comis_out_webmoney_rub
-            comis.comis_out_webmoney_usd = forme.comis_out_webmoney_usd
-            comis.comis_out_webmoney_eur = forme.comis_out_webmoney_eur
-            comis.comis_out_pm_btc = forme.comis_out_pm_btc
-            comis.comis_out_pm_usd = forme.comis_out_pm_usd
-            comis.comis_out_pm_eur = forme.comis_out_pm_eur
-            comis.comis_out_skrill_eur = forme.comis_out_skrill_eur
-            comis.comis_out_skrill_usd = forme.comis_out_skrill_usd
-            comis.comis_out_paypal_rub = forme.comis_out_paypal_rub
-            comis.comis_out_paypal_usd = forme.comis_out_paypal_usd
-            comis.comis_out_paypal_eur = forme.comis_out_paypal_eur
-            comis.comis_out_umoney_rub = forme.comis_out_umoney_rub
-            comis.comis_out_btc = forme.comis_out_btc
-            comis.comis_out_xrp = forme.comis_out_xrp
-            comis.comis_out_ltc = forme.comis_out_ltc
-            comis.comis_out_bch = forme.comis_out_bch
-            comis.comis_out_xmr = forme.comis_out_xmr
-            comis.comis_out_eth = forme.comis_out_eth
-            comis.comis_out_etc = forme.comis_out_etc
-            comis.comis_out_dash = forme.comis_out_dash
-
-            comis.save()
+            form.save()
             return redirect('coursechange')
     return render(request, 'personalaccount/cabinet/course/coursechangecommission.html', context)
 
