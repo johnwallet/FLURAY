@@ -4,10 +4,10 @@ from django.contrib.auth.models import PermissionsMixin
 from django.dispatch import receiver
 from django.utils import timezone
 
-from MyWallets import settings
 from .managers import CustomUserManager
 from django.db.models.signals import pre_save
 import os
+from mptt.models import MPTTModel, TreeForeignKey
 
 
 # кастомная модель юзера.
@@ -23,7 +23,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     middle_name = models.CharField('Отчество', max_length=100, blank=True)
     balance = models.DecimalField('Баланс $', default=0, max_digits=10, decimal_places=2)
     is_staff = models.BooleanField('Модератор', default=False)
-    is_active = models.BooleanField('Активный', default=True)
+    is_active = models.BooleanField('Активный', default=False)
     is_superuser = models.BooleanField('Админ', default=False)
     userid = models.ForeignKey('CustomUserId', on_delete=models.PROTECT, default=1, verbose_name='Роль')
     is_active_change = models.BooleanField('Статус активности обработчика', default=False)
@@ -320,7 +320,6 @@ def delete_old_file(sender, instance, **kwargs):
 
     file = instance.avatar
     if old_file and not old_file == file:
-        print(os.path.isfile(old_file.path))
         if os.path.isfile(old_file.path):
             os.remove(old_file.path)
 
@@ -526,3 +525,73 @@ class RangeSumWidth(models.Model):
     class Meta:
         verbose_name = 'Диапазон для вывода'
         verbose_name_plural = 'Диапазон для вывода'
+
+
+# === КЛЮЧИ ПОДТВЕРЖДЕНИЯ ПОЧТЫ ===
+class Confirm_Email_Key(models.Model):
+    confirm_username = models.CharField('Пользователь', max_length=150)
+    confirm_key = models.CharField('Ключ', max_length=150)
+    confirm_date = models.DateTimeField('Дата', default=timezone.now)
+
+    def __str__(self):
+        return self.confirm_username
+
+    class Meta:
+        verbose_name = 'Ключ'
+        verbose_name_plural = 'Ключи'
+
+
+class Line_Program(MPTTModel):
+    line_user = models.ForeignKey('CustomUser', on_delete=models.CASCADE, verbose_name='Пользователь', db_index=True)
+    line_ref_code = models.CharField('Реферальный код', max_length=50, default=0)
+    line_ref_fio = models.CharField('ФИО', max_length=50, default='-')
+    line_ref_date = models.DateTimeField('Дата регистрации', max_length=50, default=timezone.now)
+    line_ref_link = models.URLField('Реферальная ссылка', max_length=200)
+    parent = TreeForeignKey('self', on_delete=models.CASCADE, null=True, blank=True, related_name='children', verbose_name='Родитель')
+
+    class MPTTMeta:
+        order_insertion_by = ['line_user']
+
+
+    def __str__(self):
+        return self.line_user.username
+
+
+    class Meta:
+        verbose_name = 'Партнер'
+        verbose_name_plural = 'Партнеры'
+
+
+# === ВРЕМЕННЫЕ ЗАПИСИ ПО НАЧИСЛЕНИЯМ ОТ ПАРТНЕРОВ ===
+class Profit_Partner_Day(models.Model):
+    profit_day_data = models.DateTimeField('Дата', default=timezone.now)
+    profit_day_partner = models.CharField('Партнер', max_length=150)
+    profit_day_parent = models.CharField('Родитель', max_length=150)
+    profit_day_sum = models.DecimalField('Сумма', max_digits=16, decimal_places=8)
+    profit_day_level = models.CharField('Уровень', max_length=150)
+    profit_day_status = models.BooleanField('Статус', default=False)
+
+
+    def __str__(self):
+        return self.profit_day_parent
+
+    class Meta:
+        verbose_name = 'Ожидают начисления'
+        verbose_name_plural = 'Ожидающие начисления'
+
+
+# === ИТОГОВОЕ НАЧИСЛЕНИЕ РОДИТЕЛЯМ ===
+class Profit_Partner_Good_Day(models.Model):
+    profit_good_data = models.DateTimeField('Дата', default=timezone.now)
+    profit_good_user = models.CharField('Пользователь', max_length=150)
+    profit_good_sum = models.DecimalField('Сумма', max_digits=10, decimal_places=2)
+
+
+    def __str__(self):
+        return self.profit_good_user
+
+    class Meta:
+        verbose_name = 'Проведенное начисление'
+        verbose_name_plural = 'Проведенные начисления'
+
+

@@ -7,6 +7,7 @@ urlpatterns = [
     path('withdrawalwallet/', views.withdrawalwallet, name='withdrawalwallet'),
     path('transferwallet/', views.transferwallet, name='transferwallet'),
     path('transactionwallet/', views.transactionwallet, name='transactionwallet'),
+    path('partnerwallet/', views.partnerwallet, name='partnerwallet'),
 
     path('profilewallet/', views.profilewallet, name='profilewallet'),
     path('settingwallet/', views.settingwallet, name='settingwallet'),
@@ -35,7 +36,10 @@ urlpatterns = [
     path('reservchange/', views.reservchange, name='reservchange'),
     path('reservchangeedit/', views.reservchangeedit, name='reservchangeedit'),
     path('coursechange/', views.coursechange, name='coursechange'),
+
     path('coursechange/update/', views.coursechangeupdate, name='coursechangeupdate'),
+    path('profit_day_good/update/', views.profit_day_good, name='profit_day_good'),
+
     path('coursechange/commission/', views.coursechangecommission, name='coursechangecommission'),
     path('rekvisitchange/', views.rekvisitchange, name='rekvisitchange'),
     path('rekvisitchange/update/', views.rekvisitchangeupdate, name='rekvisitchangeupdate'),

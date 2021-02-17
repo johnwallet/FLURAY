@@ -6,11 +6,13 @@ class Transaction(models.Model):
     date_joined_change = models.DateTimeField('Создана', default=timezone.now)
     date_end_change = models.DateTimeField('Исполнена', blank=True, null=True)
     transaction_name = models.CharField('Название', max_length=150)
-    transaction_number = models.CharField('Номер', max_length=150)
+    transaction_category = models.CharField('Категория', max_length=150, null=True)
     transaction_user = models.CharField('Логин пользователя', max_length=150)
     transaction_status = models.CharField('Статус', max_length=150, default="Выполнена")
-    transaction_sum = models.CharField('Сумма', max_length=150)
+    transaction_type = models.CharField('Тип', max_length=150, null=True)
+    transaction_sum = models.DecimalField('Сумма', max_digits=12, decimal_places=2)
     transaction_sistemchange = models.CharField('Платежная система', max_length=150)
+    transaction_comment = models.CharField('Комментарий', max_length=250, null=True)
 
     def __str__(self):
         return self.transaction_name
@@ -45,6 +47,9 @@ class RequestChange(models.Model):
 
     request_good_sum_change = models.DecimalField('Итоговая сумма обменника', max_digits=16, decimal_places=8)
     request_good_sum_change_valute = models.DecimalField('Итоговая сумма обменника нац валюта', max_digits=10, decimal_places=2)
+
+    request_company_profit = models.DecimalField('Прибыль компании', max_digits=16, decimal_places=8)
+
 
     def __str__(self):
         return self.request_name

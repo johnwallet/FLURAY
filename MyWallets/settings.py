@@ -33,9 +33,8 @@ INSTALLED_APPS = [
     'personalaccount.apps.ProflistConfig',
     'home',
     'users.apps.UsersConfig',
-    'allauth',
-    'allauth.account',
-    'rest_framework'
+    'rest_framework',
+    'mptt',
 ]
 
 MIDDLEWARE = [
@@ -55,10 +54,7 @@ TEMPLATE_DIR = os.path.join(BASE_DIR, "templates")
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [
-            TEMPLATE_DIR,
-        ]
-        ,
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -89,7 +85,6 @@ DATABASES = {
 
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
-    'allauth.account.auth_backends.AuthenticationBackend'
 )
 
 # Password validation
@@ -124,7 +119,8 @@ USE_L10N = True
 
 USE_TZ = True
 
-#LOGIN_REDIRECT_URL = '/'
+LOGIN_REDIRECT_URL = 'personalaccount'
+LOGOUT_REDIRECT_URL = '/'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
@@ -142,15 +138,12 @@ AUTH_USER_MODEL = 'users.CustomUser'
 
 SITE_ID = 1
 
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = "smtp.gmail.com"
+EMAIL_USE_TLS = True
 EMAIL_PORT = '587'
 EMAIL_HOST_USER = "aleksandrvarlamov1753@gmail.com"
 EMAIL_HOST_PASSWORD = "Tesla007"
-EMAIL_USE_TLS = True
 
-ACCOUNT_CONFIRM_EMAIL_ON_GET = 'True'
-ACCOUNT_AUTHENTICATION_METHOD = 'username'
-ACCOUNT_EMAIL_REQUIRED = 'True'
-ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
-ACCOUNT_SESSION_REMEMBER = False
-ACCOUNT_SIGNUP_FORM_CLASS = 'users.forms.SignUpId'
+

@@ -85,7 +85,11 @@
                                                                 {% for i in dash_tran|slice:"::-1"|slice:":3" %}
                                                                     <tr>
                                                                         <td>{{ i.transaction_sistemchange }}</td>
-                                                                        <td>{{ i.transaction_sum }}</td>
+                                                                        {% if i.transaction_type == 'Пополнение' %}
+                                                                        <td>{{ i.transaction_sum }} $</td>
+                                                                        {% elif i.transaction_type == 'Вывод' %}
+                                                                        <td>- {{ i.transaction_sum }} $</td>
+                                                                        {% endif %}
                                                                         {% if i.transaction_status == 'В обработке' %}
                                                                             <td><div class="badge badge-soft-warning">{{ i.transaction_status }}</div></td>
                                                                         {% elif i.transaction_status == 'Оплачена' or i.transaction_status == 'Выполнена' or i.transaction_status == 'Выполнен'%}

@@ -1,7 +1,10 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
+from mptt.admin import MPTTModelAdmin
+
 from .forms import CustomUserCreationForm, CustomUserChangeForm
-from .models import CustomUser, CustomUserId, RangeSumDeposit, RangeSumWidth
+from .models import CustomUser, CustomUserId, RangeSumDeposit, RangeSumWidth, Confirm_Email_Key, Line_Program, \
+    Profit_Partner_Day, Profit_Partner_Good_Day
 
 
 # кастомизация админки, для приложения users.
@@ -88,6 +91,10 @@ admin.site.register(CustomUser, CustomUserAdmin)
 admin.site.register(CustomUserId, CustomUserIdAdmin)
 admin.site.register(RangeSumDeposit)
 admin.site.register(RangeSumWidth)
+admin.site.register(Confirm_Email_Key)
+admin.site.register(Line_Program, MPTTModelAdmin)
+admin.site.register(Profit_Partner_Day)
+admin.site.register(Profit_Partner_Good_Day)
 
 
 # Названиия и заголовки админки

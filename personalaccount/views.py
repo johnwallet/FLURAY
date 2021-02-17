@@ -1,5 +1,9 @@
+import hashlib
 import random
+import uuid
+from datetime import timedelta
 
+import requests
 from django.core.cache import cache
 from django.core.files.storage import FileSystemStorage
 from django.http import Http404
@@ -15,7 +19,8 @@ from personalaccount.metodviews import depositsortchangeps, depositsortbalanceps
 from personalaccount.models import Transaction, RequestChange, CurrencyCBRF, StaticDailyProfit, News
 from personalaccount.forms import RequestForm, WithdrawalForm, TransferForm, RequisitesForm, CommissionForm, \
     ActivePSForm, ReservChangeForm, ProfileForm, RangeDepositForm, RangeWidthForm
-from users.models import CustomUserId, CustomUser, RangeSumDeposit, RangeSumWidth
+from users.models import CustomUserId, CustomUser, RangeSumDeposit, RangeSumWidth, Line_Program, Profit_Partner_Day, \
+    Profit_Partner_Good_Day
 
 
 # РЕНДЕРИМ НУЖНЫЙ ШАБЛОН, КАБИНЕТ ПОЛЬЗОВАТЕЛЯ (ДАШБОРД)
@@ -42,8 +47,11 @@ def personalaccount(request):
                             flag_good = False
 
                         if flag_good == True:
+                            line_user = Line_Program.objects.get(line_user=request.user)
+                            line_user.line_ref_fio = post.last_name + ' ' + post.first_name + ' ' + post.middle_name
                             post.verifications_level_one = True
                             post.save()
+                            line_user.save()
                             return redirect('personalaccount')
                         else:
                             data_error = True
@@ -85,8 +93,11 @@ def personalaccount(request):
                             flag_good = False
 
                         if flag_good == True:
+                            line_user = Line_Program.objects.get(line_user=request.user)
+                            line_user.line_ref_fio = post.last_name + ' ' + post.first_name + ' ' + post.middle_name
                             post.verifications_level_one = True
                             post.save()
+                            line_user.save()
                             return redirect('personalaccount')
                         else:
                             data_error = True
@@ -125,16 +136,6 @@ def personalaccount(request):
         return redirect('account_login')
 
 
-# data_message = None
-# message_status = False
-# if cache.get('info_message'):
-#     data_message = cache.get('info_message')
-#     message_status = True
-# context = {
-#     'data_message': data_message,
-#     'message_status': message_status,
-# }
-# cache.delete('info_message')
 # /КОШЕЛЕК/ ПОПОЛНЕНИЕ
 def depositwalletform(request):
     if request.user.is_authenticated:
@@ -170,11 +171,14 @@ def depositwalletform(request):
                                 post.request_commission_change = float(usernamepsch['base_comis'])
                                 post.requisites = usernamepsch['rekvesites']
                                 post.request_userchange = usernamepschange.username
+
                                 request_summe = float(post.request_sum) - ((float(post.request_sum) / 100) * post.request_commission)
                                 post.request_good_sum = request_summe * float(request_good.base_currency)
+
                                 request_good_summe = float(post.request_sum) - ((float(post.request_sum) / 100) * post.request_commission_change)
                                 post.request_good_sum_change = request_good_summe * float(request_good.base_currency)
 
+                                post.request_company_profit = post.request_good_sum_change - post.request_good_sum
                                 post.request_type_valute = changerequest['valute']
                                 post.request_sum_valute = post.request_sum
                                 post.request_good_sum_valute = post.request_good_sum
@@ -200,6 +204,13 @@ def depositwalletform(request):
                                 'message_type': 'Error'
                             }
                             message_status = True
+
+            for update_float_k, update_float_v in range_ps['list_range_min_reserve_ps'].items():
+                range_ps['list_range_min_reserve_ps'][update_float_k] = float(update_float_v)
+
+            for update_float_k, update_float_v in range_ps['list_range_max_reserve_ps'].items():
+                range_ps['list_range_max_reserve_ps'][update_float_k] = float(update_float_v)
+
             context = {
                 'form': RequestForm(),
                 'list_active_ps': range_ps['active_list_ps'],
@@ -264,10 +275,11 @@ def withdrawalwallet(request):
 
                                 # создаем транзакцию для получателя вывода
                                 Transaction.objects.create(transaction_name='Заявка на вывод № ' + str(n),
-                                                           transaction_number=str(n),
+                                                           transaction_category='Заявка на вывод',
+                                                           transaction_type='Вывод',
                                                            transaction_user=request.user.username,
                                                            transaction_status='В обработке',
-                                                           transaction_sum='- ' + str(post.request_sum) + ' $',
+                                                           transaction_sum=post.request_sum,
                                                            transaction_sistemchange=post.request_sistemchange)
                                 userwidth.save()
                                 post.save()
@@ -327,19 +339,21 @@ def transferwallet(request):
 
                                 # создаем транзакцию отправителя
                                 Transaction.objects.create(transaction_name='Отправлен внутренний перевод № ' + str(n) + ', пользователю ' + str(post.transfer_in),
-                                                           transaction_number=str(n),
+                                                           transaction_category='Внутренний перевод',
+                                                           transaction_type='Вывод',
                                                            transaction_user=post.transfer_out,
                                                            transaction_status='Выполнена',
                                                            date_end_change=timezone.now(),
-                                                           transaction_sum='- ' + str(post.transfer_sum) + ' $',
-                                                           transaction_sistemchange='Внутренний перевод')
+                                                           transaction_sum=post.transfer_sum,
+                                                           transaction_sistemchange='Внутренний счет')
                                 # создаем транзакцию получателя
                                 Transaction.objects.create(transaction_name='Получен внутренний перевод № ' + str(n) + ', от пользователя ' + str(post.transfer_out),
-                                                           transaction_number=str(n),
+                                                           transaction_category='Внутренний перевод',
+                                                           transaction_type='Пополнение',
                                                            transaction_user=post.transfer_in,
                                                            transaction_status='Выполнена',
                                                            date_end_change=timezone.now(),
-                                                           transaction_sum='+ ' + str(post.transfer_sum) + ' $',
+                                                           transaction_sum=post.transfer_sum,
                                                            transaction_sistemchange='Внутренний перевод')
                                 usertranout.save()
                                 usertranall.save()
@@ -408,6 +422,97 @@ def transactionwallet(request):
         return redirect('account_login')
 
 
+# /КОШЕЛЕК/ ПАРТНЕРКА
+def partnerwallet(request):
+    if request.user.is_authenticated:
+        if request.user.userid == CustomUserId.objects.get(pk=1):
+            profit_day = Profit_Partner_Good_Day.objects.filter(profit_good_data__date=timezone.now().date(), profit_good_user=request.user)
+            profit_day_sum = 0
+            for prof in profit_day:
+                profit_day_sum += prof.profit_good_sum
+
+            user_ref = Line_Program.objects.get(line_user=request.user)
+            link_ref = user_ref.line_ref_link
+            partner_list = Line_Program.objects.filter(tree_id=user_ref.tree_id)
+            level_ref = user_ref.level
+            level_1 = partner_list.filter(level=level_ref + 1)
+            level_2 = partner_list.filter(level=level_ref + 2)
+            level_3 = partner_list.filter(level=level_ref + 3)
+            list_level_1 = {}
+            list_level_2 = {}
+            list_level_3 = {}
+            general_profit = {
+                'gen_profit': 0,
+                'profit_day_sum': 0,
+                'gen_profit_lv1': 0,
+                'gen_profit_lv2': 0,
+                'gen_profit_lv3': 0,
+            }
+            sum = 0
+            sum_gen = 0
+            sum_general = 0
+            filt_list = Profit_Partner_Day.objects.filter(profit_day_parent=user_ref.line_user, profit_day_status=True)
+            for item in level_1:
+                filt_item = filt_list.filter(profit_day_partner=item)
+                for item_profit in filt_item:
+                    sum += item_profit.profit_day_sum
+                list_level_1[str(item.line_user)] = {
+                    'line_user': str(item.line_user),
+                    'line_ref_fio': item.line_ref_fio,
+                    'line_ref_date': item.line_ref_date,
+                    'profit': round(sum, 2),
+                }
+                sum_gen += sum
+                sum = 0
+            general_profit['gen_profit_lv1'] = round(sum_gen, 2)
+            sum_general += sum_gen
+            sum_gen = 0
+            for item in level_2:
+                filt_item = filt_list.filter(profit_day_partner=item)
+                for item_profit in filt_item:
+                    sum += item_profit.profit_day_sum
+                list_level_2[str(item.line_user)] = {
+                    'line_user': str(item.line_user),
+                    'line_ref_fio': item.line_ref_fio,
+                    'line_ref_date': item.line_ref_date,
+                    'profit': round(sum, 2),
+                }
+                sum_gen += sum
+                sum = 0
+            general_profit['gen_profit_lv2'] = round(sum_gen, 2)
+            sum_general += sum_gen
+            sum_gen = 0
+            for item in level_3:
+                filt_item = filt_list.filter(profit_day_partner=item)
+                for item_profit in filt_item:
+                    sum += item_profit.profit_day_sum
+                list_level_3[str(item.line_user)] = {
+                    'line_user': str(item.line_user),
+                    'line_ref_fio': item.line_ref_fio,
+                    'line_ref_date': item.line_ref_date,
+                    'profit': round(sum, 2),
+                }
+                sum_gen += sum
+                sum = 0
+            general_profit['gen_profit_lv3'] = round(sum_gen, 2)
+            sum_general += sum_gen
+            general_profit['gen_profit'] = round(sum_general, 2)
+            general_profit['profit_day_sum'] = round(profit_day_sum, 2)
+            context = {
+                'link_ref': link_ref,
+                'level_1': list_level_1,
+                'level_2': list_level_2,
+                'level_3': list_level_3,
+                'partner_len': len(level_1)+len(level_2)+len(level_3),
+                'profit_general': general_profit,
+            }
+            return render(request, 'personalaccount/cabinet/partners/partner_wallet.html', context)
+        else:
+            raise Http404
+    else:
+        return redirect('account_login')
+
+
 # /КОШЕЛЕК/ ПРОФИЛЬ
 def profilewallet(request):
     if request.user.is_authenticated:
@@ -454,7 +559,11 @@ def settingwallet(request):
                     if flag_good == True:
                         if 'avatar-clear-cust' in request.POST:
                             post.avatar.delete()
+                        line_user = Line_Program.objects.get(line_user=request.user)
+                        line_user.line_ref_fio = post.last_name + ' ' + post.first_name + ' ' + post.middle_name
+                        post.verifications_level_one = True
                         post.save()
+                        line_user.save()
                         message_success()
                         return redirect('profilewallet')
                     else:
@@ -508,18 +617,17 @@ def withdrawalexchangegood(request, pk):
 
 
     # Создаем строку прибыли обменника
-    print(requestchange.request_good_sum_change-(requestchange.request_good_sum*requestchange.request_curse))
     StaticDailyProfit.objects.create(dailyprofit_user=request.user.username,
-                                     dailyprofit_value=requestchange.request_good_sum_change-(requestchange.request_good_sum*requestchange.request_curse)
-                                     )
+                                     dailyprofit_value=requestchange.request_good_sum_change-(requestchange.request_good_sum*requestchange.request_curse))
 
     # создаем транзакцию получателя
     Transaction.objects.create(transaction_name='Обработка заявки на вывод № ' + str(requestchange.request_name),
-                                transaction_number=str(requestchange.request_name),
+                                transaction_category='Заявка на вывод',
+                                transaction_type='Пополнение',
                                 transaction_user=userchange.username,
                                 transaction_status='Выполнена',
                                 date_end_change=timezone.now(),
-                                transaction_sum='+ ' + str(requestchange.request_good_sum_change_valute) + ' $',
+                                transaction_sum=requestchange.request_good_sum_change_valute,
                                 transaction_sistemchange=str(requestchange.request_sistemchange))
     userchange.save()
     requestchange.save()
@@ -580,23 +688,67 @@ def depositexchangerequestupdate(request, pk):
 
         #Создаем транзакцию для пользователя
         Transaction.objects.create(transaction_name='Заявка на пополнение № ' + str(requestchange.request_name),
-                                   transaction_number=requestchange.request_name,
+                                   transaction_category='Заявка на пополнение',
+                                   transaction_type='Пополнение',
                                    transaction_user=requestchange.request_user,
                                    transaction_status=requestchange.request_status,
-                                   transaction_sum='+ ' + str(float(requestchange.request_good_sum_valute)) + ' $',
+                                   transaction_sum=requestchange.request_good_sum_valute,
                                    transaction_sistemchange=requestchange.request_sistemchange,
                                    date_end_change=timezone.now(),
                                    date_joined_change=requestchange.date_joined_change)
 
         #Создаем транзакцию для Обменника
         Transaction.objects.create(transaction_name='Обработка заявки на пополнение № ' + str(requestchange.request_name),
-                                   transaction_number=requestchange.request_name,
+                                   transaction_category='Заявка на пополнение',
+                                   transaction_type='Вывод',
                                    transaction_user=request.user.username,
                                    transaction_status=requestchange.request_status,
-                                   transaction_sum='- ' + str(requestchange.request_good_sum_change_valute) + ' $',
+                                   transaction_sum=requestchange.request_good_sum_change_valute,
                                    transaction_sistemchange=requestchange.request_sistemchange,
                                    date_end_change=timezone.now(),
                                    date_joined_change=requestchange.date_joined_change)
+
+        # создаем записи начисления родителям
+        user_ref_customuser = CustomUser.objects.get(username=requestchange.request_user)
+        user_ref = Line_Program.objects.get(line_user=user_ref_customuser)
+        # если есть родитель создаем запись для начисления, 30%, 20%, 10% от прибыли компании
+        try:
+            if user_ref.parent:
+                par_user_lv1 = CustomUser.objects.get(username=user_ref.parent)
+                parent_user_lv1 = Line_Program.objects.get(line_user=par_user_lv1)
+                Profit_Partner_Day.objects.create(
+                    profit_day_partner=user_ref.line_user,
+                    profit_day_parent=parent_user_lv1,
+                    profit_day_sum=requestchange.request_company_profit - ((requestchange.request_company_profit/100)*70),
+                    profit_day_level=1
+                )
+                try:
+                    if parent_user_lv1.parent:
+                        par_user_lv2 = CustomUser.objects.get(username=parent_user_lv1.parent)
+                        parent_user_lv2 = Line_Program.objects.get(line_user=par_user_lv2)
+                        Profit_Partner_Day.objects.create(
+                            profit_day_partner=user_ref.line_user,
+                            profit_day_parent=parent_user_lv2,
+                            profit_day_sum=requestchange.request_company_profit - ((requestchange.request_company_profit/100)*80),
+                            profit_day_level=2
+                        )
+                        try:
+                            if parent_user_lv2.parent:
+                                par_user_lv3 = CustomUser.objects.get(username=parent_user_lv2.parent)
+                                parent_user_lv3 = Line_Program.objects.get(line_user=par_user_lv3)
+                                Profit_Partner_Day.objects.create(
+                                    profit_day_partner=user_ref.line_user,
+                                    profit_day_parent=parent_user_lv3,
+                                    profit_day_sum=requestchange.request_company_profit - ((requestchange.request_company_profit/100)*90),
+                                    profit_day_level=3
+                                )
+                        except:
+                            pass
+                except:
+                    pass
+        except:
+            pass
+
         requestchange.save()
         userwallet.save()
         userchange.save()
@@ -822,7 +974,11 @@ def settingchange(request):
                     if flag_good == True:
                         if 'avatar-clear-cust' in request.POST:
                             post.avatar.delete()
+                        line_user = Line_Program.objects.get(line_user=request.user)
+                        line_user.line_ref_fio = post.last_name + ' ' + post.first_name + ' ' + post.middle_name
+                        post.verifications_level_one = True
                         post.save()
+                        line_user.save()
                         message_success()
                         return redirect('profilechange')
                     else:
@@ -949,6 +1105,7 @@ def coursechangecommission(request):
             return redirect('coursechange')
     return render(request, 'personalaccount/cabinet/course/coursechangecommission.html', context)
 
+
 # ОБНОВЛЕНИЕ И ДОБАВЛЕНИЕ КУРСОВ ВАЛЮТ
 def coursechangeupdate(request):
     # добавляем новый курс в базу из национальных валют
@@ -983,4 +1140,61 @@ def coursechangeupdate(request):
                 currencyvieweur = currencycrypto.get(name_currency=aut['symbol'].upper())
                 currencyvieweur.base_currency = aut['current_price']
                 currencyvieweur.save()
-    return redirect('personalaccount')
+    return redirect('admin:index')
+
+
+def profit_day_good(request):
+    # создаем словарь с родителями и суммами для начисления(если сумма больше 0.1$)
+    # переносим на сегодняшний день дату, и создаем новые записи итоговые
+    list_all_profit_day = Profit_Partner_Day.objects.filter(profit_day_status=False).order_by('profit_day_parent')
+    list_username = {}
+    parent = None
+    sum = 0
+    for item in list_all_profit_day:
+        if not item.profit_day_parent == parent:
+            parent = item.profit_day_parent
+            list_parent = list_all_profit_day.filter(profit_day_parent=parent)
+            print(list_parent)
+            if len(list_parent) > 1:
+                for par in list_parent:
+                    sum += par.profit_day_sum
+                if sum > round(0.1, 8):
+                    list_username[parent] = sum
+                    for status in list_parent:
+                        status.profit_day_status = True
+                        status.save()
+                sum = 0
+
+            else:
+                if item.profit_day_sum > round(0.1, 8):
+                    list_username[parent] = item.profit_day_sum
+                    item.profit_day_status = True
+                    item.save()
+
+
+    # всем из словаря начисляем сумму, создаем транзакцию, создаем словарь с дневной прибылью
+    for k, v in list_username.items():
+        user_profit = CustomUser.objects.get(username=k)
+
+        user_profit.balance += v
+        Profit_Partner_Good_Day.objects.create(
+            profit_good_user=k,
+            profit_good_sum=v,
+        )
+
+
+        Transaction.objects.create(transaction_name='Партнерская премия',
+                                   transaction_category='Премия',
+                                   date_end_change=timezone.now(),
+                                   transaction_type='Пополнение',
+                                   transaction_user=k,
+                                   transaction_status='Выполнена',
+                                   transaction_sum=v,
+                                   transaction_sistemchange='Внутренний счет')
+
+        user_profit.save()
+
+    return redirect('admin:index')
+
+
+

@@ -1,5 +1,9 @@
 import random
 
+from django.core.mail import EmailMultiAlternatives
+from django.template.loader import render_to_string
+
+from MyWallets import settings
 from personalaccount.models import CurrencyCBRF, RequestChange, StaticDailyProfit
 from users.models import CustomUser, RangeSumDeposit, RangeSumWidth
 
@@ -2540,7 +2544,7 @@ def range_deposit_ps_global(list_active, active_list_ps):
             if list_range.deposit_min_webmoney_eur < list_range_min_reserve_ps['webmoney_eur']:
                 list_range_min_reserve_ps['webmoney_eur'] = list_range.deposit_min_webmoney_eur
             if list_range.deposit_min_pm_btc < list_range_min_reserve_ps['pm_btc']:
-                list_range_min_reserve_ps['pm_btc'] = float(list_range.deposit_min_pm_btc)
+                list_range_min_reserve_ps['pm_btc'] = list_range.deposit_min_pm_btc
             if list_range.deposit_min_pm_usd < list_range_min_reserve_ps['pm_usd']:
                 list_range_min_reserve_ps['pm_usd'] = list_range.deposit_min_pm_usd
             if list_range.deposit_min_pm_eur < list_range_min_reserve_ps['pm_eur']:
@@ -2558,21 +2562,21 @@ def range_deposit_ps_global(list_active, active_list_ps):
             if list_range.deposit_min_umoney_rub < list_range_min_reserve_ps['umoney_rub']:
                 list_range_min_reserve_ps['umoney_rub'] = list_range.deposit_min_umoney_rub
             if list_range.deposit_min_btc < list_range_min_reserve_ps['btc']:
-                list_range_min_reserve_ps['btc'] = float(list_range.deposit_min_btc)
+                list_range_min_reserve_ps['btc'] = list_range.deposit_min_btc
             if list_range.deposit_min_xrp < list_range_min_reserve_ps['xrp']:
-                list_range_min_reserve_ps['xrp'] = float(list_range.deposit_min_xrp)
+                list_range_min_reserve_ps['xrp'] = list_range.deposit_min_xrp
             if list_range.deposit_min_ltc < list_range_min_reserve_ps['ltc']:
-                list_range_min_reserve_ps['ltc'] = float(list_range.deposit_min_ltc)
+                list_range_min_reserve_ps['ltc'] = list_range.deposit_min_ltc
             if list_range.deposit_min_bch < list_range_min_reserve_ps['bch']:
-                list_range_min_reserve_ps['bch'] = float(list_range.deposit_min_bch)
+                list_range_min_reserve_ps['bch'] = list_range.deposit_min_bch
             if list_range.deposit_min_xmr < list_range_min_reserve_ps['xmr']:
-                list_range_min_reserve_ps['xmr'] = float(list_range.deposit_min_xmr)
+                list_range_min_reserve_ps['xmr'] = list_range.deposit_min_xmr
             if list_range.deposit_min_eth < list_range_min_reserve_ps['eth']:
-                list_range_min_reserve_ps['eth'] = float(list_range.deposit_min_eth)
+                list_range_min_reserve_ps['eth'] = list_range.deposit_min_eth
             if list_range.deposit_min_etc < list_range_min_reserve_ps['etc']:
-                list_range_min_reserve_ps['etc'] = float(list_range.deposit_min_etc)
+                list_range_min_reserve_ps['etc'] = list_range.deposit_min_etc
             if list_range.deposit_min_dash < list_range_min_reserve_ps['dash']:
-                list_range_min_reserve_ps['dash'] = float(list_range.deposit_min_dash)
+                list_range_min_reserve_ps['dash'] = list_range.deposit_min_dash
 
             keys_list = {
                 'sberbank_rub': list_range.deposit_max_sberbank_rub,
@@ -2931,5 +2935,20 @@ def min_and_max_sum_request(ps_request, range_ps):
         min_sum = range_min_list['eth']
         max_sum = range_max_list['eth']
     return {'min_sum': min_sum, 'max_sum': max_sum}
+
+
+# отправка сообщения на почту
+def mail_send_metod(email, templates, context, subject):
+    html_body = render_to_string(templates, context)
+    msg = EmailMultiAlternatives(subject=subject, from_email=settings.EMAIL_HOST_USER, to=[email])
+    msg.attach_alternative(html_body, 'text/html')
+    msg.send()
+
+
+
+
+
+
+
 
 

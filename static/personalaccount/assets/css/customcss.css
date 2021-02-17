@@ -1795,7 +1795,11 @@ input[type="number"]:focus {
     color: #B90101;
 }
 
-
+.errorlist {
+    color: #bb0000;
+    margin: 5px 0 25px 20px;
+    font-size: 14px;
+}
 
 
 
