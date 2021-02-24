@@ -25,7 +25,7 @@ class CustomUserAdmin(UserAdmin):
     list_filter = ('userid', 'date_joined', 'is_staff', 'is_active')
     # структура карточки пользователя
     fieldsets = (
-        ('Основные настройки', {'fields': ('avatar', 'id', 'username', 'balance', 'email', 'password', 'kompan_name', 'first_name', 'last_name', 'middle_name', ('date_joined', 'last_login'), 'is_active_change', 'verifications_level_one')}),
+        ('Основные настройки', {'fields': ('avatar', 'id', 'username', 'balance', 'hold', 'email', 'password', 'kompan_name', 'first_name', 'last_name', 'middle_name', ('date_joined', 'last_login'), 'is_active_change', 'verifications_level_one')}),
         ('Реквизиты', {'fields': ('requsites_sberbank_rub', 'requsites_psb_rub', 'requsites_tinkoff_rub', 'requsites_gazprombank_rub',
                                                  'requsites_alfabank_rub', 'requsites_russtandart_rub', 'requsites_vtb_rub', 'requsites_rosselhoz_rub', 'requsites_raifaizen_rub',
                                                  'requsites_otkritie_rub', 'requsites_pochtabank_rub', 'requsites_rnkb_rub', 'requsites_rosbank_rub',

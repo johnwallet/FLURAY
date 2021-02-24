@@ -11,584 +11,330 @@ from datetime import timedelta, datetime, date
 
 
 # активность обменника и направлений для пополнения
-def depositsortchangeps(nameps):
+def depositsortchangeps(nameps, request_sum):
     itemchange = CustomUser.objects.filter(userid__custuserid='Владелец Обменника', is_active_change=1)
     changeq = []
-    if nameps == 'СБЕРБАНК':
-        for item in itemchange:
-            if item.active_in_sberbank_rub == 1:
+    currencysort_list = CurrencyCBRF.objects.all()
+    itemrange_list = RangeSumDeposit.objects.all()
+
+    name_ps_list = {
+        'СБЕРБАНК': 'RUB',
+        'ТИНЬКОФФ': 'RUB',
+        'АЛЬФА БАНК': 'RUB',
+        'ВТБ': 'RUB',
+        'РАЙФФАЙЗЕНБАНК': 'RUB',
+        'ОТКРЫТИЕ': 'RUB',
+        'ПСБ': 'RUB',
+        'ГАЗПРОМБАНК': 'RUB',
+        'РУССКИЙ СТАНДАРТ': 'RUB',
+        'РОССЕЛЬХОЗБАНК': 'RUB',
+        'ПОЧТА БАНК': 'RUB',
+        'РОСБАНК': 'RUB',
+        'РНКБ': 'RUB',
+        'МТС БАНК': 'RUB',
+        'QIWI RUB': 'RUB',
+        'QIWI USD': 'USD',
+        'PAYEER RUB': 'RUB',
+        'PAYEER EUR': 'EUR',
+        'PAYEER USD': 'USD',
+        'WEBMONEY RUB': 'RUB',
+        'WEBMONEY EUR': 'EUR',
+        'WEBMONEY USD': 'USD',
+        'PERFECT MONEY BTC': 'BTC',
+        'PERFECT MONEY EUR': 'EUR',
+        'PERFECT MONEY USD': 'USD',
+        'PAYPAL RUB': 'RUB',
+        'PAYPAL EUR': 'EUR',
+        'PAYPAL USD': 'USD',
+        'SKRILL EUR': 'EUR',
+        'SKRILL USD': 'USD',
+        'UMONEY RUB': 'RUB',
+        'BITCOIN': 'BTC',
+        'LITECOIN': 'LTC',
+        'MONERO': 'XMR',
+        'ETHEREUM CLASSIC': 'ETC',
+        'DASH': 'DASH',
+        'RIPPLE': 'XRP',
+        'BITCOIN CASH': 'BCH',
+        'ETHEREUM': 'ETH',
+    }
+
+    name_ps_get = nameps
+    valute_ps_get = name_ps_list[nameps]
+    currencysort = currencysort_list.get(name_currency=valute_ps_get)
+
+    for item in itemchange:
+        itemrange = itemrange_list.get(deposit_range_username=item)
+        list_active_in = {
+            'СБЕРБАНК': item.active_in_sberbank_rub,
+            'ПСБ': item.active_in_psb_rub,
+            'ТИНЬКОФФ': item.active_in_tinkoff_rub,
+            'ГАЗПРОМБАНК': item.active_in_gazprombank_rub,
+            'АЛЬФА БАНК': item.active_in_alfabank_rub,
+            'РУССКИЙ СТАНДАРТ': item.active_in_russtandart_rub,
+            'ВТБ': item.active_in_vtb_rub,
+            'РОССЕЛЬХОЗБАНК': item.active_in_rosselhoz_rub,
+            'РАЙФФАЙЗЕНБАНК': item.active_in_raifaizen_rub,
+            'ОТКРЫТИЕ': item.active_in_otkritie_rub,
+            'ПОЧТА БАНК': item.active_in_pochtabank_rub,
+            'РНКБ': item.active_in_rnkb_rub,
+            'РОСБАНК': item.active_in_rosbank_rub,
+            'МТС БАНК': item.active_in_mtsbank_rub,
+            'QIWI RUB': item.active_in_qiwi_rub,
+            'QIWI USD': item.active_in_qiwi_usd,
+            'PAYEER RUB': item.active_in_payeer_rub,
+            'PAYEER USD': item.active_in_payeer_usd,
+            'PAYEER EUR': item.active_in_payeer_eur,
+            'WEBMONEY RUB': item.active_in_webmoney_rub,
+            'WEBMONEY USD': item.active_in_webmoney_usd,
+            'WEBMONEY EUR': item.active_in_webmoney_eur,
+            'PERFECT MONEY BTC': item.active_in_pm_btc,
+            'PERFECT MONEY USD': item.active_in_pm_usd,
+            'PERFECT MONEY EUR': item.active_in_pm_eur,
+            'SKRILL EUR': item.active_in_skrill_eur,
+            'SKRILL USD': item.active_in_skrill_usd,
+            'PAYPAL RUB': item.active_in_paypal_rub,
+            'PAYPAL USD': item.active_in_paypal_usd,
+            'PAYPAL EUR': item.active_in_paypal_eur,
+            'UMONEY RUB': item.active_in_umoney_rub,
+            'BITCOIN': item.active_in_btc,
+            'RIPPLE': item.active_in_xrp,
+            'LITECOIN': item.active_in_ltc,
+            'BITCOIN CASH': item.active_in_bch,
+            'MONERO': item.active_in_xmr,
+            'ETHEREUM': item.active_in_eth,
+            'ETHEREUM CLASSIC': item.active_in_etc,
+            'DASH': item.active_in_dash,
+        }
+        list_deposit_max = {
+            'СБЕРБАНК': itemrange.deposit_max_sberbank_rub,
+            'ПСБ': itemrange.deposit_max_psb_rub,
+            'ТИНЬКОФФ': itemrange.deposit_max_tinkoff_rub,
+            'ГАЗПРОМБАНК': itemrange.deposit_max_gazprombank_rub,
+            'АЛЬФА БАНК': itemrange.deposit_max_alfabank_rub,
+            'РУССКИЙ СТАНДАРТ': itemrange.deposit_max_russtandart_rub,
+            'ВТБ': itemrange.deposit_max_vtb_rub,
+            'РОССЕЛЬХОЗБАНК': itemrange.deposit_max_rosselhoz_rub,
+            'РАЙФФАЙЗЕНБАНК': itemrange.deposit_max_raifaizen_rub,
+            'ОТКРЫТИЕ': itemrange.deposit_max_otkritie_rub,
+            'ПОЧТА БАНК': itemrange.deposit_max_pochtabank_rub,
+            'РНКБ': itemrange.deposit_max_rnkb_rub,
+            'РОСБАНК': itemrange.deposit_max_rosbank_rub,
+            'МТС БАНК': itemrange.deposit_max_mtsbank_rub,
+            'QIWI RUB': itemrange.deposit_max_qiwi_rub,
+            'QIWI USD': itemrange.deposit_max_qiwi_usd,
+            'PAYEER RUB': itemrange.deposit_max_payeer_rub,
+            'PAYEER USD': itemrange.deposit_max_payeer_usd,
+            'PAYEER EUR': itemrange.deposit_max_payeer_eur,
+            'WEBMONEY RUB': itemrange.deposit_max_webmoney_rub,
+            'WEBMONEY USD': itemrange.deposit_max_webmoney_usd,
+            'WEBMONEY EUR': itemrange.deposit_max_webmoney_eur,
+            'PERFECT MONEY BTC': itemrange.deposit_max_pm_btc,
+            'PERFECT MONEY USD': itemrange.deposit_max_pm_usd,
+            'PERFECT MONEY EUR': itemrange.deposit_max_pm_eur,
+            'SKRILL EUR': itemrange.deposit_max_skrill_eur,
+            'SKRILL USD': itemrange.deposit_max_skrill_usd,
+            'PAYPAL RUB': itemrange.deposit_max_paypal_rub,
+            'PAYPAL USD': itemrange.deposit_max_paypal_usd,
+            'PAYPAL EUR': itemrange.deposit_max_paypal_eur,
+            'UMONEY RUB': itemrange.deposit_max_umoney_rub,
+            'BITCOIN': itemrange.deposit_max_btc,
+            'RIPPLE': itemrange.deposit_max_xrp,
+            'LITECOIN': itemrange.deposit_max_ltc,
+            'BITCOIN CASH': itemrange.deposit_max_bch,
+            'MONERO': itemrange.deposit_max_xmr,
+            'ETHEREUM': itemrange.deposit_max_eth,
+            'ETHEREUM CLASSIC': itemrange.deposit_max_etc,
+            'DASH': itemrange.deposit_max_dash,
+        }
+        if list_active_in[name_ps_get] == 1:
+            if request_sum <= list_deposit_max[name_ps_get] and (request_sum * currencysort.base_currency) < item.balance:
                 changeq.append(item)
-        return {'changeq': changeq, 'valute': 'RUB'}
-    elif nameps == 'ТИНЬКОФФ':
-        for item in itemchange:
-            if item.active_in_tinkoff_rub == 1:
-                changeq.append(item)
-        return {'changeq': changeq, 'valute': 'RUB'}
-    elif nameps == 'АЛЬФА БАНК':
-        for item in itemchange:
-            if item.active_in_alfabank_rub == 1:
-                changeq.append(item)
-        return {'changeq': changeq, 'valute': 'RUB'}
-    elif nameps == 'ВТБ':
-        for item in itemchange:
-            if item.active_in_vtb_rub == 1:
-                changeq.append(item)
-        return {'changeq': changeq, 'valute': 'RUB'}
-    elif nameps == 'РАЙФФАЙЗЕНБАНК':
-        for item in itemchange:
-            if item.active_in_raifaizen_rub == 1:
-                changeq.append(item)
-        return {'changeq': changeq, 'valute': 'RUB'}
-    elif nameps == 'ОТКРЫТИЕ':
-        for item in itemchange:
-            if item.active_in_otkritie_rub == 1:
-                changeq.append(item)
-        return {'changeq': changeq, 'valute': 'RUB'}
-    elif nameps == 'ПСБ':
-        for item in itemchange:
-            if item.active_in_psb_rub == 1:
-                changeq.append(item)
-        return {'changeq': changeq, 'valute': 'RUB'}
-    elif nameps == 'ГАЗПРОМБАНК':
-        for item in itemchange:
-            if item.active_in_gazprombank_rub == 1:
-                changeq.append(item)
-        return {'changeq': changeq, 'valute': 'RUB'}
-    elif nameps == 'РУССКИЙ СТАНДАРТ':
-        for item in itemchange:
-            if item.active_in_russtandart_rub == 1:
-                changeq.append(item)
-        return {'changeq': changeq, 'valute': 'RUB'}
-    elif nameps == 'РОССЕЛЬХОЗБАНК':
-        for item in itemchange:
-            if item.active_in_rosselhoz_rub == 1:
-                changeq.append(item)
-        return {'changeq': changeq, 'valute': 'RUB'}
-    elif nameps == 'ПОЧТА БАНК':
-        for item in itemchange:
-            if item.active_in_pochtabank_rub == 1:
-                changeq.append(item)
-        return {'changeq': changeq, 'valute': 'RUB'}
-    elif nameps == 'РОСБАНК':
-        for item in itemchange:
-            if item.active_in_rosbank_rub == 1:
-                changeq.append(item)
-        return {'changeq': changeq, 'valute': 'RUB'}
-    elif nameps == 'РНКБ':
-        for item in itemchange:
-            if item.active_in_rnkb_rub == 1:
-                changeq.append(item)
-        return {'changeq': changeq, 'valute': 'RUB'}
-    elif nameps == 'МТС БАНК':
-        for item in itemchange:
-            if item.active_in_mtsbank_rub == 1:
-                changeq.append(item)
-        return {'changeq': changeq, 'valute': 'RUB'}
-    elif nameps == 'QIWI RUB':
-        for item in itemchange:
-            if item.active_in_qiwi_rub == 1:
-                changeq.append(item)
-        return {'changeq': changeq, 'valute': 'RUB'}
-    elif nameps == 'QIWI USD':
-        for item in itemchange:
-            if item.active_in_qiwi_usd == 1:
-                changeq.append(item)
-        return {'changeq': changeq, 'valute': 'USD'}
-    elif nameps == 'PAYEER RUB':
-        for item in itemchange:
-            if item.active_in_payeer_rub == 1:
-                changeq.append(item)
-        return {'changeq': changeq, 'valute': 'RUB'}
-    elif nameps == 'PAYEER EUR':
-        for item in itemchange:
-            if item.active_in_payeer_eur == 1:
-                changeq.append(item)
-        return {'changeq': changeq, 'valute': 'EUR'}
-    elif nameps == 'PAYEER USD':
-        for item in itemchange:
-            if item.active_in_payeer_usd == 1:
-                changeq.append(item)
-        return {'changeq': changeq, 'valute': 'USD'}
-    elif nameps == 'WEBMONEY RUB':
-        for item in itemchange:
-            if item.active_in_webmoney_rub == 1:
-                changeq.append(item)
-        return {'changeq': changeq, 'valute': 'RUB'}
-    elif nameps == 'WEBMONEY EUR':
-        for item in itemchange:
-            if item.active_in_webmoney_eur == 1:
-                changeq.append(item)
-        return {'changeq': changeq, 'valute': 'EUR'}
-    elif nameps == 'WEBMONEY USD':
-        for item in itemchange:
-            if item.active_in_webmoney_usd == 1:
-                changeq.append(item)
-        return {'changeq': changeq, 'valute': 'USD'}
-    elif nameps == 'PERFECT MONEY BTC':
-        for item in itemchange:
-            if item.active_in_pm_btc == 1:
-                changeq.append(item)
-        return {'changeq': changeq, 'valute': 'BTC'}
-    elif nameps == 'PERFECT MONEY EUR':
-        for item in itemchange:
-            if item.active_in_pm_eur == 1:
-                changeq.append(item)
-        return {'changeq': changeq, 'valute': 'EUR'}
-    elif nameps == 'PERFECT MONEY USD':
-        for item in itemchange:
-            if item.active_in_pm_usd == 1:
-                changeq.append(item)
-        return {'changeq': changeq, 'valute': 'USD'}
-    elif nameps == 'PAYPAL RUB':
-        for item in itemchange:
-            if item.active_in_paypal_rub == 1:
-                changeq.append(item)
-        return {'changeq': changeq, 'valute': 'RUB'}
-    elif nameps == 'PAYPAL EUR':
-        for item in itemchange:
-            if item.active_in_paypal_eur == 1:
-                changeq.append(item)
-        return {'changeq': changeq, 'valute': 'EUR'}
-    elif nameps == 'PAYPAL USD':
-        for item in itemchange:
-            if item.active_in_paypal_usd == 1:
-                changeq.append(item)
-        return {'changeq': changeq, 'valute': 'USD'}
-    elif nameps == 'SKRILL EUR':
-        for item in itemchange:
-            if item.active_in_skrill_eur == 1:
-                changeq.append(item)
-        return {'changeq': changeq, 'valute': 'EUR'}
-    elif nameps == 'SKRILL USD':
-        for item in itemchange:
-            if item.active_in_skrill_usd == 1:
-                changeq.append(item)
-        return {'changeq': changeq, 'valute': 'USD'}
-    elif nameps == 'UMONEY RUB':
-        for item in itemchange:
-            if item.active_in_umoney_rub == 1:
-                changeq.append(item)
-        return {'changeq': changeq, 'valute': 'RUB'}
-    elif nameps == 'BITCOIN':
-        for item in itemchange:
-            if item.active_in_btc == 1:
-                changeq.append(item)
-        return {'changeq': changeq, 'valute': 'BTC'}
-    elif nameps == 'LITECOIN':
-        for item in itemchange:
-            if item.active_in_ltc == 1:
-                changeq.append(item)
-        return {'changeq': changeq, 'valute': 'LTC'}
-    elif nameps == 'MONERO':
-        for item in itemchange:
-            if item.active_in_xmr == 1:
-                changeq.append(item)
-        return {'changeq': changeq, 'valute': 'XMR'}
-    elif nameps == 'ETHEREUM CLASSIC':
-        for item in itemchange:
-            if item.active_in_etc == 1:
-                changeq.append(item)
-        return {'changeq': changeq, 'valute': 'ETC'}
-    elif nameps == 'DASH':
-        for item in itemchange:
-            if item.active_in_dash == 1:
-                changeq.append(item)
-        return {'changeq': changeq, 'valute': 'DASH'}
-    elif nameps == 'RIPPLE':
-        for item in itemchange:
-            if item.active_in_xrp == 1:
-                changeq.append(item)
-        return {'changeq': changeq, 'valute': 'XRP'}
-    elif nameps == 'BITCOIN CASH':
-        for item in itemchange:
-            if item.active_in_bch == 1:
-                changeq.append(item)
-        return {'changeq': changeq, 'valute': 'BCH'}
-    elif nameps == 'ETHEREUM':
-        for item in itemchange:
-            if item.active_in_eth == 1:
-                changeq.append(item)
-        return {'changeq': changeq, 'valute': 'ETH'}
+    return {'changeq': changeq, 'valute': valute_ps_get}
 
 
 # активность обменника и направлений для вывода
-def widthsortchangeps(nameps):
+def widthsortchangeps(nameps, request_sum):
     itemchange = CustomUser.objects.filter(userid__custuserid='Владелец Обменника', is_active_change=1)
     changeq = []
-    if nameps == 'СБЕРБАНК':
-        for item in itemchange:
-            if item.active_out_sberbank_rub == 1:
-                changeq.append(item)
-        return {'changeq': changeq, 'valute': 'RUB'}
-    elif nameps == 'ТИНЬКОФФ':
-        for item in itemchange:
-            if item.active_out_tinkoff_rub == 1:
-                changeq.append(item)
-        return {'changeq': changeq, 'valute': 'RUB'}
-    elif nameps == 'АЛЬФА БАНК':
-        for item in itemchange:
-            if item.active_out_alfabank_rub == 1:
-                changeq.append(item)
-        return {'changeq': changeq, 'valute': 'RUB'}
-    elif nameps == 'ВТБ':
-        for item in itemchange:
-            if item.active_out_vtb_rub == 1:
-                changeq.append(item)
-        return {'changeq': changeq, 'valute': 'RUB'}
-    elif nameps == 'РАЙФФАЙЗЕНБАНК':
-        for item in itemchange:
-            if item.active_out_raifaizen_rub == 1:
-                changeq.append(item)
-        return {'changeq': changeq, 'valute': 'RUB'}
-    elif nameps == 'ОТКРЫТИЕ':
-        for item in itemchange:
-            if item.active_out_otkritie_rub == 1:
-                changeq.append(item)
-        return {'changeq': changeq, 'valute': 'RUB'}
-    elif nameps == 'ПСБ':
-        for item in itemchange:
-            if item.active_out_psb_rub == 1:
-                changeq.append(item)
-        return {'changeq': changeq, 'valute': 'RUB'}
-    elif nameps == 'ГАЗПРОМБАНК':
-        for item in itemchange:
-            if item.active_out_gazprombank_rub == 1:
-                changeq.append(item)
-        return {'changeq': changeq, 'valute': 'RUB'}
-    elif nameps == 'РУССКИЙ СТАНДАРТ':
-        for item in itemchange:
-            if item.active_out_russtandart_rub == 1:
-                changeq.append(item)
-        return {'changeq': changeq, 'valute': 'RUB'}
-    elif nameps == 'РОССЕЛЬХОЗБАНК':
-        for item in itemchange:
-            if item.active_out_rosselhoz_rub == 1:
-                changeq.append(item)
-        return {'changeq': changeq, 'valute': 'RUB'}
-    elif nameps == 'ПОЧТА БАНК':
-        for item in itemchange:
-            if item.active_out_pochtabank_rub == 1:
-                changeq.append(item)
-        return {'changeq': changeq, 'valute': 'RUB'}
-    elif nameps == 'РОСБАНК':
-        for item in itemchange:
-            if item.active_out_rosbank_rub == 1:
-                changeq.append(item)
-        return {'changeq': changeq, 'valute': 'RUB'}
-    elif nameps == 'РНКБ':
-        for item in itemchange:
-            if item.active_out_rnkb_rub == 1:
-                changeq.append(item)
-        return {'changeq': changeq, 'valute': 'RUB'}
-    elif nameps == 'МТС БАНК':
-        for item in itemchange:
-            if item.active_out_mtsbank_rub == 1:
-                changeq.append(item)
-        return {'changeq': changeq, 'valute': 'RUB'}
-    elif nameps == 'QIWI RUB':
-        for item in itemchange:
-            if item.active_out_qiwi_rub == 1:
-                changeq.append(item)
-        return {'changeq': changeq, 'valute': 'RUB'}
-    elif nameps == 'QIWI USD':
-        for item in itemchange:
-            if item.active_out_qiwi_usd == 1:
-                changeq.append(item)
-        return {'changeq': changeq, 'valute': 'USD'}
-    elif nameps == 'PAYEER RUB':
-        for item in itemchange:
-            if item.active_out_payeer_rub == 1:
-                changeq.append(item)
-        return {'changeq': changeq, 'valute': 'RUB'}
-    elif nameps == 'PAYEER EUR':
-        for item in itemchange:
-            if item.active_out_payeer_eur == 1:
-                changeq.append(item)
-        return {'changeq': changeq, 'valute': 'EUR'}
-    elif nameps == 'PAYEER USD':
-        for item in itemchange:
-            if item.active_out_payeer_usd == 1:
-                changeq.append(item)
-        return {'changeq': changeq, 'valute': 'USD'}
-    elif nameps == 'WEBMONEY RUB':
-        for item in itemchange:
-            if item.active_out_webmoney_rub == 1:
-                changeq.append(item)
-        return {'changeq': changeq, 'valute': 'RUB'}
-    elif nameps == 'WEBMONEY EUR':
-        for item in itemchange:
-            if item.active_out_webmoney_eur == 1:
-                changeq.append(item)
-        return {'changeq': changeq, 'valute': 'EUR'}
-    elif nameps == 'WEBMONEY USD':
-        for item in itemchange:
-            if item.active_out_webmoney_usd == 1:
-                changeq.append(item)
-        return {'changeq': changeq, 'valute': 'USD'}
-    elif nameps == 'PERFECT MONEY BTC':
-        for item in itemchange:
-            if item.active_out_pm_btc == 1:
-                changeq.append(item)
-        return {'changeq': changeq, 'valute': 'BTC'}
-    elif nameps == 'PERFECT MONEY EUR':
-        for item in itemchange:
-            if item.active_out_pm_eur == 1:
-                changeq.append(item)
-        return {'changeq': changeq, 'valute': 'EUR'}
-    elif nameps == 'PERFECT MONEY USD':
-        for item in itemchange:
-            if item.active_out_pm_usd == 1:
-                changeq.append(item)
-        return {'changeq': changeq, 'valute': 'USD'}
-    elif nameps == 'PAYPAL RUB':
-        for item in itemchange:
-            if item.active_out_paypal_rub == 1:
-                changeq.append(item)
-        return {'changeq': changeq, 'valute': 'RUB'}
-    elif nameps == 'PAYPAL EUR':
-        for item in itemchange:
-            if item.active_out_paypal_eur == 1:
-                changeq.append(item)
-        return {'changeq': changeq, 'valute': 'EUR'}
-    elif nameps == 'PAYPAL USD':
-        for item in itemchange:
-            if item.active_out_paypal_usd == 1:
-                changeq.append(item)
-        return {'changeq': changeq, 'valute': 'USD'}
-    elif nameps == 'SKRILL EUR':
-        for item in itemchange:
-            if item.active_out_skrill_eur == 1:
-                changeq.append(item)
-        return {'changeq': changeq, 'valute': 'EUR'}
-    elif nameps == 'SKRILL USD':
-        for item in itemchange:
-            if item.active_out_skrill_usd == 1:
-                changeq.append(item)
-        return {'changeq': changeq, 'valute': 'USD'}
-    elif nameps == 'UMONEY RUB':
-        for item in itemchange:
-            if item.active_out_umoney_rub == 1:
-                changeq.append(item)
-        return {'changeq': changeq, 'valute': 'RUB'}
-    elif nameps == 'BITCOIN':
-        for item in itemchange:
-            if item.active_out_btc == 1:
-                changeq.append(item)
-        return {'changeq': changeq, 'valute': 'BTC'}
-    elif nameps == 'LITECOIN':
-        for item in itemchange:
-            if item.active_out_ltc == 1:
-                changeq.append(item)
-        return {'changeq': changeq, 'valute': 'LTC'}
-    elif nameps == 'MONERO':
-        for item in itemchange:
-            if item.active_out_xmr == 1:
-                changeq.append(item)
-        return {'changeq': changeq, 'valute': 'XMR'}
-    elif nameps == 'ETHEREUM CLASSIC':
-        for item in itemchange:
-            if item.active_out_etc == 1:
-                changeq.append(item)
-        return {'changeq': changeq, 'valute': 'ETC'}
-    elif nameps == 'DASH':
-        for item in itemchange:
-            if item.active_out_dash == 1:
-                changeq.append(item)
-        return {'changeq': changeq, 'valute': 'DASH'}
-    elif nameps == 'RIPPLE':
-        for item in itemchange:
-            if item.active_out_xrp == 1:
-                changeq.append(item)
-        return {'changeq': changeq, 'valute': 'XRP'}
-    elif nameps == 'BITCOIN CASH':
-        for item in itemchange:
-            if item.active_out_bch == 1:
-                changeq.append(item)
-        return {'changeq': changeq, 'valute': 'BCH'}
-    elif nameps == 'ETHEREUM':
-        for item in itemchange:
-            if item.active_out_eth == 1:
-                changeq.append(item)
-        return {'changeq': changeq, 'valute': 'ETH'}
+    currencysort_list = CurrencyCBRF.objects.all()
+    itemrange_list = RangeSumWidth.objects.all()
 
+    name_ps_list = {
+        'СБЕРБАНК': 'RUB',
+        'ТИНЬКОФФ': 'RUB',
+        'АЛЬФА БАНК': 'RUB',
+        'ВТБ': 'RUB',
+        'РАЙФФАЙЗЕНБАНК': 'RUB',
+        'ОТКРЫТИЕ': 'RUB',
+        'ПСБ': 'RUB',
+        'ГАЗПРОМБАНК': 'RUB',
+        'РУССКИЙ СТАНДАРТ': 'RUB',
+        'РОССЕЛЬХОЗБАНК': 'RUB',
+        'ПОЧТА БАНК': 'RUB',
+        'РОСБАНК': 'RUB',
+        'РНКБ': 'RUB',
+        'МТС БАНК': 'RUB',
+        'QIWI RUB': 'RUB',
+        'QIWI USD': 'USD',
+        'PAYEER RUB': 'RUB',
+        'PAYEER EUR': 'EUR',
+        'PAYEER USD': 'USD',
+        'WEBMONEY RUB': 'RUB',
+        'WEBMONEY EUR': 'EUR',
+        'WEBMONEY USD': 'USD',
+        'PERFECT MONEY BTC': 'BTC',
+        'PERFECT MONEY EUR': 'EUR',
+        'PERFECT MONEY USD': 'USD',
+        'PAYPAL RUB': 'RUB',
+        'PAYPAL EUR': 'EUR',
+        'PAYPAL USD': 'USD',
+        'SKRILL EUR': 'EUR',
+        'SKRILL USD': 'USD',
+        'UMONEY RUB': 'RUB',
+        'BITCOIN': 'BTC',
+        'LITECOIN': 'LTC',
+        'MONERO': 'XMR',
+        'ETHEREUM CLASSIC': 'ETC',
+        'DASH': 'DASH',
+        'RIPPLE': 'XRP',
+        'BITCOIN CASH': 'BCH',
+        'ETHEREUM': 'ETH',
+    }
 
-# проверка баланса для пополнений
-def depositsortbalanceps(userps, balanceps, valuteps):
-    userlist = []
-    currencysort = CurrencyCBRF.objects.get(name_currency=valuteps)
-    if valuteps == 'USD':
-        for userchange in userps:
-            if balanceps < userchange.balance:
-                userlist.append(userchange)
-    else:
-        for userchange in userps:
-            if balanceps * currencysort.base_currency < userchange.balance:
-                userlist.append(userchange)
+    name_ps_get = nameps
+    valute_ps_get = name_ps_list[nameps]
+    currencysort = currencysort_list.get(name_currency=valute_ps_get)
 
-    return userlist
-
-
-# проверка баланса для вывода
-def widthsortbalanceps(userps, balanceps, nameps, valuteps):
-    userlist = []
-    currencysort = CurrencyCBRF.objects.get(name_currency=valuteps)
-    if nameps == 'СБЕРБАНК':
-        for userchange in userps:
-            if userchange.reserv_sberbank_rub * currencysort.base_currency > balanceps < userchange.balance:
-                userlist.append(userchange)
-    elif nameps == 'ТИНЬКОФФ':
-        for userchange in userps:
-            if userchange.reserv_tinkoff_rub * currencysort.base_currency > balanceps < userchange.balance:
-                userlist.append(userchange)
-    elif nameps == 'АЛЬФА БАНК':
-        for userchange in userps:
-            if userchange.reserv_alfabank_rub * currencysort.base_currency > balanceps < userchange.balance:
-                userlist.append(userchange)
-    elif nameps == 'ВТБ':
-        for userchange in userps:
-            if userchange.reserv_vtb_rub * currencysort.base_currency > balanceps < userchange.balance:
-                userlist.append(userchange)
-    elif nameps == 'РАЙФФАЙЗЕНБАНК':
-        for userchange in userps:
-            if userchange.reserv_raifaizen_rub * currencysort.base_currency > balanceps < userchange.balance:
-                userlist.append(userchange)
-    elif nameps == 'ОТКРЫТИЕ':
-        for userchange in userps:
-            if userchange.reserv_otkritie_rub * currencysort.base_currency > balanceps < userchange.balance:
-                userlist.append(userchange)
-    elif nameps == 'ПСБ':
-        for userchange in userps:
-            if userchange.reserv_psb_rub * currencysort.base_currency > balanceps < userchange.balance:
-                userlist.append(userchange)
-    elif nameps == 'ГАЗПРОМБАНК':
-        for userchange in userps:
-            if userchange.reserv_gazprombank_rub * currencysort.base_currency > balanceps < userchange.balance:
-                userlist.append(userchange)
-    elif nameps == 'РУССКИЙ СТАНДАРТ':
-        for userchange in userps:
-            if userchange.reserv_russtandart_rub * currencysort.base_currency > balanceps < userchange.balance:
-                userlist.append(userchange)
-    elif nameps == 'РОССЕЛЬХОЗБАНК':
-        for userchange in userps:
-            if userchange.reserv_rosselhoz_rub * currencysort.base_currency > balanceps < userchange.balance:
-                userlist.append(userchange)
-    elif nameps == 'ПОЧТА БАНК':
-        for userchange in userps:
-            if userchange.reserv_pochtabank_rub * currencysort.base_currency > balanceps < userchange.balance:
-                userlist.append(userchange)
-    elif nameps == 'РОСБАНК':
-        for userchange in userps:
-            if userchange.reserv_rosbank_rub * currencysort.base_currency > balanceps < userchange.balance:
-                userlist.append(userchange)
-    elif nameps == 'РНКБ':
-        for userchange in userps:
-            if userchange.reserv_rnkb_rub * currencysort.base_currency > balanceps < userchange.balance:
-                userlist.append(userchange)
-    elif nameps == 'МТС БАНК':
-        for userchange in userps:
-            if userchange.reserv_mtsbank_rub * currencysort.base_currency > balanceps < userchange.balance:
-                userlist.append(userchange)
-    elif nameps == 'QIWI RUB':
-        for userchange in userps:
-            if userchange.reserv_qiwi_rub * currencysort.base_currency > balanceps < userchange.balance:
-                userlist.append(userchange)
-    elif nameps == 'QIWI USD':
-        for userchange in userps:
-            if userchange.reserv_qiwi_usd * currencysort.base_currency > balanceps < userchange.balance:
-                userlist.append(userchange)
-    elif nameps == 'PAYEER RUB':
-        for userchange in userps:
-            if userchange.reserv_payeer_rub * currencysort.base_currency > balanceps < userchange.balance:
-                userlist.append(userchange)
-    elif nameps == 'PAYEER EUR':
-        for userchange in userps:
-            if userchange.reserv_payeer_eur * currencysort.base_currency > balanceps < userchange.balance:
-                userlist.append(userchange)
-    elif nameps == 'PAYEER USD':
-        for userchange in userps:
-            if userchange.reserv_payeer_usd * currencysort.base_currency > balanceps < userchange.balance:
-                userlist.append(userchange)
-    elif nameps == 'WEBMONEY RUB':
-        for userchange in userps:
-            if userchange.reserv_webmoney_rub * currencysort.base_currency > balanceps < userchange.balance:
-                userlist.append(userchange)
-    elif nameps == 'WEBMONEY EUR':
-        for userchange in userps:
-            if userchange.reserv_webmoney_eur * currencysort.base_currency > balanceps < userchange.balance:
-                userlist.append(userchange)
-    elif nameps == 'WEBMONEY USD':
-        for userchange in userps:
-            if userchange.reserv_webmoney_usd * currencysort.base_currency > balanceps < userchange.balance:
-                userlist.append(userchange)
-    elif nameps == 'PERFECT MONEY BTC':
-        for userchange in userps:
-            if userchange.reserv_pm_btc * currencysort.base_currency > balanceps < userchange.balance:
-                userlist.append(userchange)
-    elif nameps == 'PERFECT MONEY EUR':
-        for userchange in userps:
-            if userchange.reserv_pm_eur * currencysort.base_currency > balanceps < userchange.balance:
-                userlist.append(userchange)
-    elif nameps == 'PERFECT MONEY USD':
-        for userchange in userps:
-            if userchange.reserv_pm_usd * currencysort.base_currency > balanceps < userchange.balance:
-                userlist.append(userchange)
-    elif nameps == 'PAYPAL RUB':
-        for userchange in userps:
-            if userchange.reserv_paypal_rub * currencysort.base_currency > balanceps < userchange.balance:
-                userlist.append(userchange)
-    elif nameps == 'PAYPAL EUR':
-        for userchange in userps:
-            if userchange.reserv_paypal_eur * currencysort.base_currency > balanceps < userchange.balance:
-                userlist.append(userchange)
-    elif nameps == 'PAYPAL USD':
-        for userchange in userps:
-            if userchange.reserv_paypal_usd * currencysort.base_currency > balanceps < userchange.balance:
-                userlist.append(userchange)
-    elif nameps == 'SKRILL EUR':
-        for userchange in userps:
-            if userchange.reserv_skrill_eur * currencysort.base_currency > balanceps < userchange.balance:
-                userlist.append(userchange)
-    elif nameps == 'SKRILL USD':
-        for userchange in userps:
-            if userchange.reserv_skrill_usd * currencysort.base_currency > balanceps < userchange.balance:
-                userlist.append(userchange)
-    elif nameps == 'UMONEY RUB':
-        for userchange in userps:
-            if userchange.reserv_umoney_rub * currencysort.base_currency > balanceps < userchange.balance:
-                userlist.append(userchange)
-    elif nameps == 'BITCOIN':
-        for userchange in userps:
-            if userchange.reserv_btc * currencysort.base_currency > balanceps < userchange.balance:
-                userlist.append(userchange)
-    elif nameps == 'LITECOIN':
-        for userchange in userps:
-            if userchange.reserv_ltc * currencysort.base_currency > balanceps < userchange.balance:
-                userlist.append(userchange)
-    elif nameps == 'MONERO':
-        for userchange in userps:
-            if userchange.reserv_xmr * currencysort.base_currency > balanceps < userchange.balance:
-                userlist.append(userchange)
-    elif nameps == 'ETHEREUM CLASSIC':
-        for userchange in userps:
-            if userchange.reserv_etc * currencysort.base_currency > balanceps < userchange.balance:
-                userlist.append(userchange)
-    elif nameps == 'DASH':
-        for userchange in userps:
-            if userchange.reserv_dash * currencysort.base_currency > balanceps < userchange.balance:
-                userlist.append(userchange)
-    elif nameps == 'RIPPLE':
-        for userchange in userps:
-            if userchange.reserv_xrp * currencysort.base_currency > balanceps < userchange.balance:
-                userlist.append(userchange)
-    elif nameps == 'BITCOIN CASH':
-        for userchange in userps:
-            if userchange.reserv_bch * currencysort.base_currency > balanceps < userchange.balance:
-                userlist.append(userchange)
-    elif nameps == 'ETHEREUM':
-        for userchange in userps:
-            if userchange.reserv_eth * currencysort.base_currency > balanceps < userchange.balance:
-                userlist.append(userchange)
-    return userlist
+    for item in itemchange:
+        itemrange = itemrange_list.get(width_range_username=item)
+        list_active_out = {
+            'СБЕРБАНК': item.active_out_sberbank_rub,
+            'ПСБ': item.active_out_psb_rub,
+            'ТИНЬКОФФ': item.active_out_tinkoff_rub,
+            'ГАЗПРОМБАНК': item.active_out_gazprombank_rub,
+            'АЛЬФА БАНК': item.active_out_alfabank_rub,
+            'РУССКИЙ СТАНДАРТ': item.active_out_russtandart_rub,
+            'ВТБ': item.active_out_vtb_rub,
+            'РОССЕЛЬХОЗБАНК': item.active_out_rosselhoz_rub,
+            'РАЙФФАЙЗЕНБАНК': item.active_out_raifaizen_rub,
+            'ОТКРЫТИЕ': item.active_out_otkritie_rub,
+            'ПОЧТА БАНК': item.active_out_pochtabank_rub,
+            'РНКБ': item.active_out_rnkb_rub,
+            'РОСБАНК': item.active_out_rosbank_rub,
+            'МТС БАНК': item.active_out_mtsbank_rub,
+            'QIWI RUB': item.active_out_qiwi_rub,
+            'QIWI USD': item.active_out_qiwi_usd,
+            'PAYEER RUB': item.active_out_payeer_rub,
+            'PAYEER USD': item.active_out_payeer_usd,
+            'PAYEER EUR': item.active_out_payeer_eur,
+            'WEBMONEY RUB': item.active_out_webmoney_rub,
+            'WEBMONEY USD': item.active_out_webmoney_usd,
+            'WEBMONEY EUR': item.active_out_webmoney_eur,
+            'PERFECT MONEY BTC': item.active_out_pm_btc,
+            'PERFECT MONEY USD': item.active_out_pm_usd,
+            'PERFECT MONEY EUR': item.active_out_pm_eur,
+            'SKRILL EUR': item.active_out_skrill_eur,
+            'SKRILL USD': item.active_out_skrill_usd,
+            'PAYPAL RUB': item.active_out_paypal_rub,
+            'PAYPAL USD': item.active_out_paypal_usd,
+            'PAYPAL EUR': item.active_out_paypal_eur,
+            'UMONEY RUB': item.active_out_umoney_rub,
+            'BITCOIN': item.active_out_btc,
+            'RIPPLE': item.active_out_xrp,
+            'LITECOIN': item.active_out_ltc,
+            'BITCOIN CASH': item.active_out_bch,
+            'MONERO': item.active_out_xmr,
+            'ETHEREUM': item.active_out_eth,
+            'ETHEREUM CLASSIC': item.active_out_etc,
+            'DASH': item.active_out_dash,
+        }
+        list_width_max = {
+            'СБЕРБАНК': itemrange.width_max_sberbank_rub,
+            'ПСБ': itemrange.width_max_psb_rub,
+            'ТИНЬКОФФ': itemrange.width_max_tinkoff_rub,
+            'ГАЗПРОМБАНК': itemrange.width_max_gazprombank_rub,
+            'АЛЬФА БАНК': itemrange.width_max_alfabank_rub,
+            'РУССКИЙ СТАНДАРТ': itemrange.width_max_russtandart_rub,
+            'ВТБ': itemrange.width_max_vtb_rub,
+            'РОССЕЛЬХОЗБАНК': itemrange.width_max_rosselhoz_rub,
+            'РАЙФФАЙЗЕНБАНК': itemrange.width_max_raifaizen_rub,
+            'ОТКРЫТИЕ': itemrange.width_max_otkritie_rub,
+            'ПОЧТА БАНК': itemrange.width_max_pochtabank_rub,
+            'РНКБ': itemrange.width_max_rnkb_rub,
+            'РОСБАНК': itemrange.width_max_rosbank_rub,
+            'МТС БАНК': itemrange.width_max_mtsbank_rub,
+            'QIWI RUB': itemrange.width_max_qiwi_rub,
+            'QIWI USD': itemrange.width_max_qiwi_usd,
+            'PAYEER RUB': itemrange.width_max_payeer_rub,
+            'PAYEER USD': itemrange.width_max_payeer_usd,
+            'PAYEER EUR': itemrange.width_max_payeer_eur,
+            'WEBMONEY RUB': itemrange.width_max_webmoney_rub,
+            'WEBMONEY USD': itemrange.width_max_webmoney_usd,
+            'WEBMONEY EUR': itemrange.width_max_webmoney_eur,
+            'PERFECT MONEY BTC': itemrange.width_max_pm_btc,
+            'PERFECT MONEY USD': itemrange.width_max_pm_usd,
+            'PERFECT MONEY EUR': itemrange.width_max_pm_eur,
+            'SKRILL EUR': itemrange.width_max_skrill_eur,
+            'SKRILL USD': itemrange.width_max_skrill_usd,
+            'PAYPAL RUB': itemrange.width_max_paypal_rub,
+            'PAYPAL USD': itemrange.width_max_paypal_usd,
+            'PAYPAL EUR': itemrange.width_max_paypal_eur,
+            'UMONEY RUB': itemrange.width_max_umoney_rub,
+            'BITCOIN': itemrange.width_max_btc,
+            'RIPPLE': itemrange.width_max_xrp,
+            'LITECOIN': itemrange.width_max_ltc,
+            'BITCOIN CASH': itemrange.width_max_bch,
+            'MONERO': itemrange.width_max_xmr,
+            'ETHEREUM': itemrange.width_max_eth,
+            'ETHEREUM CLASSIC': itemrange.width_max_etc,
+            'DASH': itemrange.width_max_dash,
+        }
+        list_reserv = {
+            'СБЕРБАНК': item.reserv_sberbank_rub,
+            'ПСБ': item.reserv_psb_rub,
+            'ТИНЬКОФФ': item.reserv_tinkoff_rub,
+            'ГАЗПРОМБАНК': item.reserv_gazprombank_rub,
+            'АЛЬФА БАНК': item.reserv_alfabank_rub,
+            'РУССКИЙ СТАНДАРТ': item.reserv_russtandart_rub,
+            'ВТБ': item.reserv_vtb_rub,
+            'РОССЕЛЬХОЗБАНК': item.reserv_rosselhoz_rub,
+            'РАЙФФАЙЗЕНБАНК': item.reserv_raifaizen_rub,
+            'ОТКРЫТИЕ': item.reserv_otkritie_rub,
+            'ПОЧТА БАНК': item.reserv_pochtabank_rub,
+            'РНКБ': item.reserv_rnkb_rub,
+            'РОСБАНК': item.reserv_rosbank_rub,
+            'МТС БАНК': item.reserv_mtsbank_rub,
+            'QIWI RUB': item.reserv_qiwi_rub,
+            'QIWI USD': item.reserv_qiwi_usd,
+            'PAYEER RUB': item.reserv_payeer_rub,
+            'PAYEER USD': item.reserv_payeer_usd,
+            'PAYEER EUR': item.reserv_payeer_eur,
+            'WEBMONEY RUB': item.reserv_webmoney_rub,
+            'WEBMONEY USD': item.reserv_webmoney_usd,
+            'WEBMONEY EUR': item.reserv_webmoney_eur,
+            'PERFECT MONEY BTC': item.reserv_pm_btc,
+            'PERFECT MONEY USD': item.reserv_pm_usd,
+            'PERFECT MONEY EUR': item.reserv_pm_eur,
+            'SKRILL EUR': item.reserv_skrill_eur,
+            'SKRILL USD': item.reserv_skrill_usd,
+            'PAYPAL RUB': item.reserv_paypal_rub,
+            'PAYPAL USD': item.reserv_paypal_usd,
+            'PAYPAL EUR': item.reserv_paypal_eur,
+            'UMONEY RUB': item.reserv_umoney_rub,
+            'BITCOIN': item.reserv_btc,
+            'RIPPLE': item.reserv_xrp,
+            'LITECOIN': item.reserv_ltc,
+            'BITCOIN CASH': item.reserv_bch,
+            'MONERO': item.reserv_xmr,
+            'ETHEREUM': item.reserv_eth,
+            'ETHEREUM CLASSIC': item.reserv_etc,
+            'DASH': item.reserv_dash,
+        }
+        if list_active_out[name_ps_get] == 1:
+            if request_sum <= list_width_max[name_ps_get] * currencysort.base_currency and list_reserv[name_ps_get] * currencysort.base_currency > request_sum:
+                changeq.append(item)
+    return {'changeq': changeq, 'valute': valute_ps_get}
 
 
 # выбор победителя для пополнений
@@ -604,8 +350,8 @@ def depositsortcritery(userps, critery, nameps):
             if requestps:
                 chartime = []
                 for time in requestps:
-                    if time.date_end_change and time.request_type == 'Заявка на пополнение':
-                        timelimit = time.date_end_change - time.date_joined_change
+                    if time.date_end_change and time.date_change_request and time.request_type == 'Заявка на пополнение':
+                        timelimit = time.date_end_change - time.date_change_request
                         timebase = timelimit.seconds / 60
                         chartime.append(timebase)
                 if len(chartime) >= 1:
@@ -621,7 +367,7 @@ def depositsortcritery(userps, critery, nameps):
             else:
                 userrandom.append(item)
 
-        if not usernameps:
+        if userrandom:
             ranuser = random.randint(1, len(userrandom))
             ran = 1
             for r in userrandom:
@@ -1887,233 +1633,10 @@ def requesttotal(usernamerequesttotal):
     return {'inrequest': inrequest, 'inrequesttotal': inrequesttotal, 'widthrequest': widthrequest, 'widthrequesttotal': widthrequesttotal}
 
 
-# активные пс на пополнение и резерв(запас -3%) у обменников
+# получение общего резерва обменников на пополнение
 def active_deposit_ps_global():
     list_change = CustomUser.objects.filter(userid__custuserid='Владелец Обменника', is_active_change=1)
     currency = CurrencyCBRF.objects.all()
-    list_active_change_ps = {
-        'sberbank_rub': False, 'psb_rub': False, 'tinkoff_rub': False, 'gazprombank_rub': False, 'alfabank_rub': False,
-        'russtandart_rub': False, 'vtb_rub': False, 'rosselhoz_rub': False, 'raifaizen_rub': False,
-        'otkritie_rub': False, 'pochtabank_rub': False, 'rnkb_rub': False, 'rosbank_rub': False, 'mtsbank_rub': False,
-        'qiwi_rub': False, 'qiwi_usd': False, 'payeer_rub': False, 'payeer_usd': False, 'payeer_eur': False,
-        'webmoney_rub': False, 'webmoney_usd': False, 'webmoney_eur': False, 'pm_btc': False, 'pm_usd': False,
-        'pm_eur': False, 'skrill_eur': False, 'skrill_usd': False, 'paypal_rub': False, 'paypal_usd': False,
-        'paypal_eur': False, 'umoney_rub': False, 'btc': False, 'xrp': False, 'ltc': False, 'bch': False,
-        'xmr': False, 'eth': False, 'etc': False, 'dash': False
-    }
-    list_active_reserve_ps = {
-        'sberbank_rub': 0, 'psb_rub': 0, 'tinkoff_rub': 0, 'gazprombank_rub': 0, 'alfabank_rub': 0, 'russtandart_rub': 0,
-        'vtb_rub': 0, 'rosselhoz_rub': 0, 'raifaizen_rub': 0, 'otkritie_rub': 0, 'pochtabank_rub': 0, 'rnkb_rub': 0,
-        'rosbank_rub': 0, 'mtsbank_rub': 0, 'qiwi_rub': 0, 'qiwi_usd': 0, 'payeer_rub': 0, 'payeer_usd': 0,
-        'payeer_eur': 0, 'webmoney_rub': 0, 'webmoney_usd': 0, 'webmoney_eur': 0, 'pm_btc': 0, 'pm_usd': 0,
-        'pm_eur': 0, 'skrill_eur': 0, 'skrill_usd': 0, 'paypal_rub': 0, 'paypal_usd': 0, 'paypal_eur': 0, 'umoney_rub': 0,
-        'btc': 0, 'xrp': 0, 'ltc': 0, 'bch': 0, 'xmr': 0, 'eth': 0, 'etc': 0, 'dash': 0
-    }
-    for change in list_change:
-        if RangeSumDeposit.objects.filter(deposit_range_username=change).exists():
-            if change.active_in_sberbank_rub == 1:
-                currencyget = currency.get(name_currency='RUB').base_currency
-                if int(change.balance/currencyget) > list_active_reserve_ps['sberbank_rub']:
-                    list_active_reserve_ps['sberbank_rub'] = int((change.balance/currencyget)-(((change.balance/currencyget)/100)*3))
-                    list_active_change_ps['sberbank_rub'] = True
-            if change.active_in_psb_rub == 1:
-                currencyget = currency.get(name_currency='RUB').base_currency
-                if int(change.balance/currencyget) > list_active_reserve_ps['psb_rub']:
-                    list_active_reserve_ps['psb_rub'] = int((change.balance/currencyget)-(((change.balance/currencyget)/100)*3))
-                    list_active_change_ps['psb_rub'] = True
-            if change.active_in_tinkoff_rub == 1:
-                currencyget = currency.get(name_currency='RUB').base_currency
-                if int(change.balance/currencyget) > list_active_reserve_ps['tinkoff_rub']:
-                    list_active_reserve_ps['tinkoff_rub'] = int((change.balance/currencyget)-(((change.balance/currencyget)/100)*3))
-                    list_active_change_ps['tinkoff_rub'] = True
-            if change.active_in_gazprombank_rub == 1:
-                currencyget = currency.get(name_currency='RUB').base_currency
-                if int(change.balance/currencyget) > list_active_reserve_ps['gazprombank_rub']:
-                    list_active_reserve_ps['gazprombank_rub'] = int((change.balance/currencyget)-(((change.balance/currencyget)/100)*3))
-                    list_active_change_ps['gazprombank_rub'] = True
-            if change.active_in_alfabank_rub == 1:
-                currencyget = currency.get(name_currency='RUB').base_currency
-                if int(change.balance/currencyget) > list_active_reserve_ps['alfabank_rub']:
-                    list_active_reserve_ps['alfabank_rub'] = int((change.balance/currencyget)-(((change.balance/currencyget)/100)*3))
-                    list_active_change_ps['alfabank_rub'] = True
-            if change.active_in_russtandart_rub == 1:
-                currencyget = currency.get(name_currency='RUB').base_currency
-                if int(change.balance/currencyget) > list_active_reserve_ps['russtandart_rub']:
-                    list_active_reserve_ps['russtandart_rub'] = int((change.balance/currencyget)-(((change.balance/currencyget)/100)*3))
-                    list_active_change_ps['russtandart_rub'] = True
-            if change.active_in_vtb_rub == 1:
-                currencyget = currency.get(name_currency='RUB').base_currency
-                if int(change.balance/currencyget) > list_active_reserve_ps['vtb_rub']:
-                    list_active_reserve_ps['vtb_rub'] = int((change.balance/currencyget)-(((change.balance/currencyget)/100)*3))
-                    list_active_change_ps['vtb_rub'] = True
-            if change.active_in_rosselhoz_rub == 1:
-                currencyget = currency.get(name_currency='RUB').base_currency
-                if int(change.balance/currencyget) > list_active_reserve_ps['rosselhoz_rub']:
-                    list_active_reserve_ps['rosselhoz_rub'] = int((change.balance/currencyget)-(((change.balance/currencyget)/100)*3))
-                    list_active_change_ps['rosselhoz_rub'] = True
-            if change.active_in_raifaizen_rub == 1:
-                currencyget = currency.get(name_currency='RUB').base_currency
-                if int(change.balance/currencyget) > list_active_reserve_ps['raifaizen_rub']:
-                    list_active_reserve_ps['raifaizen_rub'] = int((change.balance/currencyget)-(((change.balance/currencyget)/100)*3))
-                    list_active_change_ps['raifaizen_rub'] = True
-            if change.active_in_otkritie_rub == 1:
-                currencyget = currency.get(name_currency='RUB').base_currency
-                if int(change.balance/currencyget) > list_active_reserve_ps['otkritie_rub']:
-                    list_active_reserve_ps['otkritie_rub'] = int((change.balance/currencyget)-(((change.balance/currencyget)/100)*3))
-                    list_active_change_ps['otkritie_rub'] = True
-            if change.active_in_pochtabank_rub == 1:
-                currencyget = currency.get(name_currency='RUB').base_currency
-                if int(change.balance/currencyget) > list_active_reserve_ps['pochtabank_rub']:
-                    list_active_reserve_ps['pochtabank_rub'] = int((change.balance/currencyget)-(((change.balance/currencyget)/100)*3))
-                    list_active_change_ps['pochtabank_rub'] = True
-            if change.active_in_rnkb_rub == 1:
-                currencyget = currency.get(name_currency='RUB').base_currency
-                if int(change.balance/currencyget) > list_active_reserve_ps['rnkb_rub']:
-                    list_active_reserve_ps['rnkb_rub'] = int((change.balance/currencyget)-(((change.balance/currencyget)/100)*3))
-                    list_active_change_ps['rnkb_rub'] = True
-            if change.active_in_rosbank_rub == 1:
-                currencyget = currency.get(name_currency='RUB').base_currency
-                if int(change.balance/currencyget) > list_active_reserve_ps['rosbank_rub']:
-                    list_active_reserve_ps['rosbank_rub'] = int((change.balance/currencyget)-(((change.balance/currencyget)/100)*3))
-                    list_active_change_ps['rosbank_rub'] = True
-            if change.active_in_mtsbank_rub == 1:
-                currencyget = currency.get(name_currency='RUB').base_currency
-                if int(change.balance/currencyget) > list_active_reserve_ps['mtsbank_rub']:
-                    list_active_reserve_ps['mtsbank_rub'] = int((change.balance/currencyget)-(((change.balance/currencyget)/100)*3))
-                    list_active_change_ps['mtsbank_rub'] = True
-            if change.active_in_qiwi_rub == 1:
-                currencyget = currency.get(name_currency='RUB').base_currency
-                if int(change.balance/currencyget) > list_active_reserve_ps['qiwi_rub']:
-                    list_active_reserve_ps['qiwi_rub'] = int((change.balance/currencyget)-(((change.balance/currencyget)/100)*3))
-                    list_active_change_ps['qiwi_rub'] = True
-            if change.active_in_qiwi_usd == 1:
-                currencyget = currency.get(name_currency='USD').base_currency
-                if int(change.balance/currencyget) > list_active_reserve_ps['qiwi_usd']:
-                    list_active_reserve_ps['qiwi_usd'] = int((change.balance/currencyget)-(((change.balance/currencyget)/100)*3))
-                    list_active_change_ps['qiwi_usd'] = True
-            if change.active_in_payeer_rub == 1:
-                currencyget = currency.get(name_currency='RUB').base_currency
-                if int(change.balance/currencyget) > list_active_reserve_ps['payeer_rub']:
-                    list_active_reserve_ps['payeer_rub'] = int((change.balance/currencyget)-(((change.balance/currencyget)/100)*3))
-                    list_active_change_ps['payeer_rub'] = True
-            if change.active_in_payeer_usd == 1:
-                currencyget = currency.get(name_currency='USD').base_currency
-                if int(change.balance/currencyget) > list_active_reserve_ps['payeer_usd']:
-                    list_active_reserve_ps['payeer_usd'] = int((change.balance/currencyget)-(((change.balance/currencyget)/100)*3))
-                    list_active_change_ps['payeer_usd'] = True
-            if change.active_in_payeer_eur == 1:
-                currencyget = currency.get(name_currency='EUR').base_currency
-                if int(change.balance/currencyget) > list_active_reserve_ps['payeer_eur']:
-                    list_active_reserve_ps['payeer_eur'] = int((change.balance/currencyget)-(((change.balance/currencyget)/100)*3))
-                    list_active_change_ps['payeer_eur'] = True
-            if change.active_in_webmoney_rub == 1:
-                currencyget = currency.get(name_currency='RUB').base_currency
-                if int(change.balance/currencyget) > list_active_reserve_ps['webmoney_rub']:
-                    list_active_reserve_ps['webmoney_rub'] = int((change.balance/currencyget)-(((change.balance/currencyget)/100)*3))
-                    list_active_change_ps['webmoney_rub'] = True
-            if change.active_in_webmoney_usd == 1:
-                currencyget = currency.get(name_currency='USD').base_currency
-                if int(change.balance/currencyget) > list_active_reserve_ps['webmoney_usd']:
-                    list_active_reserve_ps['webmoney_usd'] = int((change.balance/currencyget)-(((change.balance/currencyget)/100)*3))
-                    list_active_change_ps['webmoney_usd'] = True
-            if change.active_in_webmoney_eur == 1:
-                currencyget = currency.get(name_currency='EUR').base_currency
-                if int(change.balance/currencyget) > list_active_reserve_ps['webmoney_eur']:
-                    list_active_reserve_ps['webmoney_eur'] = int((change.balance/currencyget)-(((change.balance/currencyget)/100)*3))
-                    list_active_change_ps['webmoney_eur'] = True
-            if change.active_in_pm_btc == 1:
-                currencyget = currency.get(name_currency='BTC').base_currency
-                if round(change.balance/currencyget, 8) > list_active_reserve_ps['pm_btc']:
-                    list_active_reserve_ps['pm_btc'] = round((change.balance/currencyget)-(((change.balance/currencyget)/100)*3), 8)
-                    list_active_change_ps['pm_btc'] = True
-            if change.active_in_pm_usd == 1:
-                currencyget = currency.get(name_currency='USD').base_currency
-                if int(change.balance/currencyget) > list_active_reserve_ps['pm_usd']:
-                    list_active_reserve_ps['pm_usd'] = int((change.balance/currencyget)-(((change.balance/currencyget)/100)*3))
-                    list_active_change_ps['pm_usd'] = True
-            if change.active_in_pm_eur == 1:
-                currencyget = currency.get(name_currency='EUR').base_currency
-                if int(change.balance/currencyget) > list_active_reserve_ps['pm_eur']:
-                    list_active_reserve_ps['pm_eur'] = int((change.balance/currencyget)-(((change.balance/currencyget)/100)*3))
-                    list_active_change_ps['pm_eur'] = True
-            if change.active_in_skrill_eur == 1:
-                currencyget = currency.get(name_currency='EUR').base_currency
-                if int(change.balance/currencyget) > list_active_reserve_ps['skrill_eur']:
-                    list_active_reserve_ps['skrill_eur'] = int((change.balance/currencyget)-(((change.balance/currencyget)/100)*3))
-                    list_active_change_ps['skrill_eur'] = True
-            if change.active_in_skrill_usd == 1:
-                currencyget = currency.get(name_currency='USD').base_currency
-                if int(change.balance/currencyget) > list_active_reserve_ps['skrill_usd']:
-                    list_active_reserve_ps['skrill_usd'] = int((change.balance/currencyget)-(((change.balance/currencyget)/100)*3))
-                    list_active_change_ps['skrill_usd'] = True
-            if change.active_in_paypal_rub == 1:
-                currencyget = currency.get(name_currency='RUB').base_currency
-                if int(change.balance/currencyget) > list_active_reserve_ps['paypal_rub']:
-                    list_active_reserve_ps['paypal_rub'] = int((change.balance/currencyget)-(((change.balance/currencyget)/100)*3))
-                    list_active_change_ps['paypal_rub'] = True
-            if change.active_in_paypal_usd == 1:
-                currencyget = currency.get(name_currency='USD').base_currency
-                if int(change.balance/currencyget) > list_active_reserve_ps['paypal_usd']:
-                    list_active_reserve_ps['paypal_usd'] = int((change.balance/currencyget)-(((change.balance/currencyget)/100)*3))
-                    list_active_change_ps['paypal_usd'] = True
-            if change.active_in_paypal_eur == 1:
-                currencyget = currency.get(name_currency='EUR').base_currency
-                if int(change.balance/currencyget) > list_active_reserve_ps['paypal_eur']:
-                    list_active_reserve_ps['paypal_eur'] = int((change.balance/currencyget)-(((change.balance/currencyget)/100)*3))
-                    list_active_change_ps['paypal_eur'] = True
-            if change.active_in_umoney_rub == 1:
-                currencyget = currency.get(name_currency='RUB').base_currency
-                if int(change.balance/currencyget) > list_active_reserve_ps['umoney_rub']:
-                    list_active_reserve_ps['umoney_rub'] = int((change.balance/currencyget)-(((change.balance/currencyget)/100)*3))
-                    list_active_change_ps['umoney_rub'] = True
-            if change.active_in_btc == 1:
-                currencyget = currency.get(name_currency='BTC').base_currency
-                if round(change.balance/currencyget, 8) > list_active_reserve_ps['btc']:
-                    list_active_reserve_ps['btc'] = round((change.balance/currencyget)-(((change.balance/currencyget)/100)*3), 8)
-                    list_active_change_ps['btc'] = True
-            if change.active_in_xrp == 1:
-                currencyget = currency.get(name_currency='XRP').base_currency
-                if round(change.balance/currencyget, 8) > list_active_reserve_ps['xrp']:
-                    list_active_reserve_ps['xrp'] = round((change.balance/currencyget)-(((change.balance/currencyget)/100)*3), 8)
-                    list_active_change_ps['xrp'] = True
-            if change.active_in_ltc == 1:
-                currencyget = currency.get(name_currency='LTC').base_currency
-                if round(change.balance/currencyget, 8) > list_active_reserve_ps['ltc']:
-                    list_active_reserve_ps['ltc'] = round((change.balance/currencyget)-(((change.balance/currencyget)/100)*3), 8)
-                    list_active_change_ps['ltc'] = True
-            if change.active_in_bch == 1:
-                currencyget = currency.get(name_currency='BCH').base_currency
-                if round(change.balance/currencyget, 8) > list_active_reserve_ps['bch']:
-                    list_active_reserve_ps['bch'] = round((change.balance/currencyget)-(((change.balance/currencyget)/100)*3), 8)
-                    list_active_change_ps['bch'] = True
-            if change.active_in_xmr == 1:
-                currencyget = currency.get(name_currency='XMR').base_currency
-                if round(change.balance/currencyget, 8) > list_active_reserve_ps['xmr']:
-                    list_active_reserve_ps['xmr'] = round((change.balance/currencyget)-(((change.balance/currencyget)/100)*3), 8)
-                    list_active_change_ps['xmr'] = True
-            if change.active_in_eth == 1:
-                currencyget = currency.get(name_currency='ETH').base_currency
-                if round(change.balance/currencyget, 8) > list_active_reserve_ps['eth']:
-                    list_active_reserve_ps['eth'] = round((change.balance/currencyget)-(((change.balance/currencyget)/100)*3), 8)
-                    list_active_change_ps['eth'] = True
-            if change.active_in_etc == 1:
-                currencyget = currency.get(name_currency='ETC').base_currency
-                if round(change.balance/currencyget, 8) > list_active_reserve_ps['etc']:
-                    list_active_reserve_ps['etc'] = round((change.balance/currencyget)-(((change.balance/currencyget)/100)*3), 8)
-                    list_active_change_ps['etc'] = True
-            if change.active_in_dash == 1:
-                currencyget = currency.get(name_currency='DASH').base_currency
-                if round(change.balance/currencyget, 8) > list_active_reserve_ps['dash']:
-                    list_active_reserve_ps['dash'] = round((change.balance/currencyget)-(((change.balance/currencyget)/100)*3), 8)
-                    list_active_change_ps['dash'] = True
-    return {'list_active_change_ps': list_active_change_ps, 'list_active_reserve_ps': list_active_reserve_ps}
-
-
-# активные пс на вывод у всех обменников
-def active_width_ps_global():
-    list_change = CustomUser.objects.filter(userid__custuserid='Владелец Обменника', is_active_change=1)
-    currency = CurrencyCBRF.objects.all()
-    list_range_list = RangeSumWidth.objects.all()
     currencyget_rub = currency.get(name_currency='RUB').base_currency
     currencyget_usd = currency.get(name_currency='USD').base_currency
     currencyget_eur = currency.get(name_currency='EUR').base_currency
@@ -2125,16 +1648,6 @@ def active_width_ps_global():
     currencyget_eth = currency.get(name_currency='ETH').base_currency
     currencyget_etc = currency.get(name_currency='ETC').base_currency
     currencyget_dash = currency.get(name_currency='DASH').base_currency
-    list_active_change_ps = {
-        'sberbank_rub': False, 'psb_rub': False, 'tinkoff_rub': False, 'gazprombank_rub': False, 'alfabank_rub': False,
-        'russtandart_rub': False, 'vtb_rub': False, 'rosselhoz_rub': False, 'raifaizen_rub': False,
-        'otkritie_rub': False, 'pochtabank_rub': False, 'rnkb_rub': False, 'rosbank_rub': False, 'mtsbank_rub': False,
-        'qiwi_rub': False, 'qiwi_usd': False, 'payeer_rub': False, 'payeer_usd': False, 'payeer_eur': False,
-        'webmoney_rub': False, 'webmoney_usd': False, 'webmoney_eur': False, 'pm_btc': False, 'pm_usd': False,
-        'pm_eur': False, 'skrill_eur': False, 'skrill_usd': False, 'paypal_rub': False, 'paypal_usd': False,
-        'paypal_eur': False, 'umoney_rub': False, 'btc': False, 'xrp': False, 'ltc': False, 'bch': False,
-        'xmr': False, 'eth': False, 'etc': False, 'dash': False
-    }
     list_active_reserve_ps = {
         'sberbank_rub': 0, 'psb_rub': 0, 'tinkoff_rub': 0, 'gazprombank_rub': 0, 'alfabank_rub': 0, 'russtandart_rub': 0,
         'vtb_rub': 0, 'rosselhoz_rub': 0, 'raifaizen_rub': 0, 'otkritie_rub': 0, 'pochtabank_rub': 0, 'rnkb_rub': 0,
@@ -2143,313 +1656,227 @@ def active_width_ps_global():
         'pm_eur': 0, 'skrill_eur': 0, 'skrill_usd': 0, 'paypal_rub': 0, 'paypal_usd': 0, 'paypal_eur': 0, 'umoney_rub': 0,
         'btc': 0, 'xrp': 0, 'ltc': 0, 'bch': 0, 'xmr': 0, 'eth': 0, 'etc': 0, 'dash': 0
     }
+    list_get_valute = {
+        'sberbank_rub': 0, 'psb_rub': 0, 'tinkoff_rub': 0, 'gazprombank_rub': 0, 'alfabank_rub': 0, 'russtandart_rub': 0,
+        'vtb_rub': 0, 'rosselhoz_rub': 0, 'raifaizen_rub': 0, 'otkritie_rub': 0, 'pochtabank_rub': 0, 'rnkb_rub': 0,
+        'rosbank_rub': 0, 'mtsbank_rub': 0, 'qiwi_rub': 0, 'qiwi_usd': 0, 'payeer_rub': 0, 'payeer_usd': 0,
+        'payeer_eur': 0, 'webmoney_rub': 0, 'webmoney_usd': 0, 'webmoney_eur': 0, 'pm_usd': 0,
+        'pm_eur': 0, 'skrill_eur': 0, 'skrill_usd': 0, 'paypal_rub': 0, 'paypal_usd': 0, 'paypal_eur': 0, 'umoney_rub': 0
+    }
+    list_get_crypto = {
+        'pm_btc': 0, 'btc': 0, 'xrp': 0, 'ltc': 0, 'bch': 0, 'xmr': 0, 'eth': 0, 'etc': 0, 'dash': 0
+    }
+
+    list_active_user = []
+    for change in list_change:
+        if RangeSumDeposit.objects.filter(deposit_range_username=change).exists():
+            list_active_in = {
+                'sberbank_rub': change.active_in_sberbank_rub,
+                'psb_rub': change.active_in_psb_rub,
+                'tinkoff_rub': change.active_in_tinkoff_rub,
+                'gazprombank_rub': change.active_in_gazprombank_rub,
+                'alfabank_rub': change.active_in_alfabank_rub,
+                'russtandart_rub': change.active_in_russtandart_rub,
+                'vtb_rub': change.active_in_vtb_rub,
+                'rosselhoz_rub': change.active_in_rosselhoz_rub,
+                'raifaizen_rub': change.active_in_raifaizen_rub,
+                'otkritie_rub': change.active_in_otkritie_rub,
+                'pochtabank_rub': change.active_in_pochtabank_rub,
+                'rnkb_rub': change.active_in_rnkb_rub,
+                'rosbank_rub': change.active_in_rosbank_rub,
+                'mtsbank_rub': change.active_in_mtsbank_rub,
+                'qiwi_rub': change.active_in_qiwi_rub,
+                'qiwi_usd': change.active_in_qiwi_usd,
+                'payeer_rub': change.active_in_payeer_rub,
+                'payeer_usd': change.active_in_payeer_usd,
+                'payeer_eur': change.active_in_payeer_eur,
+                'webmoney_rub': change.active_in_webmoney_rub,
+                'webmoney_usd': change.active_in_webmoney_usd,
+                'webmoney_eur': change.active_in_webmoney_eur,
+                'pm_btc': change.active_in_pm_btc,
+                'pm_usd': change.active_in_pm_usd,
+                'pm_eur': change.active_in_pm_eur,
+                'skrill_eur': change.active_in_skrill_eur,
+                'skrill_usd': change.active_in_skrill_usd,
+                'paypal_rub': change.active_in_paypal_rub,
+                'paypal_usd': change.active_in_paypal_usd,
+                'paypal_eur': change.active_in_paypal_eur,
+                'umoney_rub': change.active_in_umoney_rub,
+                'btc': change.active_in_btc,
+                'xrp': change.active_in_xrp,
+                'ltc': change.active_in_ltc,
+                'bch': change.active_in_bch,
+                'xmr': change.active_in_xmr,
+                'eth': change.active_in_eth,
+                'etc': change.active_in_etc,
+                'dash': change.active_in_dash,
+            }
+            list_balance = {
+                'sberbank_rub': change.balance/currencyget_rub,
+                'psb_rub': change.balance/currencyget_rub,
+                'tinkoff_rub': change.balance/currencyget_rub,
+                'gazprombank_rub': change.balance/currencyget_rub,
+                'alfabank_rub': change.balance/currencyget_rub,
+                'russtandart_rub': change.balance/currencyget_rub,
+                'vtb_rub': change.balance/currencyget_rub,
+                'rosselhoz_rub': change.balance/currencyget_rub,
+                'raifaizen_rub': change.balance/currencyget_rub,
+                'otkritie_rub': change.balance/currencyget_rub,
+                'pochtabank_rub': change.balance/currencyget_rub,
+                'rnkb_rub': change.balance/currencyget_rub,
+                'rosbank_rub': change.balance/currencyget_rub,
+                'mtsbank_rub': change.balance/currencyget_rub,
+                'qiwi_rub': change.balance/currencyget_rub,
+                'qiwi_usd': change.balance/currencyget_usd,
+                'payeer_rub': change.balance/currencyget_rub,
+                'payeer_usd': change.balance/currencyget_usd,
+                'payeer_eur': change.balance/currencyget_eur,
+                'webmoney_rub': change.balance/currencyget_rub,
+                'webmoney_usd': change.balance/currencyget_usd,
+                'webmoney_eur': change.balance/currencyget_eur,
+                'pm_btc': change.balance/currencyget_btc,
+                'pm_usd': change.balance/currencyget_usd,
+                'pm_eur': change.balance/currencyget_eur,
+                'skrill_eur': change.balance/currencyget_eur,
+                'skrill_usd': change.balance/currencyget_usd,
+                'paypal_rub': change.balance/currencyget_rub,
+                'paypal_usd': change.balance/currencyget_eur,
+                'paypal_eur': change.balance/currencyget_eur,
+                'umoney_rub': change.balance/currencyget_rub,
+                'btc': change.balance/currencyget_btc,
+                'xrp': change.balance/currencyget_xrp,
+                'ltc': change.balance/currencyget_ltc,
+                'bch': change.balance/currencyget_bch,
+                'xmr': change.balance/currencyget_xmr,
+                'eth': change.balance/currencyget_eth,
+                'etc': change.balance/currencyget_etc,
+                'dash': change.balance/currencyget_dash,
+            }
+
+            for k, v in list_active_in.items():
+                if v == 1:
+                    if list_get_valute.get(k) is not None:
+                        list_active_reserve_ps[k] = float(round(round(list_active_reserve_ps[k]) + list_balance[k], 2))
+                    elif list_get_crypto.get(k) is not None:
+                        list_active_reserve_ps[k] = float(round(round(list_active_reserve_ps[k]) + list_balance[k], 8))
+                    list_active_user.append(change)
+    return {'list_active_reserve_ps': list_active_reserve_ps, 'list_active_user': list_active_user}
+
+
+# общий резерв всех обменников на вывод
+def active_width_ps_global():
+    list_change = CustomUser.objects.filter(userid__custuserid='Владелец Обменника', is_active_change=1)
+    currency = CurrencyCBRF.objects.all()
+    currencyget_rub = currency.get(name_currency='RUB').base_currency
+    currencyget_usd = currency.get(name_currency='USD').base_currency
+    currencyget_eur = currency.get(name_currency='EUR').base_currency
+    currencyget_btc = currency.get(name_currency='BTC').base_currency
+    currencyget_xrp = currency.get(name_currency='XRP').base_currency
+    currencyget_ltc = currency.get(name_currency='LTC').base_currency
+    currencyget_bch = currency.get(name_currency='BCH').base_currency
+    currencyget_xmr = currency.get(name_currency='XMR').base_currency
+    currencyget_eth = currency.get(name_currency='ETH').base_currency
+    currencyget_etc = currency.get(name_currency='ETC').base_currency
+    currencyget_dash = currency.get(name_currency='DASH').base_currency
+    list_active_reserve_ps = {
+        'sberbank_rub': 0, 'psb_rub': 0, 'tinkoff_rub': 0, 'gazprombank_rub': 0, 'alfabank_rub': 0, 'russtandart_rub': 0,
+        'vtb_rub': 0, 'rosselhoz_rub': 0, 'raifaizen_rub': 0, 'otkritie_rub': 0, 'pochtabank_rub': 0, 'rnkb_rub': 0,
+        'rosbank_rub': 0, 'mtsbank_rub': 0, 'qiwi_rub': 0, 'qiwi_usd': 0, 'payeer_rub': 0, 'payeer_usd': 0,
+        'payeer_eur': 0, 'webmoney_rub': 0, 'webmoney_usd': 0, 'webmoney_eur': 0, 'pm_btc': 0, 'pm_usd': 0,
+        'pm_eur': 0, 'skrill_eur': 0, 'skrill_usd': 0, 'paypal_rub': 0, 'paypal_usd': 0, 'paypal_eur': 0, 'umoney_rub': 0,
+        'btc': 0, 'xrp': 0, 'ltc': 0, 'bch': 0, 'xmr': 0, 'eth': 0, 'etc': 0, 'dash': 0
+    }
+    list_active_user = []
     for change in list_change:
         if RangeSumWidth.objects.filter(width_range_username=change).exists():
-            list_range = list_range_list.get(width_range_username=change)
-            if change.active_out_sberbank_rub == 1:
-                if change.balance > list_active_reserve_ps['sberbank_rub']:
-                    if change.balance < change.reserv_sberbank_rub*currencyget_rub:
-                        list_active_reserve_ps['sberbank_rub'] = int(change.balance-((change.balance/100)*3))
-                    else:
-                        list_active_reserve_ps['sberbank_rub'] = int((change.reserv_sberbank_rub*currencyget_rub)-(((change.reserv_sberbank_rub*currencyget_rub)/100)*3))
-                    list_active_change_ps['sberbank_rub'] = True
-            if change.active_out_psb_rub == 1:
-                if change.balance > list_active_reserve_ps['psb_rub']:
-                    if change.balance < change.reserv_psb_rub*currencyget_rub:
-                        list_active_reserve_ps['psb_rub'] = int(change.balance-((change.balance/100)*3))
-                    else:
-                        list_active_reserve_ps['psb_rub'] = int((change.reserv_psb_rub*currencyget_rub)-(((change.reserv_psb_rub*currencyget_rub)/100)*3))
-                    list_active_change_ps['psb_rub'] = True
-            if change.active_out_tinkoff_rub == 1:
-                if change.balance > list_active_reserve_ps['tinkoff_rub']:
-                    if change.balance < change.reserv_tinkoff_rub*currencyget_rub:
-                        list_active_reserve_ps['tinkoff_rub'] = int(change.balance-((change.balance/100)*3))
-                    else:
-                        list_active_reserve_ps['tinkoff_rub'] = int((change.reserv_tinkoff_rub*currencyget_rub)-(((change.reserv_tinkoff_rub*currencyget_rub)/100)*3))
-                    list_active_change_ps['tinkoff_rub'] = True
-            if change.active_out_gazprombank_rub == 1:
-                if change.balance > list_active_reserve_ps['gazprombank_rub']:
-                    if change.balance < change.reserv_gazprombank_rub*currencyget_rub:
-                        list_active_reserve_ps['gazprombank_rub'] = int(change.balance-((change.balance/100)*3))
-                    else:
-                        list_active_reserve_ps['gazprombank_rub'] = int((change.reserv_gazprombank_rub*currencyget_rub)-(((change.reserv_gazprombank_rub*currencyget_rub)/100)*3))
-                    list_active_change_ps['gazprombank_rub'] = True
-            if change.active_out_alfabank_rub == 1:
-                if change.balance > list_active_reserve_ps['alfabank_rub']:
-                    if change.balance < change.reserv_alfabank_rub*currencyget_rub:
-                        list_active_reserve_ps['alfabank_rub'] = int(change.balance-((change.balance/100)*3))
-                    else:
-                        list_active_reserve_ps['alfabank_rub'] = int((change.reserv_alfabank_rub*currencyget_rub)-(((change.reserv_alfabank_rub*currencyget_rub)/100)*3))
-                    list_active_change_ps['alfabank_rub'] = True
-            if change.active_out_russtandart_rub == 1:
-                if change.balance > list_active_reserve_ps['russtandart_rub']:
-                    if change.balance < change.reserv_russtandart_rub*currencyget_rub:
-                        list_active_reserve_ps['russtandart_rub'] = int(change.balance-((change.balance/100)*3))
-                    else:
-                        list_active_reserve_ps['russtandart_rub'] = int((change.reserv_russtandart_rub*currencyget_rub)-(((change.reserv_russtandart_rub*currencyget_rub)/100)*3))
-                    list_active_change_ps['russtandart_rub'] = True
-            if change.active_out_vtb_rub == 1:
-                if change.balance > list_active_reserve_ps['vtb_rub']:
-                    if change.balance < change.reserv_vtb_rub*currencyget_rub:
-                        list_active_reserve_ps['vtb_rub'] = int(change.balance-((change.balance/100)*3))
-                    else:
-                        list_active_reserve_ps['vtb_rub'] = int((change.reserv_vtb_rub*currencyget_rub)-(((change.reserv_vtb_rub*currencyget_rub)/100)*3))
-                    list_active_change_ps['vtb_rub'] = True
-            if change.active_out_rosselhoz_rub == 1:
-                if change.balance > list_active_reserve_ps['rosselhoz_rub']:
-                    if change.balance < change.reserv_rosselhoz_rub*currencyget_rub:
-                        list_active_reserve_ps['rosselhoz_rub'] = int(change.balance-((change.balance/100)*3))
-                    else:
-                        list_active_reserve_ps['rosselhoz_rub'] = int((change.reserv_rosselhoz_rub*currencyget_rub)-(((change.reserv_rosselhoz_rub*currencyget_rub)/100)*3))
-                    list_active_change_ps['rosselhoz_rub'] = True
-            if change.active_out_raifaizen_rub == 1:
-                if change.balance > list_active_reserve_ps['raifaizen_rub']:
-                    if change.balance < change.reserv_raifaizen_rub*currencyget_rub:
-                        list_active_reserve_ps['raifaizen_rub'] = int(change.balance-((change.balance/100)*3))
-                    else:
-                        list_active_reserve_ps['raifaizen_rub'] = int((change.reserv_raifaizen_rub*currencyget_rub)-(((change.reserv_raifaizen_rub*currencyget_rub)/100)*3))
-                    list_active_change_ps['raifaizen_rub'] = True
-            if change.active_out_otkritie_rub == 1:
-                if change.balance > list_active_reserve_ps['otkritie_rub']:
-                    if change.balance < change.reserv_otkritie_rub*currencyget_rub:
-                        list_active_reserve_ps['otkritie_rub'] = int(change.balance-((change.balance/100)*3))
-                    else:
-                        list_active_reserve_ps['otkritie_rub'] = int((change.reserv_otkritie_rub*currencyget_rub)-(((change.reserv_otkritie_rub*currencyget_rub)/100)*3))
-                    list_active_change_ps['otkritie_rub'] = True
-            if change.active_out_pochtabank_rub == 1:
-                if change.balance > list_active_reserve_ps['pochtabank_rub']:
-                    if change.balance < change.reserv_pochtabank_rub*currencyget_rub:
-                        list_active_reserve_ps['pochtabank_rub'] = int(change.balance-((change.balance/100)*3))
-                    else:
-                        list_active_reserve_ps['pochtabank_rub'] = int((change.reserv_pochtabank_rub*currencyget_rub)-(((change.reserv_pochtabank_rub*currencyget_rub)/100)*3))
-                    list_active_change_ps['pochtabank_rub'] = True
-            if change.active_out_rnkb_rub == 1:
-                if change.balance > list_active_reserve_ps['rnkb_rub']:
-                    if change.balance < change.reserv_rnkb_rub*currencyget_rub:
-                        list_active_reserve_ps['rnkb_rub'] = int(change.balance-((change.balance/100)*3))
-                    else:
-                        list_active_reserve_ps['rnkb_rub'] = int((change.reserv_rnkb_rub*currencyget_rub)-(((change.reserv_rnkb_rub*currencyget_rub)/100)*3))
-                    list_active_change_ps['rnkb_rub'] = True
-            if change.active_out_rosbank_rub == 1:
-                if change.balance > list_active_reserve_ps['rosbank_rub']:
-                    if change.balance < change.reserv_rosbank_rub*currencyget_rub:
-                        list_active_reserve_ps['rosbank_rub'] = int(change.balance-((change.balance/100)*3))
-                    else:
-                        list_active_reserve_ps['rosbank_rub'] = int((change.reserv_rosbank_rub*currencyget_rub)-(((change.reserv_rosbank_rub*currencyget_rub)/100)*3))
-                    list_active_change_ps['rosbank_rub'] = True
-            if change.active_out_mtsbank_rub == 1:
-                if change.balance > list_active_reserve_ps['mtsbank_rub']:
-                    if change.balance < change.reserv_mtsbank_rub*currencyget_rub:
-                        list_active_reserve_ps['mtsbank_rub'] = int(change.balance-((change.balance/100)*3))
-                    else:
-                        list_active_reserve_ps['mtsbank_rub'] = int((change.reserv_mtsbank_rub*currencyget_rub)-(((change.reserv_mtsbank_rub*currencyget_rub)/100)*3))
-                    list_active_change_ps['mtsbank_rub'] = True
-            if change.active_out_qiwi_rub == 1:
-                if change.balance > list_active_reserve_ps['qiwi_rub']:
-                    if change.balance < change.reserv_qiwi_rub*currencyget_rub:
-                        list_active_reserve_ps['qiwi_rub'] = int(change.balance-((change.balance/100)*3))
-                    else:
-                        list_active_reserve_ps['qiwi_rub'] = int((change.reserv_qiwi_rub*currencyget_rub)-(((change.reserv_qiwi_rub*currencyget_rub)/100)*3))
-                    list_active_change_ps['qiwi_rub'] = True
-            if change.active_out_qiwi_usd == 1:
-                if change.balance > list_active_reserve_ps['qiwi_usd']:
-                    if change.balance < change.reserv_qiwi_usd*currencyget_usd:
-                        list_active_reserve_ps['qiwi_usd'] = int(change.balance-((change.balance/100)*3))
-                    else:
-                        list_active_reserve_ps['qiwi_usd'] = int((change.reserv_qiwi_usd*currencyget_usd)-(((change.reserv_qiwi_usd*currencyget_usd)/100)*3))
-                    list_active_change_ps['qiwi_usd'] = True
-            if change.active_out_payeer_rub == 1:
-                if change.balance > list_active_reserve_ps['payeer_rub']:
-                    if change.balance < change.reserv_payeer_rub*currencyget_rub:
-                        list_active_reserve_ps['payeer_rub'] = int(change.balance-((change.balance/100)*3))
-                    else:
-                        list_active_reserve_ps['payeer_rub'] = int((change.reserv_payeer_rub*currencyget_rub)-(((change.reserv_payeer_rub*currencyget_rub)/100)*3))
-                    list_active_change_ps['payeer_rub'] = True
-            if change.active_out_payeer_usd == 1:
-                if change.balance > list_active_reserve_ps['payeer_usd']:
-                    if change.balance < change.reserv_payeer_usd*currencyget_usd:
-                        list_active_reserve_ps['payeer_usd'] = int(change.balance-((change.balance/100)*3))
-                    else:
-                        list_active_reserve_ps['payeer_usd'] = int((change.reserv_payeer_usd*currencyget_usd)-(((change.reserv_payeer_usd*currencyget_usd)/100)*3))
-                    list_active_change_ps['payeer_usd'] = True
-            if change.active_out_payeer_eur == 1:
-                if change.balance > list_active_reserve_ps['payeer_eur']:
-                    if change.balance < change.reserv_payeer_eur*currencyget_usd:
-                        list_active_reserve_ps['payeer_eur'] = int(change.balance-((change.balance/100)*3))
-                    else:
-                        list_active_reserve_ps['payeer_eur'] = int((change.reserv_payeer_eur*currencyget_usd)-(((change.reserv_payeer_eur*currencyget_usd)/100)*3))
-                    list_active_change_ps['payeer_eur'] = True
-            if change.active_out_webmoney_rub == 1:
-                if change.balance > list_active_reserve_ps['webmoney_rub']:
-                    if change.balance < change.reserv_webmoney_rub*currencyget_rub:
-                        list_active_reserve_ps['webmoney_rub'] = int(change.balance-((change.balance/100)*3))
-                    else:
-                        list_active_reserve_ps['webmoney_rub'] = int((change.reserv_webmoney_rub*currencyget_rub)-(((change.reserv_webmoney_rub*currencyget_rub)/100)*3))
-                    list_active_change_ps['webmoney_rub'] = True
-            if change.active_out_webmoney_usd == 1:
-                if change.balance > list_active_reserve_ps['webmoney_usd']:
-                    if change.balance < change.reserv_webmoney_usd*currencyget_usd:
-                        list_active_reserve_ps['webmoney_usd'] = int(change.balance-((change.balance/100)*3))
-                    else:
-                        list_active_reserve_ps['webmoney_usd'] = int((change.reserv_webmoney_usd*currencyget_usd)-(((change.reserv_webmoney_usd*currencyget_usd)/100)*3))
-                    list_active_change_ps['webmoney_usd'] = True
-            if change.active_out_webmoney_eur == 1:
-                if change.balance > list_active_reserve_ps['webmoney_eur']:
-                    if change.balance < change.reserv_webmoney_eur*currencyget_eur:
-                        list_active_reserve_ps['webmoney_eur'] = int(change.balance-((change.balance/100)*3))
-                    else:
-                        list_active_reserve_ps['webmoney_eur'] = int((change.reserv_webmoney_eur*currencyget_eur)-(((change.reserv_webmoney_eur*currencyget_eur)/100)*3))
-                    list_active_change_ps['webmoney_eur'] = True
-            if change.active_out_pm_btc == 1:
-                if change.balance > list_active_reserve_ps['pm_btc']:
-                    if change.balance < change.reserv_pm_btc*currencyget_btc:
-                        list_active_reserve_ps['pm_btc'] = int(change.balance-((change.balance/100)*3))
-                    else:
-                        list_active_reserve_ps['pm_btc'] = int((change.reserv_pm_btc*currencyget_btc)-(((change.reserv_pm_btc*currencyget_btc)/100)*3))
-                    list_active_change_ps['pm_btc'] = True
-            if change.active_out_pm_usd == 1:
-                if change.balance > list_active_reserve_ps['pm_usd']:
-                    if change.balance < change.reserv_pm_usd*currencyget_usd:
-                        list_active_reserve_ps['pm_usd'] = int(change.balance-((change.balance/100)*3))
-                    else:
-                        list_active_reserve_ps['pm_usd'] = int((change.reserv_pm_usd*currencyget_usd)-(((change.reserv_pm_usd*currencyget_usd)/100)*3))
-                    list_active_change_ps['pm_usd'] = True
-            if change.active_out_pm_eur == 1:
-                if change.balance > list_active_reserve_ps['pm_eur']:
-                    if change.balance < change.reserv_pm_eur*currencyget_eur:
-                        list_active_reserve_ps['pm_eur'] = int(change.balance-((change.balance/100)*3))
-                    else:
-                        list_active_reserve_ps['pm_eur'] = int((change.reserv_pm_eur*currencyget_eur)-(((change.reserv_pm_eur*currencyget_eur)/100)*3))
-                    list_active_change_ps['pm_eur'] = True
-            if change.active_out_skrill_eur == 1:
-                if change.balance > list_active_reserve_ps['skrill_eur']:
-                    if change.balance < change.reserv_skrill_eur*currencyget_eur:
-                        list_active_reserve_ps['skrill_eur'] = int(change.balance-((change.balance/100)*3))
-                    else:
-                        list_active_reserve_ps['skrill_eur'] = int((change.reserv_skrill_eur*currencyget_eur)-(((change.reserv_skrill_eur*currencyget_eur)/100)*3))
-                    list_active_change_ps['skrill_eur'] = True
-            if change.active_out_skrill_usd == 1:
-                if change.balance > list_active_reserve_ps['skrill_usd']:
-                    if change.balance < change.reserv_skrill_usd*currencyget_usd:
-                        list_active_reserve_ps['skrill_usd'] = int(change.balance-((change.balance/100)*3))
-                    else:
-                        list_active_reserve_ps['skrill_usd'] = int((change.reserv_skrill_usd*currencyget_usd)-(((change.reserv_skrill_usd*currencyget_usd)/100)*3))
-                    list_active_change_ps['skrill_usd'] = True
-            if change.active_out_paypal_rub == 1:
-                if change.balance > list_active_reserve_ps['paypal_rub']:
-                    if change.balance < change.reserv_paypal_rub*currencyget_rub:
-                        list_active_reserve_ps['paypal_rub'] = int(change.balance-((change.balance/100)*3))
-                    else:
-                        list_active_reserve_ps['paypal_rub'] = int((change.reserv_paypal_rub*currencyget_rub)-(((change.reserv_paypal_rub*currencyget_rub)/100)*3))
-                    list_active_change_ps['paypal_rub'] = True
-            if change.active_out_paypal_usd == 1:
-                if change.balance > list_active_reserve_ps['paypal_usd']:
-                    if change.balance < change.reserv_paypal_usd*currencyget_usd:
-                        list_active_reserve_ps['paypal_usd'] = int(change.balance-((change.balance/100)*3))
-                    else:
-                        list_active_reserve_ps['paypal_usd'] = int((change.reserv_paypal_usd*currencyget_usd)-(((change.reserv_paypal_usd*currencyget_usd)/100)*3))
-                    list_active_change_ps['paypal_usd'] = True
-            if change.active_out_paypal_eur == 1:
-                if change.balance > list_active_reserve_ps['paypal_eur']:
-                    if change.balance < change.reserv_paypal_eur*currencyget_eur:
-                        list_active_reserve_ps['paypal_eur'] = int(change.balance-((change.balance/100)*3))
-                    else:
-                        list_active_reserve_ps['paypal_eur'] = int((change.reserv_paypal_eur*currencyget_eur)-(((change.reserv_paypal_eur*currencyget_eur)/100)*3))
-                    list_active_change_ps['paypal_eur'] = True
-            if change.active_out_umoney_rub == 1:
-                if change.balance > list_active_reserve_ps['umoney_rub']:
-                    if change.balance < change.reserv_umoney_rub*currencyget_rub:
-                        list_active_reserve_ps['umoney_rub'] = int(change.balance-((change.balance/100)*3))
-                    else:
-                        list_active_reserve_ps['umoney_rub'] = int((change.reserv_umoney_rub*currencyget_rub)-(((change.reserv_umoney_rub*currencyget_rub)/100)*3))
-                    list_active_change_ps['umoney_rub'] = True
-            if change.active_out_btc == 1:
-                if change.balance > list_active_reserve_ps['btc']:
-                    if change.balance < change.reserv_btc*currencyget_btc:
-                        list_active_reserve_ps['btc'] = int(change.balance-((change.balance/100)*3))
-                    else:
-                        list_active_reserve_ps['btc'] = int((change.reserv_btc*currencyget_btc)-(((change.reserv_btc*currencyget_btc)/100)*3))
-                    list_active_change_ps['btc'] = True
-            if change.active_out_xrp == 1:
-                if change.balance > list_active_reserve_ps['xrp']:
-                    if change.balance < change.reserv_xrp*currencyget_xrp:
-                        list_active_reserve_ps['xrp'] = int(change.balance-((change.balance/100)*3))
-                    else:
-                        list_active_reserve_ps['xrp'] = int((change.reserv_xrp*currencyget_xrp)-(((change.reserv_xrp*currencyget_xrp)/100)*3))
-                    list_active_change_ps['xrp'] = True
-            if change.active_out_ltc == 1:
-                if change.balance > list_active_reserve_ps['ltc']:
-                    if change.balance < change.reserv_ltc*currencyget_ltc:
-                        list_active_reserve_ps['ltc'] = int(change.balance-((change.balance/100)*3))
-                    else:
-                        list_active_reserve_ps['ltc'] = int((change.reserv_ltc*currencyget_ltc)-(((change.reserv_ltc*currencyget_ltc)/100)*3))
-                    list_active_change_ps['ltc'] = True
-            if change.active_out_bch == 1:
-                if change.balance > list_active_reserve_ps['bch']:
-                    if change.balance < change.reserv_bch*currencyget_bch:
-                        list_active_reserve_ps['bch'] = int(change.balance-((change.balance/100)*3))
-                    else:
-                        list_active_reserve_ps['bch'] = int((change.reserv_bch*currencyget_bch)-(((change.reserv_bch*currencyget_bch)/100)*3))
-                    list_active_change_ps['bch'] = True
-            if change.active_out_xmr == 1:
-                if change.balance > list_active_reserve_ps['xmr']:
-                    if change.balance < change.reserv_xmr*currencyget_xmr:
-                        list_active_reserve_ps['xmr'] = int(change.balance-((change.balance/100)*3))
-                    else:
-                        list_active_reserve_ps['xmr'] = int((change.reserv_xmr*currencyget_xmr)-(((change.reserv_xmr*currencyget_xmr)/100)*3))
-                    list_active_change_ps['xmr'] = True
-            if change.active_out_eth == 1:
-                if change.balance > list_active_reserve_ps['eth']:
-                    if change.balance < change.reserv_eth*currencyget_eth:
-                        list_active_reserve_ps['eth'] = int(change.balance-((change.balance/100)*3))
-                    else:
-                        list_active_reserve_ps['eth'] = int((change.reserv_eth*currencyget_eth)-(((change.reserv_eth*currencyget_eth)/100)*3))
-                    list_active_change_ps['eth'] = True
-            if change.active_out_etc == 1:
-                if change.balance > list_active_reserve_ps['etc']:
-                    if change.balance < change.reserv_etc*currencyget_etc:
-                        list_active_reserve_ps['etc'] = int(change.balance-((change.balance/100)*3))
-                    else:
-                        list_active_reserve_ps['etc'] = int((change.reserv_etc*currencyget_etc)-(((change.reserv_etc*currencyget_etc)/100)*3))
-                    list_active_change_ps['etc'] = True
-            if change.active_out_dash == 1:
-                if change.balance > list_active_reserve_ps['dash']:
-                    if change.balance < change.reserv_dash*currencyget_dash:
-                        list_active_reserve_ps['dash'] = int(change.balance-((change.balance/100)*3))
-                    else:
-                        list_active_reserve_ps['dash'] = int((change.reserv_dash*currencyget_dash)-(((change.reserv_dash*currencyget_dash)/100)*3))
-                    list_active_change_ps['dash'] = True
-    return {'list_active_change_ps': list_active_change_ps, 'list_active_reserve_ps': list_active_reserve_ps}
+            list_active_out = {
+                'sberbank_rub': change.active_out_sberbank_rub,
+                'psb_rub': change.active_out_psb_rub,
+                'tinkoff_rub': change.active_out_tinkoff_rub,
+                'gazprombank_rub': change.active_out_gazprombank_rub,
+                'alfabank_rub': change.active_out_alfabank_rub,
+                'russtandart_rub': change.active_out_russtandart_rub,
+                'vtb_rub': change.active_out_vtb_rub,
+                'rosselhoz_rub': change.active_out_rosselhoz_rub,
+                'raifaizen_rub': change.active_out_raifaizen_rub,
+                'otkritie_rub': change.active_out_otkritie_rub,
+                'pochtabank_rub': change.active_out_pochtabank_rub,
+                'rnkb_rub': change.active_out_rnkb_rub,
+                'rosbank_rub': change.active_out_rosbank_rub,
+                'mtsbank_rub': change.active_out_mtsbank_rub,
+                'qiwi_rub': change.active_out_qiwi_rub,
+                'qiwi_usd': change.active_out_qiwi_usd,
+                'payeer_rub': change.active_out_payeer_rub,
+                'payeer_usd': change.active_out_payeer_usd,
+                'payeer_eur': change.active_out_payeer_eur,
+                'webmoney_rub': change.active_out_webmoney_rub,
+                'webmoney_usd': change.active_out_webmoney_usd,
+                'webmoney_eur': change.active_out_webmoney_eur,
+                'pm_btc': change.active_out_pm_btc,
+                'pm_usd': change.active_out_pm_usd,
+                'pm_eur': change.active_out_pm_eur,
+                'skrill_eur': change.active_out_skrill_eur,
+                'skrill_usd': change.active_out_skrill_usd,
+                'paypal_rub': change.active_out_paypal_rub,
+                'paypal_usd': change.active_out_paypal_usd,
+                'paypal_eur': change.active_out_paypal_eur,
+                'umoney_rub': change.active_out_umoney_rub,
+                'btc': change.active_out_btc,
+                'xrp': change.active_out_xrp,
+                'ltc': change.active_out_ltc,
+                'bch': change.active_out_bch,
+                'xmr': change.active_out_xmr,
+                'eth': change.active_out_eth,
+                'etc': change.active_out_etc,
+                'dash': change.active_out_dash,
+            }
+            list_reserve = {
+                'sberbank_rub': change.reserv_sberbank_rub*currencyget_rub,
+                'psb_rub': change.reserv_psb_rub*currencyget_rub,
+                'tinkoff_rub': change.reserv_tinkoff_rub*currencyget_rub,
+                'gazprombank_rub': change.reserv_gazprombank_rub*currencyget_rub,
+                'alfabank_rub': change.reserv_alfabank_rub*currencyget_rub,
+                'russtandart_rub': change.reserv_russtandart_rub*currencyget_rub,
+                'vtb_rub': change.reserv_vtb_rub*currencyget_rub,
+                'rosselhoz_rub': change.reserv_rosselhoz_rub*currencyget_rub,
+                'raifaizen_rub': change.reserv_raifaizen_rub*currencyget_rub,
+                'otkritie_rub': change.reserv_otkritie_rub*currencyget_rub,
+                'pochtabank_rub': change.reserv_pochtabank_rub*currencyget_rub,
+                'rnkb_rub': change.reserv_rnkb_rub*currencyget_rub,
+                'rosbank_rub': change.reserv_rosbank_rub*currencyget_rub,
+                'mtsbank_rub': change.reserv_mtsbank_rub*currencyget_rub,
+                'qiwi_rub': change.reserv_qiwi_rub*currencyget_rub,
+                'qiwi_usd': change.reserv_qiwi_usd*currencyget_usd,
+                'payeer_rub': change.reserv_payeer_rub*currencyget_rub,
+                'payeer_usd': change.reserv_payeer_usd*currencyget_usd,
+                'payeer_eur': change.reserv_payeer_eur*currencyget_eur,
+                'webmoney_rub': change.reserv_webmoney_rub*currencyget_rub,
+                'webmoney_usd': change.reserv_webmoney_usd*currencyget_usd,
+                'webmoney_eur': change.reserv_webmoney_eur*currencyget_eur,
+                'pm_btc': change.reserv_pm_btc*currencyget_btc,
+                'pm_usd': change.reserv_pm_usd*currencyget_usd,
+                'pm_eur': change.reserv_pm_eur*currencyget_eur,
+                'skrill_eur': change.reserv_skrill_eur*currencyget_eur,
+                'skrill_usd': change.reserv_skrill_usd*currencyget_usd,
+                'paypal_rub': change.reserv_paypal_rub*currencyget_rub,
+                'paypal_usd': change.reserv_paypal_usd*currencyget_usd,
+                'paypal_eur': change.reserv_paypal_eur*currencyget_eur,
+                'umoney_rub': change.reserv_umoney_rub*currencyget_rub,
+                'btc': change.reserv_btc*currencyget_btc,
+                'xrp': change.reserv_xrp*currencyget_xrp,
+                'ltc': change.reserv_ltc*currencyget_ltc,
+                'bch': change.reserv_bch*currencyget_bch,
+                'xmr': change.reserv_xmr*currencyget_xmr,
+                'eth': change.reserv_eth*currencyget_eth,
+                'etc': change.reserv_etc*currencyget_etc,
+                'dash': change.reserv_dash*currencyget_dash,
+            }
 
-
-# метод для range_..._ps_global
-def ps_metod_width(ps, name, list_range_min_reserve_ps, list_active, list_range_max_reserve_ps, active_list_ps, balance):
-    # мимимальный лимит
-    list_range_min_reserve_ps = list_range_min_reserve_ps
-    # Резерв
-    list_active = list_active
-    # максимальный лимит
-    list_range_max_reserve_ps = list_range_max_reserve_ps
-    # активность пс
-    active_list_ps = active_list_ps
-    if ps > list_range_max_reserve_ps[name]:
-        if ps < list_active[name]:
-            if ps > list_range_min_reserve_ps[name] < balance:
-                if ps <= balance:
-                    list_range_max_reserve_ps[name] = float(ps)
-                else:
-                    list_range_max_reserve_ps[name] = float(balance)
-            else:
-                active_list_ps[name] = False
-        else:
-            if list_active[name] > list_range_min_reserve_ps[name] < balance:
-                if list_active[name] <= balance:
-                    list_range_max_reserve_ps[name] = float(list_active[name])
-                else:
-                    list_range_max_reserve_ps[name] = float(balance)
-            else:
-                active_list_ps[name] = False
-    return {'list_range_min_reserve_ps': list_range_min_reserve_ps, 'list_active': list_active, 'list_range_max_reserve_ps': list_range_max_reserve_ps, 'active_list_ps': active_list_ps}
+            for k, v in list_active_out.items():
+                if v == 1:
+                    list_active_reserve_ps[k] = int(round(list_active_reserve_ps[k]) + list_reserve[k])
+                    list_active_user.append(change)
+    return {'list_active_reserve_ps': list_active_reserve_ps, 'list_active_user': list_active_user}
 
 
 # метод для range_..._ps_global
@@ -2477,16 +1904,26 @@ def ps_metod(ps, name, list_range_min_reserve_ps, list_active, list_range_max_re
 
 
 # лимиты для заявок на пополнение
-def range_deposit_ps_global(list_active, active_list_ps):
-    list_change = CustomUser.objects.filter(userid__custuserid='Владелец Обменника', is_active_change=1)
-    active_list_ps = active_list_ps
+def range_deposit_ps_global(list_active_user):
+    currency = CurrencyCBRF.objects.all()
+    list_range_user = RangeSumDeposit.objects.all()
+    active_list_ps = {
+        'sberbank_rub': False, 'psb_rub': False, 'tinkoff_rub': False, 'gazprombank_rub': False, 'alfabank_rub': False,
+        'russtandart_rub': False, 'vtb_rub': False, 'rosselhoz_rub': False, 'raifaizen_rub': False,
+        'otkritie_rub': False, 'pochtabank_rub': False, 'rnkb_rub': False, 'rosbank_rub': False, 'mtsbank_rub': False,
+        'qiwi_rub': False, 'qiwi_usd': False, 'payeer_rub': False, 'payeer_usd': False, 'payeer_eur': False,
+        'webmoney_rub': False, 'webmoney_usd': False, 'webmoney_eur': False, 'pm_btc': False, 'pm_usd': False,
+        'pm_eur': False, 'skrill_eur': False, 'skrill_usd': False, 'paypal_rub': False, 'paypal_usd': False,
+        'paypal_eur': False, 'umoney_rub': False, 'btc': False, 'xrp': False, 'ltc': False, 'bch': False,
+        'xmr': False, 'eth': False, 'etc': False, 'dash': False
+    }
     list_range_min_reserve_ps = {
-        'sberbank_rub': 100000, 'psb_rub': 100000, 'tinkoff_rub': 100000, 'gazprombank_rub': 100000, 'alfabank_rub': 100000, 'russtandart_rub': 100000,
-        'vtb_rub': 100000, 'rosselhoz_rub': 100000, 'raifaizen_rub': 100000, 'otkritie_rub': 100000, 'pochtabank_rub': 100000, 'rnkb_rub': 100000,
-        'rosbank_rub': 100000, 'mtsbank_rub': 100000, 'qiwi_rub': 100000, 'qiwi_usd': 100000, 'payeer_rub': 100000, 'payeer_usd': 100000,
-        'payeer_eur': 100000, 'webmoney_rub': 100000, 'webmoney_usd': 100000, 'webmoney_eur': 100000, 'pm_btc': 100000, 'pm_usd': 100000,
-        'pm_eur': 100000, 'skrill_eur': 100000, 'skrill_usd': 100000, 'paypal_rub': 100000, 'paypal_usd': 100000, 'paypal_eur': 100000, 'umoney_rub': 100000,
-        'btc': 100000, 'xrp': 100000, 'ltc': 100000, 'bch': 100000, 'xmr': 100000, 'eth': 100000, 'etc': 100000, 'dash': 100000
+        'sberbank_rub': 0, 'psb_rub': 0, 'tinkoff_rub': 0, 'gazprombank_rub': 0, 'alfabank_rub': 0, 'russtandart_rub': 0,
+        'vtb_rub': 0, 'rosselhoz_rub': 0, 'raifaizen_rub': 0, 'otkritie_rub': 0, 'pochtabank_rub': 0, 'rnkb_rub': 0,
+        'rosbank_rub': 0, 'mtsbank_rub': 0, 'qiwi_rub': 0, 'qiwi_usd': 0, 'payeer_rub': 0, 'payeer_usd': 0,
+        'payeer_eur': 0, 'webmoney_rub': 0, 'webmoney_usd': 0, 'webmoney_eur': 0, 'pm_btc': 0, 'pm_usd': 0,
+        'pm_eur': 0, 'skrill_eur': 0, 'skrill_usd': 0, 'paypal_rub': 0, 'paypal_usd': 0, 'paypal_eur': 0, 'umoney_rub': 0,
+        'btc': 0, 'xrp': 0, 'ltc': 0, 'bch': 0, 'xmr': 0, 'eth': 0, 'etc': 0, 'dash': 0
     }
     list_range_max_reserve_ps = {
         'sberbank_rub': 0, 'psb_rub': 0, 'tinkoff_rub': 0, 'gazprombank_rub': 0, 'alfabank_rub': 0, 'russtandart_rub': 0,
@@ -2496,89 +1933,89 @@ def range_deposit_ps_global(list_active, active_list_ps):
         'pm_eur': 0, 'skrill_eur': 0, 'skrill_usd': 0, 'paypal_rub': 0, 'paypal_usd': 0, 'paypal_eur': 0, 'umoney_rub': 0,
         'btc': 0, 'xrp': 0, 'ltc': 0, 'bch': 0, 'xmr': 0, 'eth': 0, 'etc': 0, 'dash': 0
     }
-    for userrange in list_change:
-        if RangeSumDeposit.objects.filter(deposit_range_username=userrange).exists():
-            list_range = RangeSumDeposit.objects.get(deposit_range_username=userrange)
-            if list_range.deposit_min_sberbank_rub < list_range_min_reserve_ps['sberbank_rub']:
-                list_range_min_reserve_ps['sberbank_rub'] = list_range.deposit_min_sberbank_rub
-            if list_range.deposit_min_psb_rub < list_range_min_reserve_ps['psb_rub']:
-                list_range_min_reserve_ps['psb_rub'] = list_range.deposit_min_psb_rub
-            if list_range.deposit_min_tinkoff_rub < list_range_min_reserve_ps['tinkoff_rub']:
-                list_range_min_reserve_ps['tinkoff_rub'] = list_range.deposit_min_tinkoff_rub
-            if list_range.deposit_min_gazprombank_rub < list_range_min_reserve_ps['gazprombank_rub']:
-                list_range_min_reserve_ps['gazprombank_rub'] = list_range.deposit_min_gazprombank_rub
-            if list_range.deposit_min_alfabank_rub < list_range_min_reserve_ps['alfabank_rub']:
-                list_range_min_reserve_ps['alfabank_rub'] = list_range.deposit_min_alfabank_rub
-            if list_range.deposit_min_russtandart_rub < list_range_min_reserve_ps['russtandart_rub']:
-                list_range_min_reserve_ps['russtandart_rub'] = list_range.deposit_min_russtandart_rub
-            if list_range.deposit_min_vtb_rub < list_range_min_reserve_ps['vtb_rub']:
-                list_range_min_reserve_ps['vtb_rub'] = list_range.deposit_min_vtb_rub
-            if list_range.deposit_min_rosselhoz_rub < list_range_min_reserve_ps['rosselhoz_rub']:
-                list_range_min_reserve_ps['rosselhoz_rub'] = list_range.deposit_min_rosselhoz_rub
-            if list_range.deposit_min_raifaizen_rub < list_range_min_reserve_ps['raifaizen_rub']:
-                list_range_min_reserve_ps['raifaizen_rub'] = list_range.deposit_min_raifaizen_rub
-            if list_range.deposit_min_otkritie_rub < list_range_min_reserve_ps['otkritie_rub']:
-                list_range_min_reserve_ps['otkritie_rub'] = list_range.deposit_min_otkritie_rub
-            if list_range.deposit_min_pochtabank_rub < list_range_min_reserve_ps['pochtabank_rub']:
-                list_range_min_reserve_ps['pochtabank_rub'] = list_range.deposit_min_pochtabank_rub
-            if list_range.deposit_min_rnkb_rub < list_range_min_reserve_ps['rnkb_rub']:
-                list_range_min_reserve_ps['rnkb_rub'] = list_range.deposit_min_rnkb_rub
-            if list_range.deposit_min_rosbank_rub < list_range_min_reserve_ps['rosbank_rub']:
-                list_range_min_reserve_ps['rosbank_rub'] = list_range.deposit_min_rosbank_rub
-            if list_range.deposit_min_mtsbank_rub < list_range_min_reserve_ps['mtsbank_rub']:
-                list_range_min_reserve_ps['mtsbank_rub'] = list_range.deposit_min_mtsbank_rub
-            if list_range.deposit_min_qiwi_rub < list_range_min_reserve_ps['qiwi_rub']:
-                list_range_min_reserve_ps['qiwi_rub'] = list_range.deposit_min_qiwi_rub
-            if list_range.deposit_min_qiwi_usd < list_range_min_reserve_ps['qiwi_usd']:
-                list_range_min_reserve_ps['qiwi_usd'] = list_range.deposit_min_qiwi_usd
-            if list_range.deposit_min_payeer_rub < list_range_min_reserve_ps['payeer_rub']:
-                list_range_min_reserve_ps['payeer_rub'] = list_range.deposit_min_payeer_rub
-            if list_range.deposit_min_payeer_usd < list_range_min_reserve_ps['payeer_usd']:
-                list_range_min_reserve_ps['payeer_usd'] = list_range.deposit_min_payeer_usd
-            if list_range.deposit_min_payeer_eur < list_range_min_reserve_ps['payeer_eur']:
-                list_range_min_reserve_ps['payeer_eur'] = list_range.deposit_min_payeer_eur
-            if list_range.deposit_min_webmoney_rub < list_range_min_reserve_ps['webmoney_rub']:
-                list_range_min_reserve_ps['webmoney_rub'] = list_range.deposit_min_webmoney_rub
-            if list_range.deposit_min_webmoney_usd < list_range_min_reserve_ps['webmoney_usd']:
-                list_range_min_reserve_ps['webmoney_usd'] = list_range.deposit_min_webmoney_usd
-            if list_range.deposit_min_webmoney_eur < list_range_min_reserve_ps['webmoney_eur']:
-                list_range_min_reserve_ps['webmoney_eur'] = list_range.deposit_min_webmoney_eur
-            if list_range.deposit_min_pm_btc < list_range_min_reserve_ps['pm_btc']:
-                list_range_min_reserve_ps['pm_btc'] = list_range.deposit_min_pm_btc
-            if list_range.deposit_min_pm_usd < list_range_min_reserve_ps['pm_usd']:
-                list_range_min_reserve_ps['pm_usd'] = list_range.deposit_min_pm_usd
-            if list_range.deposit_min_pm_eur < list_range_min_reserve_ps['pm_eur']:
-                list_range_min_reserve_ps['pm_eur'] = list_range.deposit_min_pm_eur
-            if list_range.deposit_min_skrill_eur < list_range_min_reserve_ps['skrill_eur']:
-                list_range_min_reserve_ps['skrill_eur'] = list_range.deposit_min_skrill_eur
-            if list_range.deposit_min_skrill_usd < list_range_min_reserve_ps['skrill_usd']:
-                list_range_min_reserve_ps['skrill_usd'] = list_range.deposit_min_skrill_usd
-            if list_range.deposit_min_paypal_rub < list_range_min_reserve_ps['paypal_rub']:
-                list_range_min_reserve_ps['paypal_rub'] = list_range.deposit_min_paypal_rub
-            if list_range.deposit_min_paypal_usd < list_range_min_reserve_ps['paypal_usd']:
-                list_range_min_reserve_ps['paypal_usd'] = list_range.deposit_min_paypal_usd
-            if list_range.deposit_min_paypal_eur < list_range_min_reserve_ps['paypal_eur']:
-                list_range_min_reserve_ps['paypal_eur'] = list_range.deposit_min_paypal_eur
-            if list_range.deposit_min_umoney_rub < list_range_min_reserve_ps['umoney_rub']:
-                list_range_min_reserve_ps['umoney_rub'] = list_range.deposit_min_umoney_rub
-            if list_range.deposit_min_btc < list_range_min_reserve_ps['btc']:
-                list_range_min_reserve_ps['btc'] = list_range.deposit_min_btc
-            if list_range.deposit_min_xrp < list_range_min_reserve_ps['xrp']:
-                list_range_min_reserve_ps['xrp'] = list_range.deposit_min_xrp
-            if list_range.deposit_min_ltc < list_range_min_reserve_ps['ltc']:
-                list_range_min_reserve_ps['ltc'] = list_range.deposit_min_ltc
-            if list_range.deposit_min_bch < list_range_min_reserve_ps['bch']:
-                list_range_min_reserve_ps['bch'] = list_range.deposit_min_bch
-            if list_range.deposit_min_xmr < list_range_min_reserve_ps['xmr']:
-                list_range_min_reserve_ps['xmr'] = list_range.deposit_min_xmr
-            if list_range.deposit_min_eth < list_range_min_reserve_ps['eth']:
-                list_range_min_reserve_ps['eth'] = list_range.deposit_min_eth
-            if list_range.deposit_min_etc < list_range_min_reserve_ps['etc']:
-                list_range_min_reserve_ps['etc'] = list_range.deposit_min_etc
-            if list_range.deposit_min_dash < list_range_min_reserve_ps['dash']:
-                list_range_min_reserve_ps['dash'] = list_range.deposit_min_dash
+    list_get_valute = {
+        'sberbank_rub': 0, 'psb_rub': 0, 'tinkoff_rub': 0, 'gazprombank_rub': 0, 'alfabank_rub': 0, 'russtandart_rub': 0,
+        'vtb_rub': 0, 'rosselhoz_rub': 0, 'raifaizen_rub': 0, 'otkritie_rub': 0, 'pochtabank_rub': 0, 'rnkb_rub': 0,
+        'rosbank_rub': 0, 'mtsbank_rub': 0, 'qiwi_rub': 0, 'qiwi_usd': 0, 'payeer_rub': 0, 'payeer_usd': 0,
+        'payeer_eur': 0, 'webmoney_rub': 0, 'webmoney_usd': 0, 'webmoney_eur': 0, 'pm_usd': 0,
+        'pm_eur': 0, 'skrill_eur': 0, 'skrill_usd': 0, 'paypal_rub': 0, 'paypal_usd': 0, 'paypal_eur': 0, 'umoney_rub': 0
+    }
+    list_get_crypto = {
+        'pm_btc': 0, 'btc': 0, 'xrp': 0, 'ltc': 0, 'bch': 0, 'xmr': 0, 'eth': 0, 'etc': 0, 'dash': 0
+    }
+    currencyget_rub = currency.get(name_currency='RUB').base_currency
+    currencyget_usd = currency.get(name_currency='USD').base_currency
+    currencyget_eur = currency.get(name_currency='EUR').base_currency
+    currencyget_btc = currency.get(name_currency='BTC').base_currency
+    currencyget_xrp = currency.get(name_currency='XRP').base_currency
+    currencyget_ltc = currency.get(name_currency='LTC').base_currency
+    currencyget_bch = currency.get(name_currency='BCH').base_currency
+    currencyget_xmr = currency.get(name_currency='XMR').base_currency
+    currencyget_eth = currency.get(name_currency='ETH').base_currency
+    currencyget_etc = currency.get(name_currency='ETC').base_currency
+    currencyget_dash = currency.get(name_currency='DASH').base_currency
 
-            keys_list = {
+    for userrange in list_active_user:
+        try:
+            list_range = list_range_user.get(deposit_range_username=userrange)
+            list_min_range = {
+                'sberbank_rub': list_range.deposit_min_sberbank_rub,
+                'psb_rub': list_range.deposit_min_psb_rub,
+                'tinkoff_rub': list_range.deposit_min_tinkoff_rub,
+                'gazprombank_rub': list_range.deposit_min_gazprombank_rub,
+                'alfabank_rub': list_range.deposit_min_alfabank_rub,
+                'russtandart_rub': list_range.deposit_min_russtandart_rub,
+                'vtb_rub': list_range.deposit_min_vtb_rub,
+                'rosselhoz_rub': list_range.deposit_min_rosselhoz_rub,
+                'raifaizen_rub': list_range.deposit_min_raifaizen_rub,
+                'otkritie_rub': list_range.deposit_min_otkritie_rub,
+                'pochtabank_rub': list_range.deposit_min_pochtabank_rub,
+                'rnkb_rub': list_range.deposit_min_rnkb_rub,
+                'rosbank_rub': list_range.deposit_min_rosbank_rub,
+                'mtsbank_rub': list_range.deposit_min_mtsbank_rub,
+                'qiwi_rub': list_range.deposit_min_qiwi_rub,
+                'qiwi_usd': list_range.deposit_min_qiwi_usd,
+                'payeer_rub': list_range.deposit_min_payeer_rub,
+                'payeer_usd': list_range.deposit_min_payeer_usd,
+                'payeer_eur': list_range.deposit_min_payeer_eur,
+                'webmoney_rub': list_range.deposit_min_webmoney_rub,
+                'webmoney_usd': list_range.deposit_min_webmoney_usd,
+                'webmoney_eur': list_range.deposit_min_webmoney_eur,
+                'pm_btc': list_range.deposit_min_pm_btc,
+                'pm_usd': list_range.deposit_min_pm_usd,
+                'pm_eur': list_range.deposit_min_pm_eur,
+                'skrill_eur': list_range.deposit_min_skrill_eur,
+                'skrill_usd': list_range.deposit_min_skrill_usd,
+                'paypal_rub': list_range.deposit_min_paypal_rub,
+                'paypal_usd': list_range.deposit_min_paypal_usd,
+                'paypal_eur': list_range.deposit_min_paypal_eur,
+                'umoney_rub': list_range.deposit_min_umoney_rub,
+                'btc': list_range.deposit_min_btc,
+                'xrp': list_range.deposit_min_xrp,
+                'ltc': list_range.deposit_min_ltc,
+                'bch': list_range.deposit_min_bch,
+                'xmr': list_range.deposit_min_xmr,
+                'eth': list_range.deposit_min_eth,
+                'etc': list_range.deposit_min_etc,
+                'dash': list_range.deposit_min_dash,
+            }
+            # Получаем минимальный лимит
+            for min_range_k, min_range_v in list_min_range.items():
+                if min_range_v > 0:
+                    if list_range_min_reserve_ps[min_range_k] != 0:
+                        if min_range_v < list_range_min_reserve_ps[min_range_k]:
+                            if list_get_valute.get(min_range_k) is not None:
+                                list_range_min_reserve_ps[min_range_k] = float(round(min_range_v, 2))
+                            elif list_get_crypto.get(min_range_k) is not None:
+                                list_range_min_reserve_ps[min_range_k] = float(round(min_range_v, 8))
+                    else:
+                        if list_get_valute.get(min_range_k) is not None:
+                            list_range_min_reserve_ps[min_range_k] = float(round(min_range_v, 2))
+                        elif list_get_crypto.get(min_range_k) is not None:
+                            list_range_min_reserve_ps[min_range_k] = float(round(min_range_v, 8))
+
+            # Получаем максимальный лимит
+            list_max_range = {
                 'sberbank_rub': list_range.deposit_max_sberbank_rub,
                 'psb_rub': list_range.deposit_max_psb_rub,
                 'tinkoff_rub': list_range.deposit_max_tinkoff_rub,
@@ -2617,39 +2054,87 @@ def range_deposit_ps_global(list_active, active_list_ps):
                 'xmr': list_range.deposit_max_xmr,
                 'eth': list_range.deposit_max_eth,
                 'etc': list_range.deposit_max_etc,
-                'dash': list_range.deposit_max_etc,
+                'dash': list_range.deposit_max_dash,
             }
-
-            for item in keys_list:
-                ps = keys_list.get(item)
-                name = item
-                listed = ps_metod(ps=ps, name=name, list_range_min_reserve_ps=list_range_min_reserve_ps,
-                                  list_active=list_active, list_range_max_reserve_ps=list_range_max_reserve_ps,
-                                  active_list_ps=active_list_ps)
-                list_range_min_reserve_ps = listed['list_range_min_reserve_ps']
-                list_range_max_reserve_ps = listed['list_range_max_reserve_ps']
-                list_active = listed['list_active']
-                active_list_ps = listed['active_list_ps']
+            list_balance_change = {
+                'sberbank_rub': userrange.balance/currencyget_rub,
+                'psb_rub': userrange.balance/currencyget_rub,
+                'tinkoff_rub': userrange.balance/currencyget_rub,
+                'gazprombank_rub': userrange.balance/currencyget_rub,
+                'alfabank_rub': userrange.balance/currencyget_rub,
+                'russtandart_rub': userrange.balance/currencyget_rub,
+                'vtb_rub': userrange.balance/currencyget_rub,
+                'rosselhoz_rub': userrange.balance/currencyget_rub,
+                'raifaizen_rub': userrange.balance/currencyget_rub,
+                'otkritie_rub': userrange.balance/currencyget_rub,
+                'pochtabank_rub': userrange.balance/currencyget_rub,
+                'rnkb_rub': userrange.balance/currencyget_rub,
+                'rosbank_rub': userrange.balance/currencyget_rub,
+                'mtsbank_rub': userrange.balance/currencyget_rub,
+                'qiwi_rub': userrange.balance/currencyget_rub,
+                'qiwi_usd': userrange.balance/currencyget_usd,
+                'payeer_rub': userrange.balance/currencyget_rub,
+                'payeer_usd': userrange.balance/currencyget_usd,
+                'payeer_eur': userrange.balance/currencyget_eur,
+                'webmoney_rub': userrange.balance/currencyget_rub,
+                'webmoney_usd': userrange.balance/currencyget_usd,
+                'webmoney_eur': userrange.balance/currencyget_eur,
+                'pm_btc': userrange.balance/currencyget_btc,
+                'pm_usd': userrange.balance/currencyget_usd,
+                'pm_eur': userrange.balance/currencyget_eur,
+                'skrill_eur': userrange.balance/currencyget_eur,
+                'skrill_usd': userrange.balance/currencyget_usd,
+                'paypal_rub': userrange.balance/currencyget_rub,
+                'paypal_usd': userrange.balance/currencyget_usd,
+                'paypal_eur': userrange.balance/currencyget_eur,
+                'umoney_rub': userrange.balance/currencyget_rub,
+                'btc': userrange.balance/currencyget_btc,
+                'xrp': userrange.balance/currencyget_xrp,
+                'ltc': userrange.balance/currencyget_ltc,
+                'bch': userrange.balance/currencyget_bch,
+                'xmr': userrange.balance/currencyget_xmr,
+                'eth': userrange.balance/currencyget_eth,
+                'etc': userrange.balance/currencyget_etc,
+                'dash': userrange.balance/currencyget_dash,
+            }
+            for max_range_k, max_range_v in list_max_range.items():
+                if list_range_min_reserve_ps[max_range_k] < max_range_v and list_range_min_reserve_ps[max_range_k] > 0 and list_balance_change[max_range_k] > list_range_min_reserve_ps[max_range_k]:
+                    min_max_range = min([max_range_v, list_balance_change[max_range_k]])
+                    if min_max_range > list_range_max_reserve_ps[max_range_k]:
+                        if list_get_valute.get(max_range_k) is not None:
+                            list_range_max_reserve_ps[max_range_k] = float(round(min_max_range-(min_max_range/100), 2))
+                        elif list_get_crypto.get(max_range_k) is not None:
+                            list_range_max_reserve_ps[max_range_k] = float(round(min_max_range-(min_max_range/100), 8))
+                        active_list_ps[max_range_k] = True
+        except:
+            pass
 
     return {'list_range_min_reserve_ps': list_range_min_reserve_ps,
             'list_range_max_reserve_ps': list_range_max_reserve_ps,
-            'active_list_ps': active_list_ps
-            }
+            'active_list_ps': active_list_ps}
 
 
 # лимиты для заявок на вывод
-def range_width_ps_global(list_active, active_list_ps, balance):
-    list_change = CustomUser.objects.filter(userid__custuserid='Владелец Обменника', is_active_change=1)
+def range_width_ps_global(list_active_user, balance_user):
     currency = CurrencyCBRF.objects.all()
-    list_range_list = RangeSumWidth.objects.all()
-    active_list_ps = active_list_ps
+    list_range_user = RangeSumWidth.objects.all()
+    active_list_ps = {
+        'sberbank_rub': False, 'psb_rub': False, 'tinkoff_rub': False, 'gazprombank_rub': False, 'alfabank_rub': False,
+        'russtandart_rub': False, 'vtb_rub': False, 'rosselhoz_rub': False, 'raifaizen_rub': False,
+        'otkritie_rub': False, 'pochtabank_rub': False, 'rnkb_rub': False, 'rosbank_rub': False, 'mtsbank_rub': False,
+        'qiwi_rub': False, 'qiwi_usd': False, 'payeer_rub': False, 'payeer_usd': False, 'payeer_eur': False,
+        'webmoney_rub': False, 'webmoney_usd': False, 'webmoney_eur': False, 'pm_btc': False, 'pm_usd': False,
+        'pm_eur': False, 'skrill_eur': False, 'skrill_usd': False, 'paypal_rub': False, 'paypal_usd': False,
+        'paypal_eur': False, 'umoney_rub': False, 'btc': False, 'xrp': False, 'ltc': False, 'bch': False,
+        'xmr': False, 'eth': False, 'etc': False, 'dash': False
+    }
     list_range_min_reserve_ps = {
-        'sberbank_rub': 100000, 'psb_rub': 100000, 'tinkoff_rub': 100000, 'gazprombank_rub': 100000, 'alfabank_rub': 100000, 'russtandart_rub': 100000,
-        'vtb_rub': 100000, 'rosselhoz_rub': 100000, 'raifaizen_rub': 100000, 'otkritie_rub': 100000, 'pochtabank_rub': 100000, 'rnkb_rub': 100000,
-        'rosbank_rub': 100000, 'mtsbank_rub': 100000, 'qiwi_rub': 100000, 'qiwi_usd': 100000, 'payeer_rub': 100000, 'payeer_usd': 100000,
-        'payeer_eur': 100000, 'webmoney_rub': 100000, 'webmoney_usd': 100000, 'webmoney_eur': 100000, 'pm_btc': 100000, 'pm_usd': 100000,
-        'pm_eur': 100000, 'skrill_eur': 100000, 'skrill_usd': 100000, 'paypal_rub': 100000, 'paypal_usd': 100000, 'paypal_eur': 100000, 'umoney_rub': 100000,
-        'btc': 100000, 'xrp': 100000, 'ltc': 100000, 'bch': 100000, 'xmr': 100000, 'eth': 100000, 'etc': 100000, 'dash': 100000
+        'sberbank_rub': 0, 'psb_rub': 0, 'tinkoff_rub': 0, 'gazprombank_rub': 0, 'alfabank_rub': 0, 'russtandart_rub': 0,
+        'vtb_rub': 0, 'rosselhoz_rub': 0, 'raifaizen_rub': 0, 'otkritie_rub': 0, 'pochtabank_rub': 0, 'rnkb_rub': 0,
+        'rosbank_rub': 0, 'mtsbank_rub': 0, 'qiwi_rub': 0, 'qiwi_usd': 0, 'payeer_rub': 0, 'payeer_usd': 0,
+        'payeer_eur': 0, 'webmoney_rub': 0, 'webmoney_usd': 0, 'webmoney_eur': 0, 'pm_btc': 0, 'pm_usd': 0,
+        'pm_eur': 0, 'skrill_eur': 0, 'skrill_usd': 0, 'paypal_rub': 0, 'paypal_usd': 0, 'paypal_eur': 0, 'umoney_rub': 0,
+        'btc': 0, 'xrp': 0, 'ltc': 0, 'bch': 0, 'xmr': 0, 'eth': 0, 'etc': 0, 'dash': 0
     }
     list_range_max_reserve_ps = {
         'sberbank_rub': 0, 'psb_rub': 0, 'tinkoff_rub': 0, 'gazprombank_rub': 0, 'alfabank_rub': 0, 'russtandart_rub': 0,
@@ -2670,145 +2155,157 @@ def range_width_ps_global(list_active, active_list_ps, balance):
     currencyget_eth = currency.get(name_currency='ETH').base_currency
     currencyget_etc = currency.get(name_currency='ETC').base_currency
     currencyget_dash = currency.get(name_currency='DASH').base_currency
-    for userrange in list_change:
-        if RangeSumWidth.objects.filter(width_range_username=userrange).exists():
-            list_range = list_range_list.get(width_range_username=userrange)
-            if list_range.width_min_sberbank_rub*currencyget_rub < list_range_min_reserve_ps['sberbank_rub']:
-                list_range_min_reserve_ps['sberbank_rub'] = float(round(list_range.width_min_sberbank_rub*currencyget_rub, 2))
-            if list_range.width_min_psb_rub*currencyget_rub < list_range_min_reserve_ps['psb_rub']:
-                list_range_min_reserve_ps['psb_rub'] = float(round(list_range.width_min_psb_rub*currencyget_rub, 2))
-            if list_range.width_min_tinkoff_rub*currencyget_rub < list_range_min_reserve_ps['tinkoff_rub']:
-                list_range_min_reserve_ps['tinkoff_rub'] = float(round(list_range.width_min_tinkoff_rub*currencyget_rub, 2))
-            if list_range.width_min_gazprombank_rub*currencyget_rub < list_range_min_reserve_ps['gazprombank_rub']:
-                list_range_min_reserve_ps['gazprombank_rub'] = float(round(list_range.width_min_gazprombank_rub*currencyget_rub, 2))
-            if list_range.width_min_alfabank_rub*currencyget_rub < list_range_min_reserve_ps['alfabank_rub']:
-                list_range_min_reserve_ps['alfabank_rub'] = float(round(list_range.width_min_alfabank_rub*currencyget_rub, 2))
-            if list_range.width_min_russtandart_rub*currencyget_rub < list_range_min_reserve_ps['russtandart_rub']:
-                list_range_min_reserve_ps['russtandart_rub'] = float(round(list_range.width_min_russtandart_rub*currencyget_rub, 2))
-            if list_range.width_min_vtb_rub*currencyget_rub < list_range_min_reserve_ps['vtb_rub']:
-                list_range_min_reserve_ps['vtb_rub'] = float(round(list_range.width_min_vtb_rub*currencyget_rub, 2))
-            if list_range.width_min_rosselhoz_rub*currencyget_rub < list_range_min_reserve_ps['rosselhoz_rub']:
-                list_range_min_reserve_ps['rosselhoz_rub'] = float(round(list_range.width_min_rosselhoz_rub*currencyget_rub, 2))
-            if list_range.width_min_raifaizen_rub*currencyget_rub < list_range_min_reserve_ps['raifaizen_rub']:
-                list_range_min_reserve_ps['raifaizen_rub'] = float(round(list_range.width_min_raifaizen_rub*currencyget_rub, 2))
-            if list_range.width_min_otkritie_rub*currencyget_rub < list_range_min_reserve_ps['otkritie_rub']:
-                list_range_min_reserve_ps['otkritie_rub'] = float(round(list_range.width_min_otkritie_rub*currencyget_rub, 2))
-            if list_range.width_min_pochtabank_rub*currencyget_rub < list_range_min_reserve_ps['pochtabank_rub']:
-                list_range_min_reserve_ps['pochtabank_rub'] = float(round(list_range.width_min_pochtabank_rub*currencyget_rub, 2))
-            if list_range.width_min_rnkb_rub*currencyget_rub < list_range_min_reserve_ps['rnkb_rub']:
-                list_range_min_reserve_ps['rnkb_rub'] = float(round(list_range.width_min_rnkb_rub*currencyget_rub, 2))
-            if list_range.width_min_rosbank_rub*currencyget_rub < list_range_min_reserve_ps['rosbank_rub']:
-                list_range_min_reserve_ps['rosbank_rub'] = float(round(list_range.width_min_rosbank_rub*currencyget_rub, 2))
-            if list_range.width_min_mtsbank_rub*currencyget_rub < list_range_min_reserve_ps['mtsbank_rub']:
-                list_range_min_reserve_ps['mtsbank_rub'] = float(round(list_range.width_min_mtsbank_rub*currencyget_rub, 2))
-            if list_range.width_min_qiwi_rub*currencyget_rub < list_range_min_reserve_ps['qiwi_rub']:
-                list_range_min_reserve_ps['qiwi_rub'] = float(round(list_range.width_min_qiwi_rub*currencyget_rub, 2))
-            if list_range.width_min_qiwi_usd*currencyget_usd < list_range_min_reserve_ps['qiwi_usd']:
-                list_range_min_reserve_ps['qiwi_usd'] = float(round(list_range.width_min_qiwi_usd*currencyget_usd, 2))
-            if list_range.width_min_payeer_rub*currencyget_rub < list_range_min_reserve_ps['payeer_rub']:
-                list_range_min_reserve_ps['payeer_rub'] = float(round(list_range.width_min_payeer_rub*currencyget_rub, 2))
-            if list_range.width_min_payeer_usd*currencyget_usd < list_range_min_reserve_ps['payeer_usd']:
-                list_range_min_reserve_ps['payeer_usd'] = float(round(list_range.width_min_payeer_usd*currencyget_usd, 2))
-            if list_range.width_min_payeer_eur*currencyget_eur < list_range_min_reserve_ps['payeer_eur']:
-                list_range_min_reserve_ps['payeer_eur'] = float(round(list_range.width_min_payeer_eur*currencyget_eur, 2))
-            if list_range.width_min_webmoney_rub*currencyget_rub < list_range_min_reserve_ps['webmoney_rub']:
-                list_range_min_reserve_ps['webmoney_rub'] = float(round(list_range.width_min_webmoney_rub*currencyget_rub, 2))
-            if list_range.width_min_webmoney_usd*currencyget_usd < list_range_min_reserve_ps['webmoney_usd']:
-                list_range_min_reserve_ps['webmoney_usd'] = float(round(list_range.width_min_webmoney_usd*currencyget_usd, 2))
-            if list_range.width_min_webmoney_eur*currencyget_eur < list_range_min_reserve_ps['webmoney_eur']:
-                list_range_min_reserve_ps['webmoney_eur'] = float(round(list_range.width_min_webmoney_eur*currencyget_eur, 2))
-            if list_range.width_min_pm_btc*currencyget_btc < list_range_min_reserve_ps['pm_btc']:
-                list_range_min_reserve_ps['pm_btc'] = float(round(list_range.width_min_pm_btc*currencyget_btc, 2))
-            if list_range.width_min_pm_usd*currencyget_usd < list_range_min_reserve_ps['pm_usd']:
-                list_range_min_reserve_ps['pm_usd'] = float(round(list_range.width_min_pm_usd*currencyget_usd, 2))
-            if list_range.width_min_pm_eur*currencyget_eur < list_range_min_reserve_ps['pm_eur']:
-                list_range_min_reserve_ps['pm_eur'] = float(round(list_range.width_min_pm_eur*currencyget_eur, 2))
-            if list_range.width_min_skrill_eur*currencyget_eur < list_range_min_reserve_ps['skrill_eur']:
-                list_range_min_reserve_ps['skrill_eur'] = float(round(list_range.width_min_skrill_eur*currencyget_eur, 2))
-            if list_range.width_min_skrill_usd*currencyget_usd < list_range_min_reserve_ps['skrill_usd']:
-                list_range_min_reserve_ps['skrill_usd'] = float(round(list_range.width_min_skrill_usd*currencyget_usd, 2))
-            if list_range.width_min_paypal_rub*currencyget_rub < list_range_min_reserve_ps['paypal_rub']:
-                list_range_min_reserve_ps['paypal_rub'] = float(round(list_range.width_min_paypal_rub*currencyget_rub, 2))
-            if list_range.width_min_paypal_usd*currencyget_usd < list_range_min_reserve_ps['paypal_usd']:
-                list_range_min_reserve_ps['paypal_usd'] = float(round(list_range.width_min_paypal_usd*currencyget_usd, 2))
-            if list_range.width_min_paypal_eur*currencyget_eur < list_range_min_reserve_ps['paypal_eur']:
-                list_range_min_reserve_ps['paypal_eur'] = float(round(list_range.width_min_paypal_eur*currencyget_eur, 2))
-            if list_range.width_min_umoney_rub*currencyget_rub < list_range_min_reserve_ps['umoney_rub']:
-                list_range_min_reserve_ps['umoney_rub'] = float(round(list_range.width_min_umoney_rub*currencyget_rub, 2))
-            if list_range.width_min_btc*currencyget_btc < list_range_min_reserve_ps['btc']:
-                list_range_min_reserve_ps['btc'] = float(round(list_range.width_min_btc*currencyget_btc, 2))
-            if list_range.width_min_xrp*currencyget_xrp < list_range_min_reserve_ps['xrp']:
-                list_range_min_reserve_ps['xrp'] = float(round(list_range.width_min_xrp*currencyget_xrp, 2))
-            if list_range.width_min_ltc*currencyget_ltc < list_range_min_reserve_ps['ltc']:
-                list_range_min_reserve_ps['ltc'] = float(round(list_range.width_min_ltc*currencyget_ltc, 2))
-            if list_range.width_min_bch*currencyget_bch < list_range_min_reserve_ps['bch']:
-                list_range_min_reserve_ps['bch'] = float(round(list_range.width_min_bch*currencyget_bch, 2))
-            if list_range.width_min_xmr*currencyget_xmr < list_range_min_reserve_ps['xmr']:
-                list_range_min_reserve_ps['xmr'] = float(round(list_range.width_min_xmr*currencyget_xmr, 2))
-            if list_range.width_min_eth*currencyget_eth < list_range_min_reserve_ps['eth']:
-                list_range_min_reserve_ps['eth'] = float(round(list_range.width_min_eth*currencyget_eth, 2))
-            if list_range.width_min_etc*currencyget_etc < list_range_min_reserve_ps['etc']:
-                list_range_min_reserve_ps['etc'] = float(round(list_range.width_min_etc*currencyget_etc, 2))
-            if list_range.width_min_dash*currencyget_dash < list_range_min_reserve_ps['dash']:
-                list_range_min_reserve_ps['dash'] = float(round(list_range.width_min_dash*currencyget_dash, 2))
 
-            keys_list = {
-                'sberbank_rub': float(round(list_range.width_max_sberbank_rub*currencyget_rub, 2)),
-                'psb_rub': float(round(list_range.width_max_psb_rub*currencyget_rub, 2)),
-                'tinkoff_rub': float(round(list_range.width_max_tinkoff_rub*currencyget_rub, 2)),
-                'gazprombank_rub': float(round(list_range.width_max_gazprombank_rub*currencyget_rub, 2)),
-                'alfabank_rub': float(round(list_range.width_max_alfabank_rub*currencyget_rub, 2)),
-                'russtandart_rub': float(round(list_range.width_max_russtandart_rub*currencyget_rub, 2)),
-                'vtb_rub': float(round(list_range.width_max_vtb_rub*currencyget_rub, 2)),
-                'rosselhoz_rub': float(round(list_range.width_max_rosselhoz_rub*currencyget_rub, 2)),
-                'raifaizen_rub': float(round(list_range.width_max_raifaizen_rub*currencyget_rub, 2)),
-                'otkritie_rub': float(round(list_range.width_max_otkritie_rub*currencyget_rub, 2)),
-                'pochtabank_rub': float(round(list_range.width_max_pochtabank_rub*currencyget_rub, 2)),
-                'rnkb_rub': float(round(list_range.width_max_rnkb_rub*currencyget_rub, 2)),
-                'rosbank_rub': float(round(list_range.width_max_rosbank_rub*currencyget_rub, 2)),
-                'mtsbank_rub': float(round(list_range.width_max_mtsbank_rub*currencyget_rub, 2)),
-                'qiwi_rub': float(round(list_range.width_max_qiwi_rub*currencyget_rub, 2)),
-                'qiwi_usd': float(round(list_range.width_max_qiwi_usd*currencyget_usd, 2)),
-                'payeer_rub': float(round(list_range.width_max_payeer_rub*currencyget_rub, 2)),
-                'payeer_usd': float(round(list_range.width_max_payeer_usd*currencyget_usd, 2)),
-                'payeer_eur': float(round(list_range.width_max_payeer_eur*currencyget_eur, 2)),
-                'webmoney_rub': float(round(list_range.width_max_webmoney_rub*currencyget_rub, 2)),
-                'webmoney_usd': float(round(list_range.width_max_webmoney_usd*currencyget_usd, 2)),
-                'webmoney_eur': float(round(list_range.width_max_webmoney_eur*currencyget_eur, 2)),
-                'pm_btc': float(round(list_range.width_max_pm_btc*currencyget_btc, 2)),
-                'pm_usd': float(round(list_range.width_max_pm_usd*currencyget_usd, 2)),
-                'pm_eur': float(round(list_range.width_max_pm_eur*currencyget_eur, 2)),
-                'skrill_eur': float(round(list_range.width_max_skrill_eur*currencyget_eur, 2)),
-                'skrill_usd': float(round(list_range.width_max_skrill_usd*currencyget_usd, 2)),
-                'paypal_rub': float(round(list_range.width_max_paypal_rub*currencyget_rub, 2)),
-                'paypal_usd': float(round(list_range.width_max_paypal_usd*currencyget_usd, 2)),
-                'paypal_eur': float(round(list_range.width_max_paypal_eur*currencyget_eur, 2)),
-                'umoney_rub': float(round(list_range.width_max_umoney_rub*currencyget_rub, 2)),
-                'btc': float(round(list_range.width_max_btc*currencyget_btc, 2)),
-                'xrp': float(round(list_range.width_max_xrp*currencyget_xrp, 2)),
-                'ltc': float(round(list_range.width_max_ltc*currencyget_ltc, 2)),
-                'bch': float(round(list_range.width_max_bch*currencyget_bch, 2)),
-                'xmr': float(round(list_range.width_max_xmr*currencyget_xmr, 2)),
-                'eth': float(round(list_range.width_max_eth*currencyget_eth, 2)),
-                'etc': float(round(list_range.width_max_etc*currencyget_etc, 2)),
-                'dash': float(round(list_range.width_max_etc*currencyget_dash, 2)),
+    for userrange in list_active_user:
+        try:
+            list_range = list_range_user.get(width_range_username=userrange)
+            list_min_range = {
+                'sberbank_rub': list_range.width_min_sberbank_rub*currencyget_rub,
+                'psb_rub': list_range.width_min_psb_rub*currencyget_rub,
+                'tinkoff_rub': list_range.width_min_tinkoff_rub*currencyget_rub,
+                'gazprombank_rub': list_range.width_min_gazprombank_rub*currencyget_rub,
+                'alfabank_rub': list_range.width_min_alfabank_rub*currencyget_rub,
+                'russtandart_rub': list_range.width_min_russtandart_rub*currencyget_rub,
+                'vtb_rub': list_range.width_min_vtb_rub*currencyget_rub,
+                'rosselhoz_rub': list_range.width_min_rosselhoz_rub*currencyget_rub,
+                'raifaizen_rub': list_range.width_min_raifaizen_rub*currencyget_rub,
+                'otkritie_rub': list_range.width_min_otkritie_rub*currencyget_rub,
+                'pochtabank_rub': list_range.width_min_pochtabank_rub*currencyget_rub,
+                'rnkb_rub': list_range.width_min_rnkb_rub*currencyget_rub,
+                'rosbank_rub': list_range.width_min_rosbank_rub*currencyget_rub,
+                'mtsbank_rub': list_range.width_min_mtsbank_rub*currencyget_rub,
+                'qiwi_rub': list_range.width_min_qiwi_rub*currencyget_rub,
+                'qiwi_usd': list_range.width_min_qiwi_usd*currencyget_usd,
+                'payeer_rub': list_range.width_min_payeer_rub*currencyget_rub,
+                'payeer_usd': list_range.width_min_payeer_usd*currencyget_usd,
+                'payeer_eur': list_range.width_min_payeer_eur*currencyget_eur,
+                'webmoney_rub': list_range.width_min_webmoney_rub*currencyget_rub,
+                'webmoney_usd': list_range.width_min_webmoney_usd*currencyget_usd,
+                'webmoney_eur': list_range.width_min_webmoney_eur*currencyget_eur,
+                'pm_btc': list_range.width_min_pm_btc*currencyget_btc,
+                'pm_usd': list_range.width_min_pm_usd*currencyget_usd,
+                'pm_eur': list_range.width_min_pm_eur*currencyget_eur,
+                'skrill_eur': list_range.width_min_skrill_eur*currencyget_eur,
+                'skrill_usd': list_range.width_min_skrill_usd*currencyget_usd,
+                'paypal_rub': list_range.width_min_paypal_rub*currencyget_rub,
+                'paypal_usd': list_range.width_min_paypal_usd*currencyget_usd,
+                'paypal_eur': list_range.width_min_paypal_eur*currencyget_eur,
+                'umoney_rub': list_range.width_min_umoney_rub*currencyget_rub,
+                'btc': list_range.width_min_btc*currencyget_btc,
+                'xrp': list_range.width_min_xrp*currencyget_xrp,
+                'ltc': list_range.width_min_ltc*currencyget_ltc,
+                'bch': list_range.width_min_bch*currencyget_bch,
+                'xmr': list_range.width_min_xmr*currencyget_xmr,
+                'eth': list_range.width_min_eth*currencyget_eth,
+                'etc': list_range.width_min_etc*currencyget_etc,
+                'dash': list_range.width_min_dash*currencyget_dash,
             }
+            list_reserve = {
+                'sberbank_rub': userrange.reserv_sberbank_rub*currencyget_rub,
+                'psb_rub': userrange.reserv_psb_rub*currencyget_rub,
+                'tinkoff_rub': userrange.reserv_tinkoff_rub*currencyget_rub,
+                'gazprombank_rub': userrange.reserv_gazprombank_rub*currencyget_rub,
+                'alfabank_rub': userrange.reserv_alfabank_rub*currencyget_rub,
+                'russtandart_rub': userrange.reserv_russtandart_rub*currencyget_rub,
+                'vtb_rub': userrange.reserv_vtb_rub*currencyget_rub,
+                'rosselhoz_rub': userrange.reserv_rosselhoz_rub*currencyget_rub,
+                'raifaizen_rub': userrange.reserv_raifaizen_rub*currencyget_rub,
+                'otkritie_rub': userrange.reserv_otkritie_rub*currencyget_rub,
+                'pochtabank_rub': userrange.reserv_pochtabank_rub*currencyget_rub,
+                'rnkb_rub': userrange.reserv_rnkb_rub*currencyget_rub,
+                'rosbank_rub': userrange.reserv_rosbank_rub*currencyget_rub,
+                'mtsbank_rub': userrange.reserv_mtsbank_rub*currencyget_rub,
+                'qiwi_rub': userrange.reserv_qiwi_rub*currencyget_rub,
+                'qiwi_usd': userrange.reserv_qiwi_usd*currencyget_usd,
+                'payeer_rub': userrange.reserv_payeer_rub*currencyget_rub,
+                'payeer_usd': userrange.reserv_payeer_usd*currencyget_usd,
+                'payeer_eur': userrange.reserv_payeer_eur*currencyget_eur,
+                'webmoney_rub': userrange.reserv_webmoney_rub*currencyget_rub,
+                'webmoney_usd': userrange.reserv_webmoney_usd*currencyget_usd,
+                'webmoney_eur': userrange.reserv_webmoney_eur*currencyget_eur,
+                'pm_btc': userrange.reserv_pm_btc*currencyget_btc,
+                'pm_usd': userrange.reserv_pm_usd*currencyget_usd,
+                'pm_eur': userrange.reserv_pm_eur*currencyget_eur,
+                'skrill_eur': userrange.reserv_skrill_eur*currencyget_eur,
+                'skrill_usd': userrange.reserv_skrill_usd*currencyget_usd,
+                'paypal_rub': userrange.reserv_paypal_rub*currencyget_rub,
+                'paypal_usd': userrange.reserv_paypal_usd*currencyget_usd,
+                'paypal_eur': userrange.reserv_paypal_eur*currencyget_eur,
+                'umoney_rub': userrange.reserv_umoney_rub*currencyget_rub,
+                'btc': userrange.reserv_btc*currencyget_btc,
+                'xrp': userrange.reserv_xrp*currencyget_xrp,
+                'ltc': userrange.reserv_ltc*currencyget_ltc,
+                'bch': userrange.reserv_bch*currencyget_bch,
+                'xmr': userrange.reserv_xmr*currencyget_xmr,
+                'eth': userrange.reserv_eth*currencyget_eth,
+                'etc': userrange.reserv_etc*currencyget_etc,
+                'dash': userrange.reserv_dash*currencyget_dash,
+            }
+            # Получаем минимальный лимит
+            for min_range_k, min_range_v in list_min_range.items():
+                if list_reserve[min_range_k] > min_range_v > 0:
+                    if list_range_min_reserve_ps[min_range_k] != 0:
+                        if min_range_v < list_range_min_reserve_ps[min_range_k]:
+                            list_range_min_reserve_ps[min_range_k] = float(round(min_range_v, 2))
+                    else:
+                        list_range_min_reserve_ps[min_range_k] = float(round(min_range_v, 2))
 
-            for item in keys_list:
-                ps = keys_list.get(item)
-                name = item
-                listed = ps_metod_width(ps=ps, name=name, list_range_min_reserve_ps=list_range_min_reserve_ps,
-                                  list_active=list_active, list_range_max_reserve_ps=list_range_max_reserve_ps,
-                                  active_list_ps=active_list_ps, balance=balance)
-                list_range_min_reserve_ps = listed['list_range_min_reserve_ps']
-                list_range_max_reserve_ps = listed['list_range_max_reserve_ps']
-                list_active = listed['list_active']
-                active_list_ps = listed['active_list_ps']
+            # Получаем максимальный лимит
+            list_max_range = {
+                'sberbank_rub': list_range.width_max_sberbank_rub*currencyget_rub,
+                'psb_rub': list_range.width_max_psb_rub*currencyget_rub,
+                'tinkoff_rub': list_range.width_max_tinkoff_rub*currencyget_rub,
+                'gazprombank_rub': list_range.width_max_gazprombank_rub*currencyget_rub,
+                'alfabank_rub': list_range.width_max_alfabank_rub*currencyget_rub,
+                'russtandart_rub': list_range.width_max_russtandart_rub*currencyget_rub,
+                'vtb_rub': list_range.width_max_vtb_rub*currencyget_rub,
+                'rosselhoz_rub': list_range.width_max_rosselhoz_rub*currencyget_rub,
+                'raifaizen_rub': list_range.width_max_raifaizen_rub*currencyget_rub,
+                'otkritie_rub': list_range.width_max_otkritie_rub*currencyget_rub,
+                'pochtabank_rub': list_range.width_max_pochtabank_rub*currencyget_rub,
+                'rnkb_rub': list_range.width_max_rnkb_rub*currencyget_rub,
+                'rosbank_rub': list_range.width_max_rosbank_rub*currencyget_rub,
+                'mtsbank_rub': list_range.width_max_mtsbank_rub*currencyget_rub,
+                'qiwi_rub': list_range.width_max_qiwi_rub*currencyget_rub,
+                'qiwi_usd': list_range.width_max_qiwi_usd*currencyget_usd,
+                'payeer_rub': list_range.width_max_payeer_rub*currencyget_rub,
+                'payeer_usd': list_range.width_max_payeer_usd*currencyget_usd,
+                'payeer_eur': list_range.width_max_payeer_eur*currencyget_eur,
+                'webmoney_rub': list_range.width_max_webmoney_rub*currencyget_rub,
+                'webmoney_usd': list_range.width_max_webmoney_usd*currencyget_usd,
+                'webmoney_eur': list_range.width_max_webmoney_eur*currencyget_eur,
+                'pm_btc': list_range.width_max_pm_btc*currencyget_btc,
+                'pm_usd': list_range.width_max_pm_usd*currencyget_usd,
+                'pm_eur': list_range.width_max_pm_eur*currencyget_eur,
+                'skrill_eur': list_range.width_max_skrill_eur*currencyget_eur,
+                'skrill_usd': list_range.width_max_skrill_usd*currencyget_usd,
+                'paypal_rub': list_range.width_max_paypal_rub*currencyget_rub,
+                'paypal_usd': list_range.width_max_paypal_usd*currencyget_usd,
+                'paypal_eur': list_range.width_max_paypal_eur*currencyget_eur,
+                'umoney_rub': list_range.width_max_umoney_rub*currencyget_rub,
+                'btc': list_range.width_max_btc*currencyget_btc,
+                'xrp': list_range.width_max_xrp*currencyget_xrp,
+                'ltc': list_range.width_max_ltc*currencyget_ltc,
+                'bch': list_range.width_max_bch*currencyget_bch,
+                'xmr': list_range.width_max_xmr*currencyget_xmr,
+                'eth': list_range.width_max_eth*currencyget_eth,
+                'etc': list_range.width_max_etc*currencyget_etc,
+                'dash': list_range.width_max_dash*currencyget_dash,
+            }
+            balance_user = balance_user
+            balance_change = userrange.balance
+            for max_range_k, max_range_v in list_max_range.items():
+                if list_reserve[max_range_k] > list_range_min_reserve_ps[max_range_k] < max_range_v and list_range_min_reserve_ps[max_range_k] > 0 and balance_change > list_range_min_reserve_ps[max_range_k] < balance_user:
+                    min_max_range = min([max_range_v, list_reserve[max_range_k], balance_change, balance_user])
+                    if min_max_range > list_range_max_reserve_ps[max_range_k]:
+                        list_range_max_reserve_ps[max_range_k] = float(round(min_max_range-(min_max_range/100), 2))
+                        active_list_ps[max_range_k] = True
+        except:
+            pass
 
     return {'list_range_min_reserve_ps': list_range_min_reserve_ps,
             'list_range_max_reserve_ps': list_range_max_reserve_ps,
-            'active_list_ps': active_list_ps
-            }
+            'active_list_ps': active_list_ps}
 
 
 # получаем минимальную и максимальную сумму заявки
@@ -2819,121 +2316,121 @@ def min_and_max_sum_request(ps_request, range_ps):
     max_sum = 0
     if ps_request == 'СБЕРБАНК':
         min_sum = range_min_list['sberbank_rub']
-        max_sum = range_max_list['sberbank_rub']
+        max_sum = range_max_list['sberbank_rub'] + (range_max_list['sberbank_rub']/200)
     elif ps_request == 'ТИНЬКОФФ':
         min_sum = range_min_list['tinkoff_rub']
-        max_sum = range_max_list['tinkoff_rub']
+        max_sum = range_max_list['tinkoff_rub'] + (range_max_list['tinkoff_rub']/200)
     elif ps_request == 'АЛЬФА БАНК':
         min_sum = range_min_list['alfabank_rub']
-        max_sum = range_max_list['alfabank_rub']
+        max_sum = range_max_list['alfabank_rub'] + (range_max_list['alfabank_rub']/200)
     elif ps_request == 'ВТБ':
         min_sum = range_min_list['vtb_rub']
-        max_sum = range_max_list['vtb_rub']
+        max_sum = range_max_list['vtb_rub'] + (range_max_list['vtb_rub']/200)
     elif ps_request == 'РАЙФФАЙЗЕНБАНК':
         min_sum = range_min_list['raifaizen_rub']
-        max_sum = range_max_list['raifaizen_rub']
+        max_sum = range_max_list['raifaizen_rub'] + (range_max_list['raifaizen_rub']/200)
     elif ps_request == 'ОТКРЫТИЕ':
         min_sum = range_min_list['otkritie_rub']
-        max_sum = range_max_list['otkritie_rub']
+        max_sum = range_max_list['otkritie_rub'] + (range_max_list['otkritie_rub']/200)
     elif ps_request == 'ПСБ':
         min_sum = range_min_list['psb_rub']
-        max_sum = range_max_list['psb_rub']
+        max_sum = range_max_list['psb_rub'] + (range_max_list['psb_rub']/200)
     elif ps_request == 'ГАЗПРОМБАНК':
         min_sum = range_min_list['gazprombank_rub']
-        max_sum = range_max_list['gazprombank_rub']
+        max_sum = range_max_list['gazprombank_rub'] + (range_max_list['gazprombank_rub']/200)
     elif ps_request == 'РУССКИЙ СТАНДАРТ':
         min_sum = range_min_list['russtandart_rub']
-        max_sum = range_max_list['russtandart_rub']
+        max_sum = range_max_list['russtandart_rub'] + (range_max_list['russtandart_rub']/200)
     elif ps_request == 'РОССЕЛЬХОЗБАНК':
         min_sum = range_min_list['rosselhoz_rub']
-        max_sum = range_max_list['rosselhoz_rub']
+        max_sum = range_max_list['rosselhoz_rub'] + (range_max_list['rosselhoz_rub']/200)
     elif ps_request == 'ПОЧТА БАНК':
         min_sum = range_min_list['pochtabank_rub']
-        max_sum = range_max_list['pochtabank_rub']
+        max_sum = range_max_list['pochtabank_rub'] + (range_max_list['pochtabank_rub']/200)
     elif ps_request == 'РОСБАНК':
         min_sum = range_min_list['rosbank_rub']
-        max_sum = range_max_list['rosbank_rub']
+        max_sum = range_max_list['rosbank_rub'] + (range_max_list['rosbank_rub']/200)
     elif ps_request == 'РНКБ':
         min_sum = range_min_list['rnkb_rub']
-        max_sum = range_max_list['rnkb_rub']
+        max_sum = range_max_list['rnkb_rub'] + (range_max_list['rnkb_rub']/200)
     elif ps_request == 'МТС БАНК':
         min_sum = range_min_list['mtsbank_rub']
-        max_sum = range_max_list['mtsbank_rub']
+        max_sum = range_max_list['mtsbank_rub'] + (range_max_list['mtsbank_rub']/200)
     elif ps_request == 'QIWI RUB':
         min_sum = range_min_list['qiwi_rub']
-        max_sum = range_max_list['qiwi_rub']
+        max_sum = range_max_list['qiwi_rub'] + (range_max_list['qiwi_rub']/200)
     elif ps_request == 'QIWI USD':
         min_sum = range_min_list['qiwi_usd']
-        max_sum = range_max_list['qiwi_usd']
+        max_sum = range_max_list['qiwi_usd'] + (range_max_list['qiwi_usd']/200)
     elif ps_request == 'PAYEER RUB':
         min_sum = range_min_list['payeer_rub']
-        max_sum = range_max_list['payeer_rub']
+        max_sum = range_max_list['payeer_rub'] + (range_max_list['payeer_rub']/200)
     elif ps_request == 'PAYEER EUR':
         min_sum = range_min_list['payeer_eur']
-        max_sum = range_max_list['payeer_eur']
+        max_sum = range_max_list['payeer_eur'] + (range_max_list['payeer_eur']/200)
     elif ps_request == 'PAYEER USD':
         min_sum = range_min_list['payeer_usd']
-        max_sum = range_max_list['payeer_usd']
+        max_sum = range_max_list['payeer_usd'] + (range_max_list['payeer_usd']/200)
     elif ps_request == 'WEBMONEY RUB':
         min_sum = range_min_list['webmoney_rub']
-        max_sum = range_max_list['webmoney_rub']
+        max_sum = range_max_list['webmoney_rub'] + (range_max_list['webmoney_rub']/200)
     elif ps_request == 'WEBMONEY EUR':
         min_sum = range_min_list['webmoney_eur']
-        max_sum = range_max_list['webmoney_eur']
+        max_sum = range_max_list['webmoney_eur'] + (range_max_list['webmoney_eur']/200)
     elif ps_request == 'WEBMONEY USD':
         min_sum = range_min_list['webmoney_usd']
-        max_sum = range_max_list['webmoney_usd']
+        max_sum = range_max_list['webmoney_usd'] + (range_max_list['webmoney_usd']/200)
     elif ps_request == 'PERFECT MONEY BTC':
         min_sum = range_min_list['pm_btc']
-        max_sum = range_max_list['pm_btc']
+        max_sum = range_max_list['pm_btc'] + (range_max_list['pm_btc']/200)
     elif ps_request == 'PERFECT MONEY EUR':
         min_sum = range_min_list['pm_eur']
-        max_sum = range_max_list['pm_eur']
+        max_sum = range_max_list['pm_eur'] + (range_max_list['pm_eur']/200)
     elif ps_request == 'PERFECT MONEY USD':
         min_sum = range_min_list['pm_usd']
-        max_sum = range_max_list['pm_usd']
+        max_sum = range_max_list['pm_usd'] + (range_max_list['pm_usd']/200)
     elif ps_request == 'PAYPAL RUB':
         min_sum = range_min_list['paypal_rub']
-        max_sum = range_max_list['paypal_rub']
+        max_sum = range_max_list['paypal_rub'] + (range_max_list['paypal_rub']/200)
     elif ps_request == 'PAYPAL EUR':
         min_sum = range_min_list['paypal_eur']
-        max_sum = range_max_list['paypal_eur']
+        max_sum = range_max_list['paypal_eur'] + (range_max_list['paypal_eur']/200)
     elif ps_request == 'PAYPAL USD':
         min_sum = range_min_list['paypal_usd']
-        max_sum = range_max_list['paypal_usd']
+        max_sum = range_max_list['paypal_usd'] + (range_max_list['paypal_usd']/200)
     elif ps_request == 'SKRILL EUR':
         min_sum = range_min_list['skrill_eur']
-        max_sum = range_max_list['skrill_eur']
+        max_sum = range_max_list['skrill_eur'] + (range_max_list['skrill_eur']/200)
     elif ps_request == 'SKRILL USD':
         min_sum = range_min_list['skrill_usd']
-        max_sum = range_max_list['skrill_usd']
+        max_sum = range_max_list['skrill_usd'] + (range_max_list['skrill_usd']/200)
     elif ps_request == 'UMONEY RUB':
         min_sum = range_min_list['umoney_rub']
-        max_sum = range_max_list['umoney_rub']
+        max_sum = range_max_list['umoney_rub'] + (range_max_list['umoney_rub']/200)
     elif ps_request == 'BITCOIN':
         min_sum = range_min_list['btc']
-        max_sum = range_max_list['btc']
+        max_sum = range_max_list['btc'] + (range_max_list['btc']/200)
     elif ps_request == 'LITECOIN':
         min_sum = range_min_list['ltc']
-        max_sum = range_max_list['ltc']
+        max_sum = range_max_list['ltc'] + (range_max_list['ltc']/200)
     elif ps_request == 'MONERO':
         min_sum = range_min_list['xmr']
-        max_sum = range_max_list['xmr']
+        max_sum = range_max_list['xmr'] + (range_max_list['xmr']/200)
     elif ps_request == 'ETHEREUM CLASSIC':
         min_sum = range_min_list['etc']
-        max_sum = range_max_list['etc']
+        max_sum = range_max_list['etc'] + (range_max_list['etc']/200)
     elif ps_request == 'DASH':
         min_sum = range_min_list['dash']
-        max_sum = range_max_list['dash']
+        max_sum = range_max_list['dash'] + (range_max_list['dash']/200)
     elif ps_request == 'RIPPLE':
         min_sum = range_min_list['xrp']
-        max_sum = range_max_list['xrp']
+        max_sum = range_max_list['xrp'] + (range_max_list['xrp']/200)
     elif ps_request == 'BITCOIN CASH':
         min_sum = range_min_list['bch']
-        max_sum = range_max_list['bch']
+        max_sum = range_max_list['bch'] + (range_max_list['bch']/200)
     elif ps_request == 'ETHEREUM':
         min_sum = range_min_list['eth']
-        max_sum = range_max_list['eth']
+        max_sum = range_max_list['eth'] + (range_max_list['eth']/200)
     return {'min_sum': min_sum, 'max_sum': max_sum}
 
 
@@ -2943,7 +2440,6 @@ def mail_send_metod(email, templates, context, subject):
     msg = EmailMultiAlternatives(subject=subject, from_email=settings.EMAIL_HOST_USER, to=[email])
     msg.attach_alternative(html_body, 'text/html')
     msg.send()
-
 
 
 

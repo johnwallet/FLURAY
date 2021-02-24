@@ -44,52 +44,60 @@
             <!-- Сердце -->
             <div class="page-content-wrapper">
                 <div class="container-fluid">
-                    <div class="row">
-                        <div class="col-md-6 cust">
+                    <div class="row cust-maxw-1200">
+                        <div class="col-md-6 cust-mb-24">
                             <div class="card cust">
                                 <div class="card-body">
-                                    <h5 class="mb-4 text-left">Для пополнения баланса</h5>
+                                    <h5 class="mb-4 text-left">Для вывода баланса</h5>
                                     <div class="line-block">
-                                        <img class="line-block-img"
-                                             src="{% static 'personalaccount/assets/images/icon/complit.svg' %}" alt="">
-                                        <span class="line-block-p">Заполните заявку на пополнение</span>
+                                        <div>
+                                            <img class="line-block-img"
+                                                 src="{% static 'personalaccount/assets/images/icon/complit.svg' %}" alt="">
+                                        </div>
+                                        <span class="line-block-p">Заполните заявку на вывод</span>
                                     </div>
                                     <div class="line-block">
-                                        <img class="line-block-img"
-                                             src="{% static 'personalaccount/assets/images/icon/perevod.svg' %}" alt="">
-                                        <span class="line-block-p">Выполните перевод средств, на полученные в заявке реквизиты</span>
+                                        <div>
+                                            <img class="line-block-img"
+                                                 src="{% static 'personalaccount/assets/images/icon/perevod.svg' %}" alt="">
+                                        </div>
+                                        <span class="line-block-p">Укажите реквизиты для получения средств</span>
                                     </div>
                                     <div class="line-block">
-                                        <img class="line-block-img"
-                                             src="{% static 'personalaccount/assets/images/icon/vremya.svg' %}" alt="">
-                                        <span class="line-block-p">Ожидайте зачисления средств, на внутренний баланс</span>
+                                        <div>
+                                            <img class="line-block-img"
+                                                 src="{% static 'personalaccount/assets/images/icon/vremya.svg' %}" alt="">
+                                        </div>
+                                        <span class="line-block-p">Ожидайте зачисления средств, на указанные реквизиты</span>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-6 cust">
+                        <div class="col-md-6 cust-mb-24">
                             <div class="card cust">
                                 <div class="card-body">
                                     <h5 class="mb-4 text-left">Информация</h5>
-                                    <p class="right-card-p">Перевод средств, для пополнения внутреннего баланса, осуществляется на реквизиты
-                                        наших партнеров, выполняющих обменные операции.</p>
-                                    <p class="right-card-p">Время исполнения заявки зависит от выбранной платежной системы и критерия заявки.
-                                        Обычно, время исполнения заявки, занимает несколько минут.</p>
-                                    <p class="right-card-p">Хочешь стать партнером и получать прибыль с заявок?<br> <a href="#">Ознакомиться
-                                        с нашими условиями!</a></p>
+                                    <p class="right-card-p pt-2 mb-4">Настоятельно рекомендуем, повторно проверять введеные
+                                        реквизиты, для получения средств, с вашего личного баланса системы, в другом
+                                        случае, средства могут быть потеряны.</p>
+                                    <p class="right-card-p mb-4">Время исполнения заявки зависит от выбранной платежной
+                                        системы и критерия заявки.</p>
+                                    <p class="right-card-p mb-4">Хочешь создать свой бизнес обмена валют?<br>
+                                        <a href="#conditions_partner" data-toggle="modal">Наши условия для обменников!</a>
+                                    </p>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <div class="row">
+                    <div class="row cust-maxw-1200">
                         <div class="col-md-12">
                             <div class="card">
                                 <div class="card-body">
 
                                     <div class="card-title-custom">
                                         <h5 class="mb-4 text-left">Выберите платежную систему</h5>
-                                        <a href="#">Платежной системы нет в списке?</a>
+                                        <a href="#no_payments" data-toggle="modal">Платежной системы нет в списке?</a>
                                     </div>
                                     {% if list_active_ps.sberbank_rub or list_active_ps.tinkoff_rub or list_active_ps.alfabank_rub or list_active_ps.vtb_rub or list_active_ps.raifaizen_rub or list_active_ps.otkritie_rub or list_active_ps.psb_rub or list_active_ps.gazprombank_rub or list_active_ps.russtandart_rub or list_active_ps.rosselhoz_rub or list_active_ps.pochtabank_rub or list_active_ps.rosbank_rub or list_active_ps.rnkb_rub or list_active_ps.mtsbank_rub %}
                                     <div class="list-card">
@@ -632,32 +640,37 @@
                         </div>
                     </div>
 
-                    <div class="row">
+                    <div class="row cust-maxw-1200">
                         <div class="col-md-12">
                             <div class="card">
                                 <div class="card-body">
-                                    <div>
-                                        <h5 class="mb-4 text-left">Реквизиты для вывода</h5>
+                                    <div class="float-right ml-2 password-change-a">
+                                        <div class="info-container" data-toggle="popover" data-trigger="hover" title="Реквизиты" data-content="Введите свои реквизиты, для получения средств."><i class="mdi mdi-information-outline"></i></div>
                                     </div>
-                                    <div class="input-group mb-3">
+                                    <h5 class="mb-4 text-left">Ваши реквизиты</h5>
+                                    <div class="input-group">
                                         <input id="requisites-ps-input" type="text" class="form-control" placeholder="Введите свои реквизиты для получения средств"
                                                aria-label="Имя получателя" aria-describedby="basic-addon2">
                                         <div class="input-group-append">
                                             <span class="input-group-text" id="requisites-ps-name">-</span>
                                         </div>
                                     </div>
+                                    <span class="text-muted font-size-12 mb-3">* Внимательно отнеситесь к вводимым реквизитам</span>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <div class="row">
-                        <div class="col-md-6 cust">
+                    <div class="row cust-maxw-1200">
+                        <div class="col-md-6 cust-mb-24">
                             <div class="card cust">
                                 <div class="card-body">
                                     <div class="card-step">
                                         <div class="card-1step">
                                             <div class="card-title">
+                                                <div class="float-right ml-2 password-change-a">
+                                                    <div class="info-container" data-toggle="popover" data-trigger="hover" title="Сумма вывода" data-content="Введите сумму, которую желаете вывести, не превышая указанных лимитов."><i class="mdi mdi-information-outline"></i></div>
+                                                </div>
                                                 <h5 class="mb-3 text-left">Сумма вывода</h5>
                                             </div>
                                             <div class="input-group">
@@ -671,6 +684,9 @@
                                         </div>
                                         <div class="card-2step">
                                             <div class="card-title">
+                                                <div class="float-right ml-2 password-change-a">
+                                                    <div class="info-container" data-toggle="popover" data-trigger="hover" title="Для чего нужен критерий?" data-content="Вы можете выбрать, по какому критерию мы будем определять обменный пункт для вашей заявки. По среднему времени обработки заявок на вывод, если Вы желаете получить максимально быструю обработку заявки. Или же Вы желаете получить самый выгодный курс для своей заявки."><i class="mdi mdi-information-outline"></i></div>
+                                                </div>
                                                 <h5 class="mb-3 text-left">Выберите критерий заявки</h5>
                                             </div>
                                             <div class="card-chekbox">
@@ -689,7 +705,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-6 cust">
+                        <div class="col-md-6 cust-mb-24">
                             <div class="card cust">
                                 <div class="card-body">
                                     <form method="POST" action="{% url 'withdrawalwallet' %}" >
@@ -745,6 +761,60 @@
                 <!-- end container-fluid -->
             </div>
             <!-- end page-content-wrapper -->
+        </div>
+    </div>
+    <div>
+        <div id="conditions_partner" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title mt-0" id="myLargeModalLabel">1</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Cras mattis consectetur purus sit amet fermentum.
+                            Cras justo odio, dapibus ac facilisis in,
+                            egestas eget quam. Morbi leo risus, porta ac
+                            consectetur ac, vestibulum at eros.</p>
+                        <p>Praesent commodo cursus magna, vel scelerisque
+                            nisl consectetur et. Vivamus sagittis lacus vel
+                            augue laoreet rutrum faucibus dolor auctor.</p>
+                        <p class="mb-0">Aenean lacinia bibendum nulla sed consectetur.
+                            Praesent commodo cursus magna, vel scelerisque
+                            nisl consectetur et. Donec sed odio dui. Donec
+                            ullamcorper nulla non metus auctor
+                            fringilla.</p>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div>
+        <div id="no_payments" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title mt-0" id="myLargeModalLabel">2</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Cras mattis consectetur purus sit amet fermentum.
+                            Cras justo odio, dapibus ac facilisis in,
+                            egestas eget quam. Morbi leo risus, porta ac
+                            consectetur ac, vestibulum at eros.</p>
+                        <p>Praesent commodo cursus magna, vel scelerisque
+                            nisl consectetur et. Vivamus sagittis lacus vel
+                            augue laoreet rutrum faucibus dolor auctor.</p>
+                        <p class="mb-0">Aenean lacinia bibendum nulla sed consectetur.
+                            Praesent commodo cursus magna, vel scelerisque
+                            nisl consectetur et. Donec sed odio dui. Donec
+                            ullamcorper nulla non metus auctor
+                            fringilla.</p>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
         </div>
     </div>
 {% endblock %}

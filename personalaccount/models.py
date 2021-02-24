@@ -3,6 +3,7 @@ from django.utils import timezone
 
 
 class Transaction(models.Model):
+    transaction_number = models.CharField('Номер транзакции', max_length=150, default=0)
     date_joined_change = models.DateTimeField('Создана', default=timezone.now)
     date_end_change = models.DateTimeField('Исполнена', blank=True, null=True)
     transaction_name = models.CharField('Название', max_length=150)
@@ -12,7 +13,7 @@ class Transaction(models.Model):
     transaction_type = models.CharField('Тип', max_length=150, null=True)
     transaction_sum = models.DecimalField('Сумма', max_digits=12, decimal_places=2)
     transaction_sistemchange = models.CharField('Платежная система', max_length=150)
-    transaction_comment = models.CharField('Комментарий', max_length=250, null=True)
+    transaction_comment = models.CharField('Комментарий', max_length=250, null=True, default='-')
 
     def __str__(self):
         return self.transaction_name
@@ -25,6 +26,7 @@ class Transaction(models.Model):
 class RequestChange(models.Model):
     request_userchange = models.CharField('Обработчик заявки', max_length=150)
     date_joined_change = models.DateTimeField('Дата создания', default=timezone.now)
+    date_change_request = models.DateTimeField('Дата обновления', blank=True, null=True)
     date_end_change = models.DateTimeField('Дата исполнения', blank=True, null=True)
     request_name = models.CharField('Номер заявки', max_length=150)
     request_type = models.CharField('Тип заявки', max_length=150)

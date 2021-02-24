@@ -2,6 +2,7 @@
 	"use strict";
 	a("#side-menu").metisMenu(), a("#vertical-menu-btn").on("click", function(t) {
 		$(this).toggleClass('transforx')
+		a("#social-container").toggleClass("tooglenonedisplay")
 		t.preventDefault(), a("body").toggleClass("sidebar-enable"), 992 <= a(window).width() ? a("body").toggleClass("vertical-collpsed") : a("body").removeClass("vertical-collpsed")
 	}), a("#sidebar-menu a").each(function() {
 		var t = window.location.href.split(/[?#]/)[0];

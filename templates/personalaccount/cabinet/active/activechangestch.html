@@ -29,7 +29,7 @@
             <!-- Сердце -->
             <div class="page-content-wrapper">
                 <div class="container-fluid">
-                    <div class="row">
+                    <div class="row cust-maxw-1200">
                         <div class="col-xl-12">
                             <div class="card">
                             {% if user.is_active_change == True %}
@@ -68,7 +68,7 @@
                                                     <a href="{% url 'activechange' %}">Назад</a>
                                                 </div>
                                                 <div class="try-box-btn-right">
-                                                    <a href="{% url 'activechangestchtoggle' %}">Сохранить</a>
+                                                    <a href="{% url 'activechangestchtoggle' %}">Завершить</a>
                                                 </div>
                                             </div>
                                         </div>
@@ -126,7 +126,7 @@
                                                     <a href="{% url 'activechange' %}">Назад</a>
                                                 </div>
                                                 <div class="try-box-btn-right">
-                                                    <a href="{% url 'activechangestchtoggle' %}">Сохранить</a>
+                                                    <a href="{% url 'activechangestchtoggle' %}">Начать</a>
                                                 </div>
                                             </div>
                                         </div>

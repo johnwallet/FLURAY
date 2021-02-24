@@ -8,7 +8,7 @@
         <div class="container">
             <div class="row align-items-center" data-anima="fade-in" data-time="1000">
                 <div class="col-lg-6">
-                    <hr class="space-lg" />
+                    <hr class="space-md" />
                     <h1>
                         ПЛАТЕЖНАЯ СИСТЕМА <br /> созданная для Тебя!
                     </h1>
@@ -47,7 +47,7 @@
                                         <div>
                                             <h3>Пользователей</h3>
                                             <div class="value">
-                                                <span class="text-md" data-to="129" data-speed="2000">129</span>
+                                                <span class="text-md" data-to="{{ user_count }}" data-speed="2000"></span>
                                                 <span></span>
                                             </div>
                                         </div>
@@ -62,7 +62,7 @@
                                         <div>
                                             <h3>Партнеров</h3>
                                             <div class="value">
-                                                <span class="text-md" data-to="3" data-speed="2000">3</span>
+                                                <span class="text-md" data-to="{{ user_change_count }}" data-speed="2000"></span>
                                                 <span></span>
                                             </div>
                                         </div>
@@ -319,6 +319,50 @@
                 </div>
                 <div class="col-lg-6 col-md-6" data-anima="fade-right" data-time="1000">
                     <img class="margin-23" src="{% static 'home/media/phone-3.png' %}" alt="" />
+                </div>
+            </div>
+        </div>
+    </section>
+    <section id="partner" class="section-base">
+        <div class="container">
+            <h2 class="align-center">Партнерская программа.</h2>
+            <p class="align-center width-650">
+                Владельцам кошельков, мы предлагаем 3-х уровневую партнерскую программу. Приглашайте пользователей и получаейте доход от прибыли площадки.
+            </p>
+            <hr class="space" />
+            <div class="box-steps">
+                <div class="step-item">
+                    <span>1</span>
+                    <div class="content">
+                        <h3>30 %</h3>
+                        <div>
+                            <p>
+                                Получайте доход 30% с первой линии от прибыли площадки.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="step-item">
+                    <span>2</span>
+                    <div class="content">
+                        <h3>20 %</h3>
+                        <div>
+                            <p>
+                                Получайте доход 20% с второй линии от прибыли площадки.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="step-item">
+                    <span>3</span>
+                    <div class="content">
+                        <h3>10 %</h3>
+                        <div>
+                            <p>
+                                Получайте доход 10% с третьей линии от прибыли площадки.
+                            </p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

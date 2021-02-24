@@ -166,13 +166,50 @@
                                                 {% endif %}
                                             {% endfor %}
                                         {% else %}
-                                            <h6 class="card-title">На данный момент, для вас нет активных заявок на вывод, ожидайте новых!</h6>
+                                        <p class="text-muted mb-2">На данный момент, для вас нет активных заявок на вывод, ожидайте новых!</p>
                                         {% endif %}
                                     {% else %}
-                                        <h6 class="card-title">Вы еще не выполняли заявки на вывод, ожидайте своих первых сделок!</h6>
+                                    <p class="text-muted mb-2">Вы еще не выполняли заявки на вывод, ожидайте своих первых сделок!</p>
                                     {% endif %}
                                 </div>
                             </div>
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="card-title mb-3">
+                                        <h5 class="text-left">Архив заявок на вывод</h5>
+                                    </div>
+                                    <div class="table-responsive">
+                                        <table class="table table-hover mb-0">
+                                            {% if good_request %}
+                                                <thead>
+                                                <tr>
+                                                    <th>Номер</th>
+                                                    <th>Клиент</th>
+                                                    <th>Платежная система</th>
+                                                    <th>Сумма</th>
+                                                    <th>Дата исполнения</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                {% for value in good_request %}
+                                                    <tr>
+                                                        <th scope="row">{{ value.request_name }}</th>
+                                                        <th scope="row">{{ value.request_user }}</th>
+                                                        <th scope="row">{{ value.request_sistemchange }}</th>
+                                                        <th scope="row">{{ value.request_good_sum_change_valute }} $</th>
+                                                        <th scope="row">{{ value.date_end_change }}</th>
+                                                    </tr>
+                                                {% endfor %}
+                                            {% else %}
+                                                <p class="text-muted mb-2">Нет данных</p>
+                                            {% endif %}
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+
+                                </div>
+                </div>
                         </div>
                     </div>
                 </div>

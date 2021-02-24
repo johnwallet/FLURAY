@@ -3,12 +3,9 @@
 {% load static %}
 
 {% block script %}
-{% if status_data %}
     <script>
-        var status_data = true;
         var datajsonin = {{ datajsontable|safe }};
     </script>
-{% endif %}
 {% endblock %}
 
 {% block content %}
@@ -35,12 +32,15 @@
             <!-- Сердце -->
             <div class="page-content-wrapper">
                 <div class="container-fluid">
-                    <div class="row">
+                    <div class="row cust-maxw-1200">
                         <div class="col-xl-9">
                             <div class="row">
                                 <div class="col-md-7">
                                     <div class="card">
                                         <div class="card-body">
+                                            <div class="float-right ml-2 password-change-a">
+                                                <div class="info-container" data-toggle="popover" data-trigger="hover" title="Информация о балансе" data-content="Можете видеть свой баланс обменного пункта, статус, и последние транзакции."><i class="mdi mdi-information-outline"></i></div>
+                                            </div>
                                             <h5 class="header-title mb-3">Информация о балансе</h5>
                                             <div class="row">
                                                 <div class="col-sm-6 mb-3">
@@ -66,12 +66,12 @@
                                                     {% endif %}
                                                 </div>
                                             </div>
-                                            <div class="media mt-2">
+                                            <div class="media mt-0">
                                                 <div class="media-body">
                                                     <p class="text-muted mb-2">Действия</p>
                                                     <div class="btn-dashboard-box two">
-                                                        <a href="{% url 'depositreservchange' %}" class="btn-dashboard-actions two"><img src="{% static 'personalaccount/assets/images/icon/walletin.svg' %}" alt="">Пополнить</a>
-                                                        <a href="{% url 'withdrawalreservchange' %}" class="btn-dashboard-actions two"><img src="{% static 'personalaccount/assets/images/icon/walletout.svg' %}" alt="">Вывести</a>
+                                                        <a href="{% url 'depositreservchange' %}" class="btn-dashboard-actions two waves-effect"><img src="{% static 'personalaccount/assets/images/icon/walletin.svg' %}" alt="">Пополнить</a>
+                                                        <a href="{% url 'withdrawalreservchange' %}" class="btn-dashboard-actions two waves-effect"><img src="{% static 'personalaccount/assets/images/icon/walletout.svg' %}" alt="">Вывести</a>
                                                     </div>
                                                 </div>
                                             </div>
@@ -115,7 +115,10 @@
                                 <div class="col-md-5">
                                     <div class="card">
                                         <div class="card-body">
-                                            <h5 class="header-title mb-3">Активность ПС</h5>
+                                            <div class="float-right ml-2 password-change-a">
+                                                <div class="info-container" data-toggle="popover" data-trigger="hover" title="Активные направления" data-content="Здесь Вы можете посмотреть, сколько направлений активно у Вашего обменного пункта. Для включения других направлений, перейдите во вкладку 'Активность'."><i class="mdi mdi-information-outline"></i></div>
+                                            </div>
+                                            <h5 class="header-title mb-3">Активные направления</h5>
                                             <div class="media">
                                                 <div class="media-body">
                                                     <p class="text-muted mb-3">Пополнение</p>
@@ -134,14 +137,17 @@
                                     </div>
                                     <div class="card">
                                         <div class="card-body">
+                                            <div class="float-right ml-2 password-change-a">
+                                                <div class="info-container" data-toggle="popover" data-trigger="hover" title="Прибыль общая" data-content="Прибыль со всех выполненных заявок."><i class="mdi mdi-information-outline"></i></div>
+                                            </div>
                                             <h5 class="header-title mb-3">Прибыль общая</h5>
                                             <div class="media">
-                                                <div class="media-body">
-                                                    <p class="text-muted mb-1">День</p>
+                                                <div class="media-body border-right">
+                                                    <p class="text-muted mb-2">День</p>
                                                     <h4 class="mdi">{{ totalprofitstat.dailyprofit }} $</h4>
                                                 </div>
-                                                <div class="media-body">
-                                                    <p class="text-muted mb-1">Все время</p>
+                                                <div class="media-body ml-4">
+                                                    <p class="text-muted mb-2">Все время</p>
                                                     <h4 class="mdi">{{ totalprofitstat.totalprofit }} $</h4>
                                                 </div>
                                             </div>
@@ -167,23 +173,21 @@
                                                 <a href="{% url 'news' %}">Все новости</a>
                                             </div>
                                             <h5 class="header-title mb-4">Новости</h5>
-                                            <div class="box-news">
-                                                <div class="row">
-                                                    {% for news in list_news|slice:"::-1"|slice:":3" %}
-                                                        <div class="col-sm-4 customlg">
-                                                            <a href="{% url 'news' %}{{ news.pk }}" class="media-box media-box-reveal">
-                                                                <img alt="" src="{{ news.news_img.url }}">
-                                                                <div class="caption">
-                                                                    <h3>{{ news.news_header|truncatechars:12 }}</h3>
-                                                                    <h4>{{ news.news_date_joined|date:"d N" }}</h4>
-                                                                    <p>
-                                                                        {{ news.news_content|truncatechars:30 }}
-                                                                    </p>
-                                                                </div>
-                                                            </a>
-                                                        </div>
-                                                    {% endfor %}
-                                                </div>
+                                            <div class="row">
+                                                {% for news in list_news|slice:"::-1"|slice:":3" %}
+                                                    <div class="col-sm-4 customlg">
+                                                        <a href="{% url 'news' %}{{ news.pk }}" class="media-box media-box-reveal">
+                                                            <img alt="" src="{{ news.news_img.url }}">
+                                                            <div class="caption">
+                                                                <h3>{{ news.news_header|truncatechars:15 }}</h3>
+                                                                <h4>{{ news.news_date_joined|date:"d N" }}</h4>
+                                                                <p>
+                                                                    {{ news.news_content|truncatechars:38 }}
+                                                                </p>
+                                                            </div>
+                                                        </a>
+                                                    </div>
+                                                {% endfor %}
                                             </div>
                                         </div>
                                     </div>
@@ -193,12 +197,15 @@
                         <div class="col-xl-3">
                             <div class="card">
                                 <div class="card-body">
+                                    <div class="float-right ml-2 password-change-a">
+                                        <div class="info-container" data-toggle="popover" data-trigger="hover" title="Курсы валют" data-content="Актуальные курсы валют, мы берем из самых надежных источников. Центральных банков национальных валют и крипто-бирж. Обновление курсов, происходит каждый час. "><i class="mdi mdi-information-outline"></i></div>
+                                    </div>
                                     <h5 class="header-title mb-4">Курсы валют</h5>
-                                    <table class="table mb-0">
+                                    <table class="table table-borderless mb-0">
                                         <tbody>
                                         {% for item in dash_cour %}
                                             <tr>
-                                                <td>{{ item.name_currency }}</td>
+                                                <td>1 {{ item.name_currency }}</td>
                                                 <td>{{ item.base_currency }} $</td>
                                             </tr>
                                         {% endfor %}
@@ -208,25 +215,28 @@
                             </div>
                             <div class="card">
                                 <div class="card-body">
+                                    <div class="float-right ml-2 password-change-a">
+                                        <div class="info-container" data-toggle="popover" data-trigger="hover" title="Заявок выполнено" data-content="Количество всех выполненных заявок по всем направлениям."><i class="mdi mdi-information-outline"></i></div>
+                                    </div>
                                     <h5 class="header-title mb-3">Заявок выполнено</h5>
                                     <div class="font-size-17 mb-3 mt-4">Пополнение</div>
                                     <div class="media">
-                                        <div class="media-body">
+                                        <div class="media-body border-right">
                                             <p class="text-muted mb-1">День</p>
                                             <h4 class="mdi">{{ requesttot.inrequest }}</h4>
                                         </div>
-                                        <div class="media-body">
+                                        <div class="media-body ml-4">
                                             <p class="text-muted mb-1">Все время</p>
                                             <h4 class="mdi">{{ requesttot.inrequesttotal }}</h4>
                                         </div>
                                     </div>
                                     <div class="font-size-17 mb-3 mt-3">Вывод</div>
                                     <div class="media">
-                                        <div class="media-body">
+                                        <div class="media-body border-right">
                                             <p class="text-muted mb-1">День</p>
                                             <h4 class="mdi">{{ requesttot.widthrequest }}</h4>
                                         </div>
-                                        <div class="media-body">
+                                        <div class="media-body ml-4">
                                             <p class="text-muted mb-1">Все время</p>
                                             <h4 class="mdi">{{ requesttot.widthrequesttotal }}</h4>
                                         </div>

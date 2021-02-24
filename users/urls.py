@@ -27,7 +27,6 @@ urlpatterns = [
     path('signup/', views.account_signup, name='account_signup'),
     path('signup/<str:link>', views.account_signup_ref, name='account_signup_ref'),
     path('logout/', auth_views.LogoutView.as_view(), name='account_logout'),
-    path('change_password/', views.account_change_password, name='account_change_password'),
 
     path('email/confirm/<str:confirm_key>', views.account_email_confirm, name='account_email_confirm'),
 

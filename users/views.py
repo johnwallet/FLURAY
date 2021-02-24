@@ -22,6 +22,7 @@ from users.models import Confirm_Email_Key, CustomUser, Line_Program
 
 
 def account_signup(request):
+    if not request.user.is_authenticated:
         if request.method == 'POST':
             form = SignUpForm(request.POST)
             if form.is_valid():
@@ -55,90 +56,96 @@ def account_signup(request):
         else:
             form = SignUpForm()
         return render(request, 'users/account/signup.html', {'form': form, 'link_status': False})
+    else:
+        return redirect('home')
+
 
 
 def account_signup_ref(request, link):
-    code_upd = link.replace('r=', "")
-    try:
-        user_parent = Line_Program.objects.get(line_ref_code=code_upd)
-        if request.method == 'POST':
-            form = SignUpForm(request.POST)
-            if form.is_valid():
-                form.save()
+    if not request.user.is_authenticated:
+        code_upd = link.replace('r=', "")
+        try:
+            user_parent = Line_Program.objects.get(line_ref_code=code_upd)
+            if request.method == 'POST':
+                form = SignUpForm(request.POST)
+                if form.is_valid():
+                    form.save()
 
-                # Создаем запись партнера
-                username = form.cleaned_data.get('username')
-                email = form.cleaned_data.get('email')
-                userparth = CustomUser.objects.get(username=username)
-                userparent_email = CustomUser.objects.get(username=user_parent)
+                    # Создаем запись партнера
+                    username = form.cleaned_data.get('username')
+                    email = form.cleaned_data.get('email')
+                    userparth = CustomUser.objects.get(username=username)
+                    userparent_email = CustomUser.objects.get(username=user_parent)
 
-                salt = uuid.uuid4().hex
-                referal_code = str(salt[:16])
-                domain = request.build_absolute_uri('/')
-                domain_home = request.get_host()
-                referal_link = domain + 'accounts/signup/r=' + referal_code
-                Line_Program.objects.create(parent=user_parent, line_user=userparth, line_ref_code=referal_code, line_ref_link=referal_link)
+                    salt = uuid.uuid4().hex
+                    referal_code = str(salt[:16])
+                    domain = request.build_absolute_uri('/')
+                    domain_home = request.get_host()
+                    referal_link = domain + 'accounts/signup/r=' + referal_code
+                    Line_Program.objects.create(parent=user_parent, line_user=userparth, line_ref_code=referal_code, line_ref_link=referal_link)
 
-                # отправляем письмо с подтверждением зарегистрированному пользователю и пригласителю
-                confirmation_key = hashlib.sha256((str(random.random()) + email).encode('utf-8')).hexdigest()[:40]
-                Confirm_Email_Key.objects.create(confirm_username=username, confirm_key=confirmation_key)
-                link_good_email = domain + 'accounts/email/confirm/' + confirmation_key
+                    # отправляем письмо с подтверждением зарегистрированному пользователю и пригласителю
+                    confirmation_key = hashlib.sha256((str(random.random()) + email).encode('utf-8')).hexdigest()[:40]
+                    Confirm_Email_Key.objects.create(confirm_username=username, confirm_key=confirmation_key)
+                    link_good_email = domain + 'accounts/email/confirm/' + confirmation_key
 
-                mail_send_metod(email=email,
-                                templates='users/account/email/signup_confirm.html',
-                                context={'username': username, 'link_good_email': link_good_email},
-                                subject=domain_home + ' | Успешная регистрация!')
+                    mail_send_metod(email=email,
+                                    templates='users/account/email/signup_confirm.html',
+                                    context={'username': username, 'link_good_email': link_good_email},
+                                    subject=domain_home + ' | Успешная регистрация!')
 
-                mail_send_metod(email=userparent_email.email,
-                                templates='users/account/email/signup_new_ref.html',
-                                context={'username_ref': username},
-                                subject=domain_home + ' | У Вас новый партнер!')
+                    mail_send_metod(email=userparent_email.email,
+                                    templates='users/account/email/signup_new_ref.html',
+                                    context={'username_ref': username},
+                                    subject=domain_home + ' | У Вас новый партнер!')
 
-                return render(request, 'users/account/account_email_check.html', {'email_user': email, 'link_status': False})
-        else:
+                    return render(request, 'users/account/account_email_check.html', {'email_user': email, 'link_status': False})
+            else:
+                form = SignUpForm()
+        except:
+            user_parent = None
             form = SignUpForm()
-    except:
-        user_parent = None
-        form = SignUpForm()
 
-    context = {
-        'form': form,
-        'user_parent': user_parent,
-        'link_status': True,
-    }
-    return render(request, 'users/account/signup.html', context)
+        context = {
+            'form': form,
+            'user_parent': user_parent,
+            'link_status': True,
+        }
+        return render(request, 'users/account/signup.html', context)
+    else:
+        return redirect('home')
+
 
 
 # аутентификация и вход в аккаунт
 def account_login(request):
-    data_message = None
-    message_status = False
-    if cache.get('info_message'):
-        data_message = cache.get('info_message')
-        message_status = True
-    cache.delete('info_message')
-    if request.method == 'POST':
-        form = AuthForm(data=request.POST)
-        if form.is_valid():
-            user = form.get_user()
-            login(request, user)
-            return redirect('personalaccount')
-        context = {
-            'form': AuthForm(data=request.POST),
-            'data_message': data_message,
-            'message_status': message_status,
-        }
+    if not request.user.is_authenticated:
+        data_message = None
+        message_status = False
+        if cache.get('info_message'):
+            data_message = cache.get('info_message')
+            message_status = True
+        cache.delete('info_message')
+        if request.method == 'POST':
+            form = AuthForm(data=request.POST)
+            if form.is_valid():
+                user = form.get_user()
+                login(request, user)
+                return redirect('personalaccount')
+            context = {
+                'form': AuthForm(data=request.POST),
+                'data_message': data_message,
+                'message_status': message_status,
+            }
+        else:
+            context = {
+                'form': AuthForm(),
+                'data_message': data_message,
+                'message_status': message_status,
+            }
+        return render(request, 'users/account/login.html', context)
     else:
-        context = {
-            'form': AuthForm(),
-            'data_message': data_message,
-            'message_status': message_status,
-        }
-    return render(request, 'users/account/login.html', context)
-
-
-def account_change_password():
-    pass
+        return redirect('home')
 
 
 # подтверждение почты аккаунта, если ключ устарел, отправляем новый

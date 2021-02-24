@@ -8,6 +8,7 @@ from django.utils.translation import gettext, gettext_lazy as _
 from django.contrib.auth import (
     authenticate, get_user_model, password_validation,
 )
+from snowpenguin.django.recaptcha3.fields import ReCaptchaField
 
 from .models import CustomUser, CustomUserId
 
@@ -25,6 +26,9 @@ class CustomUserChangeForm(UserChangeForm):
 
 
 class SignUpForm(UserCreationForm):
+    captcha = ReCaptchaField()
+
+
     email = forms.EmailField(max_length=254, help_text='Это поле обязательно', widget=forms.EmailInput(
                                       attrs={'class': 'form-control'}))
     userid = forms.ModelChoiceField(queryset=CustomUserId.objects.all(), empty_label=None,
@@ -44,9 +48,11 @@ class SignUpForm(UserCreationForm):
         help_text=_("Enter the same password as before, for verification."),
     )
 
+
+
     class Meta:
         model = CustomUser
-        fields = ('username', 'email', 'userid')
+        fields = ('username', 'email', 'userid', 'captcha')
         widgets = {
             'username': TextInput(attrs={'class': 'form-control'}),
         }
@@ -70,6 +76,8 @@ class AuthForm(AuthenticationForm):
         'inactive': "Активируйте аккаунт, перейдя по ссылке из письма",
         'invalid_pass': 'Неверный пароль',
     }
+
+    captcha = ReCaptchaField()
 
     def clean(self):
         username = self.cleaned_data.get('username')

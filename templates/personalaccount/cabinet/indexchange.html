@@ -28,8 +28,8 @@
                 <div class="d-flex">
 
                     <div class="dropdown d-inline-block">
-                        <button type="button" class="btn header-item waves-effect" id="page-header-user-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <span class="d-none d-sm-inline-block ml-1">{{ user.balance }} $</span>
+                        <button class="btn header-item" data-toggle="popover" data-trigger="focus" data-placement="bottom" title="Ваш баланс | холд" data-content="Баланс вашего обменного пункта. Холд показывает количество временно замороженных средств используемых в заявке.">
+                            <span class="d-none d-sm-inline-block ml-1 font-size-16">{{ user.balance }} $ <span class="text-muted">| холд {{ user.hold }} $</span></span>
                         </button>
                     </div>
 
@@ -163,6 +163,33 @@
 
                     </ul>
                 </div>
+                <div id="social-container" class="social-container">
+
+                    <ul class="social-icon list-inline">
+                        <li class="list-inline-item">
+                            <a href="#" class="social-list-item">
+                                <div>
+                                    <i class="fab fa-instagram"></i>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="list-inline-item">
+                            <a href="#" class="social-list-item">
+                                <div>
+                                    <i class="fab fa-telegram-plane"></i>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="list-inline-item">
+                            <a href="#" class="social-list-item">
+                                <div>
+                                    <i class="fab fa-youtube"></i>
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
+                    <p class="card-title-desc mt-3">2020 ©FLURAY</p>
+                </div>
                 <!-- Sidebar -->
             </div>
         </div>
@@ -172,20 +199,5 @@
         {% block content %}
         {% endblock %}
         <!-- End Page-content -->
-        <footer class="footer">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-sm-6">
-                        2020 ©FLURAY.
-                    </div>
-                    <div class="col-sm-6">
-                        <div class="text-sm-right d-none d-sm-block">
-                            Разработка <i class="mdi mdi-heart text-danger"></i> by Russia
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </footer>
-        <!-- ========== End Content ========== -->
     </div>
 {% endblock %}

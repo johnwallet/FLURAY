@@ -20,7 +20,6 @@ urlpatterns = [
     path('withdrawalexchange/<int:pk>/good/', views.withdrawalexchangegood, name='withdrawalexchangegood'),
 
     path('depositexchange/', views.depositexchange, name='depositexchange'),
-    path('depositexchange/<int:pk>/', views.depositexchangerequest, name='depositexchangerequest'),
     path('depositexchange/<int:pk>/good/', views.depositexchangerequestupdate, name='depositexchangerequestupdate'),
 
     path('depositreservchange/', views.depositreservchange, name='depositreservchange'),
@@ -32,15 +31,15 @@ urlpatterns = [
     path('activechange/statuschange/toggle', views.activechangestchtoggle, name='activechangestchtoggle'),
     path('activechange/statusps/', views.activechangestps, name='activechangestps'),
 
-
     path('reservchange/', views.reservchange, name='reservchange'),
     path('reservchangeedit/', views.reservchangeedit, name='reservchangeedit'),
     path('coursechange/', views.coursechange, name='coursechange'),
+    path('coursechange/commission/', views.coursechangecommission, name='coursechangecommission'),
 
+    # админка, обновление курсов и партнерка
     path('coursechange/update/', views.coursechangeupdate, name='coursechangeupdate'),
     path('profit_day_good/update/', views.profit_day_good, name='profit_day_good'),
 
-    path('coursechange/commission/', views.coursechangecommission, name='coursechangecommission'),
     path('rekvisitchange/', views.rekvisitchange, name='rekvisitchange'),
     path('rekvisitchange/update/', views.rekvisitchangeupdate, name='rekvisitchangeupdate'),
 

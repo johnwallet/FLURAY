@@ -35,6 +35,8 @@ INSTALLED_APPS = [
     'users.apps.UsersConfig',
     'rest_framework',
     'mptt',
+
+    'snowpenguin.django.recaptcha3',
 ]
 
 MIDDLEWARE = [
@@ -73,13 +75,23 @@ WSGI_APPLICATION = 'MyWallets.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'fluray',
+#         'USER': 'root',
+#         'PASSWORD': 'root',
+#         'HOST': 'Localhost',
+#     }
+# }
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'fluray',
-        'USER': 'root',
-        'PASSWORD': 'root',
+        'USER': 'admin',
+        'PASSWORD': 'Ghjkl5678',
         'HOST': 'Localhost',
+        'PORT': 5432,
     }
 }
 
@@ -146,4 +158,7 @@ EMAIL_PORT = '587'
 EMAIL_HOST_USER = "aleksandrvarlamov1753@gmail.com"
 EMAIL_HOST_PASSWORD = "Tesla007"
 
-
+RECAPTCHA_PUBLIC_KEY = "6Lc_al8aAAAAAMDGV3hW5A24uwboL5GMvdGQJcjM"
+RECAPTCHA_PRIVATE_KEY = "6Lc_al8aAAAAAOKdC6pJGVP2s16mcq-6Qo4kpr3b"
+RECAPTCHA_DEFAULT_ACTION = 'generic'
+RECAPTCHA_SCORE_THRESHOLD = 0.5

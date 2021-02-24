@@ -52,7 +52,7 @@ Table of contents
 }
 
 .media-box .caption h3 {
-    font-size: 15px;
+    font-size: 20px;
 }
 
 .media-box .caption p {
@@ -203,7 +203,7 @@ Table of contents
 
 .media-box-reveal .caption {
     bottom: 0;
-    height: 90px;
+    height: 100px;
     width: calc(100% + 1px);
     padding: 30px;
     color: #FFF;
@@ -222,7 +222,7 @@ Table of contents
 }
 .media-box-reveal .caption h4 {
     color: #FFF;
-    font-size: 13px;
+    font-size: 15px;
 }
 .media-box-reveal:hover .caption {
     height: 90%;
@@ -253,14 +253,14 @@ Table of contents
 
 @media (max-width: 575px) {
     .media-box .caption h3 {
-        font-size: 30px;
+        font-size: 24px;
     }
     .media-box-reveal .caption h4 {
-        font-size: 20px;
+        font-size: 17px;
     }
     .media-box-reveal .caption {
-        height: 125px;
-        padding: 30px;
+        height: 90px;
+        padding: 15px;
     }
 }
 

@@ -3,13 +3,18 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from personalaccount.models import RequestChange, News
+from users.models import CustomUser
 from .serializers import RequestAPI
 
 
 def home(request):
     last_news = News.objects.filter(news_is_publish=True).latest('pk')
+    user_count = CustomUser.objects.count()
+    user_change_count = CustomUser.objects.filter(userid__custuserid='Владелец Обменника').count()
     context = {
         'last_news': last_news,
+        'user_count': user_count,
+        'user_change_count': user_change_count,
     }
     return render(request, 'home/content/index.html', context)
 

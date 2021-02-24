@@ -6,158 +6,169 @@
     <div id="layout-wrapper">
         <!-- ========== Top Bar ========== -->
         <header id="page-topbar">
-        <div class="navbar-header">
-            <div class="d-flex">
-                <!-- LOGO -->
-                <div class="navbar-brand-box">
-                    <a href="{% url 'home' %}" class="logo logo-dark">
+            <div class="navbar-header">
+                <div class="d-flex">
+                    <!-- LOGO -->
+                    <div class="navbar-brand-box">
+                        <a href="{% url 'home' %}" class="logo logo-dark">
                         <span class="logo-sm">
                             <img src="{% static 'personalaccount/assets/images/logo-dark-sm.svg' %}" alt="" height="35">
                         </span>
-                        <span class="logo-lg">
+                            <span class="logo-lg">
                             <img src="{% static 'personalaccount/assets/images/logo-dark.svg' %}" alt="" height="30">
                         </span>
-                    </a>
-                </div>
-
-                <button type="button" class="btn btn-sm px-3 font-size-24 header-item waves-effect transfortransit" id="vertical-menu-btn">
-                    <i class="mdi mdi-backburger"></i>
-                </button>
-            </div>
-
-            <div class="d-flex">
-
-                <div class="dropdown d-inline-block">
-                    <button type="button" class="btn header-item waves-effect" id="page-header-user-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <span class="d-none d-sm-inline-block ml-1">{{ user.balance }} $</span>
-                    </button>
-                </div>
-
-                <div class="dropdown d-inline-block">
-                    <button type="button" class="btn header-item waves-effect" id="page-header-flag-dropdown"
-                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <img class="" src="{% static 'personalaccount/assets/images/flags/russia.jpg' %}" alt="Header Language" height="14">
-                    </button>
-                    <div class="dropdown-menu dropdown-menu-right">
-                        <a href="javascript:void(0);" class="dropdown-item notify-item">
-                            <img src="{% static 'personalaccount/assets/images/flags/russia.jpg' %}" alt="user-image" class="mr-2" height="12"><span class="align-middle">В разработке</span>
                         </a>
                     </div>
-                </div>
 
-                <div class="dropdown d-inline-block">
-                    <button type="button" class="btn header-item waves-effect" id="page-header-user-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        {% if user.avatar %}
-                            <img class="rounded-circle header-profile-user" src="{{ user.avatar.url }}" alt="Header Avatar">
-                        {% else %}
-                        <img class="rounded-circle header-profile-user" src="{% static 'personalaccount/assets/images/users/avatar.jpg' %}" alt="Header Avatar">
-                        {% endif %}
-                        <span class="d-none d-sm-inline-block ml-1">{{ user.username }}</span>
-                        <i class="mdi mdi-chevron-down d-none d-sm-inline-block"></i>
+                    <button type="button" class="btn btn-sm px-3 font-size-24 header-item waves-effect transfortransit" id="vertical-menu-btn">
+                        <i class="mdi mdi-backburger"></i>
                     </button>
-                    <div class="dropdown-menu dropdown-menu-right">
-                        <!-- item-->
-                        <a class="dropdown-item" href="{% url 'profilewallet' %}"><i class="mdi mdi-face-profile font-size-16 align-middle mr-1"></i> Профиль</a>
-                        <a class="dropdown-item" href="{% url 'settingwallet' %}"><i class="mdi mdi-account-settings font-size-16 align-middle mr-1"></i> Настройки</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="{% url 'account_logout' %}"><i class="mdi mdi-logout font-size-16 align-middle mr-1"></i> Выйти</a>
-                    </div>
                 </div>
 
-            </div>
-        </div>
+                <div class="d-flex">
 
-    </header>
+                    <div class="dropdown d-inline-block">
+                        <button type="button" class="btn header-item">
+                            <span class="d-none d-sm-inline-block ml-1">{{ user.balance }} $</span>
+                        </button>
+                    </div>
+
+                    <div class="dropdown d-inline-block">
+                        <button type="button" class="btn header-item waves-effect" id="page-header-flag-dropdown"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <img class="" src="{% static 'personalaccount/assets/images/flags/russia.jpg' %}" alt="Header Language" height="14">
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-right">
+                            <a href="javascript:void(0);" class="dropdown-item notify-item">
+                                <img src="{% static 'personalaccount/assets/images/flags/russia.jpg' %}" alt="user-image" class="mr-2" height="12"><span class="align-middle">В разработке</span>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="dropdown d-inline-block">
+                        <button type="button" class="btn header-item waves-effect" id="page-header-user-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            {% if user.avatar %}
+                                <img class="rounded-circle header-profile-user" src="{{ user.avatar.url }}" alt="Header Avatar">
+                            {% else %}
+                                <img class="rounded-circle header-profile-user" src="{% static 'personalaccount/assets/images/users/avatar.jpg' %}" alt="Header Avatar">
+                            {% endif %}
+                            <span class="d-none d-sm-inline-block ml-1">{{ user.username }}</span>
+                            <i class="mdi mdi-chevron-down d-none d-sm-inline-block"></i>
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-right">
+                            <!-- item-->
+                            <a class="dropdown-item" href="{% url 'profilewallet' %}"><i class="mdi mdi-face-profile font-size-16 align-middle mr-1"></i> Профиль</a>
+                            <a class="dropdown-item" href="{% url 'settingwallet' %}"><i class="mdi mdi-account-settings font-size-16 align-middle mr-1"></i> Настройки</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="{% url 'account_logout' %}"><i class="mdi mdi-logout font-size-16 align-middle mr-1"></i> Выйти</a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </header>
         <!-- ========== END Top Bar ========== -->
 
         <!-- ========== Vertical Menu ========== -->
         <div class="vertical-menu">
 
-        <div data-simplebar class="h-100">
+            <div data-simplebar class="h-100">
 
-            <!--- Sidemenu -->
-            <div id="sidebar-menu">
-                <!-- Left Menu Start -->
-                <ul class="metismenu list-unstyled" id="side-menu">
-                    <li class="menu-title">Меню</li>
+                <!--- Sidemenu -->
+                <div id="sidebar-menu">
+                    <!-- Left Menu Start -->
+                    <ul class="metismenu list-unstyled" id="side-menu">
+                        <li class="menu-title">Меню</li>
 
-                    <li>
-                        <a href="{% url 'personalaccount' %}" class="waves-effect">
-                            <div class="d-inline-block icons-sm mr-1"><i class="uim uim-airplay"></i></div>
-                            <span>Главная</span>
-                        </a>
-                    </li>
+                        <li>
+                            <a href="{% url 'personalaccount' %}" class="waves-effect">
+                                <div class="d-inline-block icons-sm mr-1"><i class="uim uim-airplay"></i></div>
+                                <span>Главная</span>
+                            </a>
+                        </li>
 
-                    <li>
-                        <a href="{% url 'depositwallet' %}" class="waves-effect">
-                            <div class="d-inline-block icons-sm mr-1"><i class="uim uim-download-alt"></i></div>
-                            <span>Пополнить</span>
-                        </a>
-                    </li>
+                        <li>
+                            <a href="{% url 'depositwallet' %}" class="waves-effect">
+                                <div class="d-inline-block icons-sm mr-1"><i class="uim uim-download-alt"></i></div>
+                                <span>Пополнить</span>
+                            </a>
+                        </li>
 
-                    <li>
-                        <a href="{% url 'withdrawalwallet' %}" class="waves-effect">
-                            <div class="d-inline-block icons-sm mr-1"><i class="uim uim-upload-alt"></i></div>
-                            <span>Вывести</span>
-                        </a>
-                    </li>
+                        <li>
+                            <a href="{% url 'withdrawalwallet' %}" class="waves-effect">
+                                <div class="d-inline-block icons-sm mr-1"><i class="uim uim-upload-alt"></i></div>
+                                <span>Вывести</span>
+                            </a>
+                        </li>
 
-                    <li>
-                        <a href="{% url 'transferwallet' %}" class="waves-effect">
-                            <div class="d-inline-block icons-sm mr-1"><i class="uim uim-repeat"></i></div>
-                            <span>Перевести</span>
-                        </a>
-                    </li>
+                        <li>
+                            <a href="{% url 'transferwallet' %}" class="waves-effect">
+                                <div class="d-inline-block icons-sm mr-1"><i class="uim uim-repeat"></i></div>
+                                <span>Перевести</span>
+                            </a>
+                        </li>
 
-                    <li>
-                        <a href="{% url 'requsetwallet' %}" class="waves-effect">
-                            <div class="d-inline-block icons-sm mr-1"><i class="uim uim-process"></i></div>
-                            {% if requeston.requesttotal > 0 %}
-                                <span class="badge badge-pill badge-success float-right">{{ requeston.requesttotal }}</span>
-                            {% endif %}
-                            <span>Заявки</span>
-                        </a>
-                    </li>
+                        <li>
+                            <a href="{% url 'requsetwallet' %}" class="waves-effect">
+                                <div class="d-inline-block icons-sm mr-1"><i class="uim uim-process"></i></div>
+                                {% if requeston.requesttotal > 0 %}
+                                    <span class="badge badge-pill badge-success float-right">{{ requeston.requesttotal }}</span>
+                                {% endif %}
+                                <span>Заявки</span>
+                            </a>
+                        </li>
 
-                    <li>
-                        <a href="{% url 'transactionwallet' %}" class="waves-effect">
-                            <div class="d-inline-block icons-sm mr-1"><i class="uim uim-wrap-text"></i></div>
-                            <span>Транзакции</span>
-                        </a>
-                    </li>
+                        <li>
+                            <a href="{% url 'transactionwallet' %}" class="waves-effect">
+                                <div class="d-inline-block icons-sm mr-1"><i class="uim uim-wrap-text"></i></div>
+                                <span>Транзакции</span>
+                            </a>
+                        </li>
 
-                    <li>
-                        <a href="{% url 'partnerwallet' %}" class="waves-effect">
-                            <div class="d-inline-block icons-sm mr-1"><i class="uim uim-chart-pie"></i></div>
-                            <span>Партнерам</span>
-                        </a>
-                    </li>
+                        <li>
+                            <a href="{% url 'partnerwallet' %}" class="waves-effect">
+                                <div class="d-inline-block icons-sm mr-1"><i class="uim uim-chart-pie"></i></div>
+                                <span>Партнерам</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div id="social-container" class="social-container">
 
-                </ul>
+                    <ul class="social-icon list-inline">
+                        <li class="list-inline-item">
+                            <a href="#" class="social-list-item">
+                                <div>
+                                    <i class="fab fa-instagram"></i>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="list-inline-item">
+                            <a href="#" class="social-list-item">
+                                <div>
+                                    <i class="fab fa-telegram-plane"></i>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="list-inline-item">
+                            <a href="#" class="social-list-item">
+                                <div>
+                                    <i class="fab fa-youtube"></i>
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
+                    <p class="card-title-desc mt-3">2020 ©FLURAY</p>
+                </div>
+                <!-- Sidebar -->
             </div>
-            <!-- Sidebar -->
         </div>
-    </div>
         <!-- ========== End Vertical Menu ========== -->
 
         <!-- ========== Content ========== -->
         {% block content %}
         {% endblock %}
         <!-- End Page-content -->
-        <footer class="footer">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-sm-6">
-                        2020 ©FLURAY
-                    </div>
-                    <div class="col-sm-6">
-                        <div class="text-sm-right d-none d-sm-block">
-                            Разработка <i class="mdi mdi-heart text-danger"></i> by Russia
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </footer>
-        <!-- ========== End Content ========== -->
     </div>
 {% endblock %}
