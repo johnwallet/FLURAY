@@ -63,6 +63,7 @@ class RequestChange(models.Model):
 
 class CurrencyCBRF(models.Model):
     name_currency = models.CharField('Название валюты', max_length=50)
+    date_update = models.DateTimeField('Дата обновления', default=timezone.now)
     base_currency = models.DecimalField('Курс валюты', max_digits=10, decimal_places=4)
 
     def __str__(self):
@@ -116,3 +117,16 @@ class News(models.Model):
     class Meta:
         verbose_name = 'Новость'
         verbose_name_plural = 'Новости'
+
+
+class PSFormNow(models.Model):
+    name_ps = models.CharField('', max_length=150)
+    user_ps = models.CharField('', max_length=150, default='-')
+    data_ps = models.DateTimeField('', default=timezone.now)
+
+    def __str__(self):
+        return self.name_ps
+
+    class Meta:
+        verbose_name = 'Потребность в ПС'
+        verbose_name_plural = 'Потребности в ПС'

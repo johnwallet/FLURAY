@@ -35,8 +35,9 @@ INSTALLED_APPS = [
     'users.apps.UsersConfig',
     'rest_framework',
     'mptt',
-
     'snowpenguin.django.recaptcha3',
+    'django_celery_beat',
+    'django_celery_results',
 ]
 
 MIDDLEWARE = [
@@ -150,6 +151,7 @@ AUTH_USER_MODEL = 'users.CustomUser'
 
 SITE_ID = 1
 
+# smtp
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 # EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = "smtp.gmail.com"
@@ -162,3 +164,20 @@ RECAPTCHA_PUBLIC_KEY = "6Lc_al8aAAAAAMDGV3hW5A24uwboL5GMvdGQJcjM"
 RECAPTCHA_PRIVATE_KEY = "6Lc_al8aAAAAAOKdC6pJGVP2s16mcq-6Qo4kpr3b"
 RECAPTCHA_DEFAULT_ACTION = 'generic'
 RECAPTCHA_SCORE_THRESHOLD = 0.5
+
+
+# Celery Configuration Options
+CELERY_TIMEZONE = "Europe/Moscow"
+CELERY_TASK_TRACK_STARTED = True
+CELERY_TASK_TIME_LIMIT = 30 * 60
+
+# celery
+REDIS_HOST = '192.168.99.100'
+REDIS_PORT = '6379'
+CELERY_BROKER_URL = 'redis://' + REDIS_HOST + ':' + REDIS_PORT + '/0'
+CELERY_RESULT_BACKEND = 'django-db'
+
+
+
+
+

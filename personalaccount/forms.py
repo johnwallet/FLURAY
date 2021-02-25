@@ -2,7 +2,7 @@ from django import forms
 from django.forms import Select, TextInput, RadioSelect, ClearableFileInput, FileInput
 
 from users.models import CustomUser, RangeSumDeposit, RangeSumWidth
-from .models import RequestChange, Transfer
+from .models import RequestChange, Transfer, PSFormNow
 
 
 # // КОШЕЛЕК // ФОРМА ДЛЯ ПОПОЛНЕНИЯ КОШЕЛЬКА
@@ -148,3 +148,13 @@ class RangeWidthForm(forms.ModelForm):
     class Meta:
         model = RangeSumWidth
         exclude = ['width_range_username']
+
+
+# // ФОРМА ПОТРЕБНОСТИ ПС ОТ ПОЛЬЗОВАТЕЛЯ
+class PSFormNowForm(forms.ModelForm):
+    class Meta:
+        model = PSFormNow
+        fields = ('name_ps',)
+        widgets = {
+            'name_ps': TextInput(attrs={'class': 'form-control'}),
+        }

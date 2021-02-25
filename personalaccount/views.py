@@ -15,10 +15,9 @@ from personalaccount.metodviews import depositsortchangeps, depositsortcritery, 
     min_and_max_sum_request, range_width_ps_global
 from personalaccount.models import Transaction, RequestChange, CurrencyCBRF, StaticDailyProfit, News
 from personalaccount.forms import RequestForm, WithdrawalForm, TransferForm, RequisitesForm, CommissionForm, \
-    ActivePSForm, ReservChangeForm, ProfileForm, RangeDepositForm, RangeWidthForm
+    ActivePSForm, ReservChangeForm, ProfileForm, RangeDepositForm, RangeWidthForm, PSFormNowForm
 from users.models import CustomUserId, CustomUser, RangeSumDeposit, RangeSumWidth, Line_Program, Profit_Partner_Day, \
     Profit_Partner_Good_Day
-
 
 # РЕНДЕРИМ НУЖНЫЙ ШАБЛОН, КАБИНЕТ ПОЛЬЗОВАТЕЛЯ (ДАШБОРД)
 def personalaccount(request):
@@ -140,64 +139,74 @@ def depositwalletform(request):
             active_ps = active_deposit_ps_global()
             range_ps = range_deposit_ps_global(list_active_user=active_ps['list_active_user'])
             if request.method == "POST":
-                form = RequestForm(request.POST)
-                if form.is_valid():
-                    # получаем номер завки
-                    n = random.randint(1000000, 9999999)
-                    post = form.save(commit=False)
-                    range_list = min_and_max_sum_request(ps_request=post.request_sistemchange, range_ps=range_ps)
-                    if range_list['min_sum'] <= post.request_sum <= range_list['max_sum']:
-                        post.request_user = request.user
-                        post.request_name = str(n)
-                        post.request_type = 'Заявка на пополнение'
-                        post.request_status = 'Ожидает оплаты'
-                        # получаем обработчика заявки(активность=true, активность направления=true), пример({'changeq': [<CustomUser: Obmen>], 'valute': 'RUB'})
-                        changerequest = depositsortchangeps(nameps=post.request_sistemchange, request_sum=post.request_sum)
-                        if len(changerequest['changeq']) > 0:
-                            request_good = CurrencyCBRF.objects.get(name_currency=changerequest['valute'])
-                            # получаем победителя {'usernameps': usernameps, 'base_comis': base_comis, 'rekvesites': rekvesites}
-                            usernamepsch = depositsortcritery(userps=changerequest['changeq'], critery=post.criteri, nameps=post.request_sistemchange)
+                # если данные из формы заявки
+                if 'request_now' in request.POST:
+                    form = RequestForm(request.POST)
+                    if form.is_valid():
+                        # получаем номер завки
+                        n = random.randint(1000000, 9999999)
+                        post = form.save(commit=False)
+                        range_list = min_and_max_sum_request(ps_request=post.request_sistemchange, range_ps=range_ps)
+                        if range_list['min_sum'] <= post.request_sum <= range_list['max_sum']:
+                            post.request_user = request.user
+                            post.request_name = str(n)
+                            post.request_type = 'Заявка на пополнение'
+                            post.request_status = 'Ожидает оплаты'
+                            # получаем обработчика заявки(активность=true, активность направления=true), пример({'changeq': [<CustomUser: Obmen>], 'valute': 'RUB'})
+                            changerequest = depositsortchangeps(nameps=post.request_sistemchange, request_sum=post.request_sum)
+                            if len(changerequest['changeq']) > 0:
+                                request_good = CurrencyCBRF.objects.get(name_currency=changerequest['valute'])
+                                # получаем победителя {'usernameps': usernameps, 'base_comis': base_comis, 'rekvesites': rekvesites}
+                                usernamepsch = depositsortcritery(userps=changerequest['changeq'], critery=post.criteri, nameps=post.request_sistemchange)
 
-                            usernamepschange = usernamepsch['usernameps']
-                            post.request_commission = usernamepsch['base_comis'] + Decimal(0.5)
-                            post.request_commission_change = usernamepsch['base_comis']
-                            post.requisites = usernamepsch['rekvesites']
-                            post.request_userchange = usernamepschange.username
+                                usernamepschange = usernamepsch['usernameps']
+                                post.request_commission = usernamepsch['base_comis'] + Decimal(0.5)
+                                post.request_commission_change = usernamepsch['base_comis']
+                                post.requisites = usernamepsch['rekvesites']
+                                post.request_userchange = usernamepschange.username
 
-                            request_summe = post.request_sum - ((post.request_sum / 100) * post.request_commission)
-                            post.request_good_sum = request_summe * request_good.base_currency
+                                request_summe = post.request_sum - ((post.request_sum / 100) * post.request_commission)
+                                post.request_good_sum = request_summe * request_good.base_currency
 
-                            request_good_summe = post.request_sum - ((post.request_sum / 100) * post.request_commission_change)
-                            post.request_good_sum_change = request_good_summe * request_good.base_currency
+                                request_good_summe = post.request_sum - ((post.request_sum / 100) * post.request_commission_change)
+                                post.request_good_sum_change = request_good_summe * request_good.base_currency
 
-                            post.request_company_profit = post.request_good_sum_change - post.request_good_sum
-                            post.request_type_valute = changerequest['valute']
-                            post.request_sum_valute = post.request_sum
-                            post.request_good_sum_valute = post.request_good_sum
-                            post.request_good_sum_change_valute = post.request_good_sum_change
-                            post.request_curse = request_good.base_currency
+                                post.request_company_profit = post.request_good_sum_change - post.request_good_sum
+                                post.request_type_valute = changerequest['valute']
+                                post.request_sum_valute = post.request_sum
+                                post.request_good_sum_valute = post.request_good_sum
+                                post.request_good_sum_change_valute = post.request_good_sum_change
+                                post.request_curse = request_good.base_currency
 
-                            user_hold_update = CustomUser.objects.get(username=post.request_userchange)
-                            user_hold_update.balance -= Decimal(post.request_good_sum_change)
-                            user_hold_update.hold += Decimal(post.request_good_sum_change)
-                            user_hold_update.save()
-                            post.save()
-                            return redirect('requsetwallet')
+                                user_hold_update = CustomUser.objects.get(username=post.request_userchange)
+                                user_hold_update.balance -= Decimal(post.request_good_sum_change)
+                                user_hold_update.hold += Decimal(post.request_good_sum_change)
+                                user_hold_update.save()
+                                post.save()
+                                return redirect('requsetwallet')
+                            else:
+                                return redirect('depositwallet')
                         else:
-                            return redirect('depositwallet')
-                    else:
-                        if range_list['min_sum'] > post.request_sum < range_list['max_sum']:
-                            data_message = {
-                                'message': 'Введеная сумма меньше минимальной',
-                                'message_type': 'Error'
-                            }
-                            message_status = True
-                        elif range_list['min_sum'] < post.request_sum > range_list['max_sum']:
-                            data_message = {
-                                'message': 'Введеная сумма больше максимальной',
-                                'message_type': 'Error'
-                            }
-                            message_status = True
+                            if range_list['min_sum'] > post.request_sum < range_list['max_sum']:
+                                data_message = {
+                                    'message': 'Введеная сумма меньше минимальной',
+                                    'message_type': 'Error'
+                                }
+                                message_status = True
+                            elif range_list['min_sum'] < post.request_sum > range_list['max_sum']:
+                                data_message = {
+                                    'message': 'Введеная сумма больше максимальной',
+                                    'message_type': 'Error'
+                                }
+                                message_status = True
+                # если данные из формы "нет пс"
+                elif 'ps-now' in request.POST:
+                    form = PSFormNowForm(request.POST)
+                    if form.is_valid():
+                        form = form.save(commit=False)
+                        form.user_ps = request.user
+                        form.save()
+                        return redirect('depositwallet')
 
             for update_float_k, update_float_v in range_ps['list_range_min_reserve_ps'].items():
                 range_ps['list_range_min_reserve_ps'][update_float_k] = float(update_float_v)
@@ -207,6 +216,7 @@ def depositwalletform(request):
 
             context = {
                 'form': RequestForm(),
+                'form_ps': PSFormNowForm(),
                 'list_active_ps': range_ps['active_list_ps'],
                 'list_reserve_ps': active_ps['list_active_reserve_ps'],
                 'range_min_list': range_ps['list_range_min_reserve_ps'],
@@ -231,71 +241,82 @@ def withdrawalwallet(request):
             active_ps = active_width_ps_global()
             range_ps = range_width_ps_global(list_active_user=active_ps['list_active_user'], balance_user=userwidth.balance)
             if request.method == "POST":
-                form = WithdrawalForm(request.POST)
-                if form.is_valid():
-                    # получаем номер завки
-                    n = random.randint(1000000, 9999999)
-                    post = form.save(commit=False)
-                    range_list = min_and_max_sum_request(ps_request=post.request_sistemchange, range_ps=range_ps)
-                    if range_list['min_sum'] <= post.request_sum <= range_list['max_sum']:
-                        post.request_user = request.user
-                        post.request_name = str(n)
-                        post.request_type = 'Заявка на вывод'
-                        post.request_status = 'Ожидает оплаты'
-                        # получаем обработчика заявки(активность=true, активность направления=true), пример({'changeq': [<CustomUser: Obmen>], 'valute': 'RUB'})
-                        changerequest = widthsortchangeps(nameps=post.request_sistemchange, request_sum=post.request_sum)
-                        if len(changerequest['changeq']) > 0:
-                            request_good = CurrencyCBRF.objects.get(name_currency=changerequest['valute'])
-                            # получаем победителя {'usernameps': usernameps, 'base_comis': base_comis, 'rekvesites': rekvesites}
-                            usernamepsch = widthsortcritery(userps=changerequest['changeq'], critery=post.criteri, nameps=post.request_sistemchange, valuteps=changerequest['valute'], balanceps=post.request_sum)
+                # если данные из формы заявки
+                if 'request_now' in request.POST:
+                    form = WithdrawalForm(request.POST)
+                    if form.is_valid():
+                        # получаем номер завки
+                        n = random.randint(1000000, 9999999)
+                        post = form.save(commit=False)
+                        range_list = min_and_max_sum_request(ps_request=post.request_sistemchange, range_ps=range_ps)
+                        if range_list['min_sum'] <= post.request_sum <= range_list['max_sum']:
+                            post.request_user = request.user
+                            post.request_name = str(n)
+                            post.request_type = 'Заявка на вывод'
+                            post.request_status = 'Ожидает оплаты'
+                            # получаем обработчика заявки(активность=true, активность направления=true), пример({'changeq': [<CustomUser: Obmen>], 'valute': 'RUB'})
+                            changerequest = widthsortchangeps(nameps=post.request_sistemchange, request_sum=post.request_sum)
+                            if len(changerequest['changeq']) > 0:
+                                request_good = CurrencyCBRF.objects.get(name_currency=changerequest['valute'])
+                                # получаем победителя {'usernameps': usernameps, 'base_comis': base_comis, 'rekvesites': rekvesites}
+                                usernamepsch = widthsortcritery(userps=changerequest['changeq'], critery=post.criteri, nameps=post.request_sistemchange, valuteps=changerequest['valute'], balanceps=post.request_sum)
 
-                            usernamepschange = usernamepsch['usernameps']
-                            userwidth.balance -= post.request_sum
-                            post.request_commission = usernamepsch['base_comis'] + Decimal(0.5)
-                            post.request_commission_change = usernamepsch['base_comis']
-                            post.request_userchange = usernamepschange.username
-                            request_summe = post.request_sum - ((post.request_sum / 100) * post.request_commission)
-                            post.request_good_sum = request_summe / request_good.base_currency
-                            post.request_good_sum_change = post.request_sum - (post.request_sum / 200)
-                            post.request_company_profit = post.request_sum - post.request_good_sum_change
-                            post.request_type_valute = changerequest['valute']
-                            post.request_sum_valute = post.request_sum
-                            post.request_good_sum_valute = post.request_good_sum
-                            post.request_good_sum_change_valute = post.request_good_sum_change
-                            post.request_curse = request_good.base_currency
+                                usernamepschange = usernamepsch['usernameps']
+                                userwidth.balance -= post.request_sum
+                                post.request_commission = usernamepsch['base_comis'] + Decimal(0.5)
+                                post.request_commission_change = usernamepsch['base_comis']
+                                post.request_userchange = usernamepschange.username
+                                request_summe = post.request_sum - ((post.request_sum / 100) * post.request_commission)
+                                post.request_good_sum = request_summe / request_good.base_currency
+                                post.request_good_sum_change = post.request_sum - (post.request_sum / 200)
+                                post.request_company_profit = post.request_sum - post.request_good_sum_change
+                                post.request_type_valute = changerequest['valute']
+                                post.request_sum_valute = post.request_sum
+                                post.request_good_sum_valute = post.request_good_sum
+                                post.request_good_sum_change_valute = post.request_good_sum_change
+                                post.request_curse = request_good.base_currency
 
-                            # создаем транзакцию для получателя вывода
-                            Transaction.objects.create(transaction_name='Заявка на вывод № ' + str(n),
-                                                       transaction_number=str(n),
-                                                       transaction_category='Заявка на вывод',
-                                                       transaction_type='Вывод',
-                                                       transaction_user=request.user.username,
-                                                       transaction_status='В обработке',
-                                                       transaction_sum=post.request_sum,
-                                                       transaction_sistemchange=post.request_sistemchange)
-                            user_hold_update = CustomUser.objects.get(username=post.request_userchange)
-                            user_hold_update.hold += Decimal(post.request_good_sum_change)
-                            user_hold_update.save()
-                            userwidth.save()
-                            post.save()
-                            return redirect('requsetwallet')
+                                # создаем транзакцию для получателя вывода
+                                Transaction.objects.create(transaction_name='Заявка на вывод № ' + str(n),
+                                                           transaction_number=str(n),
+                                                           transaction_category='Заявка на вывод',
+                                                           transaction_type='Вывод',
+                                                           transaction_user=request.user.username,
+                                                           transaction_status='В обработке',
+                                                           transaction_sum=post.request_sum,
+                                                           transaction_sistemchange=post.request_sistemchange)
+                                user_hold_update = CustomUser.objects.get(username=post.request_userchange)
+                                user_hold_update.hold += Decimal(post.request_good_sum_change)
+                                user_hold_update.save()
+                                userwidth.save()
+                                post.save()
+                                return redirect('requsetwallet')
+                            else:
+                                return redirect('withdrawalwallet')
                         else:
-                            return redirect('withdrawalwallet')
-                    else:
-                        if range_list['min_sum'] > post.request_sum < range_list['max_sum']:
-                            data_message = {
-                                'message': 'Введеная сумма меньше минимальной',
-                                'message_type': 'Error'
-                            }
-                            message_status = True
-                        elif range_list['min_sum'] < post.request_sum > range_list['max_sum']:
-                            data_message = {
-                                'message': 'Введеная сумма больше максимальной',
-                                'message_type': 'Error'
-                            }
-                            message_status = True
+                            if range_list['min_sum'] > post.request_sum < range_list['max_sum']:
+                                data_message = {
+                                    'message': 'Введеная сумма меньше минимальной',
+                                    'message_type': 'Error'
+                                }
+                                message_status = True
+                            elif range_list['min_sum'] < post.request_sum > range_list['max_sum']:
+                                data_message = {
+                                    'message': 'Введеная сумма больше максимальной',
+                                    'message_type': 'Error'
+                                }
+                                message_status = True
+                # если данные из формы "нет пс"
+                elif 'ps-now' in request.POST:
+                    form = PSFormNowForm(request.POST)
+                    if form.is_valid():
+                        form = form.save(commit=False)
+                        form.user_ps = request.user
+                        form.save()
+                        return redirect('depositwallet')
             context = {
                 'form': WithdrawalForm(),
+                'form_ps': PSFormNowForm(),
                 'list_active_ps': range_ps['active_list_ps'],
                 'list_reserve_ps': active_ps['list_active_reserve_ps'],
                 'range_min_list': range_ps['list_range_min_reserve_ps'],
@@ -1191,15 +1212,16 @@ def coursechangecommission(request):
 
 # ОБНОВЛЕНИЕ И ДОБАВЛЕНИЕ КУРСОВ ВАЛЮТ
 def coursechangeupdate(request):
-    currencycrypto = CurrencyCBRF.objects.all()
+    currency = CurrencyCBRF.objects.all()
     iistvalute = ['Russian Rouble', 'Euro']
     curse_val = get_rates()
     for valute in iistvalute:
         for item in curse_val['channel']['item']:
             if item['targetName'] == valute:
                 try:
-                    currencyview = CurrencyCBRF.objects.get(name_currency=item['targetCurrency'])
+                    currencyview = currency.get(name_currency=item['targetCurrency'])
                     currencyview.base_currency = 1 / float(item['exchangeRate'])
+                    currencyview.date_update = timezone.now()
                     currencyview.save()
                 except:
                     CurrencyCBRF.objects.create(name_currency=item['targetCurrency'].upper(),
@@ -1212,15 +1234,17 @@ def coursechangeupdate(request):
         for aut in currencyjson:
             if aut['id'] == item:
                 try:
-                    currencyvieweur = currencycrypto.get(name_currency=aut['symbol'].upper())
-                    currencyvieweur.base_currency = aut['current_price']
-                    currencyvieweur.save()
+                    currencyview = currency.get(name_currency=aut['symbol'].upper())
+                    currencyview.base_currency = aut['current_price']
+                    currencyview.date_update = timezone.now()
+                    currencyview.save()
                 except:
                     CurrencyCBRF.objects.create(name_currency=aut['symbol'].upper(),
                                                 base_currency=aut['current_price'],)
     return redirect('admin:index')
 
 
+# НАЧИСЛЕНИЕ ЛИНЕЙКИ
 def profit_day_good(request):
     # создаем словарь с родителями и суммами для начисления(если сумма больше 0.1$)
     list_all_profit_day = Profit_Partner_Day.objects.filter(profit_day_status=False).order_by('profit_day_parent')
