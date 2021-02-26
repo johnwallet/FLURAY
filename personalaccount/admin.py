@@ -1,9 +1,12 @@
 from django.contrib import admin
 
-from personalaccount.models import Transaction, Currency, SistemChange, RequestChange, CriteriChange
+from personalaccount.models import Transaction, RequestChange, CurrencyCBRF, StaticDailyProfit, Transfer, News, \
+    PSFormNow
 
-admin.site.register(CriteriChange)
 admin.site.register(Transaction)
-admin.site.register(Currency, )
-admin.site.register(SistemChange, )
-admin.site.register(RequestChange, )
+admin.site.register(RequestChange)
+admin.site.register(CurrencyCBRF)
+admin.site.register(StaticDailyProfit)
+admin.site.register(Transfer)
+admin.site.register(News)
+admin.site.register(PSFormNow)

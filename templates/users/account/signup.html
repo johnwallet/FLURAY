@@ -14,58 +14,91 @@
         <div class="row">
             <div class="col-lg-12">
                 <div class="text-center mb-5">
+                    <a href="{% url 'home' %}" class="logo"><img src="{% static 'home/media/logo-light.svg' %}" height="40" alt="logo"></a>
                     <h5 class="font-size-16 text-white-50 mb-4">Добро пожаловать!</h5>
                 </div>
             </div>
         </div>
         <div class="row justify-content-center">
-            <div class="col-xl-5 col-sm-8">
+            <div class="col-xl-6 col-sm-8">
                 <div class="card">
                     <div class="card-body p-4">
                         <div class="p-4">
-                            <h5 class="mb-5 text-center">РЕГИСТРАЦИЯ</h5>
+                            <h5 class="mb-4 text-center">РЕГИСТРАЦИЯ</h5>
 
-                            <form class="form-horizontal" method="POST" action="{% url 'account_signup' %}" >
+                            <form class="form-horizontal" method="POST">
                                 {% csrf_token %}
                                 {{ form.non_field.errors }}
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <div class="form-group form-group-custom mb-4">
+                                        {% if link_status %}
+                                            {% if user_parent %}
+                                                <div class="form-group mb-4">
+                                                    <p class="text-muted mb-1">Вас пригласил</p>
+                                                    <input class="form-control is-valid" type="text" placeholder="{{ user_parent }}" readonly>
+                                                </div>
+                                            {% else %}
+                                                <div class="form-group mb-4">
+                                                    <p class="text-muted mb-1">Вас пригласил</p>
+                                                    <input class="form-control is-invalid" type="text" placeholder="Ошибка, проверьте ссылку" readonly>
+                                                </div>
+                                            {% endif %}
+                                        {% endif %}
+                                        <div class="form-group form-group-custom mb-3">
                                             {{ form.userid }}
+                                            <p class="text-muted font-size-12 ml-2 mb-0">Узнайте больше о категориях аккаунта, в разделе
+                                                <a href="{% url 'support' %}">FAQ.</a></p>
                                         </div>
                                         <div class="form-group form-group-custom mb-4">
-                                            <div>
-                                                {{ form.login.errors }}
-                                            </div>
                                             {{ form.username }}
-                                            <label for="{{ form.login.id_for_label }}">Имя пользователя</label>
+                                            <label for="{{ form.username.id_for_label }}">Имя пользователя</label>
+                                            {% if form.username.errors %}
+                                            <div class="error">
+                                                <ul class="errorlist">
+                                                    <li>Имя пользователя занято.</li>
+                                                </ul>
+                                            </div>
+                                            {% endif %}
                                         </div>
                                         <div class="form-group form-group-custom mb-4">
-                                            <div>
-                                                {{ form.email.errors }}
-                                            </div>
                                             {{ form.email }}
                                             <label for="{{ form.email.id_for_label }}">Почта</label>
-                                        </div>
-                                        <div class="form-group form-group-custom mb-4">
-                                            <div>
-                                                {{ form.password1.errors }}
+                                            <div class="error">
+                                                {{ form.email.errors }}
                                             </div>
+                                        </div>
+                                        <div class="form-group input-group form-group-custom mb-4">
                                             {{ form.password1 }}
                                             <label for="{{ form.password1.id_for_label }}">Пароль</label>
-                                        </div>
-                                        <div class="form-group form-group-custom mb-4">
-                                            <div>
-                                                {{ form.password2.errors }}
+                                            <div class="input-group-append">
+                                                <button class="btn btn-outline-secondary" type="button" id="button-view-password"><i class="mdi mdi-eye"></i></button>
                                             </div>
+                                        </div>
+                                        <div class="error">
+                                            {{ form.password1.errors }}
+                                        </div>
+                                        <div class="form-group input-group form-group-custom mb-4">
                                             {{ form.password2 }}
                                             <label for="{{ form.password2.id_for_label }}">Пароль (еще раз)</label>
+                                            <div class="input-group-append">
+                                                <button class="btn btn-outline-secondary" type="button" id="button-view-password"><i class="mdi mdi-eye"></i></button>
+                                            </div>
                                         </div>
-                                        {% if redirect_field_value %}
-                                        <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
-                                        {% endif %}
-                                        <div class="mt-4">
-                                            <button class="btn btn-outline-primary btn-block waves-effect waves-light " type="submit">Зарегистрироваться</button>
+                                        <div class="error">
+                                            {{ form.password2.errors }}
+                                        </div>
+
+                                        <div class="custom-control custom-checkbox mt-5">
+                                            <input type="checkbox" class="custom-control-input" id="conditionchek">
+                                            <label class="custom-control-label font-size-14" for="conditionchek">Я принимаю условия <a href="#conditions_user" data-toggle="modal">Пользовательского соглашения</a></label>
+                                        </div>
+
+                                        <div class="form-group form-group-custom mb-4">
+                                            {{ form.captcha }}
+                                        </div>
+
+                                        <div class="mt-3">
+                                            <button id="conditionbtn" class="btn btn-outline-primary btn-block waves-effect waves-light" style="opacity: 0.3" type="submit" disabled>Зарегистрироваться</button>
                                         </div>
                                         <div class="mt-4 text-center">
                                             <a href="{% url 'account_login' %}" class="text-muted"><i class="mdi mdi-account-circle mr-1"></i> Авторизация</a>
@@ -79,5 +112,47 @@
             </div>
         </div>
     </div>
+</div>
+<div>
+    <table>
+    <tbody>
+        <tr>
+            <td>
+                <div class="modal fade" id="conditions_user" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-scrollable modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title mt-0" id="exampleModalScrollableTitle">Пользовательское соглашение</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <p>Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.</p>
+                                <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.</p>
+                                <p>Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Donec sed odio dui. Donec ullamcorper nulla non metus auctor fringilla.</p>
+                                <p>Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.</p>
+                                <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.</p>
+                                <p>Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Donec sed odio dui. Donec ullamcorper nulla non metus auctor fringilla.</p>
+                                <p>Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.</p>
+                                <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.</p>
+                                <p>Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Donec sed odio dui. Donec ullamcorper nulla non metus auctor fringilla.</p>
+                                <p>Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.</p>
+                                <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.</p>
+                                <p>Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Donec sed odio dui. Donec ullamcorper nulla non metus auctor fringilla.</p>
+                                <p>Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.</p>
+                                <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.</p>
+                                <p>Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Donec sed odio dui. Donec ullamcorper nulla non metus auctor fringilla.</p>
+                                <p>Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.</p>
+                                <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.</p>
+                                <p>Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Donec sed odio dui. Donec ullamcorper nulla non metus auctor fringilla.</p>
+                            </div>
+                        </div><!-- /.modal-content -->
+                    </div><!-- /.modal-dialog -->
+                </div><!-- /.modal -->
+            </td>
+        </tr>
+    </tbody>
+    </table>
 </div>
 {% endblock %}

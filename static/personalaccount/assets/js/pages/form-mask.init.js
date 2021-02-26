@@ -1,1 +1,3 @@
-$(document).ready(function(){$(".input-mask").inputmask()});
+$(document).ready(function() {
+	$(".input-mask").inputmask()
+});

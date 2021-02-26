@@ -1,0 +1,108 @@
+{% extends "personalaccount/cabinet/indexchange.html" %}
+
+{% load static %}
+
+{% block title %}
+Настройки профиля
+{% endblock %}
+
+{% block content %}
+    <div class="main-content">
+        <div class="page-content">
+            <div class="page-title-box">
+                <div class="container-fluid">
+                    <div class="row align-items-center">
+                        <div class="col-md-8">
+                            <h4 class="page-title mb-1">Настройки профиля</h4>
+                            <ol class="breadcrumb m-0">
+                                <li class="breadcrumb-item active">На этой странице вы можете внести изменения в свои настройки</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- end page title end breadcrumb -->
+
+            <!-- Сердце -->
+            <div class="page-content-wrapper">
+                <div class="container-fluid">
+                    <div class="row center cust-maxw-1200">
+                        <div class="col-xl-8">
+                            <div class="card">
+                                <div class="card-body">
+                                    {% if data_error %}
+                                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                            Заполните все поля формы.
+                                        </div>
+                                    {% endif %}
+                                    <p>Добро пожаловать в личный кабинет!</p>
+                                    <p>Для доступа ко всем возможностям личного кабинета, заполните данные формы</p>
+                                    <form enctype="multipart/form-data" method="post" action="{% url 'personalaccount' %}">
+                                        {% csrf_token %}
+                                        <div class="box-center-edit">
+                                            <div class="avatar-img-box">
+                                                {% if user.avatar %}
+                                                    <img id="avatar-img" class="rounded-circle avatar-xl roundcolor" src="{{ user.avatar.url }}" alt="">
+                                                {% else %}
+                                                    <img id="avatar-img" class="rounded-circle avatar-xl roundcolor" src="{% static 'personalaccount/assets/images/users/avatar.jpg' %}" alt="">
+                                                {% endif %}
+                                            </div>
+                                            <div class="card-edit-content">
+                                                <div class="avatar-box-form">
+                                                    <div class="avatar-box-form-none">
+                                                        {{ form.avatar }}
+                                                    </div>
+                                                    <div class="avatar-box-form-block">
+                                                        <p>.PNG .JPEG, Не более 1080x1080</p>
+                                                        <div class="form-block-labelblock">
+                                                            <label class="btn-avatar-load" for="id_avatar">Загрузить..</label>
+                                                        </div>
+                                                        {% if user.avatar %}
+                                                            <div class="form-block-labelblock">
+                                                                <input class="btn-avatar-checkbox" type="checkbox" name="avatar-clear-cust" id="avatar-clear_id_cust">
+                                                                <label class="btn-avatar-label" for="avatar-clear_id_cust">Удалить</label>
+                                                            </div>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                                <div class="input-edit-box">
+                                                    <div class="input-edit-str">
+                                                        <span>Имя</span>
+                                                        {{ form.first_name }}
+                                                    </div>
+                                                    <div class="input-edit-str">
+                                                        <span>Фамилия</span>
+                                                        {{ form.last_name }}
+                                                    </div>
+                                                    <div class="input-edit-str">
+                                                        <span>Отчество</span>
+                                                        {{ form.middle_name }}
+                                                    </div>
+                                                    <div class="input-edit-str">
+                                                        <span>Телефон</span>
+                                                        {{ form.phone_number }}
+                                                    </div>
+                                                    <div class="input-edit-str">
+                                                        <span>Телеграм</span>
+                                                        {{ form.telegram_username }}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="password-change-a">
+                                                <a href="{% url 'account_change_password' %}">Сменить пароль</a>
+                                            </div>
+                                            <button class="btn-dashboard-actions" type="submit">Сохранить</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

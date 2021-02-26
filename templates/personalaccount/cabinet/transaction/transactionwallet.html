@@ -37,9 +37,8 @@
                                             <thead>
                                             <tr>
                                                 <th>Название</th>
-                                                <th>Сумма</th>
-                                                <th>Валюта</th>
                                                 <th>Плат.система</th>
+                                                <th>Сумма</th>
                                                 <th>Статус</th>
                                                 <th>Дата создания</th>
                                                 <th>Дата исполнения</th>
@@ -48,19 +47,18 @@
                                             <tbody>
                                                 {% for i in tranview %}
                                                     <tr>
-                                                    <td>№ {{ i.transaction_name }}</td>
-                                                    <td>{{ i.transaction_sum }}</td>
-                                                    <td>{{ i.transaction_currency }}</td>
+                                                    <td>{{ i.transaction_name }}</td>
                                                     <td>{{ i.transaction_sistemchange }}</td>
-                                                    {% if i.transaction_status == 'Ожидает оплаты' %}
+                                                    {% if i.transaction_type == 'Пополнение' %}
+                                                    <td>{{ i.transaction_sum }} $</td>
+                                                    {% elif i.transaction_type == 'Вывод' %}
+                                                    <td>- {{ i.transaction_sum }} $</td>
+                                                    {% endif %}
+                                                    {% if i.transaction_status == 'В обработке' %}
                                                         <td>
                                                             <div class="badge badge-soft-warning">{{ i.transaction_status }}</div>
                                                         </td>
-                                                    {% elif i.transaction_status == 'Оплачена клиентом' %}
-                                                        <td>
-                                                            <div class="badge badge-soft-success">{{ i.transaction_status }}</div>
-                                                        </td>
-                                                    {% elif i.transaction_status == 'Выполнена' %}
+                                                    {% elif i.transaction_status == 'Оплачена клиентом' or i.transaction_status == 'Выполнена' or i.transaction_status == 'Выполнен'%}
                                                         <td>
                                                             <div class="badge badge-soft-success">{{ i.transaction_status }}</div>
                                                         </td>
@@ -90,22 +88,6 @@
             <!-- end page-content-wrapper -->
 
         </div>
-
-        <!-- End Page-content -->
-        <footer class="footer">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-sm-6">
-                        2020 © Wallets.
-                    </div>
-                    <div class="col-sm-6">
-                        <div class="text-sm-right d-none d-sm-block">
-                            Разработка <i class="mdi mdi-heart text-danger"></i> by Russia
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </footer>
     </div>
 
 {% endblock %}

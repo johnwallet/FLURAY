@@ -1,0 +1,71 @@
+{% extends "home/base.html" %}
+
+{% load static %}
+
+{% block content %}
+<header class="header-image ken-burn-center align-center light boxed-page-header" data-parallax="true" data-natural-height="600" data-natural-width="1920" data-bleed="0" data-image-src="{% static 'home/media/news/bg_news_view.jpg' %}" data-offset="0">
+    <div class="container">
+        <h1>{{ news_view.news_header }}</h1>
+        <h2>{{ news_view.news_date_joined|date:"F d, Y" }}</h2>
+        <ol class="breadcrumb">
+            <li><a href="{% url 'home' %}">Главная</a></li>
+            <li><a href="{% url 'news' %}">Новости</a></li>
+            <li><a href="#">{{ news_view.news_header }}</a></li>
+        </ol>
+    </div>
+</header>
+<main>
+    <section class="section-base boxed-page">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 text-color">
+                    <img src="{{ news_view.news_img.url }}" alt="" />
+                    <hr class="space" />
+                    {{ news_view.news_content }}
+                    <hr class="space" />
+                    <div class="row">
+                        <div class="col-lg-8">
+                            <ul class="icon-list icon-list-horizontal icon-list-blog">
+                                <li>
+                                    <i class="icon-calendar"></i>{{ news_view.news_date_joined|date:"d / m / Y" }}
+                                </li>
+                                <li class="icon-links">
+                                    <a href="{{ news_view.news_instagram }}" target="_blank"><i class="fab fa-instagram"></i></a>
+                                    <a href="{{ news_view.news_telegram }}" target="_blank"><i class="fab fa-telegram-plane"></i></a>
+                                </li>
+                            </ul>
+                        </div>
+                        {% if next_news.pk %}
+                            <div class="col-lg-4 align-right align-left-md">
+                                <div class="list-nav">
+                                    <a href="#"></a>
+                                    <a class="list-archive" href="{% url 'news' %}"></a>
+                                    <a href="{% url 'news' %}{{ next_news.pk }}">Далее</a>
+                                </div>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="col-lg-4 widget">
+                    <h3>Другие новости</h3>
+                    <hr class="space-sm" />
+                    <div class="menu-inner menu-inner-vertical menu-inner-image">
+                        <ul>
+                            {% for item in list_news|slice:"::-1"|slice:":5" %}
+                                <li>
+                                    <a href="{% url 'news' %}{{ item.pk }}">
+                                        <img src="{{ item.news_img.url }}" alt="" />
+                                        <span>{{ item.news_date_joined|date:"d N" }}</span>
+                                        {{ item.news_header }}
+                                    </a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+{% endblock %}
+

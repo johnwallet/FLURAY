@@ -10,7 +10,7 @@ logger = getLogger(__name__)
 Rate = namedtuple('Rate', 'name,rate')
 
 
-def get_rates(section_id):
+def get_rates():
     get_curl = "http://www.floatrates.com/daily/usd.xml"
 
     r = requests.get(get_curl)
@@ -18,15 +18,7 @@ def get_rates(section_id):
 
     data = xmltodict.parse(resp)
 
-    for item in data['channel']['item']:
-        if item['targetName'] == section_id:
-            r = Rate(
-                name=item['targetCurrency'],
-                rate=item['exchangeRate'],
-            )
-            return r
-    return None
-
+    return data
 
 def main():
     r = get_rates()

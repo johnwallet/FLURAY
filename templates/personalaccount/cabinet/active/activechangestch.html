@@ -1,0 +1,146 @@
+{% extends "personalaccount/cabinet/indexchange.html" %}
+
+{% load static %}
+
+{% block title %}
+    Активность обменного пункта
+{% endblock %}
+
+{% block content %}
+    <div class="main-content">
+
+        <div class="page-content">
+
+            <!-- Page-Title -->
+            <div class="page-title-box">
+                <div class="container-fluid">
+                    <div class="row align-items-center">
+                        <div class="col-md-8">
+                            <h4 class="page-title mb-1">Изменение активности обменного пункта</h4>
+                            <ol class="breadcrumb m-0">
+                                <li class="breadcrumb-item active">Здесь вы можете изменить активность обменного пункта</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- end page title end breadcrumb -->
+
+            <!-- Сердце -->
+            <div class="page-content-wrapper">
+                <div class="container-fluid">
+                    <div class="row cust-maxw-1200">
+                        <div class="col-xl-12">
+                            <div class="card">
+                            {% if user.is_active_change == True %}
+                                <div class="card-active-change">
+                                    <div class="active-change-header">
+                                        <h5>Изменить статус активности</h5>
+                                    </div>
+                                    <div class="active-change-content">
+                                        <div class="change-content-block-one">
+                                            <div class="block-one-status-chek">
+                                                <span class="chek-span">Текущий статус активности</span>
+                                                <div class="chek-block-box">
+                                                    <div class="box-status-succes"></div>
+                                                    <span>Онлайн</span>
+                                                </div>
+                                            </div>
+                                            <div class="block-one-status-change">
+                                                <span class="change-span">Изменится на </span>
+                                                <div class="change-block-box">
+                                                    <div class="box-status-danger"></div>
+                                                    <span>Офлайн</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="change-content-block-two">
+                                            <div class="span-change-box">
+                                                <span class="span-change-one">Вы приняли решение изменить статус активности вашего обменного пункта, на ОФЛАЙН?</span>
+                                            </div>
+                                            <div class="span-change-box">
+                                                <span class="span-change-two">Если сохраните изменения, Вы не сможете больше получать заявки, до обратной смены статуса на ОНЛАЙН.</span>
+                                            </div>
+                                        </div>
+                                        <div class="change-content-block-try">
+                                            <div class="block-try-box">
+                                                <div class="try-box-btn-left">
+                                                    <a href="{% url 'activechange' %}">Назад</a>
+                                                </div>
+                                                <div class="try-box-btn-right">
+                                                    <a href="{% url 'activechangestchtoggle' %}">Завершить</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% else %}
+                                <div class="card-active-change">
+                                    <div class="active-change-header">
+                                        <h5>Изменить статус активности</h5>
+                                    </div>
+                                    <div class="active-change-content">
+                                        <div class="change-content-block-one">
+                                            <div class="block-one-status-chek">
+                                                <span class="chek-span">Текущий статус активности</span>
+                                                <div class="change-block-box">
+                                                    <div class="box-status-danger"></div>
+                                                    <span>Офлайн</span>
+                                                </div>
+                                            </div>
+                                            <div class="block-one-status-change">
+                                                <span class="change-span">Изменится на </span>
+                                                <div class="chek-block-box">
+                                                    <div class="box-status-succes"></div>
+                                                    <span>Онлайн</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="change-content-block-two">
+                                            <div class="span-change-box">
+                                                <span class="span-change-one-bold">Перед тем как сохранить изменения, рекомендуем проверить корректность данных вашего обменного пункта.</span>
+                                            </div>
+                                            <div class="span-box">
+                                                <div class="span-change-box-rec">
+                                                    <span class="span-change-one-rec">Рекомендации:</span>
+                                                </div>
+                                                <div class="span-change-box-rec">
+                                                    <span class="span-change-one-rec">- Старайтесь обрабатывать заявки, как можно быстрее, чтобы увеличить количество клиентов,
+    приходящих по критерию: “БЫСТРАЯ ЗАЯВКА”, тем самым увеличивая вашу репутацию и прибыль.</span>
+                                                </div>
+                                                <div class="span-change-box-rec">
+                                                    <span class="span-change-one-rec">- Советуем выставлять “адекватную” коммисию, на всех направлениях обмена, чтобы увеличить
+    количество клиентов, приходящих по критерию: “ВЫГОДНЫЙ ОБМЕН”.</span>
+                                                </div>
+                                            </div>
+                                            <div class="span-change-box-rec">
+                                                <span class="span-change-one-rec">И помните: “ Быстрый и Выгодный обмен, равно, постоянный клиент! ”</span>
+                                            </div>
+                                            <div class="span-change-box-sm">
+                                                <span class="span-change-one-sm">Если сохраните изменения, Вы начнете получать заявки на обмен.</span>
+                                            </div>
+                                        </div>
+                                        <div class="change-content-block-try">
+                                            <div class="block-try-box">
+                                                <div class="try-box-btn-left">
+                                                    <a href="{% url 'activechange' %}">Назад</a>
+                                                </div>
+                                                <div class="try-box-btn-right">
+                                                    <a href="{% url 'activechangestchtoggle' %}">Начать</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- end page-content-wrapper -->
+
+        </div>
+    </div>
+
+{% endblock %}

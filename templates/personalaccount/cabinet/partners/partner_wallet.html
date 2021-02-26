@@ -1,0 +1,235 @@
+{% extends "personalaccount/cabinet/indexwallet.html" %}
+
+{% load static %}
+
+{% block title %}
+Партнерская программа
+{% endblock %}
+
+{% block script %}
+    <script>
+        var datajsonin = {{ datajsontable|safe }};
+    </script>
+{% endblock %}
+
+
+{% block content %}
+    <div class="main-content">
+
+        <div class="page-content">
+
+            <!-- Page-Title -->
+            <div class="page-title-box">
+                <div class="container-fluid">
+                    <div class="row align-items-center">
+                        <div class="col-md-8">
+                            <h4 class="page-title mb-1">Партнерская программа</h4>
+                            <ol class="breadcrumb m-0">
+                                <li class="breadcrumb-item active">На этой странице вы можете видеть всех ваших приглашенных партнеров</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- end page title end breadcrumb -->
+
+            <!-- Сердце -->
+            <div class="page-content-wrapper">
+                <div class="container-fluid">
+                    <div class="row cust-maxw-1200">
+                        <div class="col-12">
+                            <div class="row">
+                                <div class="col-lg-5">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <div class="media mb-3">
+                                                <div class="media-body border-right">
+                                                    <p class="text-muted mb-2">Партнеры</p>
+                                                    <h4 class="mdi">{{ partner_len }}</h4>
+                                                </div>
+                                                <div class="media-body ml-4">
+                                                    <p class="text-muted mb-2">Вас пригласил</p>
+                                                    {% if parent_ref %}
+                                                    <h4 class="mdi">{{ parent_ref }}</h4>
+                                                    {% else %}
+                                                    <h4 class="mdi">-</h4>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                            <div class="media">
+                                                <div class="media-body border-right">
+                                                    <p class="text-muted mb-2">Доход за сегодня</p>
+                                                    <h4 class="mdi">{{ profit_general.profit_day_sum }} $</h4>
+                                                </div>
+                                                <div class="media-body ml-4">
+                                                    <p class="text-muted mb-2">Доход общий</p>
+                                                    <h4 class="mdi">{{ profit_general.gen_profit }} $</h4>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <div class="media-body">
+                                                <div class="float-right ml-2 password-change-a">
+                                                    <p class="text-muted mb-2 font-size-14">последние 5 транзакций</p>
+                                                </div>
+                                                <h5 class="mb-4 text-left">Начисления</h5>
+                                                <div class="table-responsive">
+                                                    <table class="table table-borderless table-sm m-0">
+                                                        <tbody>
+                                                        {% if list_transactions %}
+                                                            {% for i in list_transactions|slice:"::-1"|slice:":5" %}
+                                                                <tr>
+                                                                    <td>{{ i.transaction_sum }} $</td>
+                                                                    <td>{{ i.date_end_change|date:"d.m H:i" }}</td>
+                                                                    <td><div class="badge badge-soft-success">{{ i.transaction_status }}</div></td>
+                                                                </tr>
+                                                            {% endfor %}
+                                                        {% else %}
+                                                            <tr>
+                                                                <td>Транзакции отсутствуют</td>
+                                                            </tr>
+                                                        {% endif %}
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-7">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <div class="media-body mb-4">
+                                                <p class="text-muted mb-2">Партнерская ссылка</p>
+                                                <div class="right-two-content">
+                                                    <div class="right-two-content-content copy_text_content copy_text font-size-17">{{ link_ref }}</div>
+                                                    <div class="right-two-content-ico">
+                                                        <img class="copy_text" data-toggle="tooltip" data-placement="top" title="Скопировать" src="{% static 'personalaccount/assets/images/icon/copy.svg' %}" alt="copy">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <div class="float-right ml-2 password-change-a">
+                                                <p class="text-muted mb-2 font-size-14">за 2 месяца</p>
+                                            </div>
+                                            <h5 class="mb-4 text-left">Подневная статистика</h5>
+                                            <div id="mixed_chart" class="apex-charts" dir="ltr"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="float-right ml-2 password-change-a">
+                                        <p class="text-muted mb-2 font-size-14">Доход с линии - {{ profit_general.gen_profit_lv1 }} $</p>
+                                    </div>
+                                    <h5 class="mb-4 text-left">Линия 1</h5>
+                                    <div class="table-responsive">
+                                        <table class="table table-hover mb-0">
+                                            {% if level_1 %}
+                                                <thead>
+                                                <tr>
+                                                    <th>Логин</th>
+                                                    <th>ФИО</th>
+                                                    <th>Зарегистрирован</th>
+                                                    <th>Заработано</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                {% for key, value in level_1.items %}
+                                                    <tr>
+                                                        <th scope="row">{{ value.line_user }}</th>
+                                                        <th scope="row">{{ value.line_ref_fio }}</th>
+                                                        <th scope="row">{{ value.line_ref_date }}</th>
+                                                        <th scope="row">{{ value.profit }} $</th>
+                                                    </tr>
+                                                {% endfor %}
+                                            {% else %}
+                                                <p class="text-muted mb-2">Нет данных</p>
+                                            {% endif %}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="float-right ml-2 password-change-a">
+                                        <p class="text-muted mb-2 font-size-14">Доход с линии - {{ profit_general.gen_profit_lv2 }} $</p>
+                                    </div>
+                                    <h5 class="mb-4 text-left">Линия 2</h5>
+                                    <div class="table-responsive">
+                                        <table class="table table-hover mb-0">
+                                            {% if level_2 %}
+                                                <thead>
+                                                <tr>
+                                                    <th>Логин</th>
+                                                    <th>ФИО</th>
+                                                    <th>Зарегистрирован</th>
+                                                    <th>Заработано</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                {% for key, value in level_2.items %}
+                                                    <tr>
+                                                        <th scope="row">{{ value.line_user }}</th>
+                                                        <th scope="row">{{ value.line_ref_fio }}</th>
+                                                        <th scope="row">{{ value.line_ref_date }}</th>
+                                                        <th scope="row">{{ value.profit }} $</th>
+                                                    </tr>
+                                                {% endfor %}
+                                            {% else %}
+                                                <p class="text-muted mb-2">Нет данных</p>
+                                            {% endif %}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="float-right ml-2 password-change-a">
+                                        <p class="text-muted mb-2 font-size-14">Доход с линии - {{ profit_general.gen_profit_lv3 }} $</p>
+                                    </div>
+                                    <h5 class="mb-4 text-left">Линия 3</h5>
+                                    <div class="table-responsive">
+                                        <table class="table table-hover mb-0">
+                                            {% if level_3 %}
+                                                <thead>
+                                                <tr>
+                                                    <th>Логин</th>
+                                                    <th>ФИО</th>
+                                                    <th>Зарегистрирован</th>
+                                                    <th>Заработано</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                {% for key, value in level_3.items %}
+                                                    <tr>
+                                                        <th scope="row">{{ value.line_user }}</th>
+                                                        <th scope="row">{{ value.line_ref_fio }}</th>
+                                                        <th scope="row">{{ value.line_ref_date }}</th>
+                                                        <th scope="row">{{ value.profit }} $</th>
+                                                    </tr>
+                                                {% endfor %}
+                                            {% else %}
+                                                <p class="text-muted mb-2">Нет данных</p>
+                                            {% endif %}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- end page-content-wrapper -->
+        </div>
+    </div>
+{% endblock %}

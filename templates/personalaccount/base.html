@@ -1,116 +1,82 @@
 {% load static %}
 
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ru">
 
-<!-- Все стили и тд -->
-<head>
-    <meta charset="utf-8" />
-    <title>{% block title %}Главная{% endblock %} | My Wallet</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <!-- App favicon -->
-    <link rel="shortcut icon" href="{% static '' %}">
-
-    <!-- datepicker -->
-    <link href="{% static 'personalaccount/assets/libs/air-datepicker/css/datepicker.min.css' %}" rel="stylesheet" type="text/css" />
-
-    <!-- Sweet Alert-->
-    <link href="{% static 'personalaccount/assets/libs/sweetalert2/sweetalert2.min.css' %}" rel="stylesheet" type="text/css" />
+    <head>
+        <meta charset="utf-8" />
+        <title>{% block title %}Главная{% endblock %} | FLURAY</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!-- alertifyjs Css -->
+        <link href="{% static 'personalaccount/assets/libs/alertifyjs/build/css/alertify.min.css' %}" rel="stylesheet" type="text/css" />
+        <!-- alertifyjs default themes  Css -->
+        <link href="{% static 'personalaccount/assets/libs/alertifyjs/build/css/themes/default.min.css' %}" rel="stylesheet" type="text/css" />
 
 
-    <!-- jvectormapc -->
-    <link href="{% static 'personalaccount/assets/libs/jqvmap/jqvmap.min.css' %}" rel="stylesheet" />
+        <link rel="shortcut icon" href="{% static 'home/media/favicon.ico' %}">
+        <link href="{% static 'personalaccount/assets/libs/air-datepicker/css/datepicker.min.css' %}" rel="stylesheet" type="text/css" />
+        <link href="{% static 'personalaccount/assets/libs/sweetalert2/sweetalert2.min.css' %}" rel="stylesheet" type="text/css" />
+        <link href="{% static 'personalaccount/assets/libs/jqvmap/jqvmap.min.css' %}" rel="stylesheet" />
+        <link href="{% static 'personalaccount/assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css' %}" rel="stylesheet" type="text/css" />
+        <link href="{% static 'personalaccount/assets/libs/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css' %}" rel="stylesheet" type="text/css" />
+        <link href="{% static 'personalaccount/assets/libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css' %}" rel="stylesheet" type="text/css" />
+        <link href="{% static 'personalaccount/assets/css/bootstrap.min.css' %}" rel="stylesheet" type="text/css" />
+        <link href="{% static 'personalaccount/assets/css/icons.min.css' %}" rel="stylesheet" type="text/css" />
+        <link href="{% static 'personalaccount/assets/css/app.min.css' %}" rel="stylesheet" type="text/css" />
+        <link href="{% static 'personalaccount/assets/css/customcss.css' %}" rel="stylesheet" type="text/css" />
+        <link href="{% static 'personalaccount/assets/css/media-box.css' %}" rel="stylesheet" type="text/css" />
+        <script>
+            var status_message = false;
+        </script>
+        {% block script %}
+        {% endblock %}
 
-    <!-- DataTables -->
-    <link href="{% static 'personalaccount/assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css' %}" rel="stylesheet" type="text/css" />
-    <link href="{% static 'personalaccount/assets/libs/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css' %}" rel="stylesheet" type="text/css" />
 
-    <!-- Responsive datatable examples -->
-    <link href="{% static 'personalaccount/assets/libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css' %}" rel="stylesheet" type="text/css" />
+    </head>
 
-    <!-- Bootstrap Css -->
-    <link href="{% static 'personalaccount/assets/css/bootstrap.min.css' %}" rel="stylesheet" type="text/css" />
-    <!-- Icons Css -->
-    <link href="{% static 'personalaccount/assets/css/icons.min.css' %}" rel="stylesheet" type="text/css" />
-    <!-- App Css-->
-    <link href="{% static 'personalaccount/assets/css/app.min.css' %}" rel="stylesheet" type="text/css" />
+    <body data-topbar="colored">
 
-</head>
-<!-- Конец стилей -->
+        {% block index %}
+        {% endblock %}
 
-<!-- Начало страницы личного кабинета -->
-<body data-topbar="colored">
-
-<!-- Dashboard -->
-{% block index %}
-{% endblock %}
-<!-- END Dashboard -->
-
-<!-- Конец личного кабинета(Ниже только скрипты) -->
-
-<!-- Остальная херня по типу Java -->
-
-<!-- Right bar overlay-->
-<div class="rightbar-overlay"></div>
-
-<!-- JAVASCRIPT -->
-<script src="{% static 'personalaccount/assets/libs/jquery/jquery.min.js' %}"></script>
-<script src="{% static 'personalaccount/assets/libs/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
-<script src="{% static 'personalaccount/assets/libs/metismenu/metisMenu.min.js' %}"></script>
-<script src="{% static 'personalaccount/assets/libs/simplebar/simplebar.min.js' %}"></script>
-<script src="{% static 'personalaccount/assets/libs/node-waves/waves.min.js' %}"></script>
-
-<script src="https://unicons.iconscout.com/release/v2.0.1/script/monochrome/bundle.js"></script>
-
-<!-- Required datatable js -->
-<script src="{% static 'personalaccount/assets/libs/datatables.net/js/jquery.dataTables.min.js' %}"></script>
-<script src="{% static 'personalaccount/assets/libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js' %}"></script>
-<!-- Buttons examples -->
-<script src="{% static 'personalaccount/assets/libs/datatables.net-buttons/js/dataTables.buttons.min.js' %}"></script>
-<script src="{% static 'personalaccount/assets/libs/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js' %}"></script>
-<script src="{% static 'personalaccount/assets/libs/jszip/jszip.min.js' %}"></script>
-<script src="{% static 'personalaccount/assets/libs/pdfmake/build/pdfmake.min.js' %}"></script>
-<script src="{% static 'personalaccount/assets/libs/pdfmake/build/vfs_fonts.js' %}"></script>
-<script src="{% static 'personalaccount/assets/libs/datatables.net-buttons/js/buttons.html5.min.js' %}"></script>
-<script src="{% static 'personalaccount/assets/libs/datatables.net-buttons/js/buttons.print.min.js' %}"></script>
-<script src="{% static 'personalaccount/assets/libs/datatables.net-buttons/js/buttons.colVis.min.js' %}"></script>
-<!-- Responsive examples -->
-<script src="{% static 'personalaccount/assets/libs/datatables.net-responsive/js/dataTables.responsive.min.js' %}"></script>
-<script src="{% static 'personalaccount/assets/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js' %}"></script>
-
-<!-- Datatable init js -->
-<script src="{% static 'personalaccount/assets/js/pages/datatables.init.js' %}"></script>
-
-<!-- datepicker -->
-<script src="{% static 'personalaccount/assets/libs/air-datepicker/js/datepicker.min.js' %}"></script>
-<script src="{% static 'personalaccount/assets/libs/air-datepicker/js/i18n/datepicker.en.js' %}"></script>
-
-<!-- apexcharts -->
-<script src="{% static 'personalaccount/assets/libs/apexcharts/apexcharts.min.js' %}"></script>
-
-<script src="{% static 'personalaccount/assets/libs/jquery-knob/jquery.knob.min.js' %}"></script>
-
-<!-- Jq vector map -->
-<script src="{% static 'personalaccount/assets/libs/jqvmap/jquery.vmap.min.js' %}"></script>
-<script src="{% static 'personalaccount/assets/libs/jqvmap/maps/jquery.vmap.usa.js' %}"></script>
-
-<script src="{% static 'personalaccount/assets/js/pages/dashboard.init.js' %}"></script>
-
-<!-- Sweet Alerts js -->
-<script src="{% static 'personalaccount/assets/libs/sweetalert2/sweetalert2.min.js' %}"></script>
-
-<!-- Sweet alert init js-->
-<script src="{% static 'personalaccount/assets/js/pages/sweet-alerts.init.js' %}"></script>
-
-<!-- Plugin Js-->
-<script src="{% static 'personalaccount/assets/libs/morris.js/morris.min.js' %}"></script>
-<script src="{% static 'personalaccount/assets/libs/raphael/raphael.min.js' %}"></script>
-<!-- demo js-->
-<script src="{% static 'personalaccount/assets/js/pages/morris.init.js' %}"></script>
-
-<script src="{% static 'personalaccount/assets/js/app.js' %}"></script>
-
-</body>
-
+        <script src="{% static 'personalaccount/assets/libs/jquery/jquery.min.js' %}"></script>
+        <script src="{% static 'personalaccount/assets/libs/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+        <script src="{% static 'personalaccount/assets/libs/metismenu/metisMenu.min.js' %}"></script>
+        <script src="{% static 'personalaccount/assets/libs/simplebar/simplebar.min.js' %}"></script>
+        <script src="{% static 'personalaccount/assets/libs/node-waves/waves.min.js' %}"></script>
+        <script src="{% static 'personalaccount/assets/libs/datatables.net/js/jquery.dataTables.min.js' %}"></script>
+        <script src="{% static 'personalaccount/assets/libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js' %}"></script>
+        <script src="{% static 'personalaccount/assets/libs/datatables.net-buttons/js/dataTables.buttons.min.js' %}"></script>
+        <script src="{% static 'personalaccount/assets/libs/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js' %}"></script>
+        <script src="{% static 'personalaccount/assets/libs/jszip/jszip.min.js' %}"></script>
+        <script src="{% static 'personalaccount/assets/libs/pdfmake/build/pdfmake.min.js' %}"></script>
+        <script src="{% static 'personalaccount/assets/libs/pdfmake/build/vfs_fonts.js' %}"></script>
+        <script src="{% static 'personalaccount/assets/libs/datatables.net-buttons/js/buttons.html5.min.js' %}"></script>
+        <script src="{% static 'personalaccount/assets/libs/datatables.net-buttons/js/buttons.print.min.js' %}"></script>
+        <script src="{% static 'personalaccount/assets/libs/datatables.net-buttons/js/buttons.colVis.min.js' %}"></script>
+        <script src="{% static 'personalaccount/assets/libs/datatables.net-responsive/js/dataTables.responsive.min.js' %}"></script>
+        <script src="{% static 'personalaccount/assets/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js' %}"></script>
+        <script src="{% static 'personalaccount/assets/js/pages/datatables.init.js' %}"></script>
+        <script src="{% static 'personalaccount/assets/libs/air-datepicker/js/datepicker.min.js' %}"></script>
+        <script src="{% static 'personalaccount/assets/libs/air-datepicker/js/i18n/datepicker.en.js' %}"></script>
+        <script src="{% static 'personalaccount/assets/libs/apexcharts/apexcharts.min.js' %}"></script>
+        <script src="{% static 'personalaccount/assets/libs/jquery-knob/jquery.knob.min.js' %}"></script>
+        <script src="{% static 'personalaccount/assets/libs/jqvmap/jquery.vmap.min.js' %}"></script>
+        <script src="{% static 'personalaccount/assets/libs/jqvmap/maps/jquery.vmap.usa.js' %}"></script>
+        <script src="{% static 'personalaccount/assets/js/pages/dashboard.init.js' %}"></script>
+        <script src="{% static 'personalaccount/assets/libs/sweetalert2/sweetalert2.min.js' %}"></script>
+        <script src="{% static 'personalaccount/assets/js/pages/sweet-alerts.init.js' %}"></script>
+        <script src="{% static 'personalaccount/assets/libs/morris.js/morris.min.js' %}"></script>
+        <script src="{% static 'personalaccount/assets/js/pages/apex.init.js' %}"></script>
+        <script src="{% static 'personalaccount/assets/libs/raphael/raphael.min.js' %}"></script>
+        <script src="{% static 'personalaccount/assets/js/pages/morris.init.js' %}"></script>
+        <script src="{% static 'personalaccount/assets/js/pages/script-custom.js' %}"></script>
+        <script src="{% static 'personalaccount/assets/js/cleave.js' %}"></script>
+        <script src="{% static 'personalaccount/assets/libs/alertifyjs/build/alertify.min.js' %}"></script>
+        <script src="{% static 'personalaccount/assets/libs/inputmask/min/jquery.inputmask.bundle.min.js' %}"></script>
+        <script src="{% static 'personalaccount/assets/js/pages/alertifyjs.init.js' %}"></script>
+        <script src="{% static 'personalaccount/assets/js/pages/form-mask.init.js' %}"></script>
+        <script src="https://unicons.iconscout.com/release/v2.0.1/script/monochrome/bundle.js"></script>
+        <script src="{% static 'personalaccount/assets/js/app.js' %}"></script>
+    </body>
 </html>

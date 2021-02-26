@@ -1,0 +1,1127 @@
+{% extends "personalaccount/cabinet/indexchange.html" %}
+
+{% load static %}
+
+{% block title %}
+    Лимиты заявок
+{% endblock %}
+
+{% block content %}
+    <div class="main-content">
+
+        <div class="page-content">
+
+            <!-- Page-Title -->
+            <div class="page-title-box">
+                <div class="container-fluid">
+                    <div class="row align-items-center">
+                        <div class="col-md-8">
+                            <h4 class="page-title mb-1">Лимиты заявок на вывод</h4>
+                            <ol class="breadcrumb m-0">
+                                <li class="breadcrumb-item active">Здесь вы можете выставить требуемый лимит для заявок на вывод
+                                </li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- end page title end breadcrumb -->
+
+            <!-- Сердце -->
+            <div class="page-content-wrapper">
+                <div class="container-fluid">
+                    <div class="row cust-maxw-1200">
+                        <div class="col-xl-12">
+                            <div class="card">
+                                <div class="active-header">
+                                    <div class="float-right ml-2 password-change-a">
+                                        <div class="info-container" data-toggle="popover" data-trigger="hover" title="Лимиты на вывод" data-content="Лимиты для заявок на вывод."><i class="mdi mdi-information-outline"></i></div>
+                                    </div>
+                                    <h5>Лимиты для заявок на вывод</h5>
+                                </div>
+                                <div class="box-change">
+                                    <div class="box-change-content">
+                                        <div class="card-change-box">
+                                            <div class="change-block-logo">
+                                                <div class="logobox-valute-box">
+                                                    <span>RUB</span>
+                                                </div>
+                                                <img src="{% static 'personalaccount/assets/images/logo-ps/sber.png' %}" alt="sber">
+                                            </div>
+                                            <div class="change-block-active">
+                                                <div class="block-active-header">
+                                                    <span>лимиты</span>
+                                                </div>
+                                                <div class="block-active-content">
+                                                    <div class="contentblockone">
+                                                        <span>МИН</span>
+                                                        <div class="block-comis range">
+                                                            {{ range_list.width_min_sberbank_rub }}
+                                                        </div>
+                                                    </div>
+                                                    <div class="contentblocktwo range">
+                                                        <span>МАКС</span>
+                                                        <div class="block-comis range">
+                                                            {{ range_list.width_max_sberbank_rub }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="card-change-box">
+                                            <div class="change-block-logo">
+                                                <div class="logobox-valute-box">
+                                                    <span>RUB</span>
+                                                </div>
+                                                <img src="{% static 'personalaccount/assets/images/logo-ps/tinkoff.png' %}" alt="tinkoff">
+                                            </div>
+                                            <div class="change-block-active">
+                                                <div class="block-active-header">
+                                                    <span>лимиты</span>
+                                                </div>
+                                                <div class="block-active-content">
+                                                    <div class="contentblockone">
+                                                        <span>МИН</span>
+                                                        <div class="block-comis range">
+                                                            {{ range_list.width_min_tinkoff_rub }}
+                                                        </div>
+                                                    </div>
+                                                    <div class="contentblocktwo range">
+                                                        <span>МАКС</span>
+                                                        <div class="block-comis range">
+                                                            {{ range_list.width_max_tinkoff_rub }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="card-change-box">
+                                            <div class="change-block-logo">
+                                                <div class="logobox-valute-box">
+                                                    <span>RUB</span>
+                                                </div>
+                                                <img src="{% static 'personalaccount/assets/images/logo-ps/alfa.png' %}" alt="alfabank">
+                                            </div>
+                                            <div class="change-block-active">
+                                                <div class="block-active-header">
+                                                    <span>лимиты</span>
+                                                </div>
+                                                <div class="block-active-content">
+                                                    <div class="contentblockone">
+                                                        <span>МИН</span>
+                                                        <div class="block-comis range">
+                                                            {{ range_list.width_min_alfabank_rub }}
+                                                        </div>
+                                                    </div>
+                                                    <div class="contentblocktwo range">
+                                                        <span>МАКС</span>
+                                                        <div class="block-comis range">
+                                                            {{ range_list.width_max_alfabank_rub }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="card-change-box">
+                                            <div class="change-block-logo">
+                                                <div class="logobox-valute-box">
+                                                    <span>RUB</span>
+                                                </div>
+                                                <img src="{% static 'personalaccount/assets/images/logo-ps/vtb.png' %}" alt="vtb">
+                                            </div>
+                                            <div class="change-block-active">
+                                                <div class="block-active-header">
+                                                    <span>лимиты</span>
+                                                </div>
+                                                <div class="block-active-content">
+                                                    <div class="contentblockone">
+                                                        <span>МИН</span>
+                                                        <div class="block-comis range">
+                                                            {{ range_list.width_min_vtb_rub }}
+                                                        </div>
+                                                    </div>
+                                                    <div class="contentblocktwo range">
+                                                        <span>МАКС</span>
+                                                        <div class="block-comis range">
+                                                            {{ range_list.width_max_vtb_rub }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="card-change-box">
+                                            <div class="change-block-logo">
+                                                <div class="logobox-valute-box">
+                                                    <span>RUB</span>
+                                                </div>
+                                                <img src="{% static 'personalaccount/assets/images/logo-ps/raif.png' %}" alt="raiffaizen">
+                                            </div>
+                                            <div class="change-block-active">
+                                                <div class="block-active-header">
+                                                    <span>лимиты</span>
+                                                </div>
+                                                <div class="block-active-content">
+                                                    <div class="contentblockone">
+                                                        <span>МИН</span>
+                                                        <div class="block-comis range">
+                                                            {{ range_list.width_min_raifaizen_rub }}
+                                                        </div>
+                                                    </div>
+                                                    <div class="contentblocktwo range">
+                                                        <span>МАКС</span>
+                                                        <div class="block-comis range">
+                                                            {{ range_list.width_max_raifaizen_rub }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="card-change-box">
+                                            <div class="change-block-logo">
+                                                <div class="logobox-valute-box">
+                                                    <span>RUB</span>
+                                                </div>
+                                                <img src="{% static 'personalaccount/assets/images/logo-ps/otkr.png' %}" alt="otkritie">
+                                            </div>
+                                            <div class="change-block-active">
+                                                <div class="block-active-header">
+                                                    <span>лимиты</span>
+                                                </div>
+                                                <div class="block-active-content">
+                                                    <div class="contentblockone">
+                                                        <span>МИН</span>
+                                                        <div class="block-comis range">
+                                                            {{ range_list.width_min_otkritie_rub }}
+                                                        </div>
+                                                    </div>
+                                                    <div class="contentblocktwo range">
+                                                        <span>МАКС</span>
+                                                        <div class="block-comis range">
+                                                            {{ range_list.width_max_otkritie_rub }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="card-change-box">
+                                            <div class="change-block-logo">
+                                                <div class="logobox-valute-box">
+                                                    <span>RUB</span>
+                                                </div>
+                                                <img src="{% static 'personalaccount/assets/images/logo-ps/psb.png' %}" alt="psb">
+                                            </div>
+                                            <div class="change-block-active">
+                                                <div class="block-active-header">
+                                                    <span>лимиты</span>
+                                                </div>
+                                                <div class="block-active-content">
+                                                    <div class="contentblockone">
+                                                        <span>МИН</span>
+                                                        <div class="block-comis range">
+                                                            {{ range_list.width_min_psb_rub }}
+                                                        </div>
+                                                    </div>
+                                                    <div class="contentblocktwo range">
+                                                        <span>МАКС</span>
+                                                        <div class="block-comis range">
+                                                            {{ range_list.width_max_psb_rub }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="card-change-box">
+                                            <div class="change-block-logo">
+                                                <div class="logobox-valute-box">
+                                                    <span>RUB</span>
+                                                </div>
+                                                <img src="{% static 'personalaccount/assets/images/logo-ps/gazprom.png' %}" alt="gazprom">
+                                            </div>
+                                            <div class="change-block-active">
+                                                <div class="block-active-header">
+                                                    <span>лимиты</span>
+                                                </div>
+                                                <div class="block-active-content">
+                                                    <div class="contentblockone">
+                                                        <span>МИН</span>
+                                                        <div class="block-comis range">
+                                                            {{ range_list.width_min_gazprombank_rub }}
+                                                        </div>
+                                                    </div>
+                                                    <div class="contentblocktwo range">
+                                                        <span>МАКС</span>
+                                                        <div class="block-comis range">
+                                                            {{ range_list.width_max_gazprombank_rub }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="card-change-box">
+                                            <div class="change-block-logo">
+                                                <div class="logobox-valute-box">
+                                                    <span>RUB</span>
+                                                </div>
+                                                <img src="{% static 'personalaccount/assets/images/logo-ps/standart.png' %}" alt="standart">
+                                            </div>
+                                            <div class="change-block-active">
+                                                <div class="block-active-header">
+                                                    <span>лимиты</span>
+                                                </div>
+                                                <div class="block-active-content">
+                                                    <div class="contentblockone">
+                                                        <span>МИН</span>
+                                                        <div class="block-comis range">
+                                                            {{ range_list.width_min_russtandart_rub }}
+                                                        </div>
+                                                    </div>
+                                                    <div class="contentblocktwo range">
+                                                        <span>МАКС</span>
+                                                        <div class="block-comis range">
+                                                            {{ range_list.width_max_russtandart_rub }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="card-change-box">
+                                            <div class="change-block-logo">
+                                                <div class="logobox-valute-box">
+                                                    <span>RUB</span>
+                                                </div>
+                                                <img src="{% static 'personalaccount/assets/images/logo-ps/rsb.png' %}" alt="rsb">
+                                            </div>
+                                            <div class="change-block-active">
+                                                <div class="block-active-header">
+                                                    <span>лимиты</span>
+                                                </div>
+                                                <div class="block-active-content">
+                                                    <div class="contentblockone">
+                                                        <span>МИН</span>
+                                                        <div class="block-comis range">
+                                                            {{ range_list.width_min_rosselhoz_rub }}
+                                                        </div>
+                                                    </div>
+                                                    <div class="contentblocktwo range">
+                                                        <span>МАКС</span>
+                                                        <div class="block-comis range">
+                                                            {{ range_list.width_max_rosselhoz_rub }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="card-change-box">
+                                            <div class="change-block-logo">
+                                                <div class="logobox-valute-box">
+                                                    <span>RUB</span>
+                                                </div>
+                                                <img src="{% static 'personalaccount/assets/images/logo-ps/pochta.png' %}" alt="pochta">
+                                            </div>
+                                            <div class="change-block-active">
+                                                <div class="block-active-header">
+                                                    <span>лимиты</span>
+                                                </div>
+                                                <div class="block-active-content">
+                                                    <div class="contentblockone">
+                                                        <span>МИН</span>
+                                                        <div class="block-comis range">
+                                                            {{ range_list.width_min_pochtabank_rub }}
+                                                        </div>
+                                                    </div>
+                                                    <div class="contentblocktwo range">
+                                                        <span>МАКС</span>
+                                                        <div class="block-comis range">
+                                                            {{ range_list.width_max_pochtabank_rub }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="card-change-box">
+                                            <div class="change-block-logo">
+                                                <div class="logobox-valute-box">
+                                                    <span>RUB</span>
+                                                </div>
+                                                <img src="{% static 'personalaccount/assets/images/logo-ps/rosbank.png' %}" alt="rosbank">
+                                            </div>
+                                            <div class="change-block-active">
+                                                <div class="block-active-header">
+                                                    <span>лимиты</span>
+                                                </div>
+                                                <div class="block-active-content">
+                                                    <div class="contentblockone">
+                                                        <span>МИН</span>
+                                                        <div class="block-comis range">
+                                                            {{ range_list.width_min_rosbank_rub }}
+                                                        </div>
+                                                    </div>
+                                                    <div class="contentblocktwo range">
+                                                        <span>МАКС</span>
+                                                        <div class="block-comis range">
+                                                            {{ range_list.width_max_rosbank_rub }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="card-change-box">
+                                            <div class="change-block-logo">
+                                                <div class="logobox-valute-box">
+                                                    <span>RUB</span>
+                                                </div>
+                                                <img src="{% static 'personalaccount/assets/images/logo-ps/rnkb.png' %}" alt="rnkb">
+                                            </div>
+                                            <div class="change-block-active">
+                                                <div class="block-active-header">
+                                                    <span>лимиты</span>
+                                                </div>
+                                                <div class="block-active-content">
+                                                    <div class="contentblockone">
+                                                        <span>МИН</span>
+                                                        <div class="block-comis range">
+                                                            {{ range_list.width_min_rnkb_rub }}
+                                                        </div>
+                                                    </div>
+                                                    <div class="contentblocktwo range">
+                                                        <span>МАКС</span>
+                                                        <div class="block-comis range">
+                                                            {{ range_list.width_max_rnkb_rub }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="card-change-box">
+                                            <div class="change-block-logo">
+                                                <div class="logobox-valute-box">
+                                                    <span>RUB</span>
+                                                </div>
+                                                <img src="{% static 'personalaccount/assets/images/logo-ps/mts.png' %}" alt="mts">
+                                            </div>
+                                            <div class="change-block-active">
+                                                <div class="block-active-header">
+                                                    <span>лимиты</span>
+                                                </div>
+                                                <div class="block-active-content">
+                                                    <div class="contentblockone">
+                                                        <span>МИН</span>
+                                                        <div class="block-comis range">
+                                                            {{ range_list.width_min_mtsbank_rub }}
+                                                        </div>
+                                                    </div>
+                                                    <div class="contentblocktwo range">
+                                                        <span>МАКС</span>
+                                                        <div class="block-comis range">
+                                                            {{ range_list.width_max_mtsbank_rub }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="card-change-box">
+                                            <div class="change-block-logo">
+                                                <div class="logobox-valute-box">
+                                                    <span>RUB</span>
+                                                </div>
+                                                <img src="{% static 'personalaccount/assets/images/logo-ps/qiwi.png' %}" alt="qiwi">
+                                            </div>
+                                            <div class="change-block-active">
+                                                <div class="block-active-header">
+                                                    <span>лимиты</span>
+                                                </div>
+                                                <div class="block-active-content">
+                                                    <div class="contentblockone">
+                                                        <span>МИН</span>
+                                                        <div class="block-comis range">
+                                                            {{ range_list.width_min_qiwi_rub }}
+                                                        </div>
+                                                    </div>
+                                                    <div class="contentblocktwo range">
+                                                        <span>МАКС</span>
+                                                        <div class="block-comis range">
+                                                            {{ range_list.width_max_qiwi_rub }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="card-change-box">
+                                            <div class="change-block-logo">
+                                                <div class="logobox-valute-box">
+                                                    <span>USD</span>
+                                                </div>
+                                                <img src="{% static 'personalaccount/assets/images/logo-ps/qiwi.png' %}" alt="qiwi">
+                                            </div>
+                                            <div class="change-block-active">
+                                                <div class="block-active-header">
+                                                    <span>лимиты</span>
+                                                </div>
+                                                <div class="block-active-content">
+                                                    <div class="contentblockone">
+                                                        <span>МИН</span>
+                                                        <div class="block-comis range">
+                                                            {{ range_list.width_min_qiwi_usd }}
+                                                        </div>
+                                                    </div>
+                                                    <div class="contentblocktwo range">
+                                                        <span>МАКС</span>
+                                                        <div class="block-comis range">
+                                                            {{ range_list.width_max_qiwi_usd }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="card-change-box">
+                                            <div class="change-block-logo">
+                                                <div class="logobox-valute-box">
+                                                    <span>RUB</span>
+                                                </div>
+                                                <img src="{% static 'personalaccount/assets/images/logo-ps/payeer.png' %}" alt="payeer">
+                                            </div>
+                                            <div class="change-block-active">
+                                                <div class="block-active-header">
+                                                    <span>лимиты</span>
+                                                </div>
+                                                <div class="block-active-content">
+                                                    <div class="contentblockone">
+                                                        <span>МИН</span>
+                                                        <div class="block-comis range">
+                                                            {{ range_list.width_min_payeer_rub }}
+                                                        </div>
+                                                    </div>
+                                                    <div class="contentblocktwo range">
+                                                        <span>МАКС</span>
+                                                        <div class="block-comis range">
+                                                            {{ range_list.width_max_payeer_rub }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="card-change-box">
+                                            <div class="change-block-logo">
+                                                <div class="logobox-valute-box">
+                                                    <span>EUR</span>
+                                                </div>
+                                                <img src="{% static 'personalaccount/assets/images/logo-ps/payeer.png' %}" alt="payeer">
+                                            </div>
+                                            <div class="change-block-active">
+                                                <div class="block-active-header">
+                                                    <span>лимиты</span>
+                                                </div>
+                                                <div class="block-active-content">
+                                                    <div class="contentblockone">
+                                                        <span>МИН</span>
+                                                        <div class="block-comis range">
+                                                            {{ range_list.width_min_payeer_eur }}
+                                                        </div>
+                                                    </div>
+                                                    <div class="contentblocktwo range">
+                                                        <span>МАКС</span>
+                                                        <div class="block-comis range">
+                                                            {{ range_list.width_max_payeer_eur }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="card-change-box">
+                                            <div class="change-block-logo">
+                                                <div class="logobox-valute-box">
+                                                    <span>USD</span>
+                                                </div>
+                                                <img src="{% static 'personalaccount/assets/images/logo-ps/payeer.png' %}" alt="payeer">
+                                            </div>
+                                            <div class="change-block-active">
+                                                <div class="block-active-header">
+                                                    <span>лимиты</span>
+                                                </div>
+                                                <div class="block-active-content">
+                                                    <div class="contentblockone">
+                                                        <span>МИН</span>
+                                                        <div class="block-comis range">
+                                                            {{ range_list.width_min_payeer_usd }}
+                                                        </div>
+                                                    </div>
+                                                    <div class="contentblocktwo range">
+                                                        <span>МАКС</span>
+                                                        <div class="block-comis range">
+                                                            {{ range_list.width_max_payeer_usd }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="card-change-box">
+                                            <div class="change-block-logo">
+                                                <div class="logobox-valute-box">
+                                                    <span>RUB</span>
+                                                </div>
+                                                <img src="{% static 'personalaccount/assets/images/logo-ps/wm.png' %}" alt="wm">
+                                            </div>
+                                            <div class="change-block-active">
+                                                <div class="block-active-header">
+                                                    <span>лимиты</span>
+                                                </div>
+                                                <div class="block-active-content">
+                                                    <div class="contentblockone">
+                                                        <span>МИН</span>
+                                                        <div class="block-comis range">
+                                                            {{ range_list.width_min_webmoney_rub }}
+                                                        </div>
+                                                    </div>
+                                                    <div class="contentblocktwo range">
+                                                        <span>МАКС</span>
+                                                        <div class="block-comis range">
+                                                            {{ range_list.width_max_webmoney_rub }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="card-change-box">
+                                            <div class="change-block-logo">
+                                                <div class="logobox-valute-box">
+                                                    <span>EUR</span>
+                                                </div>
+                                                <img src="{% static 'personalaccount/assets/images/logo-ps/wm.png' %}" alt="wm">
+                                            </div>
+                                            <div class="change-block-active">
+                                                <div class="block-active-header">
+                                                    <span>лимиты</span>
+                                                </div>
+                                                <div class="block-active-content">
+                                                    <div class="contentblockone">
+                                                        <span>МИН</span>
+                                                        <div class="block-comis range">
+                                                            {{ range_list.width_min_webmoney_eur }}
+                                                        </div>
+                                                    </div>
+                                                    <div class="contentblocktwo range">
+                                                        <span>МАКС</span>
+                                                        <div class="block-comis range">
+                                                            {{ range_list.width_max_webmoney_eur }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="card-change-box">
+                                            <div class="change-block-logo">
+                                                <div class="logobox-valute-box">
+                                                    <span>USD</span>
+                                                </div>
+                                                <img src="{% static 'personalaccount/assets/images/logo-ps/wm.png' %}" alt="wm">
+                                            </div>
+                                            <div class="change-block-active">
+                                                <div class="block-active-header">
+                                                    <span>лимиты</span>
+                                                </div>
+                                                <div class="block-active-content">
+                                                    <div class="contentblockone">
+                                                        <span>МИН</span>
+                                                        <div class="block-comis range">
+                                                            {{ range_list.width_min_webmoney_usd }}
+                                                        </div>
+                                                    </div>
+                                                    <div class="contentblocktwo range">
+                                                        <span>МАКС</span>
+                                                        <div class="block-comis range">
+                                                            {{ range_list.width_max_webmoney_usd }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="card-change-box range crypto">
+                                            <div class="change-block-logo">
+                                                <div class="logobox-valute-box">
+                                                    <span>BTC</span>
+                                                </div>
+                                                <img src="{% static 'personalaccount/assets/images/logo-ps/pm.png' %}" alt="pm">
+                                            </div>
+                                            <div class="change-block-active">
+                                                <div class="block-active-header">
+                                                    <span>лимиты</span>
+                                                </div>
+                                                <div class="block-active-content">
+                                                    <div class="contentblockone">
+                                                        <span>МИН</span>
+                                                        <div class="block-comis range">
+                                                            {{ range_list.width_min_pm_btc }}
+                                                        </div>
+                                                    </div>
+                                                    <div class="contentblocktwo range">
+                                                        <span>МАКС</span>
+                                                        <div class="block-comis range">
+                                                            {{ range_list.width_max_pm_btc }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="card-change-box">
+                                            <div class="change-block-logo">
+                                                <div class="logobox-valute-box">
+                                                    <span>EUR</span>
+                                                </div>
+                                                <img src="{% static 'personalaccount/assets/images/logo-ps/pm.png' %}" alt="pm">
+                                            </div>
+                                            <div class="change-block-active">
+                                                <div class="block-active-header">
+                                                    <span>лимиты</span>
+                                                </div>
+                                                <div class="block-active-content">
+                                                    <div class="contentblockone">
+                                                        <span>МИН</span>
+                                                        <div class="block-comis range">
+                                                            {{ range_list.width_min_pm_eur }}
+                                                        </div>
+                                                    </div>
+                                                    <div class="contentblocktwo range">
+                                                        <span>МАКС</span>
+                                                        <div class="block-comis range">
+                                                            {{ range_list.width_max_pm_eur }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="card-change-box">
+                                            <div class="change-block-logo">
+                                                <div class="logobox-valute-box">
+                                                    <span>USD</span>
+                                                </div>
+                                                <img src="{% static 'personalaccount/assets/images/logo-ps/pm.png' %}" alt="pm">
+                                            </div>
+                                            <div class="change-block-active">
+                                                <div class="block-active-header">
+                                                    <span>лимиты</span>
+                                                </div>
+                                                <div class="block-active-content">
+                                                    <div class="contentblockone">
+                                                        <span>МИН</span>
+                                                        <div class="block-comis range">
+                                                            {{ range_list.width_min_pm_usd }}
+                                                        </div>
+                                                    </div>
+                                                    <div class="contentblocktwo range">
+                                                        <span>МАКС</span>
+                                                        <div class="block-comis range">
+                                                            {{ range_list.width_max_pm_usd }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="card-change-box">
+                                            <div class="change-block-logo">
+                                                <div class="logobox-valute-box">
+                                                    <span>RUB</span>
+                                                </div>
+                                                <img src="{% static 'personalaccount/assets/images/logo-ps/paypal.png' %}" alt="paypal">
+                                            </div>
+                                            <div class="change-block-active">
+                                                <div class="block-active-header">
+                                                    <span>лимиты</span>
+                                                </div>
+                                                <div class="block-active-content">
+                                                    <div class="contentblockone">
+                                                        <span>МИН</span>
+                                                        <div class="block-comis range">
+                                                            {{ range_list.width_min_paypal_rub }}
+                                                        </div>
+                                                    </div>
+                                                    <div class="contentblocktwo range">
+                                                        <span>МАКС</span>
+                                                        <div class="block-comis range">
+                                                            {{ range_list.width_max_paypal_rub }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="card-change-box">
+                                            <div class="change-block-logo">
+                                                <div class="logobox-valute-box">
+                                                    <span>EUR</span>
+                                                </div>
+                                                <img src="{% static 'personalaccount/assets/images/logo-ps/paypal.png' %}" alt="paypal">
+                                            </div>
+                                            <div class="change-block-active">
+                                                <div class="block-active-header">
+                                                    <span>лимиты</span>
+                                                </div>
+                                                <div class="block-active-content">
+                                                    <div class="contentblockone">
+                                                        <span>МИН</span>
+                                                        <div class="block-comis range">
+                                                            {{ range_list.width_min_paypal_eur }}
+                                                        </div>
+                                                    </div>
+                                                    <div class="contentblocktwo range">
+                                                        <span>МАКС</span>
+                                                        <div class="block-comis range">
+                                                            {{ range_list.width_max_paypal_eur }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="card-change-box">
+                                            <div class="change-block-logo">
+                                                <div class="logobox-valute-box">
+                                                    <span>USD</span>
+                                                </div>
+                                                <img src="{% static 'personalaccount/assets/images/logo-ps/paypal.png' %}" alt="paypal">
+                                            </div>
+                                            <div class="change-block-active">
+                                                <div class="block-active-header">
+                                                    <span>лимиты</span>
+                                                </div>
+                                                <div class="block-active-content">
+                                                    <div class="contentblockone">
+                                                        <span>МИН</span>
+                                                        <div class="block-comis range">
+                                                            {{ range_list.width_min_paypal_usd }}
+                                                        </div>
+                                                    </div>
+                                                    <div class="contentblocktwo range">
+                                                        <span>МАКС</span>
+                                                        <div class="block-comis range">
+                                                            {{ range_list.width_max_paypal_usd }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="card-change-box">
+                                            <div class="change-block-logo">
+                                                <div class="logobox-valute-box">
+                                                    <span>EUR</span>
+                                                </div>
+                                                <img src="{% static 'personalaccount/assets/images/logo-ps/skrill.png' %}" alt="skrill">
+                                            </div>
+                                            <div class="change-block-active">
+                                                <div class="block-active-header">
+                                                    <span>лимиты</span>
+                                                </div>
+                                                <div class="block-active-content">
+                                                    <div class="contentblockone">
+                                                        <span>МИН</span>
+                                                        <div class="block-comis range">
+                                                            {{ range_list.width_min_skrill_eur }}
+                                                        </div>
+                                                    </div>
+                                                    <div class="contentblocktwo range">
+                                                        <span>МАКС</span>
+                                                        <div class="block-comis range">
+                                                            {{ range_list.width_max_skrill_eur }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="card-change-box">
+                                            <div class="change-block-logo">
+                                                <div class="logobox-valute-box">
+                                                    <span>USD</span>
+                                                </div>
+                                                <img src="{% static 'personalaccount/assets/images/logo-ps/skrill.png' %}" alt="skrill">
+                                            </div>
+                                            <div class="change-block-active">
+                                                <div class="block-active-header">
+                                                    <span>лимиты</span>
+                                                </div>
+                                                <div class="block-active-content">
+                                                    <div class="contentblockone">
+                                                        <span>МИН</span>
+                                                        <div class="block-comis range">
+                                                            {{ range_list.width_min_skrill_usd }}
+                                                        </div>
+                                                    </div>
+                                                    <div class="contentblocktwo range">
+                                                        <span>МАКС</span>
+                                                        <div class="block-comis range">
+                                                            {{ range_list.width_max_skrill_usd }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="card-change-box">
+                                            <div class="change-block-logo">
+                                                <div class="logobox-valute-box">
+                                                    <span>RUB</span>
+                                                </div>
+                                                <img src="{% static 'personalaccount/assets/images/logo-ps/umani.png' %}" alt="umoney">
+                                            </div>
+                                            <div class="change-block-active">
+                                                <div class="block-active-header">
+                                                    <span>лимиты</span>
+                                                </div>
+                                                <div class="block-active-content">
+                                                    <div class="contentblockone">
+                                                        <span>МИН</span>
+                                                        <div class="block-comis range">
+                                                            {{ range_list.width_min_umoney_rub }}
+                                                        </div>
+                                                    </div>
+                                                    <div class="contentblocktwo range">
+                                                        <span>МАКС</span>
+                                                        <div class="block-comis range">
+                                                            {{ range_list.width_max_umoney_rub }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="card-change-box range crypto">
+                                            <div class="change-block-logo">
+                                                <div class="logobox-valute-box">
+                                                    <span>BTC</span>
+                                                </div>
+                                                <img src="{% static 'personalaccount/assets/images/logo-ps/btc.png' %}" alt="btc">
+                                            </div>
+                                            <div class="change-block-active">
+                                                <div class="block-active-header">
+                                                    <span>лимиты</span>
+                                                </div>
+                                                <div class="block-active-content">
+                                                    <div class="contentblockone">
+                                                        <span>МИН</span>
+                                                        <div class="block-comis range">
+                                                            {{ range_list.width_min_btc }}
+                                                        </div>
+                                                    </div>
+                                                    <div class="contentblocktwo range">
+                                                        <span>МАКС</span>
+                                                        <div class="block-comis range">
+                                                            {{ range_list.width_max_btc }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="card-change-box range crypto">
+                                            <div class="change-block-logo">
+                                                <div class="logobox-valute-box">
+                                                    <span>LTC</span>
+                                                </div>
+                                                <img src="{% static 'personalaccount/assets/images/logo-ps/ltc.png' %}" alt="ltc">
+                                            </div>
+                                            <div class="change-block-active">
+                                                <div class="block-active-header">
+                                                    <span>лимиты</span>
+                                                </div>
+                                                <div class="block-active-content">
+                                                    <div class="contentblockone">
+                                                        <span>МИН</span>
+                                                        <div class="block-comis range">
+                                                            {{ range_list.width_min_ltc }}
+                                                        </div>
+                                                    </div>
+                                                    <div class="contentblocktwo range">
+                                                        <span>МАКС</span>
+                                                        <div class="block-comis range">
+                                                            {{ range_list.width_max_ltc }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="card-change-box range crypto">
+                                            <div class="change-block-logo">
+                                                <div class="logobox-valute-box">
+                                                    <span>XMR</span>
+                                                </div>
+                                                <img src="{% static 'personalaccount/assets/images/logo-ps/xmr.png' %}" alt="xmr">
+                                            </div>
+                                            <div class="change-block-active">
+                                                <div class="block-active-header">
+                                                    <span>лимиты</span>
+                                                </div>
+                                                <div class="block-active-content">
+                                                    <div class="contentblockone">
+                                                        <span>МИН</span>
+                                                        <div class="block-comis range">
+                                                            {{ range_list.width_min_xmr }}
+                                                        </div>
+                                                    </div>
+                                                    <div class="contentblocktwo range">
+                                                        <span>МАКС</span>
+                                                        <div class="block-comis range">
+                                                            {{ range_list.width_max_xmr }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="card-change-box range crypto">
+                                            <div class="change-block-logo">
+                                                <div class="logobox-valute-box">
+                                                    <span>ETC</span>
+                                                </div>
+                                                <img src="{% static 'personalaccount/assets/images/logo-ps/etc.png' %}" alt="etc">
+                                            </div>
+                                            <div class="change-block-active">
+                                                <div class="block-active-header">
+                                                    <span>лимиты</span>
+                                                </div>
+                                                <div class="block-active-content">
+                                                    <div class="contentblockone">
+                                                        <span>МИН</span>
+                                                        <div class="block-comis range">
+                                                            {{ range_list.width_min_etc }}
+                                                        </div>
+                                                    </div>
+                                                    <div class="contentblocktwo range">
+                                                        <span>МАКС</span>
+                                                        <div class="block-comis range">
+                                                            {{ range_list.width_max_etc }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="card-change-box range crypto">
+                                            <div class="change-block-logo">
+                                                <div class="logobox-valute-box">
+                                                    <span>DASH</span>
+                                                </div>
+                                                <img src="{% static 'personalaccount/assets/images/logo-ps/dash.png' %}" alt="dash">
+                                            </div>
+                                            <div class="change-block-active">
+                                                <div class="block-active-header">
+                                                    <span>лимиты</span>
+                                                </div>
+                                                <div class="block-active-content">
+                                                    <div class="contentblockone">
+                                                        <span>МИН</span>
+                                                        <div class="block-comis range">
+                                                            {{ range_list.width_min_dash }}
+                                                        </div>
+                                                    </div>
+                                                    <div class="contentblocktwo range">
+                                                        <span>МАКС</span>
+                                                        <div class="block-comis range">
+                                                            {{ range_list.width_max_dash }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="card-change-box range crypto">
+                                            <div class="change-block-logo">
+                                                <div class="logobox-valute-box">
+                                                    <span>XRP</span>
+                                                </div>
+                                                <img src="{% static 'personalaccount/assets/images/logo-ps/xrp.png' %}" alt="xrp">
+                                            </div>
+                                            <div class="change-block-active">
+                                                <div class="block-active-header">
+                                                    <span>лимиты</span>
+                                                </div>
+                                                <div class="block-active-content">
+                                                    <div class="contentblockone">
+                                                        <span>МИН</span>
+                                                        <div class="block-comis range">
+                                                            {{ range_list.width_min_xrp }}
+                                                        </div>
+                                                    </div>
+                                                    <div class="contentblocktwo range">
+                                                        <span>МАКС</span>
+                                                        <div class="block-comis range">
+                                                            {{ range_list.width_max_xrp }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="card-change-box range crypto">
+                                            <div class="change-block-logo">
+                                                <div class="logobox-valute-box">
+                                                    <span>BCH</span>
+                                                </div>
+                                                <img src="{% static 'personalaccount/assets/images/logo-ps/bch.png' %}" alt="bch">
+                                            </div>
+                                            <div class="change-block-active">
+                                                <div class="block-active-header">
+                                                    <span>лимиты</span>
+                                                </div>
+                                                <div class="block-active-content">
+                                                    <div class="contentblockone">
+                                                        <span>МИН</span>
+                                                        <div class="block-comis range">
+                                                            {{ range_list.width_min_bch }}
+                                                        </div>
+                                                    </div>
+                                                    <div class="contentblocktwo range">
+                                                        <span>МАКС</span>
+                                                        <div class="block-comis range">
+                                                            {{ range_list.width_max_bch }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="card-change-box range crypto">
+                                            <div class="change-block-logo">
+                                                <div class="logobox-valute-box">
+                                                    <span>ETH</span>
+                                                </div>
+                                                <img src="{% static 'personalaccount/assets/images/logo-ps/eth.png' %}" alt="eth">
+                                            </div>
+                                            <div class="change-block-active">
+                                                <div class="block-active-header">
+                                                    <span>лимиты</span>
+                                                </div>
+                                                <div class="block-active-content">
+                                                    <div class="contentblockone">
+                                                        <span>МИН</span>
+                                                        <div class="block-comis range">
+                                                            {{ range_list.width_min_eth }}
+                                                        </div>
+                                                    </div>
+                                                    <div class="contentblocktwo range">
+                                                        <span>МАКС</span>
+                                                        <div class="block-comis range">
+                                                            {{ range_list.width_max_eth }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="active-box-info">
+                                        <div class="box-info-left">
+                                            <div class="left-box-one">
+                                                <span>Указывайте лимиты для заявок, чтобы получать заявки, только в приделах этих сумм.</span>
+                                            </div>
+                                            <div class="left-box-two">
+                                                <span>Следите за лимитами, на странице <a href="#">Обменные пункты.</a></span>
+                                            </div>
+                                        </div>
+                                        <div class="box-info-right">
+                                            <div class="right-btn">
+                                                <a href="{% url 'rangechangewidthedit' %}">Изменить</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end row -->
+
+                </div>
+                <!-- end container-fluid -->
+            </div>
+            <!-- end page-content-wrapper -->
+
+        </div>
+    </div>
+
+{% endblock %}

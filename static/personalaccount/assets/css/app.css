@@ -59,7 +59,7 @@ File: Main Css File
 .navbar-brand-box {
   padding: 0 1.5rem;
   text-align: center;
-  width: 250px; }
+  width: 200px; }
 
 .logo {
   line-height: 70px; }
@@ -244,7 +244,7 @@ body[data-layout="horizontal"] .navbar-brand-box {
   position: absolute;
   right: 0;
   color: #74788d;
-  left: 250px;
+  left: 200px;
   height: 60px;
   -webkit-box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
           box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
@@ -365,7 +365,7 @@ body[data-layout="horizontal"] .footer {
     transition-property: height, visibility; }
 
 .vertical-menu {
-  width: 250px;
+  width: 200px;
   z-index: 1002;
   background: #ffffff;
   bottom: 0;
@@ -376,7 +376,7 @@ body[data-layout="horizontal"] .footer {
           box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08); }
 
 .main-content {
-  margin-left: 250px;
+  margin-left: 200px;
   overflow: hidden; }
   .main-content .content {
     padding: 0 15px 10px 15px;

@@ -1,4 +1,4 @@
-{% load static %}
+{% load static recaptcha3 %}
 
 <!DOCTYPE html>
 <html lang="ru">
@@ -8,15 +8,27 @@
     <title>{% block head_title %}{% endblock %}</title>
     <!-- App favicon -->
     <link rel="shortcut icon" href="{% static 'personalaccount/assets/images/favicon.ico' %}">
-
+    <!-- alertifyjs Css -->
+    <link href="{% static 'personalaccount/assets/libs/alertifyjs/build/css/alertify.min.css' %}" rel="stylesheet" type="text/css" />
+    <!-- alertifyjs default themes  Css -->
+    <link href="{% static 'personalaccount/assets/libs/alertifyjs/build/css/themes/default.min.css' %}" rel="stylesheet" type="text/css" />
     <!-- Bootstrap Css -->
     <link href="{% static 'personalaccount/assets/css/bootstrap.min.css' %}" rel="stylesheet" type="text/css" />
     <!-- Icons Css -->
     <link href="{% static 'personalaccount/assets/css/icons.min.css' %}" rel="stylesheet" type="text/css" />
-    <!-- App Css-->
     <link href="{% static 'personalaccount/assets/css/app.min.css' %}" rel="stylesheet" type="text/css" />
+    <link href="{% static 'personalaccount/assets/css/customcss.css' %}" rel="stylesheet" type="text/css" />
     {% block extra_head %}
     {% endblock %}
+    <script>
+        var status_data = false;
+        var status_message = false;
+    </script>
+    {% block script %}
+    {% endblock %}
+
+    {% recaptcha_init %}
+        {% recaptcha_ready action_name='homepage' %}
 </head>
 <body>
 {% block body %}
@@ -27,14 +39,15 @@
 
 {% endblock %}
 <!-- Optional JavaScript -->
-        <script src="{% static 'personalaccount/assets/libs/jquery/jquery.min.js' %}"></script>
-        <script src="{% static 'personalaccount/assets/libs/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
-        <script src="{% static 'personalaccount/assets/libs/metismenu/metisMenu.min.js' %}"></script>
-        <script src="{% static 'personalaccount/assets/libs/simplebar/simplebar.min.js' %}"></script>
-        <script src="{% static 'personalaccount/assets/libs/node-waves/waves.min.js' %}"></script>
-
-        <script src="https://unicons.iconscout.com/release/v2.0.1/script/monochrome/bundle.js"></script>
-
-        <script src="{% static 'personalaccount/assets/js/app.js' %}"></script>
+<script src="{% static 'personalaccount/assets/libs/jquery/jquery.min.js' %}"></script>
+<script src="{% static 'personalaccount/assets/libs/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+<script src="{% static 'personalaccount/assets/libs/metismenu/metisMenu.min.js' %}"></script>
+<script src="{% static 'personalaccount/assets/libs/simplebar/simplebar.min.js' %}"></script>
+<script src="{% static 'personalaccount/assets/libs/node-waves/waves.min.js' %}"></script>
+<script src="{% static 'personalaccount/assets/js/pages/script-custom.js' %}"></script>
+<script src="https://unicons.iconscout.com/release/v2.0.1/script/monochrome/bundle.js"></script>
+<script src="{% static 'personalaccount/assets/libs/alertifyjs/build/alertify.min.js' %}"></script>
+<script src="{% static 'personalaccount/assets/js/pages/alertifyjs.init.js' %}"></script>
+<script src="{% static 'personalaccount/assets/js/app.js' %}"></script>
 </body>
 </html>

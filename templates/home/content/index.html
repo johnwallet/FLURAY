@@ -1,0 +1,401 @@
+﻿{% extends "home/base.html" %}
+
+{% load static %}
+
+{% block content %}
+<main>
+    <section id="home" class="section-base">
+        <div class="container">
+            <div class="row align-items-center" data-anima="fade-in" data-time="1000">
+                <div class="col-lg-6">
+                    <hr class="space-md" />
+                    <h1>
+                        ПЛАТЕЖНАЯ СИСТЕМА <br /> созданная для Тебя!
+                    </h1>
+                    <p>
+                        Отправить или Получить, в два клика.
+                    </p>
+                    {% if user.is_authenticated %}
+                    <a href="{% url 'personalaccount' %}" class="btn-text active hidden-lg">Перейти в личный кабинет</a>
+                    {% else %}
+                    <a href="{% url 'account_signup' %}" class="btn btn-sm text-bold btn-circle shadow-1 full-width-sm">Создать аккаунт</a><span class="space-sm"></span>
+                    <a href="{% url 'account_login' %}" class="btn-text active hidden-lg">Войти в личный кабинет</a>
+                    {% endif %}
+                    <hr class="space-xs" />
+                </div>
+                <div class="col-lg-6">
+                    <hr class="space" />
+                    <img class="margin-23 margin-md-23" src="{% static 'home/media/img-4.png' %}" alt="" />
+                </div>
+            </div>
+        </div>
+    </section>
+    <section id="about" class="section-base section-bottom-layer">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-8 col-md-6" data-anima="fade-left" data-time="1000">
+                    <h2>Современное приложение <br />для современного пользователя.</h2>
+                    <p>
+                        Удобная и многофункциональная платежная система для хранения и перевода электронной валюты. С интегрированой системой ведения бизнеса обменного пункта.
+                    </p>
+                    <hr class="space" />
+                    <table class="table table-grid table-border align-center table-full-sm no-padding-y">
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <div class="counter counter-vertical counter-icon align-center">
+                                        <div>
+                                            <h3>Пользователей</h3>
+                                            <div class="value">
+                                                <span class="text-md" data-to="{{ user_count }}" data-speed="2000"></span>
+                                                <span></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <hr class="space-xs" />
+                                    <p>
+                                        Доверяют нам
+                                    </p>
+                                </td>
+                                <td>
+                                    <div class="counter counter-vertical counter-icon align-center">
+                                        <div>
+                                            <h3>Партнеров</h3>
+                                            <div class="value">
+                                                <span class="text-md" data-to="{{ user_change_count }}" data-speed="2000"></span>
+                                                <span></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <hr class="space-xs" />
+                                    <p>
+                                        Создали бизнес
+                                    </p>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-lg-4 col-md-6 align-center" data-anima="fade-right" data-time="1000">
+                    <hr class="space-sm visible-sm" />
+                    <ul class="slider slider-side" data-options="type:slider,arrows:false,nav:true,autoplay:3000,controls:out">
+                        <li>
+                            <img src="{% static 'home/media/phone-screen-7.png' %}" alt="" />
+                        </li>
+                        <li>
+                            <img src="{% static 'home/media/phone-screen-8.png' %}" alt="" />
+                        </li>
+                        <li>
+                            <img src="{% static 'home/media/phone-screen-9.png' %}" alt="" />
+                        </li>
+                        <li>
+                            <img src="{% static 'home/media/phone-screen-4.png' %}" alt="" />
+                        </li>
+                        <li>
+                            <img src="{% static 'home/media/phone-screen-5.png' %}" alt="" />
+                        </li>
+                        <li>
+                            <img src="{% static 'home/media/phone-screen-6.png' %}" alt="" />
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <hr class="space-lg" />
+            <ul class="slider" data-options="type:carousel,arrows:false,nav:false,perView:6,perViewMd:3,perViewSm:3,perViewXs:2,autoplay:2000">
+                <li>
+                    <img src="{% static 'personalaccount/assets/images/logo-ps/sber.png' %}" alt="" />
+                </li>
+                <li>
+                    <img src="{% static 'personalaccount/assets/images/logo-ps/tinkoff.png' %}" alt="" />
+                </li>
+                <li>
+                    <img src="{% static 'personalaccount/assets/images/logo-ps/alfa.png' %}" alt="" />
+                </li>
+                <li>
+                    <img src="{% static 'personalaccount/assets/images/logo-ps/vtb.png' %}" alt="" />
+                </li>
+                <li>
+                    <img src="{% static 'personalaccount/assets/images/logo-ps/raif.png' %}" alt="" />
+                </li>
+                <li>
+                    <img src="{% static 'personalaccount/assets/images/logo-ps/otkr.png' %}" alt="" />
+                </li>
+                <li>
+                    <img src="{% static 'personalaccount/assets/images/logo-ps/psb.png' %}" alt="" />
+                </li>
+                <li>
+                    <img src="{% static 'personalaccount/assets/images/logo-ps/gazprom.png' %}" alt="" />
+                </li>
+                <li>
+                    <img src="{% static 'personalaccount/assets/images/logo-ps/standart.png' %}" alt="" />
+                </li>
+                <li>
+                    <img src="{% static 'personalaccount/assets/images/logo-ps/rsb.png' %}" alt="" />
+                </li>
+                <li>
+                    <img src="{% static 'personalaccount/assets/images/logo-ps/pochta.png' %}" alt="" />
+                </li>
+                <li>
+                    <img src="{% static 'personalaccount/assets/images/logo-ps/rosbank.png' %}" alt="" />
+                </li>
+                <li>
+                    <img src="{% static 'personalaccount/assets/images/logo-ps/rnkb.png' %}" alt="" />
+                </li>
+                <li>
+                    <img src="{% static 'personalaccount/assets/images/logo-ps/mts.png' %}" alt="" />
+                </li>
+                <li>
+                    <img src="{% static 'personalaccount/assets/images/logo-ps/qiwi.png' %}" alt="" />
+                </li>
+                <li>
+                    <img src="{% static 'personalaccount/assets/images/logo-ps/payeer.png' %}" alt="" />
+                </li>
+                <li>
+                    <img src="{% static 'personalaccount/assets/images/logo-ps/wm.png' %}" alt="" />
+                </li>
+                <li>
+                    <img src="{% static 'personalaccount/assets/images/logo-ps/pm.png' %}" alt="" />
+                </li>
+                <li>
+                    <img src="{% static 'personalaccount/assets/images/logo-ps/paypal.png' %}" alt="" />
+                </li>
+                <li>
+                    <img src="{% static 'personalaccount/assets/images/logo-ps/skrill.png' %}" alt="" />
+                </li>
+                <li>
+                    <img src="{% static 'personalaccount/assets/images/logo-ps/umani.png' %}" alt="" />
+                </li>
+                <li>
+                    <img src="{% static 'personalaccount/assets/images/logo-ps/btc.png' %}" alt="" />
+                </li>
+                <li>
+                    <img src="{% static 'personalaccount/assets/images/logo-ps/ltc.png' %}" alt="" />
+                </li>
+                <li>
+                    <img src="{% static 'personalaccount/assets/images/logo-ps/xmr.png' %}" alt="" />
+                </li>
+                <li>
+                    <img src="{% static 'personalaccount/assets/images/logo-ps/etc.png' %}" alt="" />
+                </li>
+                <li>
+                    <img src="{% static 'personalaccount/assets/images/logo-ps/dash.png' %}" alt="" />
+                </li>
+                <li>
+                    <img src="{% static 'personalaccount/assets/images/logo-ps/xrp.png' %}" alt="" />
+                </li>
+                <li>
+                    <img src="{% static 'personalaccount/assets/images/logo-ps/bch.png' %}" alt="" />
+                </li>
+                <li>
+                    <img src="{% static 'personalaccount/assets/images/logo-ps/eth.png' %}" alt="" />
+                </li>
+            </ul>
+        </div>
+    </section>
+    <section id="opportunities" class="section-base section-color section-top-overflow">
+        <div class="container">
+            <div class="grid-list" data-columns="4" data-columns-md="2" data-columns-xs="1">
+                <div class="grid-box">
+                    <div class="grid-item" data-anima="fade-left" data-time="1000">
+                        <div class="cnt-box cnt-box-top-icon boxed">
+                            <i><img src="{% static 'home/assets/media/icons/iconsvg/exchange.svg' %}" class="width-50" alt=""></i>
+                            <div class="caption">
+                                <h2>Обмен валюты</h2>
+                                <p>
+                                    С минимальной комиссией
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="grid-item" data-anima="fade-bottom" data-time="1000">
+                        <div class="cnt-box cnt-box-top-icon boxed">
+                            <i><img src="{% static 'home/assets/media/icons/iconsvg/transfer.svg' %}" class="width-50" alt=""></i>
+                            <div class="caption">
+                                <h2>Перевод средств</h2>
+                                <p>
+                                    Переводи средства без комиссии
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="grid-item" data-anima="fade-bottom" data-time="1000">
+                        <div class="cnt-box cnt-box-top-icon boxed">
+                            <i><img src="{% static 'home/assets/media/icons/iconsvg/fasttime.svg' %}" class="width-50" alt=""></i>
+                            <div class="caption">
+                                <h2>Быстрое создание</h2>
+                                <p>
+                                    Создание заявки в несколько кликов
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="grid-item" data-anima="fade-right" data-time="1000">
+                        <div class="cnt-box cnt-box-top-icon boxed">
+                            <i><img src="{% static 'home/assets/media/icons/iconsvg/compare.svg' %}" class="width-50" alt=""></i>
+                            <div class="caption">
+                                <h2>Выбор критерия</h2>
+                                <p>
+                                    Выбирай как тебе удобнее
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr class="space-lg" />
+            <div class="row align-items-center">
+                <div class="col-lg-4 col-md-3" data-anima="fade-left" data-time="1000">
+                    <ul class="text-list text-list-base align-right align-left-sm">
+                        <li>
+                            <h3>Множество направлений</h3>
+                            <p>Более 45 направлений, для обмена валюты</p>
+                            <div></div>
+                        </li>
+                        <li>
+                            <h3>Минимальные комиссии</h3>
+                            <p>Самые низкие комиссии на обмен, обусловленные действующей конкуренцией при выборе исполнителя </p>
+                            <div></div>
+                        </li>
+                        <li>
+                            <h3>Безопасный обмен</h3>
+                            <p>Все проводимые обмены, гарантированно защищены от мошенничества со стороны как пользователя, так и обменного пункта</p>
+                            <div></div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-lg-4 col-md-6 align-center" data-anima="fade-bottom" data-time="1000">
+                    <img class="animation-shake-vertical" src="{% static 'home/media/phone-screen-7.png' %}" alt="" />
+                </div>
+                <div class="col-lg-4 col-md-3" data-anima="fade-right" data-time="1000">
+                    <ul class="text-list text-list-base">
+                        <li>
+                            <h3>Собственный бизнес</h3>
+                            <p>Возможность создать бизнес по обмену валюты, нужно только зарегистрировать аккаунт в системе</p>
+                            <div></div>
+                        </li>
+                        <li>
+                            <h3>Постоянное развитие</h3>
+                            <p>Постоянное развитие и обновление системы, для более качественого предоставляемого сервиса</p>
+                            <div></div>
+                        </li>
+                        <li>
+                            <h3>Быстрая техподдержка</h3>
+                            <p>Время ответа занимает несколько минут.</p>
+                            <div></div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <hr class="space-lg" />
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6 col-md-6" data-anima="fade-left" data-time="1000">
+                    <img class="margin-23" src="{% static 'home/media/phone-2.png' %}" alt="" />
+                </div>
+                <div class="col-lg-6 col-md-6" data-anima="fade-right" data-time="1000">
+                    <h2>Возможности <br />для пользователя.</h2>
+                    <ul class="icon-list icon-circle icon-list-11">
+                        <li>Безопасно хранить, переводить и получать переводы с минимальной комиссией или без нее.</li>
+                        <li>Выбирать способ исполнения заявки. По времени исполнения, если нужно в кратчайшие сроки испольнить заявку. Либо же по выгоде, если нужна минимальная комиссия.</li>
+                    </ul>
+                    <hr class="space-xs" />
+                    <a href="{% url 'account_signup' %}" class="btn-text">Создать кошелек</a>
+                </div>
+            </div>
+            <hr class="space-sm" />
+            <div class="row align-items-center">
+                <div class="col-lg-6 col-md-6" data-anima="fade-left" data-time="1000">
+                    <hr class="space-sm visible-md" />
+                    <h2>Возможности <br />для обменного пункта.</h2>
+                    <ul class="icon-list icon-circle icon-list-11">
+                        <li>Получать заявки для исполнения, доступно каждому без ограничений.</li>
+                        <li>Выбирать активность направлений и обменного пункта.</li>
+                        <li>Указывать количество оставшегося резерва.</li>
+                        <li>Выбирать границы для получения заявок.</li>
+                    </ul>
+                    <hr class="space-xs" />
+                    <a href="{% url 'account_signup' %}" class="btn-text">Создать бизнес</a>
+                </div>
+                <div class="col-lg-6 col-md-6" data-anima="fade-right" data-time="1000">
+                    <img class="margin-23" src="{% static 'home/media/phone-3.png' %}" alt="" />
+                </div>
+            </div>
+        </div>
+    </section>
+    <section id="partner" class="section-base">
+        <div class="container">
+            <h2 class="align-center">Партнерская программа.</h2>
+            <p class="align-center width-650">
+                Владельцам кошельков, мы предлагаем 3-х уровневую партнерскую программу. Приглашайте пользователей и получаейте доход от прибыли площадки.
+            </p>
+            <hr class="space" />
+            <div class="box-steps">
+                <div class="step-item">
+                    <span>1</span>
+                    <div class="content">
+                        <h3>30 %</h3>
+                        <div>
+                            <p>
+                                Получайте доход 30% с первой линии от прибыли площадки.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="step-item">
+                    <span>2</span>
+                    <div class="content">
+                        <h3>20 %</h3>
+                        <div>
+                            <p>
+                                Получайте доход 20% с второй линии от прибыли площадки.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="step-item">
+                    <span>3</span>
+                    <div class="content">
+                        <h3>10 %</h3>
+                        <div>
+                            <p>
+                                Получайте доход 10% с третьей линии от прибыли площадки.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section id="news" class="section-base">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4" data-anima="fade-left" data-time="1000">
+                    <h2>Новости.</h2>
+                    <p>
+                        Узнавайте об изменениях и обновлениях платежной системы из наших новостей.
+                    </p>
+                    <a href="{% url 'news' %}" class="btn-text">Все новости</a>
+                </div>
+                <div class="col-lg-8" data-anima="fade-right" data-time="1000">
+                    <div class="cnt-box cnt-box-blog-side boxed">
+                        <a href="news/{{ last_news.pk }}/" class="img-box">
+                            <img src="{{ last_news.news_img.url }}" alt="" />
+                        </a>
+                        <div class="caption">
+                            <h2>{{ last_news.news_header }}</h2>
+                            <ul class="icon-list icon-list-horizontal">
+                                <li><i class="icon-calendar"></i>{{ last_news.news_date_joined|date:"d / m / Y" }}</li>
+                            </ul>
+                            <p>
+                                {{ last_news.news_content|truncatechars:100 }}
+                            </p>
+                            <a class="btn-text" href="news/{{ last_news.pk }}/">Подробнее</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+</section>
+</main>
+{% endblock %}
