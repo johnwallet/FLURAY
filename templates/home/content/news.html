@@ -1,0 +1,54 @@
+{% extends "home/base.html" %}
+
+{% load static %}
+
+{% block content %}
+<header class="header-image ken-burn-center light" data-parallax="true" data-natural-height="600" data-natural-width="1920" data-bleed="0" data-image-src="{% static 'home/media/news/bg_news.jpg' %}" data-offset="0">
+    <div class="container">
+        <h1>Свежие новости.</h1>
+        <h2>Ниже представлены, все новости выпущенные нашей командой</h2>
+        <ol class="breadcrumb">
+            <li><a href="{% url 'home' %}">Главная</a></li>
+            <li><a href="#">Новости</a></li>
+        </ol>
+    </div>
+</header>
+<main>
+    <section class="section-base section-color">
+        <div class="container">
+            <div class="grid-list" data-columns="3" data-columns-md="2" data-columns-sm="1">
+                <div class="grid-box">
+                    {% for item in list_news|slice:"::-1" %}
+                        <div class="grid-item">
+                            <div class="cnt-box cnt-box-blog-top boxed" data-href="{{ item.pk }}/">
+                                <a href="{{ item.pk }}/" class="img-box">
+                                    <div class="blog-date">
+                                        <span>{{ item.news_date_joined|date:"d" }}</span>
+                                        <span>{{ item.news_date_joined|date:"b Y" }}</span>
+                                    </div>
+                                    <img src="{{ item.news_img.url }}" alt="" />
+                                </a>
+                                <div class="caption">
+                                    <h2>{{ item.news_header }}</h2>
+                                    <ul class="icon-list icon-list-horizontal">
+                                        <li><i class="icon-calendar"></i>{{ item.news_date_joined|date:"d / m / Y" }}</li>
+                                    </ul>
+                                    <p>
+                                        {{ item.news_content|truncatechars:70 }}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+                {% if list_news|length > 3 %}
+                    <div class="list-pagination align-center">
+                        <a href="#" class="btn btn-sm btn-circle load-more" data-pagination-anima="fade-bottom" data-page-items="3">Показать еще</a>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </section>
+</main>
+{% endblock %}
+

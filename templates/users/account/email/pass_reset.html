@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <style>
+        h1 {
+            color: #000ad4;
+        }
+    </style>
+</head>
+<body>
+<h1>Был получен запрос, на сброс пароля пользователя, от аккаунта {{ user.get_username }}.</h1>
+<p>Подтвердите сброс пароля пользователя <a href="{% block reset_link %}{{ protocol }}://{{ domain }}{% url 'password_reset_confirm' uidb64=uid token=token %}{% endblock %}">Сбросить пароль</a></p>
+<small>Если, Вы не запрашивали сброс пароля. Не подтверждайте сброс!</small>
+</body>
+</html>

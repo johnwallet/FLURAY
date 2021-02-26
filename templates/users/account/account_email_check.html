@@ -1,0 +1,31 @@
+{% extends "users/account/base.html" %}
+{% load static %}
+
+{% block head_title %}Подтверждение почты{% endblock %}
+
+
+{% block content %}
+<body class="bg-primary bg-pattern">
+<div class="home-btn d-none d-sm-block">
+    <a href="{% url 'home' %}"><i class="mdi mdi-home-variant h2 text-white"></i></a>
+</div>
+
+<div class="account-pages my-5 pt-sm-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-xl-9">
+                <div class="card">
+                    <div class="card-body p-4">
+                        <div class="p-4">
+                            <h5 class="mb-4 text-center">Успешная регистрация!</h5>
+                            <p>Для продолжения, Вам нужно активировать аккаунт.</p>
+                            <p>Перейдите по ссылке, из письма, отправленную на вашу почту <strong>{{ email_user }}</strong>.</p>
+                            <small class="text-muted">* Срок действия ссылки для активации аккаунта 60 минут.</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
