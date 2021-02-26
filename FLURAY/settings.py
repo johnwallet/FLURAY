@@ -50,7 +50,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'MyWallets.urls'
+ROOT_URLCONF = 'FLURAY.urls'
 
 
 TEMPLATE_DIR = os.path.join(BASE_DIR, "templates")
@@ -70,7 +70,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'MyWallets.wsgi.application'
+WSGI_APPLICATION = 'FLURAY.wsgi.application'
 
 
 # Database

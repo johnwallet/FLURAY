@@ -11,7 +11,7 @@ from django.shortcuts import render, redirect
 from django.template.loader import render_to_string
 from django.utils import timezone
 
-from MyWallets.settings import EMAIL_HOST_USER
+from FLURAY.settings import EMAIL_HOST_USER
 from personalaccount.message import message_email_succes
 from personalaccount.metodviews import mail_send_metod
 from users.forms import SignUpForm, AuthForm

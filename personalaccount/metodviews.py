@@ -3,7 +3,7 @@ import random
 from django.core.mail import EmailMultiAlternatives
 from django.template.loader import render_to_string
 
-from MyWallets import settings
+from FLURAY import settings
 from personalaccount.models import CurrencyCBRF, RequestChange, StaticDailyProfit
 from users.models import CustomUser, RangeSumDeposit, RangeSumWidth
 
