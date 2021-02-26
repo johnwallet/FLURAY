@@ -1,6 +1,8 @@
 local_settings.py
 server_settings.py
-.config
+config
+fluray.conf
+gunicorn.conf.py
 .idea
 idea
 venv
