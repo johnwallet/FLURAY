@@ -11,7 +11,7 @@ app.autodiscover_tasks()
 app.conf.beat_schedule = {
     'update_curse': {
         'task': 'personalaccount.tasks.update_curse',
-        'schedule': crontab(minute=0, hour='*'),
+        'schedule': crontab(minute=*),
     },
     'update_partner_line': {
         'task': 'personalaccount.tasks.update_partner_line',
