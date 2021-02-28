@@ -19,3 +19,6 @@ media/*
 settings.py
 .DS_Store
 debug.log
+celerybeat-schedule.dir
+celerybeat-schedule.dat
+celerybeat-schedule.bak
