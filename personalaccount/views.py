@@ -469,7 +469,10 @@ def partnerwallet(request):
             # получаем уровень пользователя
             level_ref = user_ref.level
             # получаем список из первой линии
-            level_1 = partner_list.filter(level=level_ref + 1, parent=user_ref)
+            level_1 = []
+            level_1_list = partner_list.filter(level=level_ref + 1, parent=user_ref)
+            for h in level_1_list:
+                level_1.append(h)
             # получаем список
             level_2 = []
             for item in level_1:
