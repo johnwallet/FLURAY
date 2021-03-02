@@ -464,11 +464,25 @@ def partnerwallet(request):
             user_ref = Line_Program.objects.get(line_user=request.user)
             parent_ref = user_ref.parent
             link_ref = user_ref.line_ref_link
+            # получаем всю структуру в которой состоит пользователь
             partner_list = Line_Program.objects.filter(tree_id=user_ref.tree_id)
+            # получаем уровень пользователя
             level_ref = user_ref.level
-            level_1 = partner_list.filter(level=level_ref + 1)
-            level_2 = partner_list.filter(level=level_ref + 2)
-            level_3 = partner_list.filter(level=level_ref + 3)
+            # получаем список из первой линии
+            level_1 = partner_list.filter(level=level_ref + 1, parent=user_ref)
+            # получаем список
+            level_2 = []
+            for item in level_1:
+                level_user = item.level
+                level_2_list = partner_list.filter(level=level_user + 1, parent=item)
+                for h in level_2_list:
+                    level_2.append(h)
+            level_3 = []
+            for item in level_2:
+                level_user = item.level
+                level_3_list = partner_list.filter(level=level_user + 1, parent=item)
+                for h in level_3_list:
+                    level_3.append(h)
             list_level_1 = {}
             list_level_2 = {}
             list_level_3 = {}
