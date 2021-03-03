@@ -210,7 +210,7 @@ COLOR 1
 */
 
 body, header h2, ::placeholder {
-    color: #010181;
+    color: #050452;
 }
 
 /*
@@ -231,7 +231,7 @@ h1, h2, h3, h4, h5, h6, .btn.btn-border, .btn-text, .input-text, .input-select, 
 .btn, .btn:hover, .tab-nav li.active a, .tab-nav li:hover a, .icon-links-grid a:hover, .icon-links-button a {
     background-color: #379cf4;
     border-color: #379cf4;
-    color: #010181;
+    color: #050452;
 }
 
 .tab-nav li a {

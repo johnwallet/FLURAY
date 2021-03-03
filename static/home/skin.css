@@ -130,7 +130,7 @@ body, p, input, textarea, ::placeholder, .tab-box.tab-vertical > .tab-nav li:not
 }
 
 body > nav.light:not(.menu-transparent), nav.light.menu-transparent.scroll-menu, footer {
-    background-color: rgb(1, 1, 129);
+    background-color: #050452;
 }
 
 .boxed-area.light {
@@ -144,23 +144,23 @@ body > nav.light:not(.menu-transparent), nav.light.menu-transparent.scroll-menu,
 .tab-icon.tab-vertical > .tab-nav li.active a i, .tab-icon.tab-vertical > .tab-nav li:hover a i, .tab-vertical > .tab-nav li:hover a, .meta-footer, .form-search > div:before, .cnt-box-side .extra-field,
 nav .tab-nav li.active a, nav .tab-nav li:hover a, .menu-inner li:hover > a, .menu-inner li.active > a, a, .mega-menu h5, .search-box-menu > i:hover, .mega-menu .icon-list li a:hover,
 nav.active .menu-btn:before, .text-list-side li div {
-    color: rgb(1, 1, 129);
+    color: #050452;
 }
 
 nav.light a.btn-border, .dropdown > ul li:hover > a, .dropdown > ul li.active > a, .menu-cnt > ul > li:hover > a, .menu-cnt > ul > li.active > a, .light .counter h3, .breadcrumb li:last-child a,
 .breadcrumb li:hover a, .menu-side-collapse .dropdown-submenu > a {
-    color: rgb(1, 1, 129) !important;
+    color: #050452 !important;
 }
 
 .btn-text.btn-video:before, .icon-circle li:before, .icon-circle span:before, .icon-line li:before, .icon-line span:before, .progress-bar > div > div, .progress-bar > div span, .breadcrumb li a:after,
 .menu-inner li:before, .counter-big.counter-icon .value span:last-child:before, .cnt-box-team .caption h2:before, .mega-menu .tab-nav a:after, .shop-menu-cnt .cart-count {
-    background-color: rgb(71, 178, 228);
+    background-color: #050452;
 }
 
 .btn, .tab-nav li.active a, .tab-nav li:hover a, .tab-nav.align-center li.active a, .tab-nav.align-center li:hover a, .icon-links-grid a:hover, .icon-links-button a, nav.light a.btn-border:hover,
 .btn-border:hover, .menu-transparent .btn:not(.btn-border) {
-    background-color: rgb(1, 1, 129);
-    border-color: rgb(1, 1, 129);
+    background-color: #050452;
+    border-color: #050452;
 }
 
 .light .btn-border {

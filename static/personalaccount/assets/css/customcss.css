@@ -95,7 +95,7 @@ input[type="number"]:focus {
 
 .card-title-custom a {
     margin: 0 0 0 auto;
-    color: #010181;
+    color: #050452;
     font-size: 12px;
 }
 
@@ -178,12 +178,12 @@ input[type="number"]:focus {
 
 .card-content-ps-a {
     width: 100%;
-    background: #010181;
+    background: #050452;
 }
 
 .card-content-ps-a:hover {
-    box-shadow: 0 0 10px #010181;
-    background: #3051d3;
+    box-shadow: 0 0 10px #050452;
+    background: #040299;
     cursor: pointer;
 }
 
@@ -259,17 +259,17 @@ input[type="number"]:focus {
 
 
 .radiochekbox.active {
-    color:#010181;
+    color:#050452;
 }
 
 .radiochekbox.active:after {
-    background-color: #010181;
+    background-color: #050452;
     left: 25px;
     transition: all 0.5s ease 0s;
 }
 
 .radiochekbox.active:before {
-    background-color: #3051d3;
+    background-color: #0e0ab1;
     transition: all 0.5s ease 0s;
 }
 
@@ -307,7 +307,7 @@ input[type="number"]:focus {
 
 .input-group-text {
     font-size: 18px;
-    color:#010181;
+    color:#050452;
     padding: 0 40px 0 40px;
     background-color: #fff;
 }
@@ -354,7 +354,7 @@ input[type="number"]:focus {
     font-weight: 600;
     font-size: 19px;
     line-height: 22px;
-    color: #010181;
+    color: #050452;
 }
 
 .request-header-hm {
@@ -384,7 +384,7 @@ input[type="number"]:focus {
     content: '';
     display: block;
     width: 100%;
-    border-bottom: 50px solid #010181;
+    border-bottom: 50px solid #050452;
     border-left: 30px solid transparent;
 }
 
@@ -430,7 +430,7 @@ input[type="number"]:focus {
     margin-left: 10px;
     font-size: 16px;
     font-weight: 600;
-    color: #010181;
+    color: #050452;
 }
 
 .content-right-one {
@@ -447,7 +447,7 @@ input[type="number"]:focus {
     margin-left: 10px;
     font-size: 16px;
     font-weight: 600;
-    color: #010181;
+    color: #050452;
 }
 
 .content-right-two {
@@ -469,7 +469,7 @@ input[type="number"]:focus {
 .right-two-content-content {
     font-size: 19px;
     line-height: 22px;
-    color: #010181;
+    color: #050452;
 }
 
 .right-two-content-ico {
@@ -620,7 +620,7 @@ input[type="number"]:focus {
 }
 
 .in-text.active {
-    color: #010181;
+    color: #050452;
     font-weight: 600;
 }
 
@@ -760,7 +760,7 @@ input[type="number"]:focus {
 .requsites-valute-content {
     font-size: 13px;
     line-height: 16px;
-    color: #010181;
+    color: #050452;
 }
 
 .requsites-input-card {
@@ -896,7 +896,7 @@ input[type="number"]:focus {
     height: 100%;
     width: 100%;
     font-size: 16px;
-    color: #010181;
+    color: #050452;
 }
 
 .status-group-right {
@@ -984,7 +984,7 @@ input[type="number"]:focus {
 
 .logobox-valute-box span {
     font-size: 12px;
-    color: #010181;
+    color: #050452;
 }
 
 .logobox-logo {
@@ -1509,7 +1509,7 @@ input[type="number"]:focus {
     border: 1px solid rgba(1, 1, 129, 0.25);
     border-radius: 8px;
     font-size: 18px;
-    color: #010181;
+    color: #050452;
 }
 
 .btn-request-deposit:hover {
@@ -1531,7 +1531,7 @@ input[type="number"]:focus {
     border-radius: 5px;
     border: 1px solid rgba(1, 1, 129, 0.25);
     font-size: 17px;
-    color: #010181;
+    color: #050452;
     background-color: #FFF;
 }
 
@@ -1635,7 +1635,7 @@ input[type="number"]:focus {
 .card-profile-edit span {
     padding-left: 5px;
     font-size: 16px;
-    color: #010181;
+    color: #050452;
 }
 
 /*==========================// SETTINGS //==========================*/
@@ -1907,7 +1907,7 @@ input[type="number"]:focus {
 
     .status-box:before {
         content: '';
-        border-bottom: 60px solid #010181;
+        border-bottom: 60px solid #050452;
     }
 
     .status-box.succes:before {
@@ -2126,7 +2126,7 @@ input[type="number"]:focus {
 
     .request-header {
         display: block;
-        background-color: #010181;
+        background-color: #050452;
     }
 
     .request-header.succes {
@@ -2162,7 +2162,7 @@ input[type="number"]:focus {
         left: 20px;
         top: 75px;
         font-size: 16px;
-        color: #010181;
+        color: #050452;
         font-weight: 600;
     }
 
