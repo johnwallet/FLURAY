@@ -168,7 +168,7 @@ def account_email_confirm(request, confirm_key):
             key.confirm_key = confirmation_key
             key.confirm_date = timezone.now()
             key.save()
-            link_good_email = 'http://127.0.0.1:8000/accounts/email/confirm/' + confirmation_key
+            link_good_email = domain_home + 'accounts/email/confirm/' + confirmation_key
 
             mail_send_metod(email=email_user,
                             templates='users/account/email/signup_confirm.html',
