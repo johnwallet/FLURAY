@@ -2414,6 +2414,7 @@ Medium devices (tablets, less than 992px)
 
     .btn-login.btn-border, nav a.btn-login.btn-border:hover {
         padding-left: 0;
+        margin-bottom: 15px;
     }
 
     .col-lg-6 + .col-lg-6 .margin-11, .col-lg-6 .margin-11 {

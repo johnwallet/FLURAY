@@ -179,8 +179,8 @@ def depositwalletform(request):
                                 post.request_curse = request_good.base_currency
 
                                 user_hold_update = CustomUser.objects.get(username=post.request_userchange)
-                                user_hold_update.balance -= Decimal(post.request_good_sum_change)
-                                user_hold_update.hold += Decimal(post.request_good_sum_change)
+                                user_hold_update.balance -= post.request_good_sum_change_valute
+                                user_hold_update.hold += post.request_good_sum_change_valute
                                 user_hold_update.save()
                                 post.save()
                                 return redirect('requsetwallet')
@@ -286,7 +286,7 @@ def withdrawalwallet(request):
                                                            transaction_sum=post.request_sum,
                                                            transaction_sistemchange=post.request_sistemchange)
                                 user_hold_update = CustomUser.objects.get(username=post.request_userchange)
-                                user_hold_update.hold += Decimal(post.request_good_sum_change)
+                                user_hold_update.hold += post.request_good_sum_change_valute
                                 user_hold_update.save()
                                 userwidth.save()
                                 post.save()
@@ -793,8 +793,8 @@ def depositexchangerequestupdate(request, pk):
             if request.user.username == requestchange.request_userchange:
                 userwallet = CustomUser.objects.get(username=requestchange.request_user)
                 userchange = CustomUser.objects.get(username=request.user)
-                userchange.hold -= requestchange.request_good_sum_change
-                userwallet.balance += requestchange.request_good_sum
+                userchange.hold -= requestchange.request_good_sum_change_valute
+                userwallet.balance += requestchange.request_good_sum_valute
                 requestchange.date_end_change = timezone.now()
                 requestchange.request_status = 'Выполнена'
 
@@ -1272,7 +1272,6 @@ def profit_day_good(request):
         if not item.profit_day_parent == parent:
             parent = item.profit_day_parent
             list_parent = list_all_profit_day.filter(profit_day_parent=parent)
-            print(list_parent)
             if len(list_parent) > 1:
                 for par in list_parent:
                     sum += par.profit_day_sum

@@ -15,7 +15,7 @@ if ($("#spline_area").length) {
             name: "Прибыль",
             data: datajsonin.value
         }],
-        colors: ["#010181"],
+        colors: ["#050452"],
         xaxis: {
             type: 'datetime',
             categories: datajsonin.data
@@ -59,7 +59,7 @@ if ($('#mixed_chart').length) {
                 columnWidth: '70%'
             }
         },
-        colors: ['#010181'],
+        colors: ['#050452'],
         series: [{
             name: 'Доход',
             type: 'column',

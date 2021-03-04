@@ -2032,7 +2032,7 @@ input[type="number"]:focus {
     }
 
     .card-profile-box-left {
-        height: 180px;
+        height: 290px;
         width: 100%;
         margin: 0 0 20px 0;
     }
@@ -2048,9 +2048,9 @@ input[type="number"]:focus {
     }
 
     .card-profile-content-avatar-box {
-        width: 180px;
+        width: 100%;
         min-width: 140px;
-        height: 100%;
+        height: 30%;
         min-height: 140px;
         display: flex;
         justify-content: center;
@@ -2199,6 +2199,16 @@ input[type="number"]:focus {
         margin: 10px 0;
         width: 100%;
     }
+
+    .input-edit-box {
+        width: 100%;
+    }
+
+    .input-edit-str input {
+        width: 100%;
+        margin: 10px 0;
+    }
+
 }
 
 @media (max-width: 430px) {
@@ -2212,14 +2222,14 @@ input[type="number"]:focus {
     }
 
     .card-profile-content-avatar-box {
-        width: 110px;
+        width: 100%;
         min-width: 110px;
-        height: 100%;
+        height: 30%;
         min-height: 120px;
     }
 
     .card-profile-box-left {
-        height: 160px;
+        height: 263px;
     }
 
     .card-profile-content-content span {
