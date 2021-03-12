@@ -1,10 +1,8 @@
 from django.shortcuts import render
-from rest_framework.response import Response
-from rest_framework.views import APIView
 
-from personalaccount.models import RequestChange, News
+from personalaccount.models import News
 from users.models import CustomUser
-from .serializers import RequestAPI
+
 
 
 def home(request):
@@ -53,11 +51,3 @@ def newsview(request, pk):
     }
     return render(request, 'home/content/newsview.html', context)
 
-
-# api
-class RequestList(APIView):
-    """Список заявок"""
-    def get(self, request):
-        req = RequestChange.objects.all()
-        s = RequestAPI(req, many=True)
-        return Response(s.data)

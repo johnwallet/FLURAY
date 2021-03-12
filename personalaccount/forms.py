@@ -1,6 +1,7 @@
 from django import forms
 from django.forms import Select, TextInput, RadioSelect, ClearableFileInput, FileInput
 
+from api.models import Merchant
 from users.models import CustomUser, RangeSumDeposit, RangeSumWidth
 from .models import RequestChange, Transfer, PSFormNow
 
@@ -100,6 +101,17 @@ class WithdrawalForm(forms.ModelForm):
             'request_sum': TextInput(attrs={'class': 'input-final', 'id': 'sum-fin-request-deposit', 'value': '0.00', 'readonly': '', 'type': 'number'}),
             'criteri': TextInput(attrs={'class': 'input-final', 'id': 'kriteri-fin-request-deposit', 'value': 'БЫСТРАЯ ЗАЯВКА', 'readonly': ''}),
             'requisites': TextInput(attrs={'class': 'input-final', 'id': 'requisites-fin-request-deposit', 'value': '-', 'readonly': ''}),
+        }
+
+
+# // КОШЕЛЕК // ФОРМА СОЗДАНИЯ МЕРЧАНТА
+class MerchantCreateForm(forms.ModelForm):
+    class Meta:
+        model = Merchant
+        fields = ('merchant_name', 'merchant_site', )
+        widgets = {
+            'merchant_name': TextInput(attrs={'class': 'form-control', 'placeholder': 'Название мерчанта'}),
+            'merchant_site': TextInput(attrs={'class': 'form-control', 'placeholder': 'Домен'}),
         }
 
 

@@ -1,0 +1,118 @@
+{% extends "personalaccount/cabinet/indexwallet.html" %}
+
+{% load static %}
+
+{% block title %}
+Мерчанты
+{% endblock %}
+
+{% block content %}
+    <div class="main-content">
+        <div class="page-content">
+            <div class="page-title-box">
+                <div class="container-fluid">
+                    <div class="row align-items-center">
+                        <div class="col-md-8">
+                            <h4 class="page-title mb-1">Мерчанты</h4>
+                            <ol class="breadcrumb m-0">
+                                <li class="breadcrumb-item active">На этой странице Вы можете создать и просмотреть созданные мерчанты</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- end page title end breadcrumb -->
+
+            <!-- Сердце -->
+            <div class="page-content-wrapper">
+                <div class="container-fluid">
+                    <div class="row center cust-maxw-1200">
+                        <div class="col-12">
+                            {% if merchant_list %}
+                                {% for merch in merchant_list %}
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <div class="float-right">
+                                                <span class="text-muted font-size-14">Создан: {{ merch.merchant_date_joined }}</span>
+                                            </div>
+                                            <h5 class="text-muted mb-3">ID: {{ merch.merchant_id }}</h5>
+                                            <span class="text-muted font-size-12">Название</span>
+                                            <p class="font-size-20">{{ merch.merchant_name }}</p>
+                                            <span class="text-muted font-size-12">Сайт</span>
+                                            <p class="font-size-20">{{ merch.merchant_site }}</p>
+                                            <span class="text-muted font-size-12">Секретный ключ</span>
+                                            <div class="form-group input-group">
+                                                <div class="input-group-append">
+                                                    <button class="btn waves-effect border-0" type="button" id="button-view-password"><i class="mdi mdi-eye"></i></button>
+                                                </div>
+                                                <input type="password" class="form-control border-0 copy_text_content password-views font-size-20" value="{{ merch.merchant_secret_key }}" readonly>
+                                            </div>
+                                            <button class="btn-dashboard-actions" href="#merch-delete-{{ merch.merchant_id }}" data-toggle="modal">Удалить</button>
+                                            <div id="merch-delete-{{ merch.merchant_id }}" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog modal-dialog-centered">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title mt-0" id="myLargeModalLabel">Вы уверены в этом?</h5>
+                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <p>Да, я хочу удалить мерчант с <strong>ID: {{ merch.merchant_id }}</strong></p>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <form method="post" action="{% url 'merchant' %}">
+                                                                {% csrf_token %}
+                                                                <input type="hidden" name="del_merch" value="{{ merch.merchant_id }}">
+                                                                <button type="submit" class="btn-dashboard-actions">Подтверждаю</button>
+                                                            </form>
+                                                        </div>
+                                                    </div><!-- /.modal-content -->
+                                                </div><!-- /.modal-dialog -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            {% endif %}
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5>Создание мерчанта</h5>
+                                    <div class="row mt-3">
+                                        <div class="col-sm-7 pb-3">
+                                            <form method="post" action="{% url 'merchant' %}">
+                                                {% csrf_token %}
+                                                <div class="box-center-edit">
+                                                    <div class="card-edit-content mt-2">
+                                                        <div class="input-edit-box">
+                                                            <div class="form-group">
+                                                                <div class="input-group">
+                                                                    {{ form.merchant_name }}
+                                                                </div>
+                                                                <span class="text-muted font-size-12">Мой мерчант</span>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <div class="input-group">
+                                                                    {{ form.merchant_site }}
+                                                                </div>
+                                                                <span class="text-muted font-size-12">site.com</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <button class="btn-dashboard-actions" type="submit">Создать</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <div class="col-sm-5 mt-3">
+                                            <p>Чтобы узнать как подключить созданный мерчант к своему сайту, посетите раздел с документацией</p>
+                                            <p><a href="#">Документация API</a></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

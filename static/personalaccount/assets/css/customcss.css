@@ -23,6 +23,7 @@
 /* 2. SETTINGS */
 
 /* ERROR */
+/* MERCHANT */
 
 
 
@@ -1807,7 +1808,7 @@ input[type="number"]:focus {
 
 
 
-/*==========================// dashboard //==========================*/
+/*==========================// DASHBOARD //==========================*/
 .box-news {
     max-height: 173px;
 }
@@ -1847,8 +1848,14 @@ input[type="number"]:focus {
     color: rgba(1, 1, 129, 0.7);
 }
 
+#sidebar-menu ul li a i {
+    font-size: 15px;
+    min-width: 1.75rem;
+    padding-left: 5px;
+    color: #010181;
+}
 
-
+/*==========================// MERCHANT //==========================*/
 
 
 

@@ -1,4 +1,6 @@
+import hashlib
 import random
+import uuid
 from datetime import timedelta
 from decimal import *
 
@@ -6,16 +8,18 @@ from django.core.cache import cache
 from django.http import Http404
 from django.shortcuts import render, redirect
 from django.utils import timezone
+
+from api.models import Merchant
 from personalaccount.apicourse import get_rates
 from personalaccount.apicoursecrypto import get_rates_crypto
 from personalaccount.message import message_success
 from personalaccount.metodviews import depositsortchangeps, depositsortcritery, widthsortchangeps, \
     widthsortcritery, activepsuser, requestchangeon, dailyprofitcount, totalprofitstatic, \
     requesttotal, walrequestchangeon, active_deposit_ps_global, active_width_ps_global, range_deposit_ps_global, \
-    min_and_max_sum_request, range_width_ps_global
+    min_and_max_sum_request, range_width_ps_global, mail_send_metod
 from personalaccount.models import Transaction, RequestChange, CurrencyCBRF, StaticDailyProfit, News
 from personalaccount.forms import RequestForm, WithdrawalForm, TransferForm, RequisitesForm, CommissionForm, \
-    ActivePSForm, ReservChangeForm, ProfileForm, RangeDepositForm, RangeWidthForm, PSFormNowForm
+    ActivePSForm, ReservChangeForm, ProfileForm, RangeDepositForm, RangeWidthForm, PSFormNowForm, MerchantCreateForm
 from users.models import CustomUserId, CustomUser, RangeSumDeposit, RangeSumWidth, Line_Program, Profit_Partner_Day, \
     Profit_Partner_Good_Day
 
@@ -650,7 +654,48 @@ def settingwallet(request):
         return redirect('account_login')
 
 
-# ===========/ОБМЕННИК/=============
+def merchant(request):
+    if request.user.is_authenticated:
+        if request.user.userid == CustomUserId.objects.get(pk=1):
+            merchant_list = Merchant.objects.filter(merchant_user=request.user)
+            if request.method == 'POST':
+                if 'del_merch' in request.POST:
+                    merchant_del = Merchant.objects.get(merchant_id=request.POST['del_merch'])
+                    merchant_del.delete()
+                    return redirect('merchant')
+                else:
+                    form = MerchantCreateForm(request.POST)
+                    if form.is_valid():
+                        form = form.save(commit=False)
+                        merch_key = uuid.uuid4().hex
+                        merch_id = random.randint(1000000000, 9999999999)
+                        form.merchant_secret_key = merch_key
+                        form.merchant_user = request.user
+                        form.merchant_id = merch_id
+                        form.save()
+                        mail_send_metod(email=request.user.email,
+                                        templates='users/account/email/merchant_create.html',
+                                        context={'username': request.user.username,
+                                                 'merch_name': form.merchant_name,
+                                                 'merch_id': merch_id,
+                                                 'merch_domain': form.merchant_site,
+                                                 'merch_key': merch_key},
+                                        subject='FLURAY.ONE | Мерчант успешно создан')
+                        return redirect('merchant')
+            context = {
+                'form': MerchantCreateForm(),
+                'merchant_list': merchant_list,
+            }
+            return render(request, 'personalaccount/cabinet/merchant/merchant.html', context)
+        else:
+            raise Http404
+    else:
+        return redirect('account_login')
+
+
+# +======================================================================================+
+# |                                  ОБМЕННИК                                            |
+# +======================================================================================+
 
 
 # /ОБМЕННИК/ ЗАЯВКИ НА ВЫВОД

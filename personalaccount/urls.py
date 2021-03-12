@@ -9,6 +9,8 @@ urlpatterns = [
     path('transactionwallet/', views.transactionwallet, name='transactionwallet'),
     path('partnerwallet/', views.partnerwallet, name='partnerwallet'),
 
+    path('merchant/', views.merchant, name='merchant'),
+
     path('profilewallet/', views.profilewallet, name='profilewallet'),
     path('settingwallet/', views.settingwallet, name='settingwallet'),
 

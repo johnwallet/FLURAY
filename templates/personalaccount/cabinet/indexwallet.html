@@ -111,7 +111,7 @@
 
                         <li>
                             <a href="{% url 'requsetwallet' %}" class="waves-effect">
-                                <div class="d-inline-block icons-sm mr-1"><i class="uim uim-process"></i></div>
+                                <div class="d-inline-block icons-sm mr-1"><i class="fas fa-tasks"></i></div>
                                 {% if requeston.requesttotal > 0 %}
                                     <span class="badge badge-pill badge-success float-right">{{ requeston.requesttotal }}</span>
                                 {% endif %}
@@ -128,8 +128,15 @@
 
                         <li>
                             <a href="{% url 'partnerwallet' %}" class="waves-effect">
-                                <div class="d-inline-block icons-sm mr-1"><i class="uim uim-chart-pie"></i></div>
+                                <div class="d-inline-block icons-sm mr-1"><i class="fas fa-sitemap"></i></div>
                                 <span>Партнерам</span>
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="{% url 'merchant' %}" class="waves-effect">
+                                <div class="d-inline-block icons-sm mr-1"><i class="fas fa-store"></i></div>
+                                <span>Мерчант</span>
                             </a>
                         </li>
                     </ul>

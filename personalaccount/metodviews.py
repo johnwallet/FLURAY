@@ -368,14 +368,7 @@ def depositsortcritery(userps, critery, nameps):
                 userrandom.append(item)
 
         if userrandom:
-            ranuser = random.randint(1, len(userrandom))
-            ran = 1
-            for r in userrandom:
-                if ran == ranuser:
-                    usernameps = r
-                    break
-                else:
-                    ran += 1
+            usernameps = random.choice(userrandom)
 
         if nameps == 'СБЕРБАНК':
             base_comis = usernameps.comis_in_sberbank_rub
@@ -763,15 +756,8 @@ def widthsortcritery(userps, critery, nameps, valuteps, balanceps):
             else:
                 userrandom.append(item)
 
-        if not usernameps:
-            ranuser = random.randint(1, len(userrandom))
-            ran = 1
-            for r in userrandom:
-                if ran == ranuser:
-                    usernameps = r
-                    break
-                else:
-                    ran += 1
+        if userrandom:
+            usernameps = random.choice(userrandom)
 
         if nameps == 'СБЕРБАНК':
             usernameps.reserv_sberbank_rub -= balanceps / currencysort.base_currency
@@ -1759,7 +1745,8 @@ def active_deposit_ps_global():
                         list_active_reserve_ps[k] = float(round(round(list_active_reserve_ps[k]) + list_balance[k], 2))
                     elif list_get_crypto.get(k) is not None:
                         list_active_reserve_ps[k] = float(round(round(list_active_reserve_ps[k]) + list_balance[k], 8))
-                    list_active_user.append(change)
+                    if list_active_user.count(change) < 1:
+                        list_active_user.append(change)
     return {'list_active_reserve_ps': list_active_reserve_ps, 'list_active_user': list_active_user}
 
 
@@ -1877,30 +1864,6 @@ def active_width_ps_global():
                     list_active_reserve_ps[k] = int(round(list_active_reserve_ps[k]) + list_reserve[k])
                     list_active_user.append(change)
     return {'list_active_reserve_ps': list_active_reserve_ps, 'list_active_user': list_active_user}
-
-
-# метод для range_..._ps_global
-def ps_metod(ps, name, list_range_min_reserve_ps, list_active, list_range_max_reserve_ps, active_list_ps):
-    # мимимальный лимит
-    list_range_min_reserve_ps = list_range_min_reserve_ps
-    # Резерв
-    list_active = list_active
-    # максимальный лимит
-    list_range_max_reserve_ps = list_range_max_reserve_ps
-    # активность пс
-    active_list_ps = active_list_ps
-    if ps > list_range_max_reserve_ps[name]:
-        if ps < list_active[name]:
-            if ps > list_range_min_reserve_ps[name]:
-                list_range_max_reserve_ps[name] = float(ps)
-            else:
-                active_list_ps[name] = False
-        else:
-            if list_active[name] > list_range_min_reserve_ps[name]:
-                list_range_max_reserve_ps[name] = float(list_active[name])
-            else:
-                active_list_ps[name] = False
-    return {'list_range_min_reserve_ps': list_range_min_reserve_ps, 'list_active': list_active, 'list_range_max_reserve_ps': list_range_max_reserve_ps, 'active_list_ps': active_list_ps}
 
 
 # лимиты для заявок на пополнение

@@ -408,11 +408,11 @@ body[data-layout="horizontal"] .footer {
     #sidebar-menu ul li a svg {
       min-width: 1.75rem; }
     #sidebar-menu ul li a .uim-svg {
-      fill: #3051d3 !important; }
+      fill: #010181 !important; }
     #sidebar-menu ul li a:hover {
       color: #383c40; }
       #sidebar-menu ul li a:hover i {
-        color: #383c40; }
+        color: #010181; }
   #sidebar-menu ul li .badge {
     margin-top: 4px; }
   #sidebar-menu ul li ul.sub-menu {
