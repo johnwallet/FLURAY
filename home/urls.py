@@ -1,10 +1,11 @@
 from django.urls import path
-from home import views
+from home.views import *
 
 
 urlpatterns = (
-    path('', views.home, name='home'),
-    path('support/', views.support, name='support'),
-    path('news/', views.news, name='news'),
-    path('news/<int:pk>/', views.newsview, name='newsview'),
+    path('', home, name='home'),
+    path('support/', support, name='support'),
+    path('news/', news, name='news'),
+    path('news/<int:pk>/', newsview, name='newsview'),
+    path('api/', api, name='api'),
 )

@@ -51,3 +51,7 @@ def newsview(request, pk):
     }
     return render(request, 'home/content/newsview.html', context)
 
+
+def api(request):
+    return render(request, 'home/content/api.html')
+

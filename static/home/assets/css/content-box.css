@@ -54,6 +54,10 @@ Table of contents
     margin: 0;
 }
 
+.cnt-box .caption-p p {
+    margin: 0;
+}
+
 .cnt-box .caption .btn, .cnt-box .caption .btn-text {
     margin-top: 15px;
 }

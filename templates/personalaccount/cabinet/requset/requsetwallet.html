@@ -474,7 +474,7 @@
                                                         <th scope="row">{{ value.request_userchange }}</th>
                                                         <th scope="row">{{ value.request_sistemchange }}</th>
                                                         <th scope="row">{{ value.request_type }}</th>
-                                                        {% if value.request_type == 'Заявка на пополнение' %}
+                                                        {% if value.request_type == 'Заявка на пополнение' or value.request_type == 'Мерчант пополнение' %}
                                                             <th scope="row">{{ value.request_good_sum_valute }} $</th>
                                                         {% else %}
                                                             <th scope="row">- {{ value.request_sum_valute }} $</th>

@@ -5,6 +5,7 @@ from datetime import timedelta
 from decimal import *
 
 from django.core.cache import cache
+from django.db.models import Q
 from django.http import Http404
 from django.shortcuts import render, redirect
 from django.utils import timezone
@@ -263,7 +264,11 @@ def withdrawalwallet(request):
                             if len(changerequest['changeq']) > 0:
                                 request_good = CurrencyCBRF.objects.get(name_currency=changerequest['valute'])
                                 # получаем победителя {'usernameps': usernameps, 'base_comis': base_comis, 'rekvesites': rekvesites}
-                                usernamepsch = widthsortcritery(userps=changerequest['changeq'], critery=post.criteri, nameps=post.request_sistemchange, valuteps=changerequest['valute'], balanceps=post.request_sum)
+                                usernamepsch = widthsortcritery(userps=changerequest['changeq'],
+                                                                critery=post.criteri,
+                                                                nameps=post.request_sistemchange,
+                                                                valuteps=changerequest['valute'],
+                                                                balanceps=post.request_sum)
 
                                 usernamepschange = usernamepsch['usernameps']
                                 userwidth.balance -= post.request_sum
@@ -654,10 +659,14 @@ def settingwallet(request):
         return redirect('account_login')
 
 
+# /КОШЕЛЕК/ МЕРЧАНТ
 def merchant(request):
     if request.user.is_authenticated:
         if request.user.userid == CustomUserId.objects.get(pk=1):
             merchant_list = Merchant.objects.filter(merchant_user=request.user)
+            transaction_merchant_list = Transaction.objects.filter(transaction_user=request.user)
+            transaction_merchant = transaction_merchant_list.filter(Q(transaction_category='Вывод через мерчант') | Q(transaction_category='Пополнение через мерчант'))
+
             if request.method == 'POST':
                 if 'del_merch' in request.POST:
                     merchant_del = Merchant.objects.get(merchant_id=request.POST['del_merch'])
@@ -685,6 +694,7 @@ def merchant(request):
             context = {
                 'form': MerchantCreateForm(),
                 'merchant_list': merchant_list,
+                'transaction_merchant': transaction_merchant
             }
             return render(request, 'personalaccount/cabinet/merchant/merchant.html', context)
         else:
@@ -704,7 +714,7 @@ def withdrawalexchange(request):
         if request.user.userid == CustomUserId.objects.get(pk=2):
             status_reque = False
             withchang = RequestChange.objects.filter(request_userchange=request.user)
-            withchange = withchang.filter(request_type='Заявка на вывод')
+            withchange = withchang.filter(Q(request_type='Заявка на вывод') | Q(request_type='Мерчант вывод'))
             for i in withchange:
                 if i.request_status != 'Выполнена':
                     status_reque = True
@@ -812,7 +822,8 @@ def depositexchange(request):
         if request.user.userid == CustomUserId.objects.get(pk=2):
             status_reque = False
             withchang = RequestChange.objects.filter(request_userchange=request.user)
-            depexchange = withchang.filter(request_type='Заявка на пополнение')
+            depexchange = withchang.filter(Q(request_type='Заявка на пополнение') | Q(request_type='Мерчант пополнение'))
+            print(depexchange)
             for i in depexchange:
                 if i.request_status != 'Выполнена' and i.request_status != 'Ожидает оплаты':
                     status_reque = True
@@ -848,29 +859,45 @@ def depositexchangerequestupdate(request, pk):
                                                  dailyprofit_value=((requestchange.request_sum / 100) * requestchange.request_commission_change) * requestchange.request_curse
                                                  )
 
-                #Создаем транзакцию для пользователя
-                Transaction.objects.create(transaction_name='Заявка на пополнение № ' + str(requestchange.request_name),
-                                           transaction_number=str(requestchange.request_name),
-                                           transaction_category='Заявка на пополнение',
-                                           transaction_type='Пополнение',
-                                           transaction_user=requestchange.request_user,
-                                           transaction_status=requestchange.request_status,
-                                           transaction_sum=requestchange.request_good_sum_valute,
-                                           transaction_sistemchange=requestchange.request_sistemchange,
-                                           date_end_change=timezone.now(),
-                                           date_joined_change=requestchange.date_joined_change)
+                if requestchange.request_type == 'Заявка на пополнение':
+                    #Создаем транзакцию для пользователя
+                    Transaction.objects.create(transaction_name='Заявка на пополнение № ' + str(requestchange.request_name),
+                                               transaction_number=str(requestchange.request_name),
+                                               transaction_category='Заявка на пополнение',
+                                               transaction_type='Пополнение',
+                                               transaction_user=requestchange.request_user,
+                                               transaction_status=requestchange.request_status,
+                                               transaction_sum=requestchange.request_good_sum_valute,
+                                               transaction_sistemchange=requestchange.request_sistemchange,
+                                               date_end_change=timezone.now(),
+                                               date_joined_change=requestchange.date_joined_change)
 
-                #Создаем транзакцию для Обменника
-                Transaction.objects.create(transaction_name='Обработка заявки на пополнение № ' + str(requestchange.request_name),
-                                           transaction_number=str(requestchange.request_name),
-                                           transaction_category='Заявка на пополнение',
-                                           transaction_type='Вывод',
-                                           transaction_user=request.user.username,
-                                           transaction_status=requestchange.request_status,
-                                           transaction_sum=requestchange.request_good_sum_change_valute,
-                                           transaction_sistemchange=requestchange.request_sistemchange,
-                                           date_end_change=timezone.now(),
-                                           date_joined_change=requestchange.date_joined_change)
+                elif requestchange.request_type == 'Мерчант пополнение':
+                    # Создаем транзакцию для пользователя
+                    Transaction.objects.create(
+                        transaction_name='Пополнение через мерчант, заявка № ' + str(requestchange.request_name),
+                        transaction_number=str(requestchange.request_name),
+                        transaction_category='Пополнение через мерчант',
+                        transaction_type='Пополнение',
+                        transaction_user=requestchange.request_user,
+                        transaction_status=requestchange.request_status,
+                        transaction_sum=requestchange.request_good_sum_valute,
+                        transaction_sistemchange=requestchange.request_sistemchange,
+                        date_end_change=timezone.now(),
+                        date_joined_change=requestchange.date_joined_change)
+
+                # Создаем транзакцию для Обменника
+                Transaction.objects.create(
+                    transaction_name='Обработка заявки на пополнение № ' + str(requestchange.request_name),
+                    transaction_number=str(requestchange.request_name),
+                    transaction_category='Заявка на пополнение',
+                    transaction_type='Вывод',
+                    transaction_user=request.user.username,
+                    transaction_status=requestchange.request_status,
+                    transaction_sum=requestchange.request_good_sum_change_valute,
+                    transaction_sistemchange=requestchange.request_sistemchange,
+                    date_end_change=timezone.now(),
+                    date_joined_change=requestchange.date_joined_change)
 
                 # создаем записи начисления родителям
                 user_ref_customuser = CustomUser.objects.get(username=requestchange.request_user)

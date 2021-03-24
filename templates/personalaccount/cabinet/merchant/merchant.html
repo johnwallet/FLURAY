@@ -74,6 +74,7 @@
                                     </div>
                                 {% endfor %}
                             {% endif %}
+
                             <div class="card">
                                 <div class="card-body">
                                     <h5>Создание мерчанта</h5>
@@ -104,8 +105,55 @@
                                         </div>
                                         <div class="col-sm-5 mt-3">
                                             <p>Чтобы узнать как подключить созданный мерчант к своему сайту, посетите раздел с документацией</p>
-                                            <p><a href="#">Документация API</a></p>
+                                            <p><a href="{% url 'api' %}">Документация API</a></p>
                                         </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <table id="datatable" class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                                            <thead>
+                                            <tr>
+                                                <th>Название</th>
+                                                <th>Плат.система</th>
+                                                <th>Сумма</th>
+                                                <th>Статус</th>
+                                                <th>Дата создания</th>
+                                                <th>Дата исполнения</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                                {% for i in transaction_merchant %}
+                                                    <tr>
+                                                    <td>{{ i.transaction_name }}</td>
+                                                    <td>{{ i.transaction_sistemchange }}</td>
+                                                    {% if i.transaction_type == 'Пополнение' %}
+                                                    <td>{{ i.transaction_sum }} $</td>
+                                                    {% elif i.transaction_type == 'Вывод' %}
+                                                    <td>- {{ i.transaction_sum }} $</td>
+                                                    {% endif %}
+                                                    {% if i.transaction_status == 'В обработке' %}
+                                                        <td>
+                                                            <div class="badge badge-soft-warning">{{ i.transaction_status }}</div>
+                                                        </td>
+                                                    {% elif i.transaction_status == 'Оплачена клиентом' or i.transaction_status == 'Выполнена' or i.transaction_status == 'Выполнен'%}
+                                                        <td>
+                                                            <div class="badge badge-soft-success">{{ i.transaction_status }}</div>
+                                                        </td>
+                                                    {% else %}
+                                                        <td>
+                                                            <div class="badge badge-soft-secondary">{{ i.transaction_status }}</div>
+                                                        </td>
+                                                    {% endif %}
+                                                    <td>{{ i.date_joined_change }}</td>
+                                                    <td>{{ i.date_end_change }}</td>
+                                                    </tr>
+                                                {% endfor %}
+                                            </tbody>
+                                        </table>
                                     </div>
                                 </div>
                             </div>

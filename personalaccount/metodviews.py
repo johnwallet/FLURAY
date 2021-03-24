@@ -1488,6 +1488,10 @@ def requestchangeon(usernamereq):
             requesttargetin += 1
         elif i.request_type == 'Заявка на вывод' and i.request_status == 'Ожидает оплаты':
             requesttargetout += 1
+        elif i.request_type == 'Мерчант пополнение' and i.request_status == 'Оплачена':
+            requesttargetin += 1
+        elif i.request_type == 'Мерчант вывод' and i.request_status == 'Ожидает оплаты':
+            requesttargetout += 1
     requesttotal = requesttargetin + requesttargetout
     return {'requesttargetin': requesttargetin, 'requesttargetout': requesttargetout, 'requesttotal': requesttotal}
 
@@ -1606,15 +1610,15 @@ def requesttotal(usernamerequesttotal):
     widthrequesttotal = 0
     if inrequestl:
         for iteml in inrequestl:
-            if iteml.request_type == 'Заявка на пополнение':
+            if iteml.request_type == 'Заявка на пополнение' or iteml.request_type == 'Мерчант пополнение':
                 inrequest += 1
-            if iteml.request_type == 'Заявка на вывод':
+            if iteml.request_type == 'Заявка на вывод' or iteml.request_type == 'Мерчант вывод':
                 widthrequest += 1
     if requestuserlist:
         for item in requestuserlist:
-            if item.request_type == 'Заявка на пополнение' and item.date_end_change:
+            if item.request_type == 'Заявка на пополнение' or item.request_type == 'Мерчант пополнение' and item.date_end_change:
                 inrequesttotal += 1
-            if item.request_type == 'Заявка на вывод' and item.date_end_change:
+            if item.request_type == 'Заявка на вывод' or item.request_type == 'Мерчант вывод' and item.date_end_change:
                 widthrequesttotal += 1
     return {'inrequest': inrequest, 'inrequesttotal': inrequesttotal, 'widthrequest': widthrequest, 'widthrequesttotal': widthrequesttotal}
 
@@ -1742,9 +1746,9 @@ def active_deposit_ps_global():
             for k, v in list_active_in.items():
                 if v == 1:
                     if list_get_valute.get(k) is not None:
-                        list_active_reserve_ps[k] = float(round(round(list_active_reserve_ps[k]) + list_balance[k], 2))
+                        list_active_reserve_ps[k] = round(list_active_reserve_ps[k] + list_balance[k], 2)
                     elif list_get_crypto.get(k) is not None:
-                        list_active_reserve_ps[k] = float(round(round(list_active_reserve_ps[k]) + list_balance[k], 8))
+                        list_active_reserve_ps[k] = round(list_active_reserve_ps[k] + list_balance[k], 8)
                     if list_active_user.count(change) < 1:
                         list_active_user.append(change)
     return {'list_active_reserve_ps': list_active_reserve_ps, 'list_active_user': list_active_user}
@@ -1861,8 +1865,9 @@ def active_width_ps_global():
 
             for k, v in list_active_out.items():
                 if v == 1:
-                    list_active_reserve_ps[k] = int(round(list_active_reserve_ps[k]) + list_reserve[k])
-                    list_active_user.append(change)
+                    list_active_reserve_ps[k] = int(list_active_reserve_ps[k] + list_reserve[k])
+                    if list_active_user.count(change) < 1:
+                        list_active_user.append(change)
     return {'list_active_reserve_ps': list_active_reserve_ps, 'list_active_user': list_active_user}
 
 
@@ -1968,14 +1973,14 @@ def range_deposit_ps_global(list_active_user):
                     if list_range_min_reserve_ps[min_range_k] != 0:
                         if min_range_v < list_range_min_reserve_ps[min_range_k]:
                             if list_get_valute.get(min_range_k) is not None:
-                                list_range_min_reserve_ps[min_range_k] = float(round(min_range_v, 2))
+                                list_range_min_reserve_ps[min_range_k] = round(min_range_v, 2)
                             elif list_get_crypto.get(min_range_k) is not None:
-                                list_range_min_reserve_ps[min_range_k] = float(round(min_range_v, 8))
+                                list_range_min_reserve_ps[min_range_k] = round(min_range_v, 8)
                     else:
                         if list_get_valute.get(min_range_k) is not None:
-                            list_range_min_reserve_ps[min_range_k] = float(round(min_range_v, 2))
+                            list_range_min_reserve_ps[min_range_k] = round(min_range_v, 2)
                         elif list_get_crypto.get(min_range_k) is not None:
-                            list_range_min_reserve_ps[min_range_k] = float(round(min_range_v, 8))
+                            list_range_min_reserve_ps[min_range_k] = round(min_range_v, 8)
 
             # Получаем максимальный лимит
             list_max_range = {
@@ -2065,9 +2070,9 @@ def range_deposit_ps_global(list_active_user):
                     min_max_range = min([max_range_v, list_balance_change[max_range_k]])
                     if min_max_range > list_range_max_reserve_ps[max_range_k]:
                         if list_get_valute.get(max_range_k) is not None:
-                            list_range_max_reserve_ps[max_range_k] = float(round(min_max_range-(min_max_range/100), 2))
+                            list_range_max_reserve_ps[max_range_k] = round(min_max_range-(min_max_range/100), 2)
                         elif list_get_crypto.get(max_range_k) is not None:
-                            list_range_max_reserve_ps[max_range_k] = float(round(min_max_range-(min_max_range/100), 8))
+                            list_range_max_reserve_ps[max_range_k] = round(min_max_range-(min_max_range/100), 8)
                         active_list_ps[max_range_k] = True
         except:
             pass
@@ -2209,9 +2214,9 @@ def range_width_ps_global(list_active_user, balance_user):
                 if list_reserve[min_range_k] > min_range_v > 0:
                     if list_range_min_reserve_ps[min_range_k] != 0:
                         if min_range_v < list_range_min_reserve_ps[min_range_k]:
-                            list_range_min_reserve_ps[min_range_k] = float(round(min_range_v, 2))
+                            list_range_min_reserve_ps[min_range_k] = round(min_range_v, 2)
                     else:
-                        list_range_min_reserve_ps[min_range_k] = float(round(min_range_v, 2))
+                        list_range_min_reserve_ps[min_range_k] = round(min_range_v, 2)
 
             # Получаем максимальный лимит
             list_max_range = {
@@ -2261,7 +2266,7 @@ def range_width_ps_global(list_active_user, balance_user):
                 if list_reserve[max_range_k] > list_range_min_reserve_ps[max_range_k] < max_range_v and list_range_min_reserve_ps[max_range_k] > 0 and balance_change > list_range_min_reserve_ps[max_range_k] < balance_user:
                     min_max_range = min([max_range_v, list_reserve[max_range_k], balance_change, balance_user])
                     if min_max_range > list_range_max_reserve_ps[max_range_k]:
-                        list_range_max_reserve_ps[max_range_k] = float(round(min_max_range-(min_max_range/100), 2))
+                        list_range_max_reserve_ps[max_range_k] = round(min_max_range-(min_max_range/100), 2)
                         active_list_ps[max_range_k] = True
         except:
             pass

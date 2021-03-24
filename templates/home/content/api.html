@@ -1,0 +1,491 @@
+{% extends "home/base.html" %}
+
+{% load static %}
+
+{% block content %}
+    <main>
+        <section class="section-base">
+            <div class="container">
+                <hr class="space-sm" />
+                <div class="row">
+                    <div class="col-lg-12" data-anima="fade-left" data-time="1000">
+                        <hr class="space-sm" />
+                        <h1>
+                            Документация API.
+                        </h1>
+                        <p>
+                            Чтобы использовать API для своего сайта, нужно создать мерчант в личном кабинете.
+                        </p>
+                        <hr class="space" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <h3>Версия API v-1</h3>
+                        <hr class="space-sm" />
+                        <div class="col-lg-12">
+                            <div class="cnt-box cnt-call">
+                                <div class="row">
+                                    <div class="col-lg-1"><h3>GET</h3></div>
+                                    <div class="col-lg-4"><p>api/v-1/get/deposit/ps/</p></div>
+                                    <div class="col-lg-7">Получение активных направлений, для заявок на пополнение</div>
+                                </div>
+                                <hr class="space-sm" />
+                                <div class="caption-p">
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <h4>Статус ответа</h4>
+                                            <p>200 OK</p>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <h4>Headers</h4>
+                                            <p>"Key-Merchant": {Ключ мерчанта}</p>
+                                        </div>
+                                    </div>
+                                    <hr class="space-sm" />
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <h4>Пример ответа</h4>
+                                            <p>[ { "id": 11, "name": "СБЕРБАНК", "valute": "RUB", "curse": "0.0136", "reserve": "1012678.68000000", "min_limit": "300.00000000", "max_limit": "24849.00000000" }, { "id": 19, "name": "РАЙФФАЙЗЕНБАНК", "valute": "RUB", "curse": "0.0136", "reserve": "1012678.68000000", "min_limit": "500.00000000", "max_limit": "495000.00000000" }, { "id": 42, "name": "BITCOIN", "valute": "BTC", "curse": "49509.0000", "reserve": "0.27818033", "min_limit": "0.00010000", "max_limit": "0.27539853" } ]</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <hr class="space-sm" />
+                        <div class="col-lg-12">
+                            <div class="cnt-box cnt-call">
+                                <div class="row">
+                                    <div class="col-lg-1"><h3>GET</h3></div>
+                                    <div class="col-lg-4"><p>api/v-1/get/width/ps/</p></div>
+                                    <div class="col-lg-7">Получение активных направлений, для заявок на вывод</div>
+                                </div>
+                                <hr class="space-sm" />
+                                <div class="caption-p">
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <h4>Статус ответа</h4>
+                                            <p>200 OK</p>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <h4>Headers</h4>
+                                            <p>"Key-Merchant": {Ключ мерчанта}</p>
+                                        </div>
+                                    </div>
+                                    <hr class="space-sm" />
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <h4>Пример ответа</h4>
+                                            <p>[ { "id": 13, "name": "ТИНЬКОФФ", "valute": "RUB", "curse": "0.0136", "reserve": "6300.00000000", "min_limit": "13.60000000", "max_limit": "269.28000000" }, { "id": 40, "name": "PAYPAL EUR", "valute": "EUR", "curse": "1.2061", "reserve": "32407.00000000", "min_limit": "12.06000000", "max_limit": "8955.29000000" } ]</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <hr class="space-sm" />
+                        <div class="col-lg-12">
+                            <div class="cnt-box cnt-call">
+                                <div class="row">
+                                    <div class="col-lg-1"><h3>POST</h3></div>
+                                    <div class="col-lg-4"><p>api/v-1/post/deposit/order/create/</p></div>
+                                    <div class="col-lg-7">Создание заявки на пополнение</div>
+                                </div>
+                                <hr class="space-sm" />
+                                <div class="caption-p">
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <h4>Статус ответа</h4>
+                                            <p>201 Created</p>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <h4>Headers</h4>
+                                            <p>"Key-Merchant": {Ключ мерчанта}</p>
+                                        </div>
+                                    </div>
+                                    <hr class="space-sm" />
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <h4>Body</h4>
+                                            <p>{ "order_pay":{ID Платежной системы}, "order_amount":{Сумма}, "order_criterion":{ID Критерия} }</p>
+                                            <h4>Пример ответа</h4>
+                                            <p>{ "number": "9430445", "data": "2021-03-18T20:22:05.598242", "type": "Заявка на пополнение", "pay_id": 42, "pay_name": "BITCOIN", "valute": "BTC", "criterion": "БЫСТРАЯ ЗАЯВКА", "status": "Ожидает оплаты", "requisites": "-", "amount": "0.01560000", "commission": "5.00", "exchanger": "obmen2", "total_amount": "733.72338000", "curse": "49509.0000" }</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <hr class="space-sm" />
+                        <div class="col-lg-12">
+                            <div class="cnt-box cnt-call">
+                                <div class="row">
+                                    <div class="col-lg-1"><h3>POST</h3></div>
+                                    <div class="col-lg-4"><p>api/v-1/post/width/order/create/</p></div>
+                                    <div class="col-lg-7">Создание заявки на вывод</div>
+                                </div>
+                                <hr class="space-sm" />
+                                <div class="caption-p">
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <h4>Статус ответа</h4>
+                                            <p>201 Created</p>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <h4>Headers</h4>
+                                            <p>"Key-Merchant": {Ключ мерчанта}</p>
+                                        </div>
+                                    </div>
+                                    <hr class="space-sm" />
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <h4>Body</h4>
+                                            <p>{ "order_pay":{ID Платежной системы}, "order_amount":{Сумма}, "order_criterion":"{ID Критерия}, "order_rekvisites":{Реквизиты получателя} }</p>
+                                            <h4>Пример ответа</h4>
+                                            <p>{ "number": "9466837", "date": "2021-03-24T14:25:04.440883", "type": "Заявка на вывод", "pay_id": 13, "pay_name": "ТИНЬКОФФ", "valute": "RUB", "criterion": "ВЫГОДНЫЙ КУРС", "status": "Ожидает оплаты", "requisites": "43623465654647545", "amount": "250.00000000", "commission": "2.20", "exchanger": "obmen2", "total_amount": "17977.94117647", "curse": "0.0136" }</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <hr class="space-sm" />
+                        <div class="col-lg-12">
+                            <div class="cnt-box cnt-call">
+                                <div class="row">
+                                    <div class="col-lg-1"><h3>POST</h3></div>
+                                    <div class="col-lg-4"><p>api/v-1/post/deposit/order/update/</p></div>
+                                    <div class="col-lg-7">Обновление статуса у заявки на пополнение</div>
+                                </div>
+                                <hr class="space-sm" />
+                                <div class="caption-p">
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <h4>Статус ответа</h4>
+                                            <p>202 Accepted</p>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <h4>Headers</h4>
+                                            <p>"Key-Merchant": {Ключ мерчанта}</p>
+                                        </div>
+                                    </div>
+                                    <hr class="space-sm" />
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <h4>Body</h4>
+                                            <p>{ "order_number":{Номер заявки на пополнение} }</p>
+                                            <h4>Пример ответа</h4>
+                                            <p>{ "number": "4624986", "status": "Оплачена" }</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <hr class="space-sm" />
+                        <div class="col-lg-12">
+                            <div class="cnt-box cnt-call">
+                                <div class="row">
+                                    <div class="col-lg-1"><h3>POST</h3></div>
+                                    <div class="col-lg-4"><p>api/v-1/post/all/order/check/</p></div>
+                                    <div class="col-lg-7">Получение статуса заявки</div>
+                                </div>
+                                <hr class="space-sm" />
+                                <div class="caption-p">
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <h4>Статус ответа</h4>
+                                            <p>200 OK</p>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <h4>Headers</h4>
+                                            <p>"Key-Merchant": {Ключ мерчанта}</p>
+                                        </div>
+                                    </div>
+                                    <hr class="space-sm" />
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <h4>Body</h4>
+                                            <p>{ "order_number":{Номер заявки на пополнение} }</p>
+                                            <h4>Пример ответа</h4>
+                                            <p>{ "number": "9466837", "status": "Оплачена" }</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <hr class="space-sm" />
+                        <p>*Key-Merchant - Во всех запросах, обязательно нужно передавать ключ мерчанта, в виде: "Key-Merchant": {Ключ мерчанта}</p>
+                        <hr class="space-sm" />
+                        <h4>ID Платежных систем</h4>
+                        <p>
+                            11: 'СБЕРБАНК',
+                            12: 'ПСБ',
+                            13: 'ТИНЬКОФФ',
+                            14: 'ГАЗПРОМБАНК',
+                            15: 'АЛЬФА БАНК',
+                            16: 'РУССКИЙ СТАНДАРТ',
+                            17: 'ВТБ',
+                            18: 'РОССЕЛЬХОЗБАНК',
+                            19: 'РАЙФФАЙЗЕНБАНК',
+                            20: 'ОТКРЫТИЕ',
+                            21: 'ПОЧТА БАНК',
+                            22: 'РНКБ',
+                            23: 'РОСБАНК',
+                            24: 'МТС БАНК',
+                            25: 'QIWI RUB',
+                            26: 'QIWI USD',
+                            27: 'PAYEER RUB',
+                            28: 'PAYEER USD',
+                            29: 'PAYEER EUR',
+                            30: 'WEBMONEY RUB',
+                            31: 'WEBMONEY USD',
+                            32: 'WEBMONEY EUR',
+                            33: 'PERFECT MONEY BTC',
+                            34: 'PERFECT MONEY USD',
+                            35: 'PERFECT MONEY EUR',
+                            36: 'SKRILL EUR',
+                            37: 'SKRILL USD',
+                            38: 'PAYPAL RUB',
+                            39: 'PAYPAL USD',
+                            40: 'PAYPAL EUR',
+                            41: 'UMONEY RUB',
+                            42: 'BITCOIN',
+                            43: 'RIPPLE',
+                            44: 'LITECOIN',
+                            45: 'BITCOIN CASH',
+                            46: 'MONERO',
+                            47: 'ETHEREUM',
+                            48: 'ETHEREUM CLASSIC',
+                            49: 'DASH'
+                        </p>
+                        <hr class="space-sm" />
+                        <h4>ID Критерии</h4>
+                        <p>1: 'БЫСТРАЯ ЗАЯВКА', 2: 'ВЫГОДНЫЙ КУРС'</p>
+                        <hr class="space" />
+                        <h3>Ошибки</h3>
+                        <hr class="space-sm" />
+                        <div class="col-lg-12">
+                            <div class="cnt-box cnt-call">
+                                <div class="caption-p">
+                                    <div class="row">
+                                        <div class="col-lg-4">
+                                            <h4>Статус ответа</h4>
+                                            <p>403 Forbidden</p>
+                                        </div>
+                                        <div class="col-lg-8">
+                                            <h4>Body ответа</h4>
+                                            <p>{ "ERROR": "Key 'Key-Merchant', not found" }</p>
+                                        </div>
+                                    </div>
+                                    <hr class="space-sm" />
+                                    <h4>Решение</h4>
+                                    <p>В Headers запроса не передан секретный ключ мерчанта. Или допущена ошибка в названии ключа, верно - Key-Merchant.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <hr class="space-sm" />
+                        <div class="col-lg-12">
+                            <div class="cnt-box cnt-call">
+                                <div class="caption-p">
+                                    <div class="row">
+                                        <div class="col-lg-4">
+                                            <h4>Статус ответа</h4>
+                                            <p>400 Bad Request</p>
+                                        </div>
+                                        <div class="col-lg-8">
+                                            <h4>Body ответа</h4>
+                                            <p>{ "ERROR": "Secret key not found" }</p>
+                                        </div>
+                                    </div>
+                                    <hr class="space-sm" />
+                                    <h4>Решение</h4>
+                                    <p>Секретный ключ мерчанта не верный.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <hr class="space-sm" />
+                        <div class="col-lg-12">
+                            <div class="cnt-box cnt-call">
+                                <div class="caption-p">
+                                    <div class="row">
+                                        <div class="col-lg-4">
+                                            <h4>Статус ответа</h4>
+                                            <p>400 Bad Request</p>
+                                        </div>
+                                        <div class="col-lg-8">
+                                            <h4>Body ответа</h4>
+                                            <p>{ "ERROR": "The data is not valid" }</p>
+                                        </div>
+                                    </div>
+                                    <hr class="space-sm" />
+                                    <h4>Решение</h4>
+                                    <p>Данные не валидны.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <hr class="space-sm" />
+                        <div class="col-lg-12">
+                            <div class="cnt-box cnt-call">
+                                <div class="caption-p">
+                                    <div class="row">
+                                        <div class="col-lg-4">
+                                            <h4>Статус ответа</h4>
+                                            <p>400 Bad Request</p>
+                                        </div>
+                                        <div class="col-lg-8">
+                                            <h4>Body ответа</h4>
+                                            <p>{ "ERROR": "The specified criterion does not exist" }</p>
+                                        </div>
+                                    </div>
+                                    <hr class="space-sm" />
+                                    <h4>Решение</h4>
+                                    <p>Критерий заявки не найден. Принимаемые ID критерии 1, 2.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <hr class="space-sm" />
+                        <div class="col-lg-12">
+                            <div class="cnt-box cnt-call">
+                                <div class="caption-p">
+                                    <div class="row">
+                                        <div class="col-lg-4">
+                                            <h4>Статус ответа</h4>
+                                            <p>400 Bad Request</p>
+                                        </div>
+                                        <div class="col-lg-8">
+                                            <h4>Body ответа</h4>
+                                            <p>{ "ERROR": "The specified payment system does not exist, does not exist" }</p>
+                                        </div>
+                                    </div>
+                                    <hr class="space-sm" />
+                                    <h4>Решение</h4>
+                                    <p>Платежная система не найдена, Принимаемые ID Платежных систем 11-49.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <hr class="space-sm" />
+                        <div class="col-lg-12">
+                            <div class="cnt-box cnt-call">
+                                <div class="caption-p">
+                                    <div class="row">
+                                        <div class="col-lg-4">
+                                            <h4>Статус ответа</h4>
+                                            <p>400 Bad Request</p>
+                                        </div>
+                                        <div class="col-lg-8">
+                                            <h4>Body ответа</h4>
+                                            <p>{ "ERROR": "Requested amount, exceeds the minimum limit" }</p>
+                                        </div>
+                                    </div>
+                                    <hr class="space-sm" />
+                                    <h4>Решение</h4>
+                                    <p>Превышена минимальная сумма для заявки. Рекомендуем передавать уже валидированную сумму.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <hr class="space-sm" />
+                        <div class="col-lg-12">
+                            <div class="cnt-box cnt-call">
+                                <div class="caption-p">
+                                    <div class="row">
+                                        <div class="col-lg-4">
+                                            <h4>Статус ответа</h4>
+                                            <p>400 Bad Request</p>
+                                        </div>
+                                        <div class="col-lg-8">
+                                            <h4>Body ответа</h4>
+                                            <p>{ "ERROR": "Requested amount, exceeds the maximum limit" }</p>
+                                        </div>
+                                    </div>
+                                    <hr class="space-sm" />
+                                    <h4>Решение</h4>
+                                    <p>Превышена максимальная сумма для заявки. Рекомендуем передавать уже валидированную сумму.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <hr class="space-sm" />
+                        <div class="col-lg-12">
+                            <div class="cnt-box cnt-call">
+                                <div class="caption-p">
+                                    <div class="row">
+                                        <div class="col-lg-4">
+                                            <h4>Статус ответа</h4>
+                                            <p>400 Bad Request</p>
+                                        </div>
+                                        <div class="col-lg-8">
+                                            <h4>Body ответа</h4>
+                                            <p>{ "ERROR": "No exchange offices found" }</p>
+                                        </div>
+                                    </div>
+                                    <hr class="space-sm" />
+                                    <h4>Решение</h4>
+                                    <p>В данный момент обменных пунктов не найдено.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <hr class="space-sm" />
+                        <div class="col-lg-12">
+                            <div class="cnt-box cnt-call">
+                                <div class="caption-p">
+                                    <div class="row">
+                                        <div class="col-lg-4">
+                                            <h4>Статус ответа</h4>
+                                            <p>400 Bad Request</p>
+                                        </div>
+                                        <div class="col-lg-8">
+                                            <h4>Body ответа</h4>
+                                            <p>{ "ERROR": "Internal error" }</p>
+                                        </div>
+                                    </div>
+                                    <hr class="space-sm" />
+                                    <h4>Решение</h4>
+                                    <p>Не получилось создать заявку, попробуйте еще раз, или повторите позже. Если не получилось, обратитесь в техническую поддержку.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <hr class="space-sm" />
+                        <div class="col-lg-12">
+                            <div class="cnt-box cnt-call">
+                                <div class="caption-p">
+                                    <div class="row">
+                                        <div class="col-lg-4">
+                                            <h4>Статус ответа</h4>
+                                            <p>400 Bad Request</p>
+                                        </div>
+                                        <div class="col-lg-8">
+                                            <h4>Body ответа</h4>
+                                            <p>{ "ERROR": "Application not found" }</p>
+                                        </div>
+                                    </div>
+                                    <hr class="space-sm" />
+                                    <h4>Решение</h4>
+                                    <p>Заявка не найдена. Ошибка в номере заявки.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <hr class="space-sm" />
+                        <div class="col-lg-12">
+                            <div class="cnt-box cnt-call">
+                                <div class="caption-p">
+                                    <div class="row">
+                                        <div class="col-lg-4">
+                                            <h4>Статус ответа</h4>
+                                            <p>400 Bad Request</p>
+                                        </div>
+                                        <div class="col-lg-8">
+                                            <h4>Body ответа</h4>
+                                            <p>{ "ERROR": "Application status - Оплачена" }</p>
+                                        </div>
+                                    </div>
+                                    <hr class="space-sm" />
+                                    <h4>Решение</h4>
+                                    <p>Статус заявки уже изменен. Используйте метод проверки статуса заявки.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <hr class="space" />
+                        <p>Если не нашли ответа на свой вопрос, или нужна помощь, обратитесь в <a href="{% url 'support' %}">Техническую поддержку</a>.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+{% endblock %}
+
